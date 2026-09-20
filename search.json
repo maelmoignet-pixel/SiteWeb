@@ -224,6 +224,20 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
+    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
+    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
+    "title": "Chapitre 2 – Géométrie repérée",
+    "section": "1.1 Coordonnées d’un point dans un repère",
+    "text": "1.1 Coordonnées d’un point dans un repère\nPour repérer un point dans le plan, on définit un repère et on indique les coordonnées de ce point dans le repère.\n\n\n\nDéfinir un repère, c’est donner trois points O, I et J non alignés dans un ordre précis.\nOn note alors (O,I,J) ce repère.\n\nLe point O est appelé l’origine du repère.\nLa droite (OI) est l’axe des abscisses orienté de O vers I.\nLa longueur du segment [OI] indique l’unité sur cet axe.\nLa droite (OJ) est l’axe des ordonnées orienté de O vers J.\nLa longueur du segment [OJ] indique l’unité sur cet axe.\n\n\n\n\n\n\n\n\n\n\n\n\n\nPour repérer un point, on indique en premier son abscisse puis son ordonnée.\n\n\nPlacer, dans le repère précédent, le point M(2;3).\n\n\nDans tout repère (O,I,J) les coordonnées de O, I et J sont :\n\nO(0;0) \\qquad\\qquad I(1;0) \\qquad\\qquad J(0;1)"
+  },
+  {
+    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
+    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
+    "title": "Chapitre 2 – Géométrie repérée",
+    "section": "1.2 Différents types de repères",
+    "text": "1.2 Différents types de repères\n\n\nSi le triangle OIJ est rectangle en O, le repère (O,I,J) est dit orthogonal.\nSi le triangle OIJ est isocèle en O, le repère (O,I,J) est dit normé.\nSi le triangle OIJ est isocèle et rectangle en O, le repère (O,I,J) est dit orthonormé."
+  },
+  {
     "objectID": "seconde/chapitres/statistiques-2.html",
     "href": "seconde/chapitres/statistiques-2.html",
     "title": "Statistiques 2",
@@ -361,7 +375,7 @@
     "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
     "title": "Ensembles de nombres et arithmétique",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Ensembles de nombres – Arithmétique"
   },
   {
     "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
@@ -774,7 +788,7 @@
     "href": "seconde/chapitres/geometrie-reperee.html#cours",
     "title": "Géométrie repérée",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n-Cours : Géométrie repérée"
   },
   {
     "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
@@ -845,6 +859,69 @@
     "title": "Statistiques 1",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "2.1 Définitions",
+    "text": "2.1 Définitions\n\nL’ensemble des nombres pouvant s’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N} est appelé ensemble des nombres décimaux. Cet ensemble est noté \\mathbb{D}.\n\n\nMontrer que -1.23\\in\\mathbb{D}, \\dfrac{19}{40}\\in\\mathbb{D} et \\dfrac{1}{3}\\notin\\mathbb{D}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. -1.23 est un décimal car -1.23=\\dfrac{-123}{100}=\\dfrac{-123}{10^2}.\n-1.23 est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=-123 et n=2.\n2. \\dfrac{19}{40} est un décimal car \\dfrac{19}{40}=\\dfrac{19\\times 25}{40\\times 25}=\\dfrac{475}{1000}=\\dfrac{475}{10^3}.\n\\dfrac{19}{40} est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=475 et n=3.\n3. \\dfrac{1}{3} n’est pas un décimal car on ne peut pas l’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N}.\nPour le démontrer, on utilise une démonstration par l’absurde :\nSupposons au contraire que \\dfrac{1}{3}\\in\\mathbb{D}. Il existe donc a\\in\\mathbb{Z} et n\\in\\mathbb{N} tels que \\dfrac{1}{3}=\\dfrac{a}{10^n}.\nAinsi, 10^n=3a et donc 10^n est divisible par 3.\nOr, pour être divisible par 3, la somme des chiffres d’un entier doit être un multiple de 3. Or la somme des chiffres de 10^n est 1 et 1 n’est pas un multiple de 3. On arrive donc à une contradiction."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "2.2 Encadrer et arrondir à l’aide d’un décimal",
+    "text": "2.2 Encadrer et arrondir à l’aide d’un décimal\n\n\nEncadrer un nombre x, c’est trouver deux nombres a et b tels que a&lt;x&lt;b.\nLa différence b-a est appelée l’amplitude de l’encadrement.\nArrondir un nombre, c’est lui trouver la valeur décimale la plus proche à une précision donnée.\n\n\n\n\nDonner un encadrement d’amplitude 10^{-3} de \\sqrt{2}.\nDonner une valeur approchée à 10^{-1} de \\pi.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n1.414\\leqslant\\sqrt{2}\\leqslant 1.415 est un encadrement d’amplitude 10^{-3} de \\sqrt{2}. En effet : 1.415-1.414=0.001=10^{-3}.\n3.1 est une valeur approchée de \\pi à 10^{-1}."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.1 Multiples, diviseurs d’un nombre",
+    "text": "3.1 Multiples, diviseurs d’un nombre\n\na désigne un nombre de \\mathbb{Z} et b un nombre de \\mathbb{N} non nul (a\\in\\mathbb{Z}, b\\in\\mathbb{N}^*).\nDire que a est un multiple de b signifie qu’il existe un entier relatif k (k\\in\\mathbb{Z}) tel que a=k\\times b.\nOn dit aussi que b est un diviseur de a ou que a est divisible par b.\n\n\n\n-8 est un multiple de 4 car -8=-2\\times 4. Ainsi, -8 est divisible par 4 ou 4 est un diviseur de -8.\n5 n’est pas un multiple de 2. En effet, 5=2.5\\times 2, mais 2.5\\notin\\mathbb{Z}.\n\n\n\nSoit b\\in\\mathbb{N}.\nLa somme de deux multiples de b est un multiple de b.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit b\\in\\mathbb{N}. Soit a et a' deux multiples de b. Il existe alors deux entiers relatifs k et k' tels que :\n\na=k\\times b, k\\in\\mathbb{Z}\na'=k'\\times b, k'\\in\\mathbb{Z}\n\nAlors a+a'=k\\times b+k'\\times b=(k+k')\\times b avec k+k'\\in\\mathbb{Z}. Donc a+a' est bien un multiple de b.\n\n\n\n\nOn considère b=4. Alors 8 et 12 sont des multiples de 4 (8=4\\times 2 et 12=4\\times 3). 8+12=20 est alors un multiple de 4. En effet, 20=4\\times 5."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.2 Nombres pairs, nombres impairs",
+    "text": "3.2 Nombres pairs, nombres impairs\n\n\nUn nombre pair est un nombre entier multiple de 2. Autrement dit, a\\in\\mathbb{Z} est pair s’il existe k\\in\\mathbb{Z} tel que a=2\\times k.\nUn nombre impair est un nombre entier qui n’est pas un multiple de 2. Autrement dit son reste dans la division euclidienne par 2 est 1. Ainsi, a\\in\\mathbb{Z} est impair s’il existe k\\in\\mathbb{Z} tel que a=2k+1.\n\n\n\n\nLe produit de deux nombres est pair si au moins l’un de ces deux nombres est pair.\nLe produit de deux nombres impairs est impair.\nLa somme de deux nombres de même parité est paire.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a et b deux entiers.\nProduit de deux nombres dont l’un est pair\nSi a est pair, alors par définition, il existe un entier k tel que a=2k.\nLe produit ab s’écrit alors :\n\nab=(2k)b=2(kb)\n\nPuisque k et b sont des entiers, leur produit kb est aussi un entier. Ainsi, ab est de la forme 2\\times(\\text{un entier}), ce qui signifie que ab est pair.\nProduit de deux nombres impairs\nSoient a et b deux nombres entiers impairs.\nPuisque a est impair, par définition, il existe un entier k tel que :\n\na=2k+1\n\nPuisque b est impair, par définition, il existe un entier m tel que :\n\nb=2m+1\n\nMaintenant, calculons le produit ab :\n\n\\begin{align*}\nab&=(2k+1)(2m+1) \\\\\n&=4km+2k+2m+1 \\\\\n&=2(2km+k+m)+1\n\\end{align*}\n\nPosons K=2km+k+m. Puisque k et m sont des entiers, la somme et le produit d’entiers sont des entiers, donc K est également un entier.\nL’expression du produit ab devient alors :\n\nab=2K+1\n\nPar définition, tout nombre entier qui peut s’écrire sous la forme 2K+1 (où K est un entier) est un nombre impair.\nSomme de deux nombres de même parité\n\nSupposons que a et b sont tous les deux pairs.\nPuisque a est pair, par définition, il existe un entier k tel que a=2k. Puisque b est pair, par définition, il existe un entier m tel que b=2m.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=2k+2m \\\\\n&=2(k+m)\n\\end{align*}\n\nPosons K=k+m. Puisque k et m sont des entiers, leur somme k+m est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\nSupposons que a et b sont tous les deux impairs.\nPuisque a est impair, par définition, il existe un entier k tel que a=2k+1. Puisque b est impair, par définition, il existe un entier m tel que b=2m+1.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=(2k+1)+(2m+1) \\\\\n&=2k+2m+2 \\\\\n&=2(k+m+1)\n\\end{align*}\n\nPosons K=k+m+1. Puisque k et m sont des entiers, leur somme k+m+1 est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\n\n\n\n\n\nMontrer que le carré d’un nombre pair est pair.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a\\in\\mathbb{Z} pair. Alors il existe k\\in\\mathbb{Z} tel que a=2k. De plus a^2=(2k)^2=4k^2=2\\times 2k^2. On pose K=2k^2 et alors a^2=2K. Donc a^2 est pair.\n\n\n\n\nMontrer que le carré d’un nombre impair est impair."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.3 Critères de divisibilité",
+    "text": "3.3 Critères de divisibilité\n\n(admise)\nUn nombre entier est divisible :\n\npar 2 lorsque son chiffre des unités est 0, 2, 4, 6 ou 8 ;\npar 5 lorsque son chiffre des unités est 0 ou 5 ;\npar 3 lorsque la somme de ses chiffres est divisible par 3 ;\npar 9 lorsque la somme de ses chiffres est divisible par 9."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.4 Nombres premiers",
+    "text": "3.4 Nombres premiers\n\n3.4.1 Définition\n\nUn nombre premier est un entier naturel qui a exactement deux diviseurs : 1 et lui-même.\n\n\nListe des nombres premiers inférieurs à 65 :\n\n2 ; 3 ; 5 ; 7 ; 11 ; 13 ; 17 ; 19 ; 23 ; 29 ; 31 ; 37 ; 41 ; 43 ; 47 ; 53 ; 59 ; 61\n\n\n\n\n1 n’est pas un nombre premier car il n’admet qu’un seul diviseur : 1.\n0 n’est pas un nombre premier car il est divisible par n’importe quel nombre entier non nul.\n6 n’est pas un nombre premier car il est divisible par 1, 2, 3 et 6.\n\n\n\nOn dit que deux nombres entiers sont premiers entre eux lorsque les seuls diviseurs qu’ils ont en commun sont 1 et -1.\n\n\n\n3.4.2 Décomposition en produit de facteurs premiers\n\n(admise)\nTout nombre entier naturel supérieur ou égal à deux se décompose en produit de facteurs premiers et cette décomposition est unique (à l’ordre près des facteurs).\n\n\nDécomposer 84 en produit de facteurs premiers.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nPremière méthode : à vue\nOn recherche le plus grand premier diviseur de 84 et on recherche ensuite tous les diviseurs premiers : 84=7\\times 12. Or 12=4\\times 3=2^2\\times 3. Ainsi 84=2^2\\times 3\\times 7.\nDeuxième méthode : on cherche les diviseurs premiers par ordre croissant\n\n\n\n\\begin{array}{r|l}\n84 & 2 \\\\\n42 & 2 \\\\\n21 & 3 \\\\\n7 & 7 \\\\\n1 &\n\\end{array}\n\n\n\n84 est divisible par 2 : 84=2\\times 42\n42 est divisible par 2 : 42=2\\times 21 donc 84=2\\times 2\\times 21\n21 est divisible par 3 : 21=3\\times 7 donc 84=2^2\\times 3\\times 7\n7 est premier, donc la décomposition en produit de facteurs premiers est 84=2^2\\times 3\\times 7"
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.1 Généralités",
+    "text": "5.1 Généralités\nIl existe des nombres qui n’ont pas un développement décimal périodique. C’est le cas par exemple du nombre \\pi\\simeq 3.1416\\dots Ils appartiennent à l’ensemble des irrationnels.\n\nLes nombres qui ne peuvent pas être exprimés par une fraction sont dits irrationnels. On le note \\mathbb{I}.\n\n\nL’ensemble des réels \\mathbb{R} est la réunion de l’ensemble des rationnels \\mathbb{Q} et des irrationnels \\mathbb{I}.\n\n\n(admise)\n\nÀ tout point d’une droite graduée est associé un unique nombre réel, son abscisse.\nRéciproquement, à tout nombre réel est associé un unique point d’une droite graduée.\n\n\n\nLe nombre réel \\sqrt{2} est un irrationnel.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn raisonne par l’absurde. Supposons que \\sqrt{2} soit rationnel.\nIl existe alors deux entiers a\\in\\mathbb{N}^* et b\\in\\mathbb{N}^* tels que :\n\n\\sqrt{2}=\\dfrac{a}{b} \\quad\\text{avec}\\quad \\gcd(a,b)=1\n\nEn élevant au carré, on obtient :\n\n2=\\dfrac{a^2}{b^2} \\implies a^2=2b^2 \\quad\\text{(1)}\n\nAinsi, a^2 est pair, ce qui implique que a est pair. Il existe donc un entier k\\in\\mathbb{N}^* tel que a=2k.\nEn substituant cette expression de a dans l’égalité (1) :\n\n(2k)^2=2b^2 \\implies 4k^2=2b^2 \\implies b^2=2k^2\n\nOn en déduit que b^2 est pair, et donc que b est pair.\na et b étant tous les deux pairs, ils admettent 2 comme diviseur commun. Cela contredit le fait que la fraction \\dfrac{a}{b} soit irréductible (\\gcd(a,b)=1).\nPar conséquent, l’hypothèse de départ est fausse : \\sqrt{2} est irrationnel."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.2 Racine carrée",
+    "text": "5.2 Racine carrée\n\n5.2.1 Définitions\n\nSoit x un réel positif.\nLa racine carrée de x, notée \\sqrt{x}, est l’unique nombre réel positif dont le carré est x.\n\n\nComme 2^2=4, on a \\sqrt{4}=2. On a également \\sqrt{0}=0 et \\sqrt{1}=1.\n\n\nLa racine carrée d’un nombre négatif n’a pas de sens. En effet, il n’existe pas de nombre réel qui, mis au carré, est négatif.\n\n\n\nPour tout nombre réel x positif, \\left(\\sqrt{x}\\right)^2=x.\nPour tout nombre réel x, \\sqrt{x^2}=x si x&gt;0 et \\sqrt{x^2}=-x si x&lt;0.\n\n\n\n\\left(\\sqrt{7}\\right)^2=7 et \\sqrt{(-5)^2}=5\n\n\n\n5.2.2 Calculs\n\nSoit a et b deux réels positifs avec b\\neq 0.\n\n\\sqrt{a\\times b}=\\sqrt{a}\\times\\sqrt{b}\n\\sqrt{\\dfrac{a}{b}}=\\dfrac{\\sqrt{a}}{\\sqrt{b}}\n\n\n\nOn dit qu’une racine carrée (ou radical) admet une écriture simplifiée lorsque deux conditions sont remplies :\n\nLe nombre sous le radical est le plus petit entier possible. Cela signifie qu’il ne contient plus de facteurs carrés parfaits (autres que 1).\nLe dénominateur (s’il y en a un) est un nombre entier sans radical.\n\n\n\nDonner les écritures simplifiées de \\sqrt{12} et de \\sqrt{\\dfrac{27}{8}}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1.\n\n\\sqrt{12}=\\sqrt{4\\times 3}=\\sqrt{4}\\times\\sqrt{3}=\\mathbf{2\\sqrt{3}}\n\n2.\n\n\\begin{align*}\n\\sqrt{\\dfrac{27}{8}}&=\\dfrac{\\sqrt{27}}{\\sqrt{8}} \\\\\n&=\\dfrac{\\sqrt{9\\times 3}}{\\sqrt{4\\times 2}} \\\\\n&=\\dfrac{3\\sqrt{3}}{2\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{3}\\times\\sqrt{2}}{2\\sqrt{2}\\times\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{6}}{2\\times 2} \\\\\n&=\\mathbf{\\dfrac{3\\sqrt{6}}{4}}\n\\end{align*}"
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.3 Les puissances",
+    "text": "5.3 Les puissances\n\nSoit a un réel et m un entier.\n\nSi m&gt;0, alors a^m=\\underbrace{a\\times a\\times a\\times a\\times\\dots\\times a}_{m\\text{ facteurs}}\nSi m&lt;0, alors a^m=\\dfrac{1}{a^{-m}}\nPar convention, pour a\\neq 0, a^0=1\n\n\n\n\n5^3=5\\times 5\\times 5=125\n5^{-3}=\\dfrac{1}{5^3}=\\dfrac{1}{125}\n\n\n\nSoit a et b deux réels non nuls et soit m et n deux entiers relatifs.\n\na^m\\times a^n=a^{m+n}\n(a^n)^m=a^{n\\times m}\n(a\\times b)^m=a^m\\times b^m\n\\left(\\dfrac{a}{b}\\right)^m=\\dfrac{a^m}{b^m}\n\\dfrac{a^m}{a^n}=a^{m-n}\n\n\n\nCalculer :\n\n2^3\\times 2^2\nx\\times x^2\n(3x)^2\n\\left(\\dfrac{2}{x^2}\\right)^2\n\\dfrac{4^5}{4^7}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n2^3\\times 2^2=8\\times 4=32\nx\\times x^2=x^1\\times x^2=x^{2+1}=x^3\n(3x)^2=3x\\times 3x=9x^2\n\\left(\\dfrac{2}{x^2}\\right)^2=\\dfrac{2^2}{(x^2)^2}=\\dfrac{4}{x^4}\n\\dfrac{4^5}{4^7}=4^{5-7}=4^{-2}=\\dfrac{1}{4^2}=\\dfrac{1}{16}"
   },
   {
     "objectID": "seconde/index.html",
