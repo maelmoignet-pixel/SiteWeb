@@ -1,0 +1,79 @@
+/* =====================================================================
+   styles.css : l'apparence du site (couleurs, images cliquables, boutons)
+   Tu n'as normalement pas besoin d'y toucher.
+   Couleurs : --marine = bleu foncé principal, --mer = bleu de survol.
+   ===================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap');
+
+:root {
+  --marine: #10263f;
+  --mer: #2b6a86;
+  --signal: #c0392b;
+}
+
+body { font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+h1, h2, h3, .title, .subtitle { font-family: 'IBM Plex Serif', Georgia, serif; }
+h1, .title { color: var(--marine); }
+
+/* Barre de navigation en haut (texte blanc sur fond marine) */
+.navbar { background-color: var(--marine) !important; }
+.navbar .navbar-brand, .navbar .navbar-title, .navbar .nav-link,
+.navbar .aa-DetachedSearchButton, .navbar .aa-DetachedSearchButtonIcon { color: #ffffff !important; }
+.navbar .nav-link { opacity: .85; border-bottom: 3px solid transparent; }
+.navbar .nav-link:hover { opacity: 1; }
+.navbar .nav-link.active { opacity: 1; border-bottom-color: var(--signal); }
+
+.navbar .aa-DetachedSearchButtonIcon svg { color: #ffffff !important; fill: #ffffff !important; }
+.navbar .navbar-toggler { border-color: rgba(255,255,255,.6); }
+.navbar .navbar-toggler-icon { filter: invert(1) brightness(2); }
+#quarto-search { --aa-primary-color-rgb: 255, 255, 255; --aa-muted-color-rgb: 255, 255, 255; }
+
+/* Couleur des liens dans le contenu des pages */
+main a { color: var(--mer); }
+
+/* ---------- ACCUEIL : images cliquables ---------- */
+.cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.75rem;
+  margin: 2.5rem 0;
+}
+.carte {
+  display: block;
+  color: var(--marine);
+  text-decoration: none !important;
+  border: 1px solid #c9d3dd;
+  border-bottom: 5px solid var(--marine);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fff;
+}
+.carte img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.carte span { display: block; padding: 1rem; font-weight: 600; font-size: 1.15rem; }
+.carte:hover, .carte:focus-visible { border-bottom-color: var(--signal); }
+.carte:focus-visible { outline: 3px solid var(--mer); outline-offset: 2px; }
+
+/* ---------- PAGE NIVEAU : liste des chapitres ---------- */
+.chapitres ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: .75rem;
+}
+.chapitres li a {
+  display: block;
+  padding: .85rem 1rem;
+  border: 1px solid #c9d3dd;
+  border-left: 5px solid var(--marine);
+  border-radius: 3px;
+  color: var(--marine);
+  font-weight: 500;
+  text-decoration: none;
+}
+.chapitres li a:hover, .chapitres li a:focus-visible { border-left-color: var(--signal); background: #f2f5f8; }
+
+/* ---------- PAGE CHAPITRE : dossiers dépliables ---------- */
+.callout { margin-bottom: 1rem; }
+.callout.callout-note { border-left-color: var(--marine) !important; }
+.callout.callout-note .callout-title-container { color: var(--marine); font-weight: 600; }

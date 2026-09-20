@@ -1,0 +1,1094 @@
+[
+  {
+    "objectID": "terminale-spe/index.html",
+    "href": "terminale-spe/index.html",
+    "title": "Spécialité mathématiques – Terminale",
+    "section": "",
+    "text": "Suites\nLoi binomiale\nEspace 1\nLimites de fonctions\nSomme de variables aléatoires\nDérivation\nFonction logarithme népérien\nLoi des grands nombres\nPrimitives et équations différentielles\nIntégration\nDénombrement\nTrigonométrie"
+  },
+  {
+    "objectID": "terminale-spe/index.html#chapitres",
+    "href": "terminale-spe/index.html#chapitres",
+    "title": "Spécialité mathématiques – Terminale",
+    "section": "",
+    "text": "Suites\nLoi binomiale\nEspace 1\nLimites de fonctions\nSomme de variables aléatoires\nDérivation\nFonction logarithme népérien\nLoi des grands nombres\nPrimitives et équations différentielles\nIntégration\nDénombrement\nTrigonométrie"
+  },
+  {
+    "objectID": "terminale-spe/index.html#bacs-blancs",
+    "href": "terminale-spe/index.html#bacs-blancs",
+    "title": "Spécialité mathématiques – Terminale",
+    "section": "Bacs blancs",
+    "text": "Bacs blancs\n\n\n\n\n\n\n\n📁 2025 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#exemple",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#exemple",
+    "title": "Loi binomiale",
+    "section": "1.1 Exemple",
+    "text": "1.1 Exemple\n\nOn lance 2 fois de suite une pièce de monnaie supposée équilibrée. On appelle P l’événement « on obtient pile » et F l’événement « on obtient face ». Une éventualité se présente comme un couple de lettres éventuellement identiques. L’univers \\Omega de cette expérience est \\Omega=\\{PP,FF,PF,FP\\}. Toutes ces issues sont équiprobables.\n\n\nOn décide que :\n\nsi on obtient 2 fois pile, on gagne 2 € ;\nsi on obtient 2 fois face, on perd 1 € ;\ndans tous les autres cas, on perd 0,50 €.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nLa fonction X qui, à chaque issue de \\Omega, associe le gain du joueur, prend comme valeurs : x_1=2, x_2=-1 et x_3=-0{,}5.\nL’événement « X prend la valeur 2 » se note (X=2).\nSa probabilité est p_1=P(X=2)=\\dfrac{1}{4}. De même, p_2=P(X=-1)=\\dfrac{1}{4} et p_3=P(X=-0{,}5)=\\dfrac{1}{2}.\nOn résume en général la loi de probabilité de X dans un tableau.\n\n\n\nx_i\n2\n-1\n-0{,}5\n\n\n\n\np_i\n\\dfrac{1}{4}\n\\dfrac{1}{4}\n\\dfrac{1}{2}"
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#variable-aléatoire-réelle-et-loi-de-probabilité",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#variable-aléatoire-réelle-et-loi-de-probabilité",
+    "title": "Loi binomiale",
+    "section": "1.2 Variable aléatoire réelle et loi de probabilité",
+    "text": "1.2 Variable aléatoire réelle et loi de probabilité\n\nSoit \\Omega l’univers d’une expérience aléatoire.\nUne variable aléatoire X sur \\Omega est une fonction définie de \\Omega dans \\mathbb{R}.\nSi x_i désigne la valeur prise par X, on note (X=x_i) l’événement « X prend la valeur x_i ».\nLa loi de probabilité de la variable X associe à chaque valeur x_i la probabilité de l’événement (X=x_i).\nOn présente habituellement cette loi sous forme d’un tableau :\n\n\n\nx_i\nx_1\nx_2\n\\dots\nx_n\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\n\n\nComme pour toute loi de probabilité, on a toujours : \\displaystyle\\sum_{i=1}^n p_i=1.\n\n\nSoit a un réel.\nOn note \\{X\\geqslant a\\} l’événement « la variable aléatoire X prend une valeur supérieure ou égale à la valeur a ».\nOn peut définir de la même manière les événements \\{X&gt;a\\}, \\{X&lt;a\\} et \\{X\\leqslant a\\}."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-et-écart-type",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-et-écart-type",
+    "title": "Loi binomiale",
+    "section": "1.3 Espérance, variance et écart-type",
+    "text": "1.3 Espérance, variance et écart-type\n\nSoit X une variable aléatoire de loi de probabilité :\n\n\n\nx_i\nx_1\nx_2\n\\dots\nx_n\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\nOn appelle espérance de X le nombre réel, noté E(X), défini par :\n\nE(X)=\\sum_{i=1}^n x_i\\times P(X=x_i)\n\n\n\nE(X) s’interprète comme la valeur moyenne des valeurs prises par X lorsque l’expérience est répétée un grand nombre de fois.\n\n\nReprenons la première application (lancer de deux pièces) :\n\n\n\nx_i\n2\n-1\n-0{,}5\n\n\n\n\np_i\n\\dfrac{1}{4}\n\\dfrac{1}{4}\n\\dfrac{1}{2}\n\n\n\nCalculer l’espérance de X et interpréter le résultat.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nE(X)=2\\times\\dfrac{1}{4}+(-1)\\times\\dfrac{1}{4}+(-0{,}5)\\times\\dfrac{1}{2}=0.\nSur un grand nombre de parties, le joueur gagne en moyenne 0 € par partie.\n\n\n\n\n\nSi l’espérance est nulle, on dit que le jeu est équitable.\nSi l’espérance est positive, on dit que le jeu est favorable au joueur.\nSi l’espérance est négative, on dit que le jeu est défavorable au joueur.\n\n\n\nLinéarité de l’espérance\nSoit X une variable aléatoire et a et b deux réels.\n\nE(aX+b)=aE(X)+b\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit X une variable aléatoire dont la loi de probabilité est :\n\n\n\nx_i\nx_1\nx_2\n\\dots\nx_n\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\nSoit a et b deux réels. La variable aléatoire aX+b suit la loi de probabilité :\n\n\n\nax_i+b\nax_1+b\nax_2+b\n\\dots\nax_n+b\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\nOn peut remarquer que seules les valeurs de la variable aléatoire changent, pas les probabilités correspondantes.\nPar définition de l’espérance on a :\n\n\\begin{align*}\nE(aX+b)&=\\sum_{i=1}^n (ax_i+b)\\times P(X=x_i) \\\\\n&=\\sum_{i=1}^n \\left[ ax_i\\times P(X=x_i)+b\\times P(X=x_i)\\right] \\\\\n&=a\\sum_{i=1}^n x_i\\times P(X=x_i)+b\\sum_{i=1}^n P(X=x_i) \\\\\n&=aE(X)+b\n\\end{align*}\n\n\n\n\n\nSoit X une variable aléatoire dont la loi de probabilité est :\n\n\n\nx_i\nx_1\nx_2\n\\dots\nx_n\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\nOn appelle variance de X le nombre réel positif, noté V(X), défini par :\n\nV(X)=\\sum_{i=1}^n\\left[x_i-E(X)\\right]^2\\times P(X=x_i)\n\n\n\nFormule de König-Huygens\n\nV(X)=\\sum_{i=1}^n x_i^2\\times P(X=x_i)-\\left[E(X)\\right]^2\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSi la variable aléatoire X prend respectivement les valeurs x_1,x_2,\\dots,x_n avec les probabilités p_1,p_2,\\dots,p_n, alors la variable aléatoire X^2 prend respectivement les valeurs x_1^2,\\dots,x_n^2 avec les probabilités p_1,\\dots,p_n. Ainsi :\n\n\\begin{align*}\nV(X)&=\\sum_{i=1}^n\\left[x_i-E(X)\\right]^2\\times p_i \\\\\n&=\\sum_{i=1}^n\\left(x_i^2-2\\times E(X)\\times x_i+E(X)^2\\right)p_i \\\\\n&=\\sum_{i=1}^n\\left(x_i^2p_i-2\\times E(X)\\times x_ip_i+E(X)^2p_i\\right) \\\\\n&=\\sum_{i=1}^n x_i^2p_i+\\sum_{i=1}^n\\left(-2\\times E(X)\\times x_ip_i\\right)+\\sum_{i=1}^n E(X)^2p_i \\\\\n&=E(X^2)-2E(X)\\times\\sum_{i=1}^n x_ip_i+E(X)^2\\sum_{i=1}^n p_i \\\\\n&=E(X^2)-2E(X)\\times E(X)+E(X)^2 \\\\\n&=E(X^2)-E(X)^2\n\\end{align*}\n\n\n\n\n\nReprenons la première application (lancer de deux pièces) :\n\n\n\nx_i\n2\n-1\n-0{,}5\n\n\n\n\np_i\n\\dfrac{1}{4}\n\\dfrac{1}{4}\n\\dfrac{1}{2}\n\n\n\nCalculer la variance de X.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nV(X)=2^2\\times\\dfrac{1}{4}+(-1)^2\\times\\dfrac{1}{4}+(-0{,}5)^2\\times\\dfrac{1}{2}-0^2=1{,}375.\n\n\n\n\nSoit X une variable aléatoire et a et b deux réels.\n\nV(aX+b)=a^2V(X)\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\n\\begin{align*}\nV(aX+b)&=E\\left((aX+b)^2\\right)-\\left[E(aX+b)\\right]^2 \\\\\n&=E(a^2X^2+2abX+b^2)-\\left[aE(X)+b\\right]^2 \\\\\n&=a^2E(X^2)+2abE(X)+b^2-\\left[a^2E(X)^2+2abE(X)+b^2\\right] \\\\\n&=a^2E(X^2)+2abE(X)+b^2-a^2E(X)^2-2abE(X)-b^2 \\\\\n&=a^2E(X^2)-a^2E(X)^2 \\\\\n&=a^2\\left(E(X^2)-E(X)^2\\right) \\\\\n&=a^2V(X)\n\\end{align*}\n\n\n\n\n\nSoit X une variable aléatoire dont la loi de probabilité est :\n\n\n\nx_i\nx_1\nx_2\n\\dots\nx_n\n\n\n\n\nP(\\{X=x_i\\})\np_1\np_2\n\\dots\np_n\n\n\n\nOn appelle écart-type de X le nombre réel positif, noté \\sigma(X), défini par :\n\n\\sigma(X)=\\sqrt{V(X)}\n\n\n\nComme en statistiques, l’écart-type permet de se donner une idée de la dispersion des valeurs prises par une variable autour de son espérance en tenant compte des probabilités.\nPlus l’écart-type est « grand », plus les valeurs prises par la variable aléatoire sont « éloignées » de l’espérance. Dans le cas d’un gain, plus il est grand, plus le jeu est risqué."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définitions",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définitions",
+    "title": "Loi binomiale",
+    "section": "2.1 Définitions",
+    "text": "2.1 Définitions\n\nOn appelle épreuve de Bernoulli de paramètre p (p\\in[0;1]) une expérience aléatoire admettant exactement deux issues. L’une est appelée « succès », notée S, dont la probabilité est p, l’autre est appelée « échec », notée \\overline{S}, dont la probabilité est 1-p.\n\n\nOn dit que la variable aléatoire X suit la loi de Bernoulli de paramètre p si :\n\nX prend la valeur 0 si l’issue de l’épreuve est l’échec ou la valeur 1 si l’issue de l’épreuve est le succès ;\nP(X=1)=p et P(X=0)=1-p.\n\n\n\n\nLors du lancer d’un dé équilibré à six faces, on appelle succès le fait d’obtenir un 6. Cette expérience aléatoire est une épreuve de Bernoulli de paramètre \\dfrac{1}{6}.\nOn tire une carte au hasard dans un jeu de 32 cartes. On considère la variable aléatoire X qui prend la valeur 1 si la carte tirée est un cœur et 0 sinon. X suit la loi de Bernoulli de paramètre \\dfrac{1}{4}."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-écart-type",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-écart-type",
+    "title": "Loi binomiale",
+    "section": "2.2 Espérance, variance, écart-type",
+    "text": "2.2 Espérance, variance, écart-type\n\nSoit X une variable aléatoire qui suit la loi de Bernoulli de paramètre p.\n\nE(X)=p\nV(X)=p(1-p)\n\\sigma(X)=\\sqrt{p(1-p)}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nE(X)=0\\times P(X=0)+1\\times P(X=1)=0\\times(1-p)+1\\times p=p\nV(X)=0^2\\times P(X=0)+1^2\\times P(X=1)-\\left[E(X)\\right]^2=0\\times(1-p)+1\\times p-p^2=p(1-p)\n\n\n\n\n\nUn feu tricolore peut être au rouge, à l’orange ou au vert.\nCe feu tricolore reste 25 secondes au vert, 10 secondes à l’orange et 25 secondes au rouge.\nOn se présente un très grand nombre de fois devant ce feu. En moyenne, combien de fois allons-nous rencontrer un feu vert ?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSe présenter à un feu tricolore est une épreuve de Bernoulli de succès S « le feu est au vert » (et donc \\overline{S} « le feu est au rouge ou à l’orange »).\nOn note X la variable aléatoire égale à 1 si le feu est vert, et 0 sinon. La probabilité que le feu soit vert est p=\\dfrac{5}{12}.\nE(X)=\\dfrac{5}{12}"
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définition-arbre-pondéré",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définition-arbre-pondéré",
+    "title": "Loi binomiale",
+    "section": "3.1 Définition, arbre pondéré",
+    "text": "3.1 Définition, arbre pondéré\n\nL’expérience aléatoire consistant à répéter n fois de manière identique et indépendante une épreuve de Bernoulli de paramètre p s’appelle un schéma de Bernoulli de paramètres n et p.\n\n\nUn schéma de Bernoulli peut s’illustrer par un arbre pondéré. L’arbre permet de compter le nombre de chemins correspondant à un nombre de succès donné.\n\n\n\n\nOn réalise trois fois de suite une épreuve de Bernoulli de paramètre p.\nLes issues de cette expérience sont SSS, SS\\overline{S}, S\\overline{S}S, S\\overline{S}\\,\\overline{S}, \\dots\nOn s’intéresse aux issues comportant 2 succès lors des 3 répétitions. Ce sont SS\\overline{S}, S\\overline{S}S et \\overline{S}SS.\nLa probabilité de chacune de ces issues est égale à p^2(1-p)."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#coefficients-binomiaux",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#coefficients-binomiaux",
+    "title": "Loi binomiale",
+    "section": "3.2 Coefficients binomiaux",
+    "text": "3.2 Coefficients binomiaux\n\nOn considère un schéma de Bernoulli de paramètres n\\in\\mathbb{N}^* et p\\in[0;1]. Soit k\\in\\mathbb{N} tel que 0\\leqslant k\\leqslant n.\nLe coefficient binomial \\dbinom{n}{k} (se lit « k parmi n ») est le nombre de façons d’obtenir exactement k succès parmi les n épreuves.\n\n\nPar convention \\dbinom{0}{0}=1.\n\n\nSoit n\\in\\mathbb{N}^*. Soit k\\in\\mathbb{N} tel que 0\\leqslant k\\leqslant n.\n\n\\dbinom{n}{0}=1\n\\dbinom{n}{n}=1\n\\dbinom{n}{k}=\\dbinom{n}{n-k}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit n\\in\\mathbb{N}^*. Soit k\\in\\mathbb{N} tel que 0\\leqslant k\\leqslant n.\n\nIl n’y a qu’un seul chemin ne contenant aucun succès (autrement dit, il n’y a qu’un seul chemin ne contenant que des échecs). Donc \\dbinom{n}{0}=1.\nIl n’y a qu’un seul chemin ne contenant que des succès. Donc \\dbinom{n}{n}=1.\nIl y a autant de chemins qui réalisent k succès que de chemins qui réalisent k échecs, c’est-à-dire n-k succès. Donc \\dbinom{n}{k}=\\dbinom{n}{n-k}."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#triangle-de-pascal",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#triangle-de-pascal",
+    "title": "Loi binomiale",
+    "section": "3.3 Triangle de Pascal",
+    "text": "3.3 Triangle de Pascal\n\nFormule de Pascal\nPour tous entiers naturels n et k tels que 1\\leqslant k\\leqslant n-1,\n\n\\dbinom{n-1}{k-1}+\\dbinom{n-1}{k}=\\dbinom{n}{k}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations : \\dbinom{n}{k} est le nombre de chemins qui réalisent k succès parmi n répétitions. Il y en a de deux types :\n\nceux qui commencent par un succès : il reste alors k-1 succès parmi n-1 répétitions. Il y en a \\dbinom{n-1}{k-1} ;\nceux qui commencent par un échec : il reste alors k succès parmi n-1 répétitions. Il y en a \\dbinom{n-1}{k}.\n\nDonc \\dbinom{n}{k}=\\dbinom{n-1}{k-1}+\\dbinom{n-1}{k}.\n\n\n\n\nConstruction du triangle de Pascal\nOn peut déterminer les \\dbinom{n}{k} de proche en proche à l’aide du triangle de Pascal. Pour cela :\n\nétape 1 : \\dbinom{0}{0}=1 ;\nétape 2 : \\dbinom{n}{0}=1 assure que la première colonne ne contient que des 1 ;\nétape 3 : \\dbinom{n}{n}=1 assure que la dernière colonne ne contient que des 1 ;\nétape 4 : \\dbinom{n-1}{k-1}+\\dbinom{n-1}{k}=\\dbinom{n}{k} permet de déterminer n’importe quel coefficient binomial à partir de deux connus auparavant. On obtient chaque nombre du tableau en additionnant le nombre juste au-dessus et celui situé à gauche sur la ligne précédente.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nPar exemple, pour n=5 :\n\n\n\n\n\nOn lit : \\color{red}{\\dbinom{3}{2}=3}\nOn détermine : \\color{blue}{\\dbinom{5}{2}=\\dbinom{4}{1}+\\dbinom{4}{2}}\n\n\n\n\nLa calculatrice permet d’obtenir les coefficients binomiaux, notamment si n et k sont « grands » (calculatrice NumWorks : boîte à outils, puis dénombrement, puis binomial(n,k))."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définition-et-propriété",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#définition-et-propriété",
+    "title": "Loi binomiale",
+    "section": "4.1 Définition et propriété",
+    "text": "4.1 Définition et propriété\n\nSoit X la variable aléatoire comptant le nombre de succès dans un schéma de Bernoulli de paramètres n et p.\nOn dit que X suit la loi binomiale de paramètres n et p, notée B(n;p).\n\n\nUn QCM comporte 20 questions. Pour chacune d’elles, quatre réponses sont proposées dont une seule est correcte. Un élève choisit au hasard une réponse à chaque question indépendamment des autres. La variable aléatoire X compte le nombre de réponses correctes données par l’élève.\nJustifier que X suit une loi binomiale et préciser les paramètres.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nÉpreuve de Bernoulli :\nLa réponse à chaque question est une épreuve de Bernoulli de succès « la réponse est correcte » de probabilité p=\\dfrac{1}{4}.\nSchéma de Bernoulli :\nOn répète 20 fois de manière identique et indépendante chaque épreuve de Bernoulli précédente.\nLoi binomiale :\nX suit donc la loi binomiale B\\left(20;\\dfrac{1}{4}\\right).\n\n\n\n\nSoit X une variable aléatoire qui suit la loi binomiale B(n;p).\nPour tout entier k tel que 0\\leqslant k\\leqslant n :\n\nP(\\{X=k\\})=\\dbinom{n}{k}p^k(1-p)^{n-k}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nDans un schéma de n épreuves de Bernoulli, la variable aléatoire qui compte les succès prend pour valeurs 0,1,2,\\dots,n.\nPour un entier k compris entre 0 et n, l’événement \\{X=k\\} est représenté dans l’arbre par les chemins qui comportent k succès et donc n-k échecs ; il y en a \\dbinom{n}{k}.\nChacun de ces chemins comporte k fois S et n-k fois \\overline{S} et a donc pour probabilité :\n\np^{\\text{nombre de }S}\\times(1-p)^{\\text{nombre de }\\overline{S}}\n\nIl en résulte que P(\\{X=k\\})=\\dbinom{n}{k}p^k(1-p)^{n-k}.\n\n\n\n\nLa calculatrice permet de calculer P(\\{X=k\\}) et P(\\{X\\leqslant k\\}) (calculatrice NumWorks : probabilités, puis binomiale). L’utilisation de la calculatrice pour calculer directement P(\\{X\\geqslant k\\}) n’est pas autorisée.\n\n\nReprenons l’exemple précédent où X suit la loi binomiale de paramètres B\\left(20;\\dfrac{1}{4}\\right).\nCalculer, à l’aide de la calculatrice, P(\\{X=12\\}) et P(\\{X\\geqslant 10\\})."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-et-écart-type-1",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#espérance-variance-et-écart-type-1",
+    "title": "Loi binomiale",
+    "section": "4.2 Espérance, variance et écart-type",
+    "text": "4.2 Espérance, variance et écart-type\n\nSoit X une variable aléatoire qui suit la loi binomiale B(n;p).\n\nE(X)=np\nV(X)=np(1-p)\n\\sigma(X)=\\sqrt{np(1-p)}\n\n\n\nLa démonstration de cette proposition sera étudiée dans le chapitre « Somme de variables aléatoires ».\n\n\nReprenons l’exemple précédent où X suit la loi binomiale de paramètres B\\left(20;\\dfrac{1}{4}\\right).\nCalculer l’espérance de X et interpréter le résultat. Calculer ensuite la variance puis l’écart-type.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nE(X)=20\\times\\dfrac{1}{4}=5\nSur un grand nombre d’élèves répondant à ce QCM, le nombre moyen de bonnes réponses est de 5.\nV(X)=20\\times\\dfrac{1}{4}\\times\\dfrac{3}{4}=3{,}75 et \\sigma(X)=\\sqrt{3{,}75}\\approx 1{,}94."
+  },
+  {
+    "objectID": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#représentation-graphique",
+    "href": "terminale-spe/cours/loi-binomiale/loi-binomiale.html#représentation-graphique",
+    "title": "Loi binomiale",
+    "section": "4.3 Représentation graphique",
+    "text": "4.3 Représentation graphique\n\nReprésentation graphique (proposition admise)\nSoit X une variable aléatoire suivant la loi binomiale B(n;p). Le diagramme en barres associé à X est en forme de cloche, approximativement centré sur son espérance.\n\n\n\n\nLe diagramme en barres associé à la loi B(20;0{,}6), sur lequel k varie de 0 à 20 en abscisses, montre, pour chaque valeur de k, la hauteur de la barre correspondant à P(X=k).\nPar exemple, pour k=10, P(X=10)\\approx 0{,}12.\nLe diagramme est en forme de cloche et approximativement centré sur 12 (l’espérance correspondant à cette loi).\nCe diagramme est quasiment symétrique par rapport à la droite d’équation x=12 tracée en pointillés."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
+    "title": "Suites",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
+    "title": "Suites",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Suites"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nDS 1 – sujet\nDS 1 – correction\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "title": "Primitives et équations différentielles",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "title": "Primitives et équations différentielles",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "title": "Primitives et équations différentielles",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
+    "href": "terminale-spe/chapitres/loi-binomiale.html",
+    "title": "Loi binomiale",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "title": "Loi binomiale",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Loi binomiale"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "title": "Loi binomiale",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html",
+    "href": "terminale-spe/chapitres/integration.html",
+    "title": "Intégration",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html#cours",
+    "href": "terminale-spe/chapitres/integration.html#cours",
+    "title": "Intégration",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "title": "Intégration",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/espace-1.html",
+    "href": "terminale-spe/chapitres/espace-1.html",
+    "title": "Espace 1",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/espace-1.html#cours",
+    "href": "terminale-spe/chapitres/espace-1.html#cours",
+    "title": "Espace 1",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
+    "title": "Espace 1",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html",
+    "href": "terminale-spe/chapitres/denombrement.html",
+    "title": "Dénombrement",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html#cours",
+    "href": "terminale-spe/chapitres/denombrement.html#cours",
+    "title": "Dénombrement",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "title": "Dénombrement",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-2.html",
+    "href": "seconde/chapitres/statistiques-2.html",
+    "title": "Statistiques 2",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-2.html#cours",
+    "href": "seconde/chapitres/statistiques-2.html#cours",
+    "title": "Statistiques 2",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
+    "href": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
+    "title": "Statistiques 2",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/probabilites.html",
+    "href": "seconde/chapitres/probabilites.html",
+    "title": "Probabilités",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/probabilites.html#cours",
+    "href": "seconde/chapitres/probabilites.html#cours",
+    "title": "Probabilités",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/probabilites.html#évaluations-et-ds",
+    "href": "seconde/chapitres/probabilites.html#évaluations-et-ds",
+    "title": "Probabilités",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html",
+    "title": "Intervalles, équations et inéquations",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "title": "Intervalles, équations et inéquations",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "title": "Intervalles, équations et inéquations",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "title": "Géométrie : vecteurs 1",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "title": "Géométrie : vecteurs 1",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 1",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "title": "Géométrie : équations de droites",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "title": "Géométrie : équations de droites",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "title": "Géométrie : équations de droites",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-2-references.html",
+    "href": "seconde/chapitres/fonction-2-references.html",
+    "title": "Fonctions 2 : fonctions de référence",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-2-references.html#cours",
+    "href": "seconde/chapitres/fonction-2-references.html#cours",
+    "title": "Fonctions 2 : fonctions de référence",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "title": "Fonctions 2 : fonctions de référence",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
+    "title": "Ensembles de nombres et arithmétique",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
+    "title": "Ensembles de nombres et arithmétique",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
+    "title": "Ensembles de nombres et arithmétique",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#définition",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#définition",
+    "title": "Les suites numériques",
+    "section": "1.1 Définition",
+    "text": "1.1 Définition\n\nUne suite u, notée aussi (u_n)_{n\\in\\mathbb{N}}, est une fonction définie sur \\mathbb{N} ou une partie de \\mathbb{N} et à valeurs dans \\mathbb{R}.\n\nu : \\left\\{\n\\begin{array}{ccc}\n\\mathbb{N}& \\to & \\mathbb{R}\\\\\nn & \\mapsto & u(n)=u_n\n\\end{array}\n\\right.\n\n\n\nLes termes de la suite se notent u_0, u_1, \\dots, u_n.\nu_n est le terme d’indice n.\n\n\nSoit u la suite définie sur \\mathbb{N} par u_n=2n-1.\nLe terme d’indice 0 (le premier terme !) est u_0=2\\times 0-1=-1.\nLe terme d’indice 1 est u_1=2\\times 1-1=1."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#les-différents-modes-de-génération-dune-suite",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#les-différents-modes-de-génération-dune-suite",
+    "title": "Les suites numériques",
+    "section": "1.2 Les différents modes de génération d’une suite",
+    "text": "1.2 Les différents modes de génération d’une suite\n\n1.2.1 Suites définies à partir d’une fonction (mode explicite)\n\nUne suite u est définie par une formule explicite lorsque u_n s’exprime en fonction de l’entier n. On note alors u_n=f(n) où f est une fonction.\n\n\nLa suite (u_n) définie sur \\mathbb{N} par u_n=2n-1 est définie par l’expression du terme général en fonction de n. On peut alors définir la fonction associée f : x \\mapsto 2x-1 et écrire u_n=f(n).\n\n\nDans ce cas, chaque terme peut alors se calculer indépendamment des autres en remplaçant n par sa valeur dans l’expression. On peut aussi utiliser le tableau de valeurs de la fonction associée.\n\n\nLes suites (u_n), (v_n) et (w_n) définies sur \\mathbb{N} par u_n=2n+1, v_n=2^n et w_n=n^3.\nu_{100}=2\\times 100+1=201\nv_5=2^5=32\nw_{20}=20^3=8000\n\n\n\n1.2.2 Suites définies par une relation de récurrence (mode récurrent)\n\nUne suite u est définie par une relation de récurrence lorsqu’elle est définie par la donnée de :\n\nson (ou ses) premier(s) terme(s) ;\nune relation permettant de calculer un terme à partir d’un ou plusieurs termes précédents.\n\n\n\nOn note alors u_{n+1}=f(u_n) où f est une fonction.\n\n\nDans ce cas, chaque terme s’obtient de proche en proche. C’est pourquoi la connaissance du terme initial est indispensable.\n\n\nSoit (u_n) la suite définie sur \\mathbb{N} par\n\n\\begin{cases}\nu_0=-5 \\\\\nu_{n+1}=2u_n+3\n\\end{cases}\n\nSes premiers termes sont :\nu_0=-5\nu_1=2\\times u_0+3=-7\nu_2=2\\times u_1+3=-11"
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#représentation-graphique",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#représentation-graphique",
+    "title": "Les suites numériques",
+    "section": "1.3 Représentation graphique",
+    "text": "1.3 Représentation graphique\n\nDans un repère, la représentation graphique d’une suite (u_n)_{n\\in\\mathbb{N}} est l’ensemble des points de coordonnées (n;u_n) pour n\\in\\mathbb{N}.\n\n\n1.3.1 Suites définies à partir d’une fonction (mode explicite)\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_n=2n-1.\nOn commence par remplir le tableau de valeurs :\n\n\n\nn\n0\n1\n2\n3\n4\n5\n\n\n\n\nu_n\n-1\n1\n3\n5\n7\n9\n\n\n\n\nOn a alors ce nuage de points associé au tableau :\n\n\n\n\n\n\n\n\n\nOn peut définir la suite u à l’aide de sa fonction associée. Pour tout n\\in\\mathbb{N}, u_n=f(n) avec f(x)=2x-1.\nf est une fonction affine, sa représentation est donc une droite. Pour tracer la représentation de la suite, on trace les points de cette droite qui ont pour abscisse un entier naturel.\n\n\n\n1.3.2 Suites définies par une relation de récurrence\n\nOn considère la suite u telle que u_{n+1}=f(u_n) où f est une fonction.\nOn construit de proche en proche les termes de la suite u en se servant de la courbe représentative de la fonction f appelée (C) et de la droite (\\Delta) d’équation y=x :\n\nplacer u_0 sur l’axe des abscisses ;\nconstruire u_1=f(u_0) sur l’axe des ordonnées ;\nreporter u_1 sur l’axe des abscisses en utilisant (\\Delta) ;\nrecommencer.\n\n\n\nSoit (u_n) la suite définie sur \\mathbb{N} par\n\n\\begin{cases}\nu_0=-4 \\\\\nu_{n+1}=1+\\dfrac{1}{2}u_n\n\\end{cases}\n\nConstruire les premiers termes de la suite (u_n) puis conjecturer les variations et la limite en +\\infty.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f la fonction définie sur [0;+\\infty[ par f(x)=1+\\dfrac{1}{2}x. Ainsi, f(u_n)=u_{n+1}.\n(C) : y=\\dfrac{1}{2}x+1\n(\\Delta) : y=x (appelée première bissectrice)\n\n\n\n\n\nGrâce à cette représentation graphique, on peut conjecturer :\n\nla suite (u_n) est strictement croissante sur \\mathbb{N} ;\n\\lim\\limits_{n\\to+\\infty}u_n=2.\n\nCes conjectures doivent bien sûr être confirmées ou infirmées.\n\n\n\n\nSoit (u_n) la suite définie sur \\mathbb{N} par\n\n\\begin{cases}\nu_0=-\\dfrac{1}{2} \\\\\nu_{n+1}=\\dfrac{2}{1+u_n}\n\\end{cases}\n\n\n\nSoit f la fonction définie sur [0;+\\infty[ par f(x)=\\dfrac{2}{1+x}. Ainsi, f(u_n)=u_{n+1}.\n(C) : y=\\dfrac{2}{1+x}\n(\\Delta) : y=x\nGrâce à cette représentation graphique, on peut conjecturer :\n\nla suite (u_n) est non monotone sur \\mathbb{N} ;\n\\lim\\limits_{n\\to+\\infty}u_n=1."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#définitions",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#définitions",
+    "title": "Les suites numériques",
+    "section": "2.1 Définitions",
+    "text": "2.1 Définitions\n\nUne suite (u_n)_{n\\in\\mathbb{N}} est croissante si pour tout n\\in\\mathbb{N}, u_{n+1}\\geqslant u_n.\nUne suite (u_n)_{n\\in\\mathbb{N}} est décroissante si pour tout n\\in\\mathbb{N}, u_{n+1}\\leqslant u_n.\nUne suite (u_n)_{n\\in\\mathbb{N}} est constante si pour tout n\\in\\mathbb{N}, u_{n+1}=u_n.\nUne suite (u_n)_{n\\in\\mathbb{N}} croissante ou décroissante est dite monotone.\n\n\nOn définit de même une suite strictement croissante (ou strictement décroissante) en utilisant une inégalité stricte."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#étude-du-sens-de-variation",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#étude-du-sens-de-variation",
+    "title": "Les suites numériques",
+    "section": "2.2 Étude du sens de variation",
+    "text": "2.2 Étude du sens de variation\n\nLorsqu’on cherche à déterminer les variations d’une suite (u_n)_{n\\in\\mathbb{N}} on peut :\n\nétudier le signe de la différence u_{n+1}-u_n :\n\nsi u_{n+1}-u_n\\geqslant 0 alors u_{n+1}\\geqslant u_n et donc (u_n) est croissante ;\nsi u_{n+1}-u_n\\leqslant 0 alors u_{n+1}\\leqslant u_n et donc (u_n) est décroissante.\n\nsi la suite est définie par u_n=f(n) où f est une fonction connue, étudier les variations de f sur [0;+\\infty[ :\n\nsi f est croissante alors (u_n) est croissante ;\nsi f est décroissante alors (u_n) est décroissante.\n\nsi la suite est toujours strictement positive, comparer le quotient \\dfrac{u_{n+1}}{u_n} à 1 :\n\nsi \\dfrac{u_{n+1}}{u_n}\\geqslant 1 alors (u_n) est croissante ;\nsi \\dfrac{u_{n+1}}{u_n}\\leqslant 1 alors (u_n) est décroissante.\n\n\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_n=\\dfrac{n+1}{2^n}.\nSoit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_n=\\dfrac{3}{n+2}.\nSoit (w_n)_{n\\in\\mathbb{N}} la suite définie par w_n=\\dfrac{3^n}{4^{n+2}}.\nSoit (z_n)_{n\\in\\mathbb{N}} la suite définie par z_n=(-1)^n.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_n=\\dfrac{n+1}{2^n}.\n\n\\begin{align*}\nu_{n+1}-u_n&=\\dfrac{n+2}{2^{n+1}}-\\dfrac{n+1}{2^n} \\\\\n&=\\dfrac{n+2-2(n+1)}{2^{n+1}} \\\\\n&=\\dfrac{n+2-2n-2}{2^{n+1}} \\\\\n&=\\dfrac{-n}{2^{n+1}}\n\\end{align*}\n\nComme 2^{n+1}&gt;0 et -n\\leqslant 0, alors u_{n+1}-u_n\\leqslant 0.\nLa suite (u_n)_{n\\in\\mathbb{N}} est donc décroissante sur \\mathbb{N}.\n2. Soit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_n=\\dfrac{3}{n+2}.\nSoit f la fonction associée à (v_n) définie sur [0;+\\infty[ par f(x)=\\dfrac{3}{x+2}.\nLa fonction f est dérivable sur \\mathbb{R}^+ et f'(x)=-\\dfrac{3}{(x+2)^2}&lt;0.\nAinsi la fonction f est décroissante sur \\mathbb{R}^+, et donc la suite (v_n)_{n\\in\\mathbb{N}} est décroissante.\n3. Soit (w_n)_{n\\in\\mathbb{N}} la suite définie par w_n=\\dfrac{3^n}{4^{n+2}}.\n(w_n)_{n\\in\\mathbb{N}} est à termes strictement positifs.\n\n\\begin{align*}\n\\dfrac{w_{n+1}}{w_n}&=\\dfrac{\\dfrac{3^{n+1}}{4^{n+3}}}{\\dfrac{3^n}{4^{n+2}}} \\\\\n&=\\dfrac{3^{n+1}}{4^{n+3}}\\times\\dfrac{4^{n+2}}{3^n} \\\\\n&=\\dfrac{3^{n+1}}{3^n}\\times\\dfrac{4^{n+2}}{4^{n+3}} \\\\\n&=3\\times\\dfrac{1}{4} \\\\\n&=\\dfrac{3}{4}\n\\end{align*}\n\nAinsi, pour tout n entier naturel, on a \\dfrac{w_{n+1}}{w_n}&lt;1 donc la suite (w_n)_{n\\in\\mathbb{N}} est strictement décroissante.\n4. Soit (z_n)_{n\\in\\mathbb{N}} la suite définie par z_n=(-1)^n.\nLes termes de la suite (z_n) valent alternativement 1 et -1.\nDonc, cette suite n’est pas monotone."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#définition-et-expression-du-terme-général",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#définition-et-expression-du-terme-général",
+    "title": "Les suites numériques",
+    "section": "3.1 Définition et expression du terme général",
+    "text": "3.1 Définition et expression du terme général\n\nUne suite (u_n)_{n\\in\\mathbb{N}} est arithmétique s’il existe un réel r, appelé raison de la suite, tel que pour tout n\\in\\mathbb{N}, on a u_{n+1}=u_n+r.\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite arithmétique de raison r.\nPour tout n\\in\\mathbb{N}, u_n=u_0+rn.\nPour tout n\\in\\mathbb{N} et pour tout p\\in\\mathbb{N}, u_n=u_p+r(n-p).\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite arithmétique de raison r.\n\n\n\n\n\n\n\n\n\nPour démontrer qu’une suite (u_n)_{n\\in\\mathbb{N}} est arithmétique, on peut :\n\nmontrer que, pour tout n\\in\\mathbb{N}, u_{n+1}-u_n est égal à une constante r ;\nmontrer que, pour tout n\\in\\mathbb{N}, u_n peut s’écrire sous la forme a\\times n+b avec a et b deux réels.\n\nPour démontrer qu’une suite (u_n)_{n\\in\\mathbb{N}} n’est pas arithmétique, on peut calculer les premiers termes de la suite et comparer les différences de deux termes consécutifs.\n\n\nLes suites suivantes sont-elles arithmétiques ?\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par\n\n\\begin{cases}\nu_0=1 \\\\\nu_{n+1}=(u_n+1)^2-u_n^2-u_n\n\\end{cases}\n\nSoit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_n=(n+1)^2-(n-2)^2.\nSoit (w_n)_{n\\in\\mathbb{N}} la suite définie par\n\n\\begin{cases}\nw_0=1 \\\\\nw_{n+1}=\\dfrac{w_n}{1+w_n}\n\\end{cases}\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit n\\in\\mathbb{N}.\n\n\\begin{align*}\nu_{n+1}-u_n&=(u_n+1)^2-u_n^2-u_n-u_n \\\\\n&=u_n^2+2u_n+1-u_n^2-2u_n \\\\\n&=1\n\\end{align*}\n\nDonc la suite (u_n) est arithmétique de raison r=1.\n2. Soit n\\in\\mathbb{N}.\n\n\\begin{align*}\nv_n&=(n+1)^2-(n-2)^2 \\\\\n&=n^2+2n+1-(n^2-4n+4) \\\\\n&=6n-3\n\\end{align*}\n\nDonc la suite (v_n) est arithmétique de raison r=6 et de premier terme v_0=-3.\n3. w_0=1, w_1=\\dfrac{1}{2} et w_2=\\dfrac{1}{3}.\nw_1-w_0=-\\dfrac{1}{2} et w_2-w_1=-\\dfrac{1}{6}.\nDonc w_1-w_0\\neq w_2-w_1.\nAinsi, la suite (w_n) n’est pas arithmétique."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#sens-de-variation",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#sens-de-variation",
+    "title": "Les suites numériques",
+    "section": "3.2 Sens de variation",
+    "text": "3.2 Sens de variation\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite arithmétique de raison r.\n\nSi r&gt;0, alors la suite est strictement croissante ;\nSi r&lt;0, alors la suite est strictement décroissante ;\nSi r=0, alors la suite est constante.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite arithmétique de raison r.\nPour tout n\\in\\mathbb{N}, u_{n+1}-u_n=r.\n\nSi r&gt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante ;\nSi r&lt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante ;\nSi r=0, alors u_{n+1}-u_n=0 et donc la suite est constante.\n\n\n\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_{n+1}=3+u_n.\nLa suite est arithmétique de raison r=3&gt;0. Donc la suite (u_n) est strictement croissante.\nSoit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_{n+1}+2=v_n.\nLa suite est arithmétique de raison r=-2&lt;0. Donc la suite (v_n) est strictement décroissante."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#somme-des-premiers-entiers",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#somme-des-premiers-entiers",
+    "title": "Les suites numériques",
+    "section": "3.3 Somme des premiers entiers",
+    "text": "3.3 Somme des premiers entiers\n\nPour tout n\\in\\mathbb{N}^*,\n\n\\sum_{i=1}^n i=1+2+3+\\dots+n=\\dfrac{n(n+1)}{2}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nMéthode de Gauss (mathématicien allemand du XVIIIe-XIXe siècle).\nOn écrit la somme dans l’ordre croissant des termes puis dans l’ordre décroissant des termes :\n\n\\begin{align*}\nS&=1+2+3+\\dots+(n-2)+(n-1)+n \\\\\nS&=n+(n-1)+(n-2)+\\dots+3+2+1\n\\end{align*}\n\nPar somme, membre à membre, on obtient :\n\n\\begin{align*}\n2S&=(1+n)+(1+n)+(1+n)+\\dots+(1+n)+(1+n)+(1+n) \\\\\n2S&=n(n+1)\n\\end{align*}\n\nDonc S=\\dfrac{n(n+1)}{2}.\n\n\n\n\nCalculer la somme S=2+5+8+11+14+\\dots+296.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn considère la somme S=2+5+8+11+14+\\dots+296.\nOn pose\n\n(u_n)_{n\\in\\mathbb{N}} :\n\\begin{cases}\nu_0=2 \\\\\nu_{n+1}=u_n+3\n\\end{cases}\n\nS est la somme des 99 premiers termes de la suite (u_n).\nS=u_0+u_1+u_2+u_3+\\dots+u_{98}\nS=u_0+(u_0+3)+(u_0+2\\times 3)+(u_0+3\\times 3)+\\dots+(u_0+98\\times 3) On exprime chaque terme u_n en fonction de n\nS=99u_0+3(1+2+3+\\dots+98) On regroupe les termes u_0 et on factorise par le facteur commun (la raison)\nS=99\\times 2+3\\times\\dfrac{98\\times 99}{2} On applique la formule de Gauss\nS=14751"
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#définition-et-expression-du-terme-général-1",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#définition-et-expression-du-terme-général-1",
+    "title": "Les suites numériques",
+    "section": "4.1 Définition et expression du terme général",
+    "text": "4.1 Définition et expression du terme général\n\nUne suite (u_n)_{n\\in\\mathbb{N}} est géométrique s’il existe un réel q, appelé raison de la suite, tel que pour tout n\\in\\mathbb{N}, on a u_{n+1}=q\\times u_n.\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite géométrique de raison q.\nPour tout n\\in\\mathbb{N}, u_n=u_0\\times q^n.\nPour tout n\\in\\mathbb{N} et pour tout p\\in\\mathbb{N}, u_n=u_p\\times q^{n-p}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite géométrique de raison q.\n\n\n\n\n\n\n\n\n\nPour démontrer qu’une suite (u_n)_{n\\in\\mathbb{N}} est géométrique, on peut :\n\nmontrer que, pour tout n\\in\\mathbb{N}, u_{n+1}=q\\times u_n ;\nmontrer que, pour tout n\\in\\mathbb{N}, \\dfrac{u_{n+1}}{u_n} est égal à une constante q si tous les termes de la suite sont non nuls ;\nmontrer que, pour tout n\\in\\mathbb{N}, u_n peut s’écrire sous la forme a\\times b^n avec a et b des réels.\n\nPour démontrer qu’une suite (u_n)_{n\\in\\mathbb{N}} n’est pas géométrique, on peut calculer les premiers termes de la suite et comparer les quotients de deux termes consécutifs.\n\n\nLes suites suivantes sont-elles géométriques ?\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_0=2 et u_{n+1}=\\dfrac{u_n}{2}.\nSoit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_n=\\dfrac{1}{4^n}.\nSoit (w_n)_{n\\in\\mathbb{N}} la suite définie par w_n=\\dfrac{1}{n+1}.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit n\\in\\mathbb{N}, u_{n+1}=u_n\\times\\dfrac{1}{2}.\nDonc la suite (u_n) est géométrique de raison q=\\dfrac{1}{2}.\n2. Soit n\\in\\mathbb{N}, v_n\\neq 0 et\n\n\\dfrac{v_{n+1}}{v_n}=\\dfrac{\\dfrac{1}{4^{n+1}}}{\\dfrac{1}{4^n}}=\\dfrac{1}{4^{n+1}}\\times\\dfrac{4^n}{1}=\\dfrac{1}{4}\n\nDonc la suite (v_n) est géométrique de raison q=\\dfrac{1}{4}.\n3. w_0=1, w_1=\\dfrac{1}{2} et w_2=\\dfrac{1}{3}.\n\\dfrac{w_1}{w_0}=\\dfrac{1}{2} et \\dfrac{w_2}{w_1}=\\dfrac{2}{3}.\nDonc \\dfrac{w_1}{w_0}\\neq\\dfrac{w_2}{w_1}.\nAinsi, la suite (w_n) n’est pas géométrique."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#sens-de-variation-1",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#sens-de-variation-1",
+    "title": "Les suites numériques",
+    "section": "4.2 Sens de variation",
+    "text": "4.2 Sens de variation\n\nSoit (u_n)_{n\\in\\mathbb{N}} une suite géométrique de raison q et de premier terme u_0\\neq 0.\n\nSi q&gt;1 :\n\nsi u_0&gt;0, alors la suite est strictement croissante ;\nsi u_0&lt;0, alors la suite est strictement décroissante.\n\nSi 0&lt;q&lt;1 :\n\nsi u_0&gt;0, alors la suite est strictement décroissante ;\nsi u_0&lt;0, alors la suite est strictement croissante.\n\nSi q=0 ou q=1, alors la suite est constante.\nSi q&lt;0, alors la suite n’est pas monotone.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit n\\in\\mathbb{N},\n\nu_{n+1}-u_n=u_0\\times q^{n+1}-u_0\\times q^n=u_0\\times q^n(q-1)\n\n\nSi q&gt;1, alors q-1&gt;0 et q^n&gt;0 :\n\nsi u_0&gt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante ;\nsi u_0&lt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante.\n\nSi 0&lt;q&lt;1, alors q-1&lt;0 et q^n&gt;0 :\n\nsi u_0&gt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante ;\nsi u_0&lt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante.\n\nSi q=0 ou q=1, alors u_{n+1}-u_n=0 et donc la suite est constante.\nSi q&lt;0, alors les termes de la suite sont alternativement positifs et négatifs et donc la suite n’est pas monotone.\n\n\n\n\n\nÉtudier la monotonie des suites suivantes :\n\nSoit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_0=2 et u_{n+1}=2u_n.\nSoit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_0=-5 et v_{n+1}=0{,}5\\,v_n.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit (u_n)_{n\\in\\mathbb{N}} la suite définie par u_0=2 et u_{n+1}=2u_n.\nLa suite (u_n) est géométrique de raison q=2&gt;1 et de premier terme u_0=2&gt;0.\nDonc la suite (u_n) est croissante.\n2. Soit (v_n)_{n\\in\\mathbb{N}} la suite définie par v_0=-5 et v_{n+1}=0{,}5\\,v_n.\nLa suite (v_n) est géométrique de raison q=0{,}5\\in\\,]0;1[ et de premier terme v_0=-5&lt;0.\nDonc la suite (v_n) est croissante."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#somme-des-premières-puissances",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#somme-des-premières-puissances",
+    "title": "Les suites numériques",
+    "section": "4.3 Somme des premières puissances",
+    "text": "4.3 Somme des premières puissances\n\nPour tout réel q\\neq 1 et pour tout n\\in\\mathbb{N}^*,\n\n\\sum_{i=0}^n q^i=1+q+q^2+\\dots+q^n=\\dfrac{1-q^{n+1}}{1-q}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\\begin{align*}\nS&=1+q+q^2+\\dots+q^n \\\\\nqS&=q+q^2+q^3+\\dots+q^{n+1}\n\\end{align*}\n\nOn soustrait les deux égalités, membre à membre, et on obtient :\n\nS-qS=1+q+q^2+\\dots+q^n-q-q^2-q^3-\\dots-q^{n+1}\n\nDonc S-qS=1-q^{n+1}.\nComme q\\neq 1 alors S=\\dfrac{1-q^{n+1}}{1-q}.\n\n\n\n\nCalculer la somme S=4-8+16-32+64-\\dots+4096-8192.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\\begin{align*}\nS&=(-2)^2+(-2)^3+(-2)^4+(-2)^5+(-2)^6+\\dots+(-2)^{12}+(-2)^{13} \\\\\n&=(-2)^2\\left(1+(-2)+(-2)^2+(-2)^3+(-2)^4+\\dots+(-2)^{11}\\right) \\\\\n&=4\\times\\dfrac{1-(-2)^{12}}{1-(-2)} \\\\\n&=-5460\n\\end{align*}\n\nOn peut aussi poser\n\n(u_n)_{n\\in\\mathbb{N}} :\n\\begin{cases}\nu_0=4 \\\\\nu_{n+1}=-2u_n\n\\end{cases}\n\net S est alors la somme des 12 premiers termes de la suite (u_n)."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#limite-finie",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#limite-finie",
+    "title": "Les suites numériques",
+    "section": "5.1 Limite finie",
+    "text": "5.1 Limite finie\n\nUne suite (u_n) a pour limite un réel l lorsque n tend vers +\\infty si les termes u_n deviennent tous aussi proches de l que l’on veut en prenant n suffisamment grand.\nOn dit que (u_n) converge vers l et on note \\lim\\limits_{n\\to+\\infty}u_n=l.\n\n\n\n\n\n\n\n\n\nOn observe que les termes successifs de (u_n) semblent se rapprocher d’une valeur limite : 4. On dit alors que la suite (u_n) tend vers 4 lorsque n tend vers +\\infty et on note \\lim\\limits_{n\\to+\\infty}u_n=4.\n\n\n\n\n\n\nOn observe que les termes successifs de (u_n) semblent se rapprocher d’une valeur limite : -2. On dit alors que la suite (u_n) tend vers -2 lorsque n tend vers +\\infty et on note \\lim\\limits_{n\\to+\\infty}u_n=-2."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#limite-infinie",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#limite-infinie",
+    "title": "Les suites numériques",
+    "section": "5.2 Limite infinie",
+    "text": "5.2 Limite infinie\n\nUne suite (u_n) a pour limite +\\infty (respectivement -\\infty) lorsque n tend vers +\\infty si les termes u_n deviennent tous aussi grands (respectivement petits) que l’on veut en prenant n suffisamment grand.\nOn dit que (u_n) diverge et on note \\lim\\limits_{n\\to+\\infty}u_n=+\\infty (respectivement -\\infty).\n\n\n\n\n\n\n\n\n\nOn observe que les termes successifs de (u_n) semblent être de plus en plus grands. On dit alors que la suite (u_n) tend vers +\\infty lorsque n tend vers +\\infty et on note \\lim\\limits_{n\\to+\\infty}u_n=+\\infty.\n\n\n\n\n\n\nOn observe que les termes successifs de (u_n) semblent être de plus en plus petits. On dit alors que la suite (u_n) tend vers -\\infty lorsque n tend vers +\\infty et on note \\lim\\limits_{n\\to+\\infty}u_n=-\\infty."
+  },
+  {
+    "objectID": "premiere-spe/cours/suites/suites-premiere.html#suites-sans-limite",
+    "href": "premiere-spe/cours/suites/suites-premiere.html#suites-sans-limite",
+    "title": "Les suites numériques",
+    "section": "5.3 Suites sans limite",
+    "text": "5.3 Suites sans limite\n\nCertaines suites n’ont pas de limite. On dit alors que la suite diverge.\n\n\n\n\nC’est le cas de la suite (u_n) définie sur \\mathbb{N} par u_n=(-1)^n. Les termes de la suite (u_n) prennent alternativement les valeurs -1 et 1."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html",
+    "title": "Variations de fonctions",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
+    "title": "Variations de fonctions",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
+    "title": "Variations de fonctions",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/trigonometrie.html",
+    "href": "premiere-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/trigonometrie.html#cours",
+    "href": "premiere-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/second-degre.html",
+    "href": "premiere-spe/chapitres/second-degre.html",
+    "title": "Second degré",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/second-degre.html#cours",
+    "href": "premiere-spe/chapitres/second-degre.html#cours",
+    "title": "Second degré",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Second degré"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
+    "title": "Second degré",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 1 – sujet\nDS 1 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html",
+    "title": "Fonction exponentielle",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
+    "title": "Fonction exponentielle",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
+    "title": "Fonction exponentielle",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mathématiques au Lycée naval",
+    "section": "",
+    "text": "Seconde\n  \n\n  \n    \n    Spécialité en première\n  \n\n  \n    \n    Spécialité en terminale"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/derivations.html",
+    "href": "premiere-spe/chapitres/derivations.html",
+    "title": "Dérivation",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/derivations.html#cours",
+    "href": "premiere-spe/chapitres/derivations.html#cours",
+    "title": "Dérivation",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
+    "title": "Dérivation",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html",
+    "title": "Probabilités conditionnelles",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
+    "title": "Probabilités conditionnelles",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
+    "title": "Probabilités conditionnelles",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/suites.html",
+    "href": "premiere-spe/chapitres/suites.html",
+    "title": "Suites",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/suites.html#cours",
+    "href": "premiere-spe/chapitres/suites.html#cours",
+    "title": "Suites",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Suites"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 4 – sujet\nÉvaluation 4 – correction\nÉvaluation 5 – sujet\nÉvaluation 5 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html",
+    "title": "Variables aléatoires",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#cours",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html#cours",
+    "title": "Variables aléatoires",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
+    "title": "Variables aléatoires",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#définition",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#définition",
+    "title": "Second degré",
+    "section": "1.1 Définition",
+    "text": "1.1 Définition\n\nOn appelle fonction polynôme du second degré toute fonction f, définie sur \\mathbb{R}, pouvant se ramener à la forme f(x)=ax^2+bx+c où a, b et c sont des réels avec a\\neq 0.\nL’expression ax^2+bx+c est appelée trinôme du second degré.\n\n\nLes fonctions suivantes sont-elles des fonctions polynomiales du second degré ?\n\nf(x)=2\\left(2x-\\dfrac{1}{3}\\right)^2-1\ng(x)=-(-3+2x)^2+5+4x^2\nh(x)=(3x+2)^2-12x-4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x) &= 2\\left(4x^2 - \\dfrac{4}{3}x + \\dfrac{1}{9}\\right) - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x + \\dfrac{2}{9} - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x - \\dfrac{7}{9}\n\\end{align*}\n\nf est bien une fonction du second degré avec a=8, b=\\dfrac{-8}{3} et c=\\dfrac{-7}{9}.\n2. \n\\begin{align*}\ng(x) &= -(9 - 12x + 4x^2) + 5 + 4x^2 \\\\\ng(x) &= -9 + 12x - 4x^2 + 5 + 4x^2 \\\\\ng(x) &= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\\\\ng(x) &= 0x^2 + 12x - 4 \\\\\ng(x) &= 12x - 4\n\\end{align*}\n\ng n’est pas une fonction du second degré.\n3. \n\\begin{align*}\nh(x) &= (9x^2 + 12x + 4) - 12x - 4 \\\\\nh(x) &= 9x^2 + 12x + 4 - 12x - 4 \\\\\nh(x) &= 9x^2\n\\end{align*}\n\nh est une fonction du second degré avec a=9, b=0 et c=0."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
+    "title": "Second degré",
+    "section": "1.2 Forme canonique",
+    "text": "1.2 Forme canonique\n\n1.2.1 Exemples\n\nMettre les fonctions polynomiales suivantes sous la forme f(x)=a(x-\\alpha)^2+\\beta :\n\nf(x)=x^2-6x+8\ng(x)=2x^2-x-3\nh(x)=\\dfrac{1}{3}x^2+2x-1\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x)&=x^2-6x+8 \\\\\n&=\\left(x-\\dfrac{6}{2} \\right)^2-3^2 +8 \\\\\n&=\\left(x-3\\right)^2-9+8 \\\\\n&=\\left(x-3\\right)^2-1\n\\end{align*}\n\n2. \n\\begin{align*}\ng(x)&=2x^2-x-3 \\\\\n&=2\\left(x^2-\\dfrac{1}{2}x \\right) -3 \\\\\n&=2 \\left( \\left(x-\\dfrac{1}{4} \\right)^2-\\left(\\dfrac{1}{4}\\right)^2\\right)-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-2\\times \\dfrac{1}{16}-3 \\\\\n&= 2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-\\dfrac{24}{8} \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{25}{8}\n\\end{align*}\n\n3. \n\\begin{align*}\nh(x) &= \\dfrac{1}{3}x^2+2x-1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x + 9 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left((x+3)^2 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - \\dfrac{1}{3} \\times 9 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 3 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 4\n\\end{align*}\n\n\n\n\n\n\n1.2.2 Cas général\n\nToute fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0 admet une écriture de la forme f(x)=a(x-\\alpha)^2+\\beta avec \\alpha=-\\dfrac{b}{2a} et \\beta=f(\\alpha)=-\\dfrac{b^2-4ac}{4a}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0.\n\n\\begin{align*}\nf(x)&=ax^2+bx+c \\\\\n&= a\\left(x^2+\\dfrac{b}{a}x \\right)+c \\\\\n&= a\\left( \\left(x+\\dfrac{b}{2a}\\right)^2-\\left(\\dfrac{b}{2a} \\right)^2  \\right)+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2}{4a}+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2-4ac}{4a}\n\\end{align*}\n\nOn pose \\alpha=-\\dfrac{b}{2a} et \\beta=-\\dfrac{b^2-4ac}{4a} et ainsi f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nCette forme est appelée forme canonique de f.\n\n\nAvec les mêmes notations, le réel b^2-4ac, noté \\Delta, est appelé le discriminant de la fonction polynomiale f.\n \\Delta=b^2-4ac\n\n\nAvec ces formules, il est parfois plus simple de déterminer la forme canonique qu’en la calculant directement : f(x)=a\\left(x-\\alpha \\right)^2-\\dfrac{\\Delta}{4a} avec \\alpha=\\dfrac{-b}{2a} et \\Delta=b^2-4ac.\n\n\nEn utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :\n\nf(x)=3x^2+2x-1\ng(x)=x^2+4x+10\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. f(x)=3x^2+2x-1\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-2}{2\\times 3}=-\\dfrac{1}{3} et \\Delta=b^2-4ac=2^2-4 \\times 3\\times (-1)=16.\nAinsi f(x)=3 \\left( x +\\dfrac{1}{3}\\right)^2-\\dfrac{4}{3}.\n2. g(x)=x^2+4x+10\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-4}{2\\times 1}=-\\dfrac{4}{2}=-2 et \\Delta=b^2-4ac=4^2-4 \\times 1\\times 10=16-40=-24.\n\n\\begin{align*}\ng(x) &= 1 \\left( x -(-2)\\right)^2-\\dfrac{-24}{4\\times 1} \\\\\ng(x) &= 1 \\left( x +2\\right)^2-\\dfrac{-24}{4} \\\\\ng(x) &= 1 \\left( x +2\\right)^2+6\n\\end{align*}"
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
+    "title": "Second degré",
+    "section": "1.3 Étude des fonctions polynomiales du second degré",
+    "text": "1.3 Étude des fonctions polynomiales du second degré\n\nLa courbe représentative d’une fonction polynomiale du second degré s’appelle une parabole.\n\n\nLa parabole représentative d’une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta avec a, \\alpha et \\beta trois réels et a\\neq 0 admet la droite d’équation x=\\alpha pour axe de symétrie.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations, soit h\\in \\mathbb{R}.\nD’une part : \n\\begin{align*}\nf(\\alpha + h) &= a((\\alpha + h) - \\alpha)^2 + \\beta \\\\\n&= a(h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nD’autre part : \n\\begin{align*}\nf(\\alpha - h) &= a((\\alpha - h) - \\alpha)^2 + \\beta \\\\\n&= a(-h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nAinsi f(\\alpha + h) = f(\\alpha - h). Ceci prouve que la parabole est symétrique par rapport à la droite verticale d’équation x=\\alpha.\n\n\n\n\nLe point S(\\alpha;\\beta) est le sommet de la parabole représentative d’une fonction polynomiale du second degré définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0.\n\\forall x \\in \\mathbb{R},~(x-\\alpha)^2 \\ge 0.\nCas 1 : a &gt; 0\nSi a &gt; 0, alors a(x-\\alpha)^2 \\ge 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\ge \\beta. La fonction f(x) atteint un minimum égal à \\beta. Ce minimum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le minimum de la fonction.\nCas 2 : a &lt; 0\nSi a &lt; 0, alors a(x-\\alpha)^2 \\le 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\le \\beta. La fonction f(x) atteint un maximum égal à \\beta. Ce maximum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le maximum de la fonction.\nDans les deux cas, le point (\\alpha; \\beta) correspond à l’extremum (minimum ou maximum) de la fonction. Par définition, ce point d’extremum est le sommet de la parabole. Ainsi, S(\\alpha; \\beta) est le sommet de la parabole représentative de f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0. Voici les deux tableaux de variations possibles :\nSi a&gt;0 : la parabole est tournée vers le haut\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n\\beta\n↗\n\n\n\n\nSi a&lt;0 : la parabole est tournée vers le bas\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↗\n\\beta\n↘\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit x \\in \\mathbb{R}, f(x)=a(x-\\alpha)^2+ \\beta avec \\alpha=-\\dfrac{b}{2a}.\n1er cas : a&gt;0\nVariations sur ]-\\infty; \\alpha]\nSoient x et y deux réels de ]-\\infty; \\alpha] tels que x&lt;y. \n\\begin{align*}\nf(x)-f(y) &= \\left(a(x-\\alpha)^2 + \\beta\\right) - \\left(a(y-\\alpha)^2 + \\beta\\right) \\\\\n&= a(x-\\alpha)^2 - a(y-\\alpha)^2 \\\\\n&= a\\left[(x-\\alpha)^2 - (y-\\alpha)^2\\right] \\\\\n&= a\\left[(x-\\alpha - (y-\\alpha))(x-\\alpha + (y-\\alpha))\\right] \\\\\n&= a(x-\\alpha - y + \\alpha)(x-\\alpha + y - \\alpha) \\\\\n&= a(x-y)(x+y-2\\alpha)\n\\end{align*}\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx&lt;\\alpha et y\\leqslant\\alpha donc x+y&lt;2\\alpha donc x+y-2\\alpha&lt;0\n\nDonc f(x)-f(y)&gt;0 soit f(x)&gt;f(y). Donc f est strictement décroissante sur ]-\\infty; \\alpha].\nVariations sur [\\alpha; +\\infty[\nSoient x et y deux réels de [\\alpha; +\\infty[ tels que x&lt;y. \nf(x)-f(y)=a(x-y)(x+y-2\\alpha)\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx\\geqslant\\alpha et y&gt;\\alpha donc x+y&gt;2\\alpha donc x+y-2\\alpha&gt;0\n\nDonc f(x)-f(y)&lt;0 soit f(x)&lt;f(y). Donc f est strictement croissante sur [\\alpha; +\\infty[.\n2ème cas : a&lt;0\nOn applique un raisonnement similaire.\n\n\n\n\nTracer le tableau de variations des deux fonctions suivantes :\n\nf est définie sur \\mathbb{R} par f(x)=2x^2+4x+5.\ng est définie sur [0;3] par g(x)=-3x^2+6x-4.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}, f(x)=2x^2+4x+5. \\alpha=-\\dfrac{b}{2a}=-1 et \\beta=f(\\alpha)=f(-1)=3. Donc f(x)=2(x+1)^2+3. Comme a&gt;0 on a :\n\n\n\nx\n-\\infty\n\n-1\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n3\n↗\n\n\n\n\n2. Soit x \\in [0;3], g(x)=-3x^2+6x-4.\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-6}{2\\times (-3)}=1 et \\beta=g(\\alpha)=g(1)=-1. Donc g(x)=-3(x-1)^2-1. Comme a&lt;0 on a :\n\n\n\nx\n0\n\n1\n\n3\n\n\n\n\nf(x)\n-4\n↗\n-1\n↘\n-13"
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#généralités",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#généralités",
+    "title": "Second degré",
+    "section": "2.1 Généralités",
+    "text": "2.1 Généralités\n\nOn appelle équation du second degré toute équation pouvant se ramener à la forme ax^2+bx+c=0 où a, b et c sont des réels avec a\\neq 0.\n\n\nRésoudre une équation consiste à trouver toutes les valeurs de x qui vérifient l’équation.\nDans le cas où l’équation a été ramenée à une équation de la forme ax^2+bx+c=0, résoudre l’équation consiste à déterminer le/les antécédent(s) de 0 par la fonction f:x\\mapsto ax^2+bx+c. On dit que l’on cherche les racines de la fonction.\nGraphiquement, cela revient à déterminer les abscisses des points d’intersection de la courbe représentative de la fonction f avec l’axe des abscisses."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
+    "title": "Second degré",
+    "section": "2.2 Résolution d’une équation du second degré",
+    "text": "2.2 Résolution d’une équation du second degré\n\nSoit a, b et c trois réels avec a\\neq0. On considère l’équation ax^2+bx+c=0.\nSoit \\Delta=b^2-4ac le discriminant du trinôme ax^2+bx+c.\n\nSi \\Delta&lt;0, alors l’équation ax^2+bx+c=0 n’admet pas de solution réelle.\nSi \\Delta=0, alors l’équation ax^2+bx+c=0 admet une unique solution réelle : x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0, alors l’équation ax^2+bx+c=0 admet deux solutions réelles : x_1=\\dfrac{-b-\\sqrt{\\Delta}}{2a} et x_2=\\dfrac{-b+\\sqrt{\\Delta}}{2a}.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit x \\in \\mathbb{R} : \n\\begin{align*}\nax^2+bx+c=0 &\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{\\Delta}{4a}=0 \\\\\n&\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a} \\\\\n&\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\n\\end{align*}\n\n\nSi \\Delta&lt;0 : Alors \\dfrac{\\Delta}{4a^2}&lt;0. Or \\left(x+\\dfrac{b}{2a} \\right)^2&gt;0. Donc l’équation n’admet pas de solution.\nSi \\Delta=0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\\\\n&\\iff x+\\dfrac{b}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}\n\\end{align*}\n Ainsi S=\\left\\{ -\\dfrac{b}{2a} \\right\\}.\nSi \\Delta&gt;0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2- \\left(\\dfrac{\\sqrt{\\Delta}}{2a} \\right)^2=0 \\\\\n&\\iff \\left(x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\right) \\left(x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\right)=0 \\text{ équation produit nul} \\\\\n&\\iff x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a}=0 \\text{  ou  } x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\text{ ou } x=-\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\\\\n&\\iff x=\\dfrac{-b+\\sqrt{\\Delta}}{2a} \\text{ ou } x=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\n\\end{align*}\n Finalement : S=\\left\\{\\dfrac{-b+\\sqrt{\\Delta}}{2a}; \\dfrac{-b-\\sqrt{\\Delta}}{2a}  \\right\\}.\n\n\n\n\n\nRésoudre dans \\mathbb{R} les équations suivantes :\n\n15x^2-x-2=0\n3x^2+6x+4=0\n\\dfrac{1}{5}x^2+2x+5=0\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. 15x^2-x-2=0\n\\Delta=(-1)^2-4\\times 15 \\times (-2)=121. Le discriminant du trinôme est strictement positif donc l’équation admet exactement deux solutions :\nx_1=\\dfrac{1 -\\sqrt{121}}{30}=\\dfrac{1-11}{30}=\\dfrac{-1}{3} et x_2=\\dfrac{1+\\sqrt{121}}{30}=\\dfrac{1+11}{30}=\\dfrac{12}{30}=\\dfrac{2}{5}.\nFinalement S=\\left\\{\\dfrac{-1}{3}; \\dfrac{2}{5} \\right\\}.\n2. 3x^2+6x+4=0\n\\Delta=6^2-4\\times3\\times4=-12. Le discriminant du trinôme est strictement négatif, donc l’équation n’admet pas de solution réelle.\n3. \\dfrac{1}{5}x^2+2x+5=0\n\\Delta=2^2-4\\times \\dfrac{1}{5}\\times 5=0. Le discriminant du trinôme est nul, donc l’équation admet une unique solution réelle : S=\\{-5 \\}.\n\n\n\n\nLorsque le trinôme est « incomplet » (b=0 ou c=0), il n’est pas nécessaire de calculer le discriminant pour résoudre l’équation.\n\n\nSans calculer le discriminant des trinômes, résoudre les équations suivantes :\n\n4x^2+3x-10=3x+6\nx^2-5x+4=x+4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}. \n\\begin{align*}\n4x^2+3x-10=3x+6 &\\iff  4x^2-16=0\\\\\n&\\iff (2x)^2-4^2=0 \\\\\n&\\iff (2x-4)(2x+4)=0 \\\\\n&\\iff 2x-4=0 \\text{ ou }2x+4=0 \\\\\n&\\iff x=2 \\text{ ou } x=-2\n\\end{align*}\n Finalement S=\\{-2;2 \\}.\n2. Soit x \\in \\mathbb{R}. \n\\begin{align*}\nx^2-5x+4=x+4 &\\iff x^2-6x=0 \\\\\n&\\iff x(x-6)=0 \\\\\n&\\iff x=0 \\text{ ou }x-6=0 \\\\\n&\\iff x=0 \\text{ ou }x=6\n\\end{align*}\n Finalement S=\\{0;6 \\}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
+    "title": "Second degré",
+    "section": "3.1 Somme et produit des racines",
+    "text": "3.1 Somme et produit des racines\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c dont le discriminant \\Delta est strictement positif. On note x_1 et x_2 les deux racines de f. Alors :  x_1+x_2=-\\dfrac{b}{a} \\text{ et } x_1 \\times x_2=\\dfrac{c}{a}\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nx_1+x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}+\\dfrac{-b+\\sqrt{\\Delta}}{2a}=\\dfrac{-2b}{2a}=\\dfrac{-b}{a}\nx_1 \\times x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\\times\\dfrac{-b+\\sqrt{\\Delta}}{2a}= \\dfrac{(-b)^2-\\sqrt{\\Delta}^2}{4a^2}=\\dfrac{b^2-\\Delta}{4a^2}=\\dfrac{b^2-b^2+4ac}{4a^2}=\\dfrac{c}{a}\n\n\n\n\n\nCes formules peuvent être utiles pour trouver la deuxième racine lorsqu’une des racines du trinôme est évidente. On peut également vérifier qu’aucune erreur de calcul ne s’est glissée lors de la résolution de l’équation.\n\n\nSoit x\\in \\mathbb{R}. Résolvons l’équation -2x^2+5x-3=0. 1 est une racine évidente. En effet, -2\\times 1^2+5\\times 1 -3=0. On cherche la deuxième racine x_2 telle que 1+x_2=\\dfrac{5}{2}. Ainsi x_2=\\dfrac{3}{2}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
+    "title": "Second degré",
+    "section": "3.2 Factorisation",
+    "text": "3.2 Factorisation\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c.\n\nSi \\Delta&lt;0, alors f n’admet pas de forme factorisée.\nSi \\Delta =0, alors la forme factorisée de f est f(x)=a(x-x_0)^2 où x_0 est la racine double de f.\nSi \\Delta&gt;0, alors la forme factorisée de f est f(x)=a(x-x_1)(x-x_2) où x_1 et x_2 sont les deux racines de f.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a vu dans la démonstration de la proposition sur les racines les différentes factorisations de f en fonction du signe de son discriminant \\Delta :\nPour commencer ax^2+bx+c=0 \\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}.\nSi \\Delta=0, alors \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\iff (x-x_0)^2=0 avec x_0=\\dfrac{-b}{2a}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
+    "title": "Second degré",
+    "section": "3.3 Étude de signe",
+    "text": "3.3 Étude de signe\n\nSoit f un polynôme du second degré définie sur \\mathbb{R} par f(x)=ax^2+bx+c.\n\nSi \\Delta &lt;0, alors :\n\nSi a&lt;0 alors f est strictement négative : \\forall x \\in \\mathbb{R},~f(x)&lt;0\nSi a&gt;0 alors f est strictement positive : \\forall x \\in \\mathbb{R},~f(x)&gt;0\n\nSi \\Delta=0 alors :\n\nSi a&lt;0 alors f est négative et f\\left(-\\dfrac{b}{2a}\\right)=0.\nSi a&gt;0 alors f est positive et f\\left(-\\dfrac{b}{2a}\\right)=0.\n\nSi \\Delta &gt;0, alors on note x_1 et x_2 les deux racines de f. Si on suppose que x_1&lt;x_2 alors le tableau de signe de f est :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nSi \\Delta&lt;0 : Soit x\\in \\mathbb{R}. f(x)=ax^2+bx+c=a \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a}=a\\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]. Or \\left(x+\\dfrac{b}{2a}\\right)^2 \\geq 0 et -\\dfrac{\\Delta}{4a^2}&gt;0 donc par produit \\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]&gt;0. Ainsi f est bien du signe de a.\nSi \\Delta=0 alors f(x)=a(x-x_0)^2. Ainsi f est du signe de a et la racine de f est x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0 : Soit x \\in \\mathbb{R}. f(x)=ax^2+bx+c=a(x-x_1)(x-x_2). Supposons que x_1&lt;x_2, alors on a :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nx-x_1\n-\n\n0\n\n+\n\n+\n\n\nx-x_2\n-\n\n-\n\n0\n\n+\n\n\n(x-x_1)(x-x_2)\n+\n\n0\n\n- → 0\n\n+\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\nFinalement, on peut retenir que f est du signe de a sauf entre ses racines."
+  },
+  {
+    "objectID": "premiere-spe/index.html",
+    "href": "premiere-spe/index.html",
+    "title": "Spécialité mathématiques – Première",
+    "section": "",
+    "text": "Second degré\nSuites\nVariations de fonctions\nVariables aléatoires\nProbabilités conditionnelles\nFonction exponentielle\nTrigonométrie\nDérivation"
+  },
+  {
+    "objectID": "premiere-spe/index.html#chapitres",
+    "href": "premiere-spe/index.html#chapitres",
+    "title": "Spécialité mathématiques – Première",
+    "section": "",
+    "text": "Second degré\nSuites\nVariations de fonctions\nVariables aléatoires\nProbabilités conditionnelles\nFonction exponentielle\nTrigonométrie\nDérivation"
+  },
+  {
+    "objectID": "premiere-spe/index.html#bacs-blancs",
+    "href": "premiere-spe/index.html#bacs-blancs",
+    "title": "Spécialité mathématiques – Première",
+    "section": "Bacs blancs",
+    "text": "Bacs blancs\n\n\n\n\n\n\n\n📁 2025 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html",
+    "href": "seconde/chapitres/fonction-1-generalite.html",
+    "title": "Fonctions 1 : généralités",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "href": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "title": "Fonctions 1 : généralités",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "title": "Fonctions 1 : généralités",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html",
+    "href": "seconde/chapitres/geometrie-reperee.html",
+    "title": "Géométrie repérée",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html#cours",
+    "href": "seconde/chapitres/geometrie-reperee.html#cours",
+    "title": "Géométrie repérée",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "title": "Géométrie repérée",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "title": "Géométrie : vecteurs 2",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "title": "Géométrie : vecteurs 2",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 2",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html",
+    "href": "seconde/chapitres/pourcentages.html",
+    "title": "Pourcentages",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html#cours",
+    "href": "seconde/chapitres/pourcentages.html#cours",
+    "title": "Pourcentages",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
+    "href": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
+    "title": "Pourcentages",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html",
+    "href": "seconde/chapitres/statistiques-1.html",
+    "title": "Statistiques 1",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html#cours",
+    "href": "seconde/chapitres/statistiques-1.html#cours",
+    "title": "Statistiques 1",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
+    "href": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
+    "title": "Statistiques 1",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/index.html",
+    "href": "seconde/index.html",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "seconde/index.html#chapitres",
+    "href": "seconde/index.html#chapitres",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html",
+    "href": "terminale-spe/chapitres/derivation.html",
+    "title": "Dérivation",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html#cours",
+    "href": "terminale-spe/chapitres/derivation.html#cours",
+    "title": "Dérivation",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "title": "Dérivation",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html",
+    "href": "terminale-spe/chapitres/fonction-ln.html",
+    "title": "Fonction logarithme népérien",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "href": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "title": "Fonction logarithme népérien",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "title": "Fonction logarithme népérien",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "title": "Limites de fonctions",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "title": "Limites de fonctions",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "title": "Limites de fonctions",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "title": "Loi des grands nombres",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "title": "Loi des grands nombres",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "title": "Loi des grands nombres",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html",
+    "href": "terminale-spe/chapitres/somme-de-va.html",
+    "title": "Somme de variables aléatoires",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "title": "Somme de variables aléatoires",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "title": "Somme de variables aléatoires",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#définition",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#définition",
+    "title": "Suites numériques",
+    "section": "1.1 Définition",
+    "text": "1.1 Définition\n\nUne suite u, notée aussi (u_n)_{n\\in \\N}, est une fonction définie sur \\N ou une partie de \\N et à valeurs dans \\mathbb{R}.\nu : \\begin{cases}\n\\N & \\to & \\mathbb{R}\\\\\n            n & \\mapsto & u(n)=u_n \\\\\n\\end{cases}\n\n\nLes termes de la suite se notent u_0,  u_1, ..., u_n.\nu_n est le terme d’indice n ou terme général de la suite.\n\n\nSoit u la suite définie sur \\N par u_n=2n-1.\nLe terme d’indice 0 (le premier terme !) est u_0=2 \\times 0-1=-1.\nLe terme d’indice 1 est u_1=2 \\times 1-1=1."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#les-différents-modes-de-génération-dune-suite",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#les-différents-modes-de-génération-dune-suite",
+    "title": "Suites numériques",
+    "section": "1.2 Les différents modes de génération d’une suite",
+    "text": "1.2 Les différents modes de génération d’une suite\n\n1.2.1 Suites définies à partir d’une fonction (mode explicite)\n\nUne suite u est définie par une formule explicite lorsque u_n s’exprime en fonction de l’entier n. On note alors u_n=f(n) où f est une fonction.\n\n\nLa suite (u_n) définie sur \\N par u_n=2n-1 est définie par l’expression du terme général en fonction de n. On peut alors définir la fonction associée f : x \\mapsto 2x-1 et écrire u_n=f(n).\n\n\nDans ce cas, chaque terme peut alors se calculer indépendamment des autres en remplaçant n par sa valeur dans l’expression. On peut aussi utiliser le tableau de valeurs de la fonction associée.\n\n\nLes suites (u_n), (v_n) et (w_n) définies sur \\N par u_n=2n+1, v_n=2^n et w_n=n^3.\nu_{100}=2\\times100+1=201\nv_5=2^5=32\nw_{20}=20^3=8000\n\n\n\n1.2.2 Suites définies par une relation de récurrence (mode récurrent)\n\nUne suite u est définie par une relation de récurrence lorsqu’elle est définie par la donnée de :\n\nson (ou ses) premier(s) terme(s);\nune relation permettant de calculer un terme à partir d’un ou plusieurs termes précédents.\n\n\n\nOn note alors u_{n+1}=f(u_n) où f est une fonction.\n\n\nDans ce cas, chaque terme s’obtient de proche en proche. C’est pourquoi la connaissance du terme initial est indispensable.\n\n\nSoit (u_n) la suite définie sur \\N par \\begin{cases}u_0 = -5 \\\\ u_{n+1} = 2u_n+3\\end{cases} Ses premiers termes sont :\nu_0=-5\nu_1=2 \\times u_0+3=-7\nu_2=2 \\times u_1+3=-11"
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#représentation-graphique",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#représentation-graphique",
+    "title": "Suites numériques",
+    "section": "1.3 Représentation graphique",
+    "text": "1.3 Représentation graphique\n\nDans un repère, la représentation graphique d’une suite (u_n)_{n\\in \\N} est l’ensemble des points de coordonnées (n;u_n) pour n \\in \\N.\n\n\n1.3.1 Suites définies à partir d’une fonction (mode explicite)\n\nSoit (u_n)_{n \\in \\N} la suite définie par u_n=2n-1. On commence par remplir le tableau de valeurs :\n\n\n\nn\n0\n1\n2\n3\n4\n5\n\n\n\n\nu_n\n-1\n1\n3\n5\n7\n9\n\n\n\nOn a alors ce nuage de points associé au tableau :\n\n\n\n\n\n\n\nOn peut définir la suite u à l’aide de sa fonction associée. Pour tout n\\in \\N, u_n=f(n) avec f(x)=2x-1. f est une fonction affine, sa représentation est donc une droite. Pour tracer la représentation de la suite, on trace les points de cette droite qui ont pour abscisse un entier naturel.\n\n\n\n1.3.2 Suites définies par une relation de récurrence\n\nOn considère la suite u telle que u_{n+1}=f(u_n) où f est une fonction.\nOn construit de proche en proche les termes de la suite u en se servant de la courbe représentative de la fonction f appelée (C) et de la droite (\\Delta) d’équation y=x :\n\nplacer u_0 sur l’axe des abscisses ;\nconstruire u_1=f(u_0) sur l’axe des ordonnées ;\nreporter u_1 sur l’axe des abscisses en utilisant (\\Delta) ;\nrecommencer.\n\n\n\nSoit (u_n) la suite définie sur \\N par \\begin{cases}u_0 = -4 \\\\ u_{n+1} = 1+\\frac{1}{2}u_n\\end{cases}\nConstruire les premiers termes de la suite (u_n) puis conjecturer les variations et la limite en +\\infty.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f la fonction définie sur [0;+\\infty[ par f(x)=1+\\frac{1}{2}x. Ainsi, f(u_n)=u_{n+1}.\n(C) : y=\\frac{1}{2}x+1\n(\\Delta) : y=x (appelée première bissectrice)\n\n\n\n\n\nGrâce à cette représentation graphique, on peut conjecturer :\n\nla suite (u_n) est strictement croissante sur \\N\n\\lim\\limits_{n \\rightarrow +\\infty} (u_n)=2\n\nCes conjectures doivent bien sûr être confirmées ou infirmées.\n\n\n\n\nSoit (u_n) la suite définie sur \\N par \\begin{cases}u_0 = -\\frac{1}{2} \\\\ u_{n+1} = \\frac{2}{1+u_n}\\end{cases}\nSoit f la fonction définie sur [0;+\\infty[ par f(x)=\\frac{2}{1+x}. Ainsi, f(u_n)=u_{n+1}.\n(C) : y=\\frac{2}{1+x}\n(\\Delta) : y=x Grâce à cette représentation graphique, on peut conjecturer :\n\nla suite (u_n) est non monotone sur \\N\n\\lim\\limits_{n \\rightarrow +\\infty} (u_n)=1"
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#définitions",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#définitions",
+    "title": "Suites numériques",
+    "section": "2.1 Définitions",
+    "text": "2.1 Définitions\n\nUne suite (u_n)_{n\\in \\N} est croissante si pour tout n\\in \\N, u_{n+1} \\ge u_n.\nUne suite (u_n)_{n\\in \\N} est décroissante si pour tout n\\in \\N, u_{n+1} \\le u_n.\nUne suite (u_n)_{n\\in \\N} est constante si pour tout n\\in \\N, u_{n+1} = u_n.\nUne suite (u_n)_{n\\in \\N} croissante ou décroissante est dite monotone.\n\n\nOn définit de même une suite strictement croissante (ou strictement décroissante) en utilisant une inégalité stricte."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#etude-du-sens-de-variation",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#etude-du-sens-de-variation",
+    "title": "Suites numériques",
+    "section": "2.2 Etude du sens de variation",
+    "text": "2.2 Etude du sens de variation\n\nLorsqu’on cherche à déterminer les variations d’une suite (u_n)_{n\\in \\N} on peut :\n\n\nétudier le signe de la différence u_{n+1}-u_n :\n\nsi u_{n+1}-u_n \\ge 0 alors u_{n+1} \\ge u_n et donc (u_n) est croissante.\nsi u_{n+1}-u_n \\le 0 alors u_{n+1} \\le u_n et donc (u_n) est décroissante.\n\nsi la suite est définie par u_n=f(n) où f est une fonction connue. On étudie les variations de f sur [0;+\\infty[ :\n\nsi f est croissante alors (u_n) est croissante.\nsi f est décroissante alors (u_n) est décroissante.\n\nsi la suite est toujours strictement positive, on peut comparer le quotient \\frac{u_{n+1}}{u_n} à 1 :\n\nsi \\frac{u_{n+1}}{u_n} \\ge 1 alors (u_n) est croissante.\nsi \\frac{u_{n+1}}{u_n} \\le 1 alors (u_n) est décroissante.\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_n=\\dfrac{n+1}{2^n}.\n\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=\\dfrac{3}{n+2}.\n\nSoit (w_n)_{n\\in \\N}la suite définie par w_n=\\dfrac{3^n}{4^{n+2}}.\n\nSoit (z_n)_{n\\in \\N} la suite définie par z_n=(-1)^n.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_n=\\dfrac{n+1}{2^n}.\nu_{n+1}-u_n=\\dfrac{n+2}{2^{n+1}}-\\dfrac{n+1}{2^n}=\\dfrac{n+2-2(n+1)}{2^{n+1}}=\\dfrac{n+2-2n-2}{2^{n+1}}=\\dfrac{-n}{2^{n+1}}\nComme 2^{n+1}&gt;0 et -n \\le 0, alors u_{n+1}-u_n \\le 0\nLa suite (u_n)_{n\\in \\N} est donc strictement décroissante sur \\N.\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=\\dfrac{3}{n+2}.\nSoit f la fonction associée à (v_n) définie sur [0;+\\infty[ par f(x)=\\dfrac{3}{x+2}.\nLa fonction f est dérivable sur \\mathbb{R}^+ et f'(x)=-\\dfrac{3}{(x+2)^2} &lt; 0.\nAinsi la fonction f est décroissante sur \\mathbb{R}^+, et donc la suite (v_n)_{n\\in \\N} est décroissante.\nSoit (w_n)_{n\\in \\N}la suite définie par w_n=\\dfrac{3^n}{4^{n+2}}.\n(w_n)_{n\\in \\N} est à termes strictement positifs.\n\\dfrac{w_{n+1}}{w_n}=\\dfrac{\\dfrac{3^{n+1}}{4^{n+3}}}{\\dfrac{3^n}{4^{n+2}}}=\\dfrac{3^{n+1}}{4^{n+3}}\\times \\dfrac{4^{n+2}}{3^n}=\\dfrac{3^{n+1}}{3^n}\\times \\dfrac{4^{n+2}}{4^{n+1}}=3\\times \\dfrac{1}{4}=\\dfrac{3}{4}\nAinsi, pour tout n entier naturel, on a \\dfrac{w_{n+1}}{w_n}&lt;1 donc la suite (w_n)_{n\\in \\N} est strictement décroissante.\nSoit (z_n)_{n\\in \\N} la suite définie par z_n=(-1)^n.\nLes termes de la suite (z_n) valent alternativement 1 et -1.\nDonc, cette suite n’est pas monotone."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#définition-et-expression-du-terme-général",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#définition-et-expression-du-terme-général",
+    "title": "Suites numériques",
+    "section": "3.1 Définition et expression du terme général",
+    "text": "3.1 Définition et expression du terme général\n\nUne suite (u_n)_{n\\in \\N} est arithmétique s’il existe un réel r, appelé raison de la suite, tel que pour tout n\\in \\N, on a u_{n+1}=u_n+r.\n\n\nSoit (u_n)_{n\\in \\N} une suite arithmétique de raison r.\nPour tout n\\in \\N, u_n=u_0+rn.\nPour tout n\\in \\N, et pour tout p\\in \\N, u_n=u_p+r(n-p).\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} une suite arithmétique de raison r.\n\n\n\n\n\n\n\n\n\n\nPour démontrer qu’une suite (u_n)_{n\\in \\N} est arithmétique, on peut :\n\nmontrer que, pour tout {n\\in \\N}, u_{n+1}-u_n est égal à une constante r ;\nmontrer que, pour tout {n\\in \\N}, u_n peut s’écrire sous la forme a \\times n + b avec a et b deux réels.\n\nPour démontrer qu’une suite (u_n)_{n\\in \\N} n’est pas arithmétique, on peut calculer les premiers termes de la suite et comparer les différences de deux termes consécutifs.\n\n\nLes suites suivantes sont-elles arithmétiques?\n\nSoit (u_n)_{n\\in \\N} la suite définie par \\begin{cases}u_0 = 1 \\\\ u_{n+1} = (u_n+1)^2-u_n^2-u_n\\end{cases}\n\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=(n+1)^2-(n-2)^2.\n\nSoit (w_n)_{n\\in \\N} la suite définie par \\begin{cases}w_0 = 1 \\\\ w_{n+1} = \\frac{w_n  }{1+w_n}\\end{cases}\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par \\begin{cases}u_0 = 1 \\\\ u_{n+1} = (u_n+1)^2-u_n^2-u_n\\end{cases}\nSoit {n\\in \\N}, u_{n+1}-u_n=(u_n+1)^2-u_n^2-u_n-u_n=u_n^2+2u_n+1-u_n^2-2u_n=1\nDonc la suite (u_n) est arithmétique de raison r=1.\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=(n+1)^2-(n-2)^2.\nSoit {n\\in \\N}, v_n=n^2+2n+1-(n^2-4n+4)=6n-3\nDonc la suite (v_n) est arithmétique de raison r=6 et de premier terme v_0=-3.\nSoit (w_n)_{n\\in \\N} la suite définie par \\begin{cases}w_0 = 1 \\\\ w_{n+1} = \\frac{w_n  }{1+w_n}\\end{cases}\nw_0=1, w_1=\\frac{1}{2} et w_2=\\frac{1}{3}\nw_1-w_0=-\\frac{1}{2} et w_2-w_1=-\\frac{1}{6}\nDonc w_1-w_0\\ne w_2-w_1\nAinsi, la suite (w_n) n’est pas arithmétique."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#sens-de-variation",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#sens-de-variation",
+    "title": "Suites numériques",
+    "section": "3.2 Sens de variation",
+    "text": "3.2 Sens de variation\n\nSoit (u_n)_{n\\in \\N} une suite arithmétique de raison r.\n\nSi r&gt;0, alors la suite est strictement croissante ;\nSi r&lt;0, alors la suite est strictement décroissante ;\nSi r=0, alors la suite est constante.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} une suite arithmétique de raison r.\nPour tout {n\\in \\N}, u_{n+1}-u_n=r\n\nSi r&gt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante ;\nSi r&lt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante ;\nSi r=0, alors u_{n+1}-u_n+0 et donc la suite est constante.\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_{n+1}=3+u_n\nLa suite est arithmétique de raison r=3&gt;0.\nDonc la suite (u_n) est strictement croissante.\nSoit (v_n)_{n\\in \\N} la suite définie par v_{n+1}+2=v_n.\nLa suite est arithmétique de raison r=-2&lt;0.\nDonc la suite (v_n) est strictement décroissante."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#somme-des-premiers-entiers",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#somme-des-premiers-entiers",
+    "title": "Suites numériques",
+    "section": "3.3 Somme des premiers entiers",
+    "text": "3.3 Somme des premiers entiers\n\nPour tout n\\in \\N^*, \\displaystyle\\sum_{i=1}^n i=1+2+3+...+n=\\frac{n(n+1)}{2}\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nméthode de Gauss (mathématicien allemand du XVIII-XIX siècle)\nOn écrit la somme dans l’ordre croissant des termes puis dans l’ordre décroissant des termes :\nS=1+2+3+...+(n-2)+(n-1)+n\nS=n+(n-1)+(n-2)+...3+2+1\nPar somme, membre à membre, on obtient :\n2S=(1+n)+(1+n)+(1+n)+...+(1+n)+(1+n)+(1+n)\n2S=n(n+1)\nDonc S=\\frac{n(n+1)}{2}\n\n\n\n\nCalculer la somme S=2+5+8+11+14+...+296.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn considère la somme S=2+5+8+11+14+...+296.\nOn pose (u_n)_{n\\in \\N} :\n    \\begin{cases}u_0 = 2 \\\\ u_{n+1} = u_n+3\\end{cases}\nS est la somme des 99 premiers termes de la suite (u_n).\nS=u_0+u_1+u_2+u_3+...+u_{98}\nS=u_0+(u_0+3)+(u_0+2\\times3)+(u_0+3 \\times 3)+...+(u_0+98 \\times 3) On exprime chaque terme u_n en fonction de n\nS=99u_0+3(1+2+3+...+98) On regroupe les termes u_0 et on factorise par le facteur commun (la raison)\nS=99 \\times 2+3\\times \\frac{98 \\times 99}{2} On applique la formule de Gauss\nS=14751"
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#définition-et-expression-du-terme-général-1",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#définition-et-expression-du-terme-général-1",
+    "title": "Suites numériques",
+    "section": "4.1 Définition et expression du terme général",
+    "text": "4.1 Définition et expression du terme général\n\nUne suite (u_n)_{n\\in \\N} est géométrique s’il existe un réel q, appelé raison de la suite, tel que pour tout n\\in \\N, on a u_{n+1}=q \\times u_n.\n\n\nSoit (u_n)_{n\\in \\N} une suite géométrique de raison q.\nPour tout n\\in \\N, u_n=u_0\\times q^n.\nPour tout n\\in \\N, et pour tout p\\in \\N, u_n=u_p\\times q^{n-p}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} une suite géométrique de raison q.\n\n\n\n\n\n\n\n\n\n\nPour démontrer qu’une suite (u_n)_{n\\in \\N} est géométrique, on peut :\n\nmontrer que, pour tout {n\\in \\N}, u_{n+1}=q \\times u_n ;\nmontrer que, pour tout {n\\in \\N}, \\frac{u_{n+1}}{u_n} est égal à une constante q si tous les termes de la suite sont non nuls ;\nmontrer que, pour tout {n\\in \\N}, u_n peut s’écrire sous la forme a\\times b^n avec a et b des réels.\n\nPour démontrer qu’une suite (u_n)_{n\\in \\N} n’est pas géométrique, on peut calculer les premiers termes de la suite et comparer les quotients de deux termes consécutifs.\n\n\nLes suites suivantes sont-elles géométriques?\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_0=2 et u_{n+1}=\\frac{u_n}{2}\n\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=\\frac{1}{4^n}.\n\nSoit (w_n)_{n\\in \\N} la suite définie par w_n=\\frac{1}{n+1}\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_0=2 et u_{n+1}=\\frac{u_n}{2}\nSoit {n\\in \\N}, u_{n+1}=u_n \\times \\frac{1}{2}\nDonc la suite (u_n) est géométrique de raison q=\\frac{1}{2}.\nSoit (v_n)_{n\\in \\N} la suite définie par v_n=\\frac{1}{4^n}.\nSoit {n\\in \\N}, v_n \\ne 0 et \\frac{v_{n+1}}{v_n}=\\frac{\\frac{1}{4^{n+1}}}{\\frac{1}{4^n}}=\\frac{1}{4^{n+1}} \\times \\frac{4^n}{1}=\\frac{1}{4}\nDonc la suite (v_n) est géométrique de raison q=\\frac{1}{4}.\nSoit (w_n)_{n\\in \\N} la suite définie par w_n=\\frac{1}{n+1}\nw_0=1, w_1=\\frac{1}{2} et w_2=\\frac{1}{3}\n\\frac{w_1}{w_0}=\\frac{1}{2} et \\frac{w_2}{w_1}=\\frac{2}{3}\nDonc \\frac{w_1}{w_0}\\ne \\frac{w_2}{w_1}\nAinsi, la suite (w_n) n’est pas géométrique."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#sens-de-variation-1",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#sens-de-variation-1",
+    "title": "Suites numériques",
+    "section": "4.2 Sens de variation",
+    "text": "4.2 Sens de variation\n\nSoit (u_n)_{n\\in \\N} une suite géométrique de raison q et de premier terme u_0 \\ne 0.\n\nSi q&gt;1 :\n\nsi u_0&gt;0, alors la suite est strictement croissante ;\nsi u_0&lt;0, alors la suite est strictement décroissante.\n\nSi 0&lt;q&lt;1 :\n\nsi u_0&gt;0, alors la suite est strictement décroissante ;\nsi u_0&lt;0, alors la suite est strictement croissante.\n\nSi q=0 ou q=1, alors la suite est constante.\nSi q&lt;0, alors la suite n’est pas monotone.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit n\\in \\N, u_{n+1}-u_n=u_0 \\times q^{n+1}-u_0 \\times q^n=u_0 \\times q^n(q-1)\n\nSi q&gt;1, alors q-1&gt;0 et q^n&gt;0 :\n\nsi u_0&gt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante ;\nsi u_0&lt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante.\n\nSi 0&lt;q&lt;1, alors q-1&lt;0 et q^n&gt;0 :\n\nsi u_0&gt;0, alors u_{n+1}-u_n&lt;0 et donc la suite est strictement décroissante ;\nsi u_0&lt;0, alors u_{n+1}-u_n&gt;0 et donc la suite est strictement croissante.\n\nSi q=0 ou q=1, alors u_{n+1}-u_n=0 et donc la suite est constante.\nSi q&lt;0, alors les termes de la suite sont alternativement positifs et négatifs et donc la suite n’est pas monotone.\n\n\n\n\n\nEtudier la monotonie des suites suivantes:\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_0=2 et u_{n+1}=2{u_n}\n\nSoit (v_n)_{n\\in \\N} la suite définie par u_0=-5 et v_{n+1}=0,5v_n.\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_0=2 et u_{n+1}=2{u_n}\nLa suite (u_n) est géométrique de raison q=2&gt;1 et de premier terme u_0=2&gt;0.\nDonc la suite (u_n) est croissante.\nSoit (v_n)_{n\\in \\N} la suite définie par u_0=-5 et v_{n+1}=0,5v_n.\nLa suite (v_n) est géométrique de raison q=0,5 \\in ]0;1[ et de premier terme v_0=-5&lt;0.\nDonc la suite (v_n) est croissante."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#somme-des-premières-puissances",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#somme-des-premières-puissances",
+    "title": "Suites numériques",
+    "section": "4.3 Somme des premières puissances",
+    "text": "4.3 Somme des premières puissances\n\nPour tout réel q \\ne 1 et pour tout n\\in \\N^*, \\displaystyle\\sum_{i=0}^n q^i=1+q+q^2+...+q^n=\\frac{1-q^{n+1}}{1-q}\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nS=1+q+q^2+...+q^n\nqS=q+q^2+q^3+...+q^{n+1}\nOn soustrait les deux égalités, membre à membre et on obtient :\nS-qS=1+q+q^2+...+q^n-q-q^2-q^3-...-q^{n+1}\nDonc S-qS=1-q^{n+1}\nComme q \\ne 1 alors S=\\frac{1-q^{n+1}}{1-q}\n\n\n\n\nCalculer la somme S=4-8+16-32+64-...+4096-8192.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nS=(-2)^2+(-2)^3+(-2)^4+(-2)^5+(-2)^6+...+(-2)^12+(-2)^13\nS=(-2)^2(1+(-2)+(-2)^2+(-3)^3+(-2)^4+...+(-2)^11)\nS=4 \\times \\frac{1-(-2)^12}{1-(-2)}\nS=-5460\nOn peut aussi poser (u_n)_{n\\in \\N} :\n    \\begin{cases}u_0 = 4 \\\\ u_{n+1} = -2u_n\\end{cases} et S est alors la somme des 11 premiers termes de la suite (u_n)."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#limites-infinies",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#limites-infinies",
+    "title": "Suites numériques",
+    "section": "6.1 Limites infinies",
+    "text": "6.1 Limites infinies\n\nDéfinition “instinctive” de la limite infinie d’une suite:\n\nOn dit qu’une suite (u_n) tend vers +\\infty lorsque, pour tout réel A, l’intervalle ]A;+\\infty[ contient tous les termes de la suite à partir d’un certain rang. On note \\lim\\limits_{n \\to +\\infty} u_n=+\\infty .\nOn dit qu’une suite (u_n) tend vers -\\infty lorsque, pour tout réel A, l’intervalle ]-\\infty;A[ contient tous les termes de la suite à partir d’un certain rang. On note \\lim\\limits_{n \\to +\\infty} u_n=-\\infty .\n\n\n\nOn dit aussi que (u_n) diverge vers +\\infty ou -\\infty.\n\n\n\n\n\n\n\n\n\n\n\nLa suite (u_n) représentée ci-dessus semble avoir pour limite +\\infty. En effet, pour tout réel A choisi, il existe un rang n_0 à partir duquel tous les termes de la suite sont supérieurs à A.\n\n\n\n\n\n\n\n\n\n\n\n\nLa suite (u_n) représentée ci-dessus semble avoir pour limite -\\infty. En effet, pour tout réel A choisi, il existe un rang n_0 à partir duquel tous les termes de la suite sont inférieurs à A.\n\n\n\n\n\nDéfinition formelle de la limite infinie d’une suite: Soit (u_n) une suite.\n\nOn dit que (u_n) diverge vers +\\infty lorsque:\n\\forall A \\in \\mathbb{R},~\\exists n_0 \\in \\N,~\\forall n \\in \\N,~ n\\geq n_0 \\Rightarrow u_n \\geq A\nOn dit que (u_n) diverge vers -\\infty lorsque:\n\\forall A \\in \\mathbb{R},~\\exists n_0 \\in \\N,~\\forall n \\in \\N,~ n\\geq n_0 \\Rightarrow u_n \\leq A\n\n\n\nEn pratique, pour montrer, à l’aide de la définition, qu’une suite tend vers +\\infty (resp. -\\infty), on considère un réel positif (resp. négatif) A, et on cherche un rang à partir duquel tous les termes de la suite sont supérieurs (resp. inférieurs) à A.\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_n=4n-1. Montrer que \\lim\\limits_{n \\to +\\infty} u_n=+\\infty.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit A \\in \\mathbb{R}^{+*},\n\\begin{aligned}\n        u_n&gt;A &\\Leftrightarrow 4n-1&gt;A \\\\\n        &\\Leftrightarrow 4n&gt;A+1 \\\\\n        &\\Leftrightarrow n&gt;\\frac{A+1}{4} \\text{ car 4&gt;0}\n\\end{aligned} Soit n_0 l’entier immédiatement supérieur à \\frac{A+1}{4}. Ainsi on a bien: \\forall n \\geq n_0,~u_n\\geq A\nDonc, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty\n\n\n\n\nLimites en l’infinie des suites de références:\n\n\\lim\\limits_{n \\to +\\infty} n=+\\infty\n\\lim\\limits_{n \\to +\\infty} \\sqrt{n}=+\\infty\n\\forall k \\in \\N^*, \\lim\\limits_{n \\to +\\infty} n^k=+\\infty\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit A \\in \\mathbb{R}^{+*},\n\nSoit (u_n)_{n\\in \\N} définie par u_n=n.\nu_n&gt;A \\Leftrightarrow n&gt;A\nAinsi, en prenant comme valeur de n_0 le plus petit entier supérieur à A, on a bien :\nPour tout réel A, il existe une valeur n_0 telle que n \\ge n_0 \\Rightarrow u_n&gt;A.\nDonc, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty .\nSoit (u_n)_{n\\in \\N} définie par u_n=\\sqrt{n}.\nu_n&gt;A \\Leftrightarrow \\sqrt{n}&gt;A&gt;0 \\Leftrightarrow n &gt;A^2\nAinsi, en prenant comme valeur de n_0 le plus petit entier supérieur à A^2, on a bien :\nPour tout réel A, il existe une valeur n_0 telle que n \\ge n_0 \\Rightarrow u_n&gt;A.\nDonc, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty .\nCette propriété est admise pour le moment mais pourra être démontrée avec les opérations sur les limites.\n\n\n\n\n\nSuite majorée, minorée, bornée:\n\nUne suite (u_n) est majorée par un réel M lorsque, pour tout entier naturel n, u_n\\le M. On dit que M est un majorant de (u_n).\nUne suite (u_n) est minorée par un réel m lorsque, pour tout entier naturel n, u_n\\ge m. On dit que m est un minorant de (u_n).\nUne suite (u_n) est bornée lorsqu’elle est à la fois majorée et minorée.\n\n\n\nUne suite majorée (resp. minorée) possède une infinité de majorants (resp. minorants).\n\n\nSuite monotone non bornée\n\nToute suite croissante non majorée a pour limite +\\infty quand n tend vers +\\infty.\nToute suite décroissante non minorée a pour limite -\\infty quand n tend vers +\\infty.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit A un réel positif. Soit (u_n)_{n\\in \\N} une suite croissante non majorée.\nComme (u_n) est non majorée, alors il existe un entier n_0 tel que u_{n_0} &gt; A.\nComme (u_n) est croissante, alors pour tout entier naturel n \\ge {n_0}, u_n \\ge u_{n_0}.\nDonc, pour tout entier n \\ge {n_0}, u_n \\ge u_{n_0} &gt; A.\nAinsi, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty\nLe deuxième point de la proposition se démontre de manière analogue."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#limites-finies",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#limites-finies",
+    "title": "Suites numériques",
+    "section": "6.2 Limites finies",
+    "text": "6.2 Limites finies\n\nDéfinition “instinctive” de la limite finie d’une suite: On dit qu’une suite (u_n) tend vers un réel \\ell lorsque tout intervalle ouvert contenant \\ell contient tous les termes de la suite à partir d’un certain rang.\nOn note \\lim\\limits_{n \\to +\\infty} u_n=\\ell.\n\n\nDéfinition formelle de la limite finie d’une suite: On dit qu’une suite (u_n) tend vers un réel \\ell lorsque:\n\\forall \\epsilon&gt;0,~\\exists n_0 \\in \\N,~\\forall n \\in \\N,~n\\geq n_0 \\Rightarrow u_n\\in ]\\ell -\\epsilon;\\ell+\\epsilon[\n\n\nOn dit que (u_n) est convergente ou encore que (u_n) converge vers \\ell.\n\n\nLa suite (u_n) représentée ci-contre semble avoir pour limite \\ell. En effet, pour tout réel \\varepsilon&gt;0, il existe un rang n_0 à partir duquel tous les termes de la suite sont dans l’intervalle ]\\ell-\\varepsilon;\\ell+\\varepsilon[.\n\n\n\n\n\n\n\nSoit (u_n)_{n\\in \\N^*} la suite définie par u_n=2-\\frac{1}{n}. Montrer que \\lim\\limits_{n \\to +\\infty} u_n=2.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit \\varepsilon \\in \\mathbb{R}^{+*}, \\begin{aligned}\n        u_n \\in ]2-\\varepsilon;2+\\varepsilon[ &\\Leftrightarrow 2-\\varepsilon &lt; 2-\\frac{1}{n} &lt; 2+\\varepsilon \\\\\n        &\\Leftrightarrow -\\varepsilon &lt; -\\frac{1}{n} &lt; \\varepsilon \\\\\n        &\\Leftrightarrow \\varepsilon &gt; \\frac{1}{n} &gt; -\\varepsilon \\text{ car -1&lt;0} \\\\\n        &\\Leftrightarrow \\varepsilon &gt; \\frac{1}{n} \\text{ car } \\forall n \\in \\N \\frac{1}{n} &gt; -\\varepsilon \\\\\n        &\\Leftrightarrow \\frac{1}{\\varepsilon} &lt; n \\text{ car la fonction inverse est décroissante sur } \\mathbb{R}^{-*}\n\\end{aligned} Soit n_0 l’entier immédiatement supérieur à \\frac{1}{\\varepsilon}.\nAinsi on a bien \\forall n \\in \\N,~ n \\ge n_0 \\Rightarrow u_n \\in ]2-\\varepsilon;2+\\varepsilon[\nDonc, \\lim\\limits_{n \\to +\\infty} u_n=2.\n\n\n\n\nLimite des suites de références:\n\n\\lim\\limits_{n \\to +\\infty} \\frac{1}{n}=0\n\\lim\\limits_{n \\to +\\infty} \\frac{1}{\\sqrt{n}}=0\nPour tout k \\in \\N^*, \\lim\\limits_{n \\to +\\infty} \\frac{1}{n^k}=0\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit \\varepsilon \\in \\mathbb{R}^{+*},\n\nSoit (u_n)_{n\\in \\N^*} la suite définie par u_n=\\frac{1}{n}.\nu_n \\in ]-\\varepsilon;\\varepsilon[ \\Leftrightarrow -\\varepsilon &lt; \\frac{1}{n} &lt; \\varepsilon \\Leftrightarrow \\frac{1}{n} &lt; \\varepsilon car l’inégalité \\frac{1}{n} &gt; -\\varepsilon est toujours vraie\n\\Leftrightarrow n &gt; \\frac{1}{\\varepsilon} car la fonction inverse est strictement décroissante sur ]0;+\\infty[\nAinsi, en prenant comme valeur de n_0 le plus petit entier supérieur à \\frac{1}{\\varepsilon}, on a bien :\nPour tout réel \\varepsilon&gt;0, il existe une valeur n_0 telle que n \\ge n_0 \\Rightarrow u_n \\in ]-\\varepsilon;\\varepsilon[. Donc, \\lim\\limits_{n \\to +\\infty} \\frac{1}{n}=0\nSoit (u_n)_{n\\in \\N^*} la suite définie par u_n=\\frac{1}{\\sqrt{n}}.\nu_n \\in ]-\\varepsilon;\\varepsilon[ \\Leftrightarrow -\\varepsilon &lt; \\frac{1}{\\sqrt{n}} &lt; \\varepsilon \\Leftrightarrow \\frac{1}{\\sqrt{n}} &lt; \\varepsilon car l’inégalité \\frac{1}{\\sqrt{n}} &gt; -\\varepsilon est toujours vraie\n\\Leftrightarrow \\sqrt{n} &gt; \\frac{1}{\\varepsilon} car la fonction inverse est strictement décroissante sur ]0;+\\infty[\n\\Leftrightarrow n &gt; \\frac{1}{\\varepsilon^2} car la fonction carrée est strictement croissante sur [0;+\\infty[\nAinsi, en prenant comme valeur de n_0 le plus petit entier supérieur à \\frac{1}{\\varepsilon^2}, on a bien :\nPour tout réel \\varepsilon&gt;0, il existe une valeur n_0 telle que n \\ge n_0 \\Rightarrow u_n \\in ]-\\varepsilon;\\varepsilon[. \\lim\\limits_{n \\to +\\infty} \\frac{1}{\\sqrt{n}}=0\nCette propriété est admise pour le moment mais pourra être démontrée avec les opérations sur les limites.\n\n\n\n\n\nUne suite divergente est une suite qui ne converge pas.\n\n\nElle peut diverger vers +\\infty ou -\\infty ou ne pas avoir de limite (par exemple, la suite (u_n)_{n\\in \\N} définie par u_n=(-1)^n n’a pas de limite et prend alternativement les valeurs -1 et 1).\n\n\nUnicité de la limite: Si une suite (u_n) a pour limite le réel \\ell, alors cette limite est unique.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nLa démonstration sera par l’absurde. Supposons donc au contraire que cette suite admette deux limites l et l' différentes. Supposons, sans perte de généralité que l&lt;l'. Posons h=\\dfrac{l'-l}{3}.\n\n\nLa suite converge vers l donc il existe un entier A tel que:\n\\forall n&gt;A,~u_n\\in ]l-h;l+h[\nLa suite converge vers l' donc il existe un entier B tel que:\n\\forall n&gt;B,~u_n\\in ]l'-h;l'+h[\nSoit C=max(A;B). Alors:\n\\forall n&gt;C,~u_n\\in ]l-h;l+h[ \\cap ]l'-h;l'+h[\nIl y a ici une absurdité puisque les intervalles ]l-h;l+h[ et ]l'-h;l'+h[ sont disjoints.\nEn effet on peut vérifier que l'-h&gt;l+h: \\begin{aligned}\n        l'-h-(l+h)&=l'-h-l-h \\\\\n        &=l'-l-2h \\\\\n        &=l'-l\\dfrac{2l'-2l}{3} \\\\\n        &=\\dfrac{3l'-3l-2l'+2l}{3} \\\\\n        &=\\dfrac{l'-l}{3}\\\\\n        &&gt;0\n\\end{aligned}\n\n\n\n\n\nThéorème de convergence des suites monotones:\n\nUne suite croissante majorée converge.\nUne suite décroissante minorée converge.\n\n\n\nCe théorème permet de justifier qu’une suite converge mais il ne permet pas de déterminer sa limite.\n\n\nSoit (u_n)_{n\\in \\N} la suite définie par u_0=0,7 et u_{n+1}=0,92u_n+0,3.\n\n\nMontrer que, pour tout entier naturel n, u_n\\le u_{n+1} \\le 4.\n\nMontrer que, (u_n) converge vers un réel \\ell.\n\nOn admet (pour le moment) que \\ell est solution de l’équation x=0,92x+0,3. Déterminer la valeur de \\ell. (voir le résultat sur le théorème du point fixe).\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit n \\in \\N, P_n:\" u_n\\le u_{n+1} \\le 4\".\n\nInitialisation :\nu_0=0,7 et u_1=0,92 \\times 0,7 + 0,3= 0,944\ndonc u_0 \\le u_1 \\le 4\nAinsi, P_0 est vraie.\n\nHérédité :\nSoit k\\in \\N tel que P_k vraie.\nu_k\\le u_{k+1} \\le 4\n\\Leftrightarrow 0,92u_k \\le 0,92u_{k+1} \\le 3,68 car 0,92&gt;0\n\\Leftrightarrow 0,92u_k +0,3\\le 0,92u_{k+1} +0,3\\le 3,98\n\\Rightarrow u_{k+1} \\le u_{k+2} \\le 3,98 &lt;4\nAinsi, P_{k+1} est vraie.\nConclusion :\nP_0 est vraie.\n\\forall k \\in \\N, P_k\\Rightarrow P_{k+1}.\nDonc, \\forall n \\in \\N, u_n\\le u_{n+1} \\le 4.\n\nOn a montré que la suite (u_n) est croissante et majorée. D’après le théorème de convergence des suites monotones, (u_n) converge.\nx=0,92x+0,3 \\Leftrightarrow 0,08x=0,3 \\Leftrightarrow x=\\frac{0,3}{0,08} \\Leftrightarrow x=3,75\nAinsi, \\ell=3,75."
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#opérations-sur-les-limites",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#opérations-sur-les-limites",
+    "title": "Suites numériques",
+    "section": "6.3 Opérations sur les limites",
+    "text": "6.3 Opérations sur les limites\n\n6.3.1 Somme\n\n\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} u_n\n\\ell\n\\ell\n\\ell\n+\\infty\n+\\infty\n-\\infty\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} v_n\n\\ell'\n+\\infty\n-\\infty\n+\\infty\n-\\infty\n-\\infty\n\n\n\\lim\\limits_{n \\to +\\infty} (u_n+v_n)\n\\ell+\\ell'\n+\\infty\n-\\infty\n+\\infty\nFI\n-\\infty\n\n\n\n\n\n6.3.2 Produit\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} u_n\n\\ell\n\\ell \\ne 0\n\\infty\n0\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} v_n\n\\ell'\n\\infty\n\\infty\n\\infty\n\n\n\\lim\\limits_{n \\to +\\infty} (u_n \\times v_n)\n\\ell \\times \\ell'\n\\infty\n\\infty\nFI\n\n\n\n\n\n6.3.3 Quotient\n\n\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} u_n\n\\ell\n\\ell\n\\ell \\ne 0\n\\infty\n\\infty\n0\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} v_n\n\\ell' \\ne 0\n\\infty\n0\n\\ell'\n\\infty\n0\n\n\n\\lim\\limits_{n \\to +\\infty} (\\frac{u_n}{v_n})\n\\frac{\\ell}{\\ell'}\n0\n\\infty\n\\infty\nFI\nFI\n\n\n\n\n\n6.3.4 Applications\n\n \n\n\nCes règles opératoires sur les limites sont “naturelles”. Il convient de faire attention aux quatre formes indéterminées qui sont, en utilisant un abus d’écriture : “\\infty - \\infty”, “0 \\times \\infty”, “\\frac{\\infty}{\\infty}” et “\\frac{0}{0}”. Pour lever une indétermination, on transforme l’écriture de l’expression étudiée pour se ramener aux cas généraux.\nDans le cas où la limite du produit ou du quotient est infinie, on utilise la règle des signes pour conclure entre +\\infty et -\\infty.\n\n\n\nSoient (u_n)_{n\\in \\N^*}, (v_n)_{n\\in \\N}, (w_n)_{n\\in \\N} et (z_n)_{n\\in \\N^*} les suites définies par u_n=n^2+\\frac{1}{n}, v_n=-5 \\sqrt{n}-n^3, w_n=\\frac{2}{3n+5} et z_n=\\frac{-3}{\\frac{1}{n^2}}. Étudier les limites de ces suites en +\\infty.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} n^2=+\\infty et \\lim\\limits_{n \\to +\\infty} \\frac{1}{n}=0 donc, par somme, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty\n\\lim\\limits_{n \\to +\\infty} \\sqrt{n}=+\\infty donc, par produit, \\lim\\limits_{n \\to +\\infty} -5\\sqrt{n}=-\\infty\net \\lim\\limits_{n \\to +\\infty} {n^3}=+\\infty donc, par produit, \\lim\\limits_{n \\to +\\infty} {-n^3}=-\\infty\ndonc, par somme, \\lim\\limits_{n \\to +\\infty}  v_n=-\\infty\n\\lim\\limits_{n \\to +\\infty} {n}=+\\infty donc, par produit et par somme, \\lim\\limits_{n \\to +\\infty} (3n+5)=+\\infty\ndonc, par quotient, \\lim\\limits_{n \\to +\\infty} w_n=0\n\\lim\\limits_{n \\to +\\infty} \\frac{1}{n^2}=0^+ donc, par quotient, \\lim\\limits_{n \\to +\\infty} z_n=-\\infty\nOn peut aussi modifier l’écriture de z_n pour déterminer autrement sa limite : z_n=-3n^2.\n\n\n\n\n\n\\lim\\limits_{n \\to +\\infty} u_n=0^+ (resp. 0^-) signifie que \\lim\\limits_{n \\to +\\infty} u_n=0 et que u_n&gt;0 (resp. u_n&lt;0) à partir d’un certain rang.\n\n\nSoient (u_n)_{n\\in \\N}, (v_n)_{n\\in \\N}, (w_n)_{n\\in \\N} et (z_n)_{n\\in \\N^*} les suites définies par u_n=n^2-n, v_n=\\frac{4n^2}{n+1}, w_n=\\sqrt{n+1}-\\sqrt{n} et z_n=\\frac{1}{n}(n^2-2). Étudier les limites de ces suites en +\\infty.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nDans ces 4 exemples, on est face à des formes indéterminées.\n\nPour lever cette indéterminée, on factorise l’expression : Soit {n\\in \\N}, u_n=n(n-1)\n\\lim\\limits_{n \\to +\\infty} n=+\\infty et, par somme, \\lim\\limits_{n \\to +\\infty} (n-1)=+\\infty\ndonc, par produit, \\lim\\limits_{n \\to +\\infty} u_n=+\\infty\nPour lever cette indéterminée, on factorise le numérateur et le dénominateur par le monôme de plus haut degré puis on simplifie : Soit {n\\in \\N^*}, v_n=\\frac{n^2\\times 4}{n(1+\\frac{1}{n})}=\\frac{4n}{1+\\frac{1}{n}}\n\\lim\\limits_{n \\to +\\infty} n=+\\infty donc, par produit, \\lim\\limits_{n \\to +\\infty} 4n=+\\infty\net \\lim\\limits_{n \\to +\\infty} \\frac{1}{n}=0 donc, par somme, \\lim\\limits_{n \\to +\\infty} (1+\\frac{1}{n})=1\ndonc, par quotient, \\lim\\limits_{n \\to +\\infty} v_n=+\\infty\nPour lever cette indéterminée, on utilise l’expression conjuguée :\nSoit {n\\in \\N}, w_n=\\frac{(\\sqrt{n+1}-\\sqrt{n})(\\sqrt{n+1}+\\sqrt{n})}{\\sqrt{n+1}+\\sqrt{n}}=\\frac{n+1-n}{\\sqrt{n+1}+\\sqrt{n}}=\\frac{1}{\\sqrt{n+1}+\\sqrt{n}}\n\\lim\\limits_{n \\to +\\infty} \\sqrt{n}=+\\infty et par composition, \\lim\\limits_{n \\to +\\infty} \\sqrt{n+1}=+\\infty\ndonc, par somme \\lim\\limits_{n \\to +\\infty} (\\sqrt{n+1}+\\sqrt{n})=+\\infty\ndonc, par quotient, \\lim\\limits_{n \\to +\\infty} w_n=0\nPour lever cette indéterminée, on développe et on simplifie l’expression : Soit {n\\in \\N^*}, z_n=n-\\frac{2}{n}\n\\lim\\limits_{n \\to +\\infty} n=+\\infty et \\lim\\limits_{n \\to +\\infty} \\frac{2}{n}=0\ndonc, par somme, \\lim\\limits_{n \\to +\\infty} z_n=+\\infty"
+  },
+  {
+    "objectID": "terminale-spe/cours/suites/suites-terminale.html#limites-et-comparaison",
+    "href": "terminale-spe/cours/suites/suites-terminale.html#limites-et-comparaison",
+    "title": "Suites numériques",
+    "section": "6.4 Limites et comparaison",
+    "text": "6.4 Limites et comparaison\n\n6.4.1 Théorème de comparaison\n\nThéorème de Comparaison Soient (u_n)_{n\\in \\N}, (v_n)_{n\\in \\N} deux suites telles que u_n \\le v_n à partir d’un certain rang.\n\nSi \\lim\\limits_{n \\to +\\infty} u_n=+\\infty alors \\lim\\limits_{n \\to +\\infty} v_n=+\\infty.\nSi \\lim\\limits_{n \\to +\\infty} v_n=-\\infty alors \\lim\\limits_{n \\to +\\infty} u_n=-\\infty.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit A \\in \\mathbb{R}^{+*},\nPar hypothèse, il existe un rang n_0 tel que, pour tout n \\ge n_0, u_n \\le v_n.\nDe plus, comme \\lim\\limits_{n \\to +\\infty} u_n=+\\infty alors il existe n_p \\in \\N tel que, pour tout n \\ge n_p, u_n&gt;A.\nAinsi, pour tout entier n tel que n \\ge n_0 et n \\ge n_p, v_n \\ge u_n&gt;A\nEn choisissant N=max(n_0;p), on obtient que : pour tout n \\ge N, v_n&gt;A. Donc, \\lim\\limits_{n \\to +\\infty} v_n=+\\infty.\nOn démontre le second point de manière analogue.\n\n\n\n\n\nSoient (u_n)_{n\\in \\N} et (v_n)_{n\\in \\N} les suites définies par u_n=n+2sin(n), v_n=-n^2-n+(-1)^n. Déterminer la limites de ces suites en +\\infty\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nOn ne peut pas déterminer directement la limite de la suite (u_n) car la suite (sin(n)) n’a pas de limite.\nSoit n\\in \\N, -1 \\le sin(n) \\le 1 \\Leftrightarrow -2 \\le 2sin(n) \\le 2 \\Leftrightarrow n-2 \\le n+2sin(n) \\le n+2\nOr, par somme, \\lim\\limits_{n \\to +\\infty} (n-2)=+\\infty\nD’après le théorème de comparaison : \\lim\\limits_{n \\to +\\infty} u_n=+\\infty.\nOn ne peut pas déterminer directement la limite de la suite (v_n) car la suite ((-1)^n) n’a pas de limite.\nSoit n\\in \\N, -1 \\le (-1)^n \\le 1 \\Leftrightarrow -n^2-n-1 \\le -n^2-n+(-1)^n \\le -n^2-n+1\nOr, par somme, \\lim\\limits_{n \\to +\\infty} (-n^2-n+1)=-\\infty\nD’après le théorème de comparaison : \\lim\\limits_{n \\to +\\infty} v_n=-\\infty.\n\n\n\n\n\n\n6.4.2 Théorème des gendarmes\n\nThéorème des gendarmes (ou d’encadrement) Soient (u_n)_{n\\in \\N}, (v_n)_{n\\in \\N} et (w_n)_{n\\in \\N} trois suites telles que u_n \\le v_n \\le w_n à partir d’un certain rang. Soit \\ell un réel.\nSi (u_n) et (w_n) converge vers \\ell alors (v_n) converge vers \\ell.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoient \\alpha \\in \\mathbb{R}^{+*} et \\beta \\in \\mathbb{R}^{+*},\nComme \\lim\\limits_{n \\to +\\infty} u_n=\\ell alors il existe un rang n_1 tel que, pour tout n \\ge n_1, u_n \\in ]\\ell-\\alpha;\\ell+\\alpha[\nComme \\lim\\limits_{n \\to +\\infty} w_n=\\ell alors il existe un rang n_2 tel que, pour tout n \\ge n_2, w_n \\in ]\\ell-\\beta;\\ell+\\beta[\nPar hypothèse, il existe un rang n_3 tel que, pour tout n \\ge n_3, u_n \\le v_n \\le w_n.\nEn choisissant N=max(n_1;n_2;n_3), on obtient que : pour tout n \\ge N, \\ell-\\alpha &lt; u_n \\le v_n \\le w_n &lt; \\ell+\\beta. L’intervalle ]\\ell-\\alpha; \\ell+\\beta[ contient donc toutes les valeurs v_n pour n assez grand. Donc, \\lim\\limits_{n \\to +\\infty} w_n=\\ell.\n\n\n\n\nSoit (u_n)_{n\\in \\N^*} la suite définie par u_n=3+\\frac{(-1)^n}{n}. Déterminer la limite de (u_n)\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit {n\\in \\N^*}, -1 \\le (-1)^n \\le 1 \\Leftrightarrow \\frac{-1}{n} \\le \\frac{(-1)^n}{n} \\le \\frac{1}{n} car n&gt;0\n\\Leftrightarrow 3-\\frac{1}{n} \\le 3-\\frac{(-1)^n}{n} \\le 3+\\frac{1}{n}\nOr, \\lim\\limits_{n \\to +\\infty} (3-\\frac{1}{n})=\\lim\\limits_{n \\to +\\infty} (3+\\frac{1}{n})=3\nD’après le théorème des gendarmes : \\lim\\limits_{n \\to +\\infty} u_n=3.\n\n\n\n\nSoient (u_n)_{n\\in \\N}, (v_n)_{n\\in \\N} et (w_n)_{n\\in \\N} trois suites telles que, pour tout entier naturel n, u_n \\le v_n \\le w_n.\nDe plus, la suite (u_n) converge vers -1 et la suite (w_n) converge vers 1.\nQue pensez-vous de l’affirmation suivante ? La suite (v_n) converge vers un nombre réel \\ell appartenant à l’intervalle [-1;1].\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nL’affirmation est fausse. Les hypothèses nous permettent de conclure que la suite (v_n) est bornée mais on ne sait rien de sa monotonie. Par exemple, en choisissant, u_n=-1, v_n=(-1)^n et w_n=1. La suite (v_n) diverge.\n\n\n\n\n\n\n6.4.3 Suites géométriques\n\nInégalité de Bernoulli Pour tout a \\in \\mathbb{R}^{+*} et pour tout n \\in \\N, (1+a)^n \\ge 1+na\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoient a \\in \\mathbb{R}^{+*} et n \\in \\N, P_n : \"(1+a)^n \\ge 1+na\"\nInitialisation :\nD’une part : (1+a)^0=1\nD’autre part : 1+0 \\times a=1\nAinsi, P_0 vraie.\nHérédité :\nSupposons P_n vraie pour un entier naturel n quelconque.\n(1+a)^n \\ge 1+na\n\\Leftrightarrow (1+a)^{n+1} \\ge (1+a)(1+na) car (1+a)&gt;0\n\\Leftrightarrow (1+a)^{n+1} \\ge 1+na+a+na^2\n\\Leftrightarrow (1+a)^{n+1} \\ge 1+(n+1)a+na^2&gt;1+(n+1)a car na^2 \\ge 0\nAinsi, P_{n+1} vraie.\nConclusion :\nP_0 est vraie.\n\\forall n \\in \\N, P_n vraie \\Rightarrow P_{n+1} vraie.\nDonc,\\forall a \\in \\mathbb{R}^{+*}, \\forall n \\in \\N, (1+a)^n \\ge 1+na.\n\n\n\n\n\nSoit q un réel.\n\nSi q&gt;1, alors \\lim\\limits_{n \\to +\\infty} q^n=+\\infty.\nSi -1&lt;q&lt;1, alors \\lim\\limits_{n \\to +\\infty} q^n=0.\nSi q=1, alors \\lim\\limits_{n \\to +\\infty} q^n=1.\nSi q \\le -1, alors la suite (q^n) n’a pas de limite.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nSoit q&gt;1, on pose a=q-1\nD’après l’inégalité de Bernoulli : q^n \\ge 1+n(q-1)\nOr, q-1&gt;0, donc, par produit puis par somme, \\lim\\limits_{n \\to +\\infty} (1+n(q-1))=+\\infty\nD’après le théorème de comparaison : \\lim\\limits_{n \\to +\\infty} q^n=+\\infty\nSoit -1&lt;q&lt;1\n\nSoit 0&lt;q&lt;1, on pose s=\\frac{1}{q}\nOn a q^n=(\\frac{1}{s})^n=\\frac{1}{s^n}\nOr, s&gt;1 donc \\lim\\limits_{n \\to +\\infty} s^n=+\\infty\nDonc, par quotient, \\lim\\limits_{n \\to +\\infty} q^n=0\nSoit -1&lt;q&lt;0, on pose t=-q\nOn a q^n=(-t)^n=(-1)^nt^n\nAinsi, -t^n \\le q^n \\le t^n\nOr, 0&lt;t&lt;1 donc \\lim\\limits_{n \\to +\\infty} t^n=0 et \\lim\\limits_{n \\to +\\infty} (-t^n)=0\nD’après le théorème des gendarmes : \\lim\\limits_{n \\to +\\infty} q^n=0\n\n\n\n\n\n\nSoient (u_n)_{n\\in \\N} et (v_n)_{n\\in \\N} les suites définies par u_n=\\frac{0,3^n-1}{2^n+1}, v_n=\\frac{7^n}{4^{n+2}}. Déterminer les limites de ces deux suites.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nComme 0&lt;0,3&lt;1 alors \\lim\\limits_{n \\to +\\infty} 0,3^n=0 donc, par somme, \\lim\\limits_{n \\to +\\infty} (0,3^n-1)=-1\nComme 2&gt;1 alors \\lim\\limits_{n \\to +\\infty} 2^n=+\\infty donc, par somme, \\lim\\limits_{n \\to +\\infty} (2^n+1)=+\\infty\nAinsi, par quotient, \\lim\\limits_{n \\to +\\infty} u_n=0\nOn est face à une forme indéterminée.\nSoit n\\in \\N, v_n=\\frac{7^n}{4^n \\times 4^2}=\\frac{1}{16} (\\frac{7}{4})^n\nComme \\frac{7}{4}&gt;1 alors \\lim\\limits_{n \\to +\\infty} (\\frac{7}{4})^n=+\\infty\nAinsi, par produit, \\lim\\limits_{n \\to +\\infty} v_n=+\\infty"
+  }
+]
