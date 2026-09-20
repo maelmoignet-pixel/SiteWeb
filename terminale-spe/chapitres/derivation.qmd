@@ -1,0 +1,51 @@
+---
+title: "Dérivation"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « Dérivation » (Spécialité mathématiques – Terminale)
+     Ce fichier est : terminale-spe/chapitres/derivation.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../cours/... désigne terminale-spe/cours/...
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+## Cours
+
+<!-- COURS : pas encore de fichier .qmd pour ce chapitre.
+     1. Mets ton cours dans le dossier  terminale-spe/cours/derivation/
+     2. Remplace la ligne « bientôt disponible » ci-dessous par :
+        - [Cours : Dérivation](../cours/derivation/nom-du-cours.qmd)
+     (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
+
+*Cours bientôt disponible.*
+
+## Évaluations et DS
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  terminale-spe/2025-DS-eval/derivation/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2025-DS-eval/derivation/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  terminale-spe/2026-DS-eval/derivation/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-DS-eval/derivation/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::

@@ -1,0 +1,53 @@
+---
+title: "Suites"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « Suites » (Spécialité mathématiques – Terminale)
+     Ce fichier est : terminale-spe/chapitres/suites.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../cours/... désigne terminale-spe/cours/...
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+## Cours
+
+<!-- COURS : lien vers le .qmd du cours.
+     Si tu renommes le fichier, modifie le nom ci-dessous. -->
+
+- [Cours : Suites](../cours/suites/suites-terminale.qmd)
+
+## Évaluations et DS
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  terminale-spe/2025-DS-eval/suites/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2025-DS-eval/suites/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+- [DS 1 – sujet](../2025-DS-eval/suites/suites-terminale-2025-DS1.pdf)
+- [DS 1 – correction](../2025-DS-eval/suites/suites-terminale-2025-DS1-correction.pdf)
+- [Évaluation 1 – sujet](../2025-DS-eval/suites/suites-terminale-2025-eval1-sujet.pdf)
+- [Évaluation 1 – correction](../2025-DS-eval/suites/suites-terminale-2025-eval1-correction.pdf)
+- [Évaluation 2 – sujet](../2025-DS-eval/suites/suites-terminale-2025-eval2-sujet.pdf)
+- [Évaluation 2 – correction](../2025-DS-eval/suites/suites-terminale-2025-eval2-correction.pdf)
+
+:::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  terminale-spe/2026-DS-eval/suites/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-DS-eval/suites/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::

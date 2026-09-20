@@ -1,0 +1,661 @@
+---
+title: "Second degré"
+format:
+  html:
+    embed-resources: true
+    html-math-method: katex
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+editor:
+  render-on-save: true
+---
+```css
+```
+```{=html}
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+}
+
+.definition, .proposition, .vocabulaire, .remarque, .exemple, .application {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+```
+
+\gdef\R{\mathbb{R}}
+
+# Fonction polynôme du second degré
+
+## Définition
+
+::: {.definition}
+On appelle fonction polynôme du second degré toute fonction $f$, définie sur $\R$, pouvant se ramener à la forme $f(x)=ax^2+bx+c$ où $a$, $b$ et $c$ sont des réels avec $a\neq 0$.  
+L'expression $ax^2+bx+c$ est appelée trinôme du second degré.
+:::
+
+::: {.application}
+Les fonctions suivantes sont-elles des fonctions polynomiales du second degré ?
+
+1. $f(x)=2\left(2x-\dfrac{1}{3}\right)^2-1$
+2. $g(x)=-(-3+2x)^2+5+4x^2$
+3. $h(x)=(3x+2)^2-12x-4$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.**
+$$
+\begin{align*}
+f(x) &= 2\left(4x^2 - \dfrac{4}{3}x + \dfrac{1}{9}\right) - 1 \\
+f(x) &= 8x^2 - \dfrac{8}{3}x + \dfrac{2}{9} - 1 \\
+f(x) &= 8x^2 - \dfrac{8}{3}x - \dfrac{7}{9}
+\end{align*}
+$$
+
+$f$ est bien une fonction du second degré avec $a=8$, $b=\dfrac{-8}{3}$ et $c=\dfrac{-7}{9}$.
+
+**2.**
+$$
+\begin{align*}
+g(x) &= -(9 - 12x + 4x^2) + 5 + 4x^2 \\
+g(x) &= -9 + 12x - 4x^2 + 5 + 4x^2 \\
+g(x) &= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\
+g(x) &= 0x^2 + 12x - 4 \\
+g(x) &= 12x - 4
+\end{align*}
+$$
+
+$g$ n'est pas une fonction du second degré.
+
+**3.**
+$$
+\begin{align*}
+h(x) &= (9x^2 + 12x + 4) - 12x - 4 \\
+h(x) &= 9x^2 + 12x + 4 - 12x - 4 \\
+h(x) &= 9x^2
+\end{align*}
+$$
+
+$h$ est une fonction du second degré avec $a=9$, $b=0$ et $c=0$.
+:::
+
+## Forme canonique
+
+### Exemples
+
+::: {.application}
+Mettre les fonctions polynomiales suivantes sous la forme $f(x)=a(x-\alpha)^2+\beta$ :
+
+1. $f(x)=x^2-6x+8$
+2. $g(x)=2x^2-x-3$
+3. $h(x)=\dfrac{1}{3}x^2+2x-1$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.**
+$$
+\begin{align*}
+f(x)&=x^2-6x+8 \\
+&=\left(x-\dfrac{6}{2} \right)^2-3^2 +8 \\
+&=\left(x-3\right)^2-9+8 \\
+&=\left(x-3\right)^2-1
+\end{align*}
+$$
+
+**2.**
+$$
+\begin{align*}
+g(x)&=2x^2-x-3 \\
+&=2\left(x^2-\dfrac{1}{2}x \right) -3 \\
+&=2 \left( \left(x-\dfrac{1}{4} \right)^2-\left(\dfrac{1}{4}\right)^2\right)-3 \\
+&=2\left(x-\dfrac{1}{4}\right)^2-2\times \dfrac{1}{16}-3 \\
+&= 2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-3 \\
+&=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-\dfrac{24}{8} \\
+&=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{25}{8}
+\end{align*}
+$$
+
+**3.**
+$$
+\begin{align*}
+h(x) &= \dfrac{1}{3}x^2+2x-1 \\
+h(x) &= \dfrac{1}{3}\left(x^2 + 6x\right) - 1 \\
+h(x) &= \dfrac{1}{3}\left(x^2 + 6x + 9 - 9\right) - 1 \\
+h(x) &= \dfrac{1}{3}\left((x+3)^2 - 9\right) - 1 \\
+h(x) &= \dfrac{1}{3}(x+3)^2 - \dfrac{1}{3} \times 9 - 1 \\
+h(x) &= \dfrac{1}{3}(x+3)^2 - 3 - 1 \\
+h(x) &= \dfrac{1}{3}(x+3)^2 - 4
+\end{align*}
+$$
+:::
+
+### Cas général
+
+::: {.proposition}
+Toute fonction polynomiale du second degré $f$ définie sur $\R$ par $f(x)=ax^2+bx+c$ où $a$, $b$ et $c$ sont trois réels avec $a\neq 0$ admet une écriture de la forme $f(x)=a(x-\alpha)^2+\beta$ avec $\alpha=-\dfrac{b}{2a}$ et $\beta=f(\alpha)=-\dfrac{b^2-4ac}{4a}$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Soit $f$ une fonction polynomiale du second degré $f$ définie sur $\R$ par $f(x)=ax^2+bx+c$ où $a$, $b$ et $c$ sont trois réels avec $a\neq 0$.
+
+$$
+\begin{align*}
+f(x)&=ax^2+bx+c \\
+&= a\left(x^2+\dfrac{b}{a}x \right)+c \\
+&= a\left( \left(x+\dfrac{b}{2a}\right)^2-\left(\dfrac{b}{2a} \right)^2  \right)+c \\
+&=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2}{4a}+c \\
+&=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2-4ac}{4a}
+\end{align*}
+$$
+
+On pose $\alpha=-\dfrac{b}{2a}$ et $\beta=-\dfrac{b^2-4ac}{4a}$ et ainsi $f(x)=a(x-\alpha)^2+\beta$.
+:::
+
+::: {.vocabulaire}
+Cette forme est appelée forme canonique de $f$.
+:::
+
+::: {.vocabulaire}
+Avec les mêmes notations, le réel $b^2-4ac$, noté $\Delta$, est appelé le discriminant de la fonction polynomiale $f$.
+
+$$ \Delta=b^2-4ac$$
+:::
+
+::: {.remarque}
+Avec ces formules, il est parfois plus simple de déterminer la forme canonique qu'en la calculant directement : $f(x)=a\left(x-\alpha \right)^2-\dfrac{\Delta}{4a}$ avec $\alpha=\dfrac{-b}{2a}$ et $\Delta=b^2-4ac$.
+:::
+
+::: {.application}
+En utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :
+
+1. $f(x)=3x^2+2x-1$
+2. $g(x)=x^2+4x+10$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** $f(x)=3x^2+2x-1$
+
+$\alpha=\dfrac{-b}{2a}=\dfrac{-2}{2\times 3}=-\dfrac{1}{3}$ et $\Delta=b^2-4ac=2^2-4 \times 3\times (-1)=16$.
+
+Ainsi $f(x)=3 \left( x +\dfrac{1}{3}\right)^2-\dfrac{4}{3}$.
+
+**2.** $g(x)=x^2+4x+10$
+
+$\alpha=\dfrac{-b}{2a}=\dfrac{-4}{2\times 1}=-\dfrac{4}{2}=-2$ et $\Delta=b^2-4ac=4^2-4 \times 1\times 10=16-40=-24$.
+
+$$
+\begin{align*}
+g(x) &= 1 \left( x -(-2)\right)^2-\dfrac{-24}{4\times 1} \\
+g(x) &= 1 \left( x +2\right)^2-\dfrac{-24}{4} \\
+g(x) &= 1 \left( x +2\right)^2+6
+\end{align*}
+$$
+:::
+
+## Étude des fonctions polynomiales du second degré
+
+::: {.vocabulaire}
+La courbe représentative d'une fonction polynomiale du second degré s'appelle une parabole.
+:::
+
+::: {.proposition}
+La parabole représentative d'une fonction polynomiale du second degré $f$ définie sur $\R$ par $f(x)=a(x-\alpha)^2+\beta$ avec $a$, $\alpha$ et $\beta$ trois réels et $a\neq 0$ admet la droite d'équation $x=\alpha$ pour axe de symétrie.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Avec les mêmes notations, soit $h\in \R$.
+
+D'une part :
+$$
+\begin{align*}
+f(\alpha + h) &= a((\alpha + h) - \alpha)^2 + \beta \\
+&= a(h)^2 + \beta \\
+&= ah^2 + \beta
+\end{align*}
+$$
+
+D'autre part :
+$$
+\begin{align*}
+f(\alpha - h) &= a((\alpha - h) - \alpha)^2 + \beta \\
+&= a(-h)^2 + \beta \\
+&= ah^2 + \beta
+\end{align*}
+$$
+
+Ainsi $f(\alpha + h) = f(\alpha - h)$. Ceci prouve que la parabole est symétrique par rapport à la droite verticale d'équation $x=\alpha$.
+:::
+
+::: {.proposition}
+Le point $S(\alpha;\beta)$ est le sommet de la parabole représentative d'une fonction polynomiale du second degré définie sur $\R$ par $f(x)=a(x-\alpha)^2+\beta$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Soit $f(x)=a(x-\alpha)^2+\beta$ une fonction polynomiale du second degré définie sur $\mathbb{R}$, avec $a \neq 0$.
+
+$\forall x \in \R,~(x-\alpha)^2 \ge 0$.
+
+**Cas 1 : $a > 0$**
+
+Si $a > 0$, alors $a(x-\alpha)^2 \ge 0$. Donc $f(x) = a(x-\alpha)^2 + \beta \ge \beta$. La fonction $f(x)$ atteint un minimum égal à $\beta$. Ce minimum est atteint quand $(x-\alpha)^2 = 0$, soit $x=\alpha$. Le point $(\alpha; \beta)$ est alors le minimum de la fonction.
+
+**Cas 2 : $a < 0$**
+
+Si $a < 0$, alors $a(x-\alpha)^2 \le 0$. Donc $f(x) = a(x-\alpha)^2 + \beta \le \beta$. La fonction $f(x)$ atteint un maximum égal à $\beta$. Ce maximum est atteint quand $(x-\alpha)^2 = 0$, soit $x=\alpha$. Le point $(\alpha; \beta)$ est alors le maximum de la fonction.
+
+Dans les deux cas, le point $(\alpha; \beta)$ correspond à l'extremum (minimum ou maximum) de la fonction. Par définition, ce point d'extremum est le sommet de la parabole. Ainsi, $S(\alpha; \beta)$ est le sommet de la parabole représentative de $f(x)=a(x-\alpha)^2+\beta$.
+:::
+
+::: {.proposition}
+Soit $f(x)=a(x-\alpha)^2+\beta$ une fonction polynomiale du second degré définie sur $\mathbb{R}$, avec $a \neq 0$. Voici les deux tableaux de variations possibles :
+
+**Si $a>0$ : la parabole est tournée vers le haut**
+
+| $x$    | $-\infty$ |            | $\alpha$   |            | $+\infty$ |
+|--------|-----------|------------|------------|------------|-----------|
+| $f(x)$ |           | ↘          | $\beta$    | ↗          |           |
+
+**Si $a<0$ : la parabole est tournée vers le bas**
+
+| $x$    | $-\infty$ |            | $\alpha$   |            | $+\infty$ |
+|--------|-----------|------------|------------|------------|-----------|
+| $f(x)$ |           | ↗          | $\beta$    | ↘          |           |
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Soit $x \in \mathbb{R}$, $f(x)=a(x-\alpha)^2+ \beta$ avec $\alpha=-\dfrac{b}{2a}$.
+
+**1er cas : $a>0$**
+
+*Variations sur $]-\infty; \alpha]$*
+
+Soient $x$ et $y$ deux réels de $]-\infty; \alpha]$ tels que $x<y$.
+$$
+\begin{align*}
+f(x)-f(y) &= \left(a(x-\alpha)^2 + \beta\right) - \left(a(y-\alpha)^2 + \beta\right) \\
+&= a(x-\alpha)^2 - a(y-\alpha)^2 \\
+&= a\left[(x-\alpha)^2 - (y-\alpha)^2\right] \\
+&= a\left[(x-\alpha - (y-\alpha))(x-\alpha + (y-\alpha))\right] \\
+&= a(x-\alpha - y + \alpha)(x-\alpha + y - \alpha) \\
+&= a(x-y)(x+y-2\alpha)
+\end{align*}
+$$
+
+Or :
+
+- $a>0$
+- $x<y$ donc $x-y<0$
+- $x<\alpha$ et $y\leqslant\alpha$ donc $x+y<2\alpha$ donc $x+y-2\alpha<0$
+
+Donc $f(x)-f(y)>0$ soit $f(x)>f(y)$. Donc $f$ est strictement décroissante sur $]-\infty; \alpha]$.
+
+*Variations sur $[\alpha; +\infty[$*
+
+Soient $x$ et $y$ deux réels de $[\alpha; +\infty[$ tels que $x<y$.
+$$
+f(x)-f(y)=a(x-y)(x+y-2\alpha)
+$$
+
+Or :
+
+- $a>0$
+- $x<y$ donc $x-y<0$
+- $x\geqslant\alpha$ et $y>\alpha$ donc $x+y>2\alpha$ donc $x+y-2\alpha>0$
+
+Donc $f(x)-f(y)<0$ soit $f(x)<f(y)$. Donc $f$ est strictement croissante sur $[\alpha; +\infty[$.
+
+**2ème cas : $a<0$**
+
+On applique un raisonnement similaire.
+:::
+
+::: {.application}
+Tracer le tableau de variations des deux fonctions suivantes :
+
+1. $f$ est définie sur $\R$ par $f(x)=2x^2+4x+5$.
+2. $g$ est définie sur $[0;3]$ par $g(x)=-3x^2+6x-4$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** Soit $x \in \R$, $f(x)=2x^2+4x+5$. $\alpha=-\dfrac{b}{2a}=-1$ et $\beta=f(\alpha)=f(-1)=3$. Donc $f(x)=2(x+1)^2+3$. Comme $a>0$ on a :
+
+| $x$    | $-\infty$ |     | $-1$ |     | $+\infty$ |
+|--------|-----------|-----|------|-----|-----------|
+| $f(x)$ |           | ↘   | $3$  | ↗   |           |
+
+**2.** Soit $x \in [0;3]$, $g(x)=-3x^2+6x-4$.
+
+$\alpha=\dfrac{-b}{2a}=\dfrac{-6}{2\times (-3)}=1$ et $\beta=g(\alpha)=g(1)=-1$. Donc $g(x)=-3(x-1)^2-1$. Comme $a<0$ on a :
+
+| $x$    | $0$  |     | $1$  |     | $3$   |
+|--------|------|-----|------|-----|-------|
+| $f(x)$ | $-4$ | ↗   | $-1$ | ↘   | $-13$ |
+:::
+
+# Équation du second degré
+
+## Généralités
+
+::: {.definition}
+On appelle équation du second degré toute équation pouvant se ramener à la forme $ax^2+bx+c=0$ où $a$, $b$ et $c$ sont des réels avec $a\neq 0$.
+:::
+
+::: {.remarque}
+Résoudre une équation consiste à trouver toutes les valeurs de $x$ qui vérifient l'équation.
+
+Dans le cas où l'équation a été ramenée à une équation de la forme $ax^2+bx+c=0$, résoudre l'équation consiste à déterminer le/les antécédent(s) de $0$ par la fonction $f:x\mapsto ax^2+bx+c$. On dit que l'on cherche les racines de la fonction.
+
+Graphiquement, cela revient à déterminer les abscisses des points d'intersection de la courbe représentative de la fonction $f$ avec l'axe des abscisses.
+:::
+
+## Résolution d'une équation du second degré
+
+::: {.proposition}
+Soit $a$, $b$ et $c$ trois réels avec $a\neq0$. On considère l'équation $ax^2+bx+c=0$.
+
+Soit $\Delta=b^2-4ac$ le discriminant du trinôme $ax^2+bx+c$.
+
+- Si $\Delta<0$, alors l'équation $ax^2+bx+c=0$ n'admet pas de solution réelle.
+- Si $\Delta=0$, alors l'équation $ax^2+bx+c=0$ admet une unique solution réelle : $x_0=-\dfrac{b}{2a}$.
+- Si $\Delta>0$, alors l'équation $ax^2+bx+c=0$ admet deux solutions réelles : $x_1=\dfrac{-b-\sqrt{\Delta}}{2a}$ et $x_2=\dfrac{-b+\sqrt{\Delta}}{2a}$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Avec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit $x \in \R$ :
+$$
+\begin{align*}
+ax^2+bx+c=0 &\iff a\left(x+\dfrac{b}{2a} \right)^2-\dfrac{\Delta}{4a}=0 \\
+&\iff a\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a} \\
+&\iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}
+\end{align*}
+$$
+
+- Si $\Delta<0$ : Alors $\dfrac{\Delta}{4a^2}<0$. Or $\left(x+\dfrac{b}{2a} \right)^2>0$. Donc l'équation n'admet pas de solution.
+- Si $\Delta=0$ :
+$$
+\begin{align*}
+\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &\iff \left(x+\dfrac{b}{2a} \right)^2=0 \\
+&\iff x+\dfrac{b}{2a} =0 \\
+&\iff x=-\dfrac{b}{2a}
+\end{align*}
+$$
+Ainsi $S=\left\{ -\dfrac{b}{2a} \right\}$.
+- Si $\Delta>0$ :
+$$
+\begin{align*}
+\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &\iff \left(x+\dfrac{b}{2a} \right)^2- \left(\dfrac{\sqrt{\Delta}}{2a} \right)^2=0 \\
+&\iff \left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=0 \text{ équation produit nul} \\
+&\iff x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a}=0 \text{  ou  } x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} =0 \\
+&\iff x=-\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \text{ ou } x=-\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \\
+&\iff x=\dfrac{-b+\sqrt{\Delta}}{2a} \text{ ou } x=\dfrac{-b-\sqrt{\Delta}}{2a}
+\end{align*}
+$$
+Finalement : $S=\left\{\dfrac{-b+\sqrt{\Delta}}{2a}; \dfrac{-b-\sqrt{\Delta}}{2a}  \right\}$.
+:::
+
+::: {.application}
+Résoudre dans $\R$ les équations suivantes :
+
+1. $15x^2-x-2=0$
+2. $3x^2+6x+4=0$
+3. $\dfrac{1}{5}x^2+2x+5=0$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** $15x^2-x-2=0$
+
+$\Delta=(-1)^2-4\times 15 \times (-2)=121$. Le discriminant du trinôme est strictement positif donc l'équation admet exactement deux solutions :
+
+$x_1=\dfrac{1 -\sqrt{121}}{30}=\dfrac{1-11}{30}=\dfrac{-1}{3}$ et $x_2=\dfrac{1+\sqrt{121}}{30}=\dfrac{1+11}{30}=\dfrac{12}{30}=\dfrac{2}{5}$.
+
+Finalement $S=\left\{\dfrac{-1}{3}; \dfrac{2}{5} \right\}$.
+
+**2.** $3x^2+6x+4=0$
+
+$\Delta=6^2-4\times3\times4=-12$. Le discriminant du trinôme est strictement négatif, donc l'équation n'admet pas de solution réelle.
+
+**3.** $\dfrac{1}{5}x^2+2x+5=0$
+
+$\Delta=2^2-4\times \dfrac{1}{5}\times 5=0$. Le discriminant du trinôme est nul, donc l'équation admet une unique solution réelle : $S=\{-5 \}$.
+:::
+
+::: {.remarque}
+Lorsque le trinôme est « incomplet » ($b=0$ ou $c=0$), il n'est pas nécessaire de calculer le discriminant pour résoudre l'équation.
+:::
+
+::: {.application}
+Sans calculer le discriminant des trinômes, résoudre les équations suivantes :
+
+1. $4x^2+3x-10=3x+6$
+2. $x^2-5x+4=x+4$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** Soit $x \in \R$.
+$$
+\begin{align*}
+4x^2+3x-10=3x+6 &\iff  4x^2-16=0\\
+&\iff (2x)^2-4^2=0 \\
+&\iff (2x-4)(2x+4)=0 \\
+&\iff 2x-4=0 \text{ ou }2x+4=0 \\
+&\iff x=2 \text{ ou } x=-2
+\end{align*}
+$$
+Finalement $S=\{-2;2 \}$.
+
+**2.** Soit $x \in \R$.
+$$
+\begin{align*}
+x^2-5x+4=x+4 &\iff x^2-6x=0 \\
+&\iff x(x-6)=0 \\
+&\iff x=0 \text{ ou }x-6=0 \\
+&\iff x=0 \text{ ou }x=6
+\end{align*}
+$$
+Finalement $S=\{0;6 \}$.
+:::
+
+# Propriété des trinômes
+
+## Somme et produit des racines
+
+::: {.proposition}
+Soit $a$, $b$ et $c$ trois réels avec $a\neq0$ et $f$ une fonction polynomiale du second degré telle que $\forall x \in \R,~ f(x)=ax^2+bx+c$ dont le discriminant $\Delta$ est strictement positif. On note $x_1$ et $x_2$ les deux racines de $f$. Alors :
+$$ x_1+x_2=-\dfrac{b}{a} \text{ et } x_1 \times x_2=\dfrac{c}{a}$$
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Avec les mêmes notations :
+
+- $x_1+x_2=\dfrac{-b-\sqrt{\Delta}}{2a}+\dfrac{-b+\sqrt{\Delta}}{2a}=\dfrac{-2b}{2a}=\dfrac{-b}{a}$
+- $x_1 \times x_2=\dfrac{-b-\sqrt{\Delta}}{2a}\times\dfrac{-b+\sqrt{\Delta}}{2a}= \dfrac{(-b)^2-\sqrt{\Delta}^2}{4a^2}=\dfrac{b^2-\Delta}{4a^2}=\dfrac{b^2-b^2+4ac}{4a^2}=\dfrac{c}{a}$
+:::
+
+::: {.remarque}
+Ces formules peuvent être utiles pour trouver la deuxième racine lorsqu'une des racines du trinôme est évidente. On peut également vérifier qu'aucune erreur de calcul ne s'est glissée lors de la résolution de l'équation.
+:::
+
+::: {.exemple}
+Soit $x\in \R$. Résolvons l'équation $-2x^2+5x-3=0$. $1$ est une racine évidente. En effet, $-2\times 1^2+5\times 1 -3=0$. On cherche la deuxième racine $x_2$ telle que $1+x_2=\dfrac{5}{2}$. Ainsi $x_2=\dfrac{3}{2}$.
+:::
+
+## Factorisation
+
+::: {.proposition}
+Soit $a$, $b$ et $c$ trois réels avec $a\neq0$ et $f$ une fonction polynomiale du second degré telle que $\forall x \in \R,~ f(x)=ax^2+bx+c$.
+
+- Si $\Delta<0$, alors $f$ n'admet pas de forme factorisée.
+- Si $\Delta =0$, alors la forme factorisée de $f$ est $f(x)=a(x-x_0)^2$ où $x_0$ est la racine double de $f$.
+- Si $\Delta>0$, alors la forme factorisée de $f$ est $f(x)=a(x-x_1)(x-x_2)$ où $x_1$ et $x_2$ sont les deux racines de $f$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+On a vu dans la démonstration de la proposition sur les racines les différentes factorisations de $f$ en fonction du signe de son discriminant $\Delta$ :
+
+Pour commencer $ax^2+bx+c=0 \iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}$.
+
+Si $\Delta=0$, alors $\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}\iff \left(x+\dfrac{b}{2a} \right)^2=0 \iff (x-x_0)^2=0$ avec $x_0=\dfrac{-b}{2a}$.
+:::
+
+## Étude de signe
+
+::: {.proposition}
+Soit $f$ un polynôme du second degré définie sur $\R$ par $f(x)=ax^2+bx+c$.
+
+- Si $\Delta <0$, alors :
+  - Si $a<0$ alors $f$ est strictement négative : $\forall x \in \R,~f(x)<0$
+  - Si $a>0$ alors $f$ est strictement positive : $\forall x \in \R,~f(x)>0$
+- Si $\Delta=0$ alors :
+  - Si $a<0$ alors $f$ est négative et $f\left(-\dfrac{b}{2a}\right)=0$.
+  - Si $a>0$ alors $f$ est positive et $f\left(-\dfrac{b}{2a}\right)=0$.
+- Si $\Delta >0$, alors on note $x_1$ et $x_2$ les deux racines de $f$. Si on suppose que $x_1<x_2$ alors le tableau de signe de $f$ est :
+
+| $x$    | $-\infty$ | | $x_1$ | | $x_2$ | | $+\infty$ |
+|--------|-----------|-|-------|-|-------|-|-----------|
+| $f(x)$ | signe de $a$ | | $0$ | signe opposé à $a$ | $0$ | | signe de $a$ |
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Avec les mêmes notations :
+
+- Si $\Delta<0$ : Soit $x\in \R$. $f(x)=ax^2+bx+c=a \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a}=a\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]$. Or $\left(x+\dfrac{b}{2a}\right)^2 \geq 0$ et $-\dfrac{\Delta}{4a^2}>0$ donc par produit $\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]>0$. Ainsi $f$ est bien du signe de $a$.
+- Si $\Delta=0$ alors $f(x)=a(x-x_0)^2$. Ainsi $f$ est du signe de $a$ et la racine de $f$ est $x_0=-\dfrac{b}{2a}$.
+- Si $\Delta>0$ : Soit $x \in \R$. $f(x)=ax^2+bx+c=a(x-x_1)(x-x_2)$. Supposons que $x_1<x_2$, alors on a :
+
+| $x$              | $-\infty$ | | $x_1$ | | $x_2$ | | $+\infty$ |
+|------------------|-----------|-|-------|-|-------|-|-----------|
+| $x-x_1$          | $-$       | | $0$   | | $+$   | | $+$       |
+| $x-x_2$          | $-$       | | $-$   | | $0$   | | $+$       |
+| $(x-x_1)(x-x_2)$ | $+$       | | $0$   | | $-$ → $0$ | | $+$       |
+| $f(x)$           | signe de $a$ | | $0$ | signe opposé à $a$ | $0$ | | signe de $a$ |
+:::
+
+::: {.remarque}
+Finalement, on peut retenir que $f$ est du signe de $a$ sauf entre ses racines.
+:::

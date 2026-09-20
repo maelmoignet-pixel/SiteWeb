@@ -1,0 +1,58 @@
+---
+title: "Second degré"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « Second degré » (Spécialité mathématiques – Première)
+     Ce fichier est : premiere-spe/chapitres/second-degre.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../cours/... désigne premiere-spe/cours/...
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+## Cours
+
+<!-- COURS : lien vers le .qmd du cours.
+     Si tu renommes le fichier, modifie le nom ci-dessous. -->
+
+- [Cours : Second degré](../cours/second-degre/second-degre.qmd)
+
+## Évaluations et DS
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-spe/2025-DS-eval/second-degre/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2025-DS-eval/second-degre/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+- [Évaluation 1 – sujet](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval1-sujet.pdf)
+- [Évaluation 1 – correction](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval1-correction.pdf)
+- [Évaluation 2 – sujet](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval2-sujet.pdf)
+- [Évaluation 2 – correction](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval2-correction.pdf)
+- [Évaluation 3 – sujet](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval3-sujet.pdf)
+- [Évaluation 3 – correction](../2025-DS-eval/second-degre/second-degre-premiere-2025-eval3-correction.pdf)
+- [DS 1 – sujet](../2025-DS-eval/second-degre/second-degre-premiere-2025-DS1-sujet.pdf)
+- [DS 1 – correction](../2025-DS-eval/second-degre/second-degre-premiere-2025-DS1-correction.pdf)
+
+:::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-spe/2026-DS-eval/second-degre/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-DS-eval/second-degre/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+- [Évaluation 1 – sujet](../2026-DS-eval/second-degre/second-degre-premiere-2026-eval1-sujet.pdf)
+- [Évaluation 1 – correction](../2026-DS-eval/second-degre/second-degre-premiere-2026-eval1-correction.pdf)
+- [Évaluation 2 – sujet](../2026-DS-eval/second-degre/second-degre-premiere-2026-eval2-sujet.pdf)
+- [Évaluation 2 – correction](../2026-DS-eval/second-degre/second-degre-premiere-2026-eval2-correction.pdf)
+
+:::

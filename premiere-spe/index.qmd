@@ -1,0 +1,60 @@
+---
+title: "Spécialité mathématiques – Première"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU NIVEAU : Spécialité mathématiques – Première
+     Ce fichier est : premiere-spe/index.qmd
+     Il affiche la liste des chapitres, puis les bacs blancs.
+     ===================================================================== -->
+
+## Chapitres
+
+<!-- AJOUTER UN CHAPITRE :
+     1. Copie un fichier du dossier chapitres/ et donne-lui le nom du nouveau chapitre
+     2. Change le titre en haut de ce nouveau fichier
+     3. Ajoute ici une ligne :  - [Titre du chapitre](chapitres/nom-du-fichier.qmd)
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.chapitres}
+
+- [Second degré](chapitres/second-degre.qmd)
+- [Suites](chapitres/suites.qmd)
+- [Variations de fonctions](chapitres/variations-de-fonctions.qmd)
+- [Variables aléatoires](chapitres/variables-aleatoires.qmd)
+- [Probabilités conditionnelles](chapitres/probabilites-conditionnelles.qmd)
+- [Fonction exponentielle](chapitres/fonctions-exponentielle.qmd)
+- [Trigonométrie](chapitres/trigonometrie.qmd)
+- [Dérivation](chapitres/derivations.qmd)
+
+:::
+
+## Bacs blancs
+
+<!-- Les bacs blancs couvrent plusieurs chapitres : ils sont ici, au niveau de la classe,
+     et non dans chaque chapitre (comme dans ton arborescence de dossiers). -->
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – Bac blanc"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-spe/2025-bac-blanc/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2025-bac-blanc/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – Bac blanc"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-spe/2026-bac-blanc/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-bac-blanc/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::

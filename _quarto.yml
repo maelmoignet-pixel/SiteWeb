@@ -1,0 +1,43 @@
+# =========================================================================
+#  _quarto.yml : LE fichier de configuration du site (le fameux « .yml »)
+#  Il dit à Quarto : « ceci est un site web » et décrit le menu du haut.
+#  ATTENTION : en YAML, les espaces en début de ligne comptent (2 espaces
+#  par niveau). Ne mets jamais de tabulation.
+# =========================================================================
+
+project:
+  type: website
+  # Dossier où Quarto fabrique le site (il est ignoré par Git, voir .gitignore)
+  output-dir: _site
+  # Force la copie de TOUS les PDF dans le site publié
+  resources:
+    - "**/*.pdf"
+
+lang: fr
+
+website:
+  title: "Mathématiques au Lycée naval"
+
+  # ---- MENU DU HAUT ----------------------------------------------------
+  # Pour ajouter un onglet : copie deux lignes « - text / href » et adapte-les.
+  navbar:
+    left:
+      - text: "Accueil"
+        href: index.qmd
+      - text: "Seconde"
+        href: seconde/index.qmd
+      - text: "Spécialité 1re"
+        href: premiere-spe/index.qmd
+      - text: "Spécialité Tle"
+        href: terminale-spe/index.qmd
+      # - text: "1re tronc commun"        # <- décommente quand ce niveau existe
+      #   href: premiere-tc/index.qmd
+
+  page-footer: "Maël Moignet · Lycée Naval de Brest"
+
+# ---- APPARENCE ------------------------------------------------------------
+format:
+  html:
+    theme: cosmo        # thème de base (d'autres : flatly, journal, litera...)
+    css: styles.css     # notre fichier d'apparence
+    toc: true           # sommaire à droite des pages (désactivé sur l'accueil)

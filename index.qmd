@@ -1,0 +1,46 @@
+---
+title: "Mathématiques au Lycée naval"
+subtitle: "Maël Moignet"
+toc: false
+title-block-banner: "#1c4568"
+title-block-banner-color: white
+---
+
+<!-- =====================================================================
+     PAGE D'ACCUEIL  (fichier : index.qmd, à la racine de SiteWeb)
+
+     Chaque bloc <a class="carte" ...> ci-dessous = une image cliquable.
+       - href="..."   : la page vers laquelle l'image renvoie
+       - src="..."    : l'image affichée (dossier images/)
+       - <span>...</span> : le texte sous l'image
+
+     CHANGER UNE IMAGE :
+       1. Copie ta nouvelle image (.jpg ou .png) dans le dossier images/
+       2. Remplace le nom dans src="images/..." (ex. src="images/ma-photo.jpg")
+     ===================================================================== -->
+
+```{=html}
+<div class="cartes">
+
+  <a class="carte" href="seconde/index.html">
+    <img src="images/seconde.svg" alt="Seconde">
+    <span>Seconde</span>
+  </a>
+
+  <a class="carte" href="premiere-spe/index.html">
+    <img src="images/premiere-spe.svg" alt="Spécialité en première">
+    <span>Spécialité en première</span>
+  </a>
+
+  <a class="carte" href="terminale-spe/index.html">
+    <img src="images/terminale-spe.svg" alt="Spécialité en terminale">
+    <span>Spécialité en terminale</span>
+  </a>
+
+  <!-- AJOUTER UNE 4e IMAGE (ex. première tronc commun) :
+       copie un des blocs <a class="carte"> ci-dessus, colle-le juste en dessous,
+       puis change href, src et le texte du <span>.
+       Une image de secours existe déjà : images/premiere-tc.svg -->
+
+</div>
+```

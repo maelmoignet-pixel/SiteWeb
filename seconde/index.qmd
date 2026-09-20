@@ -1,0 +1,36 @@
+---
+title: "Seconde"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU NIVEAU : Seconde
+     Ce fichier est : seconde/index.qmd
+     Il affiche la liste des chapitres, puis les bacs blancs.
+     ===================================================================== -->
+
+## Chapitres
+
+<!-- AJOUTER UN CHAPITRE :
+     1. Copie un fichier du dossier chapitres/ et donne-lui le nom du nouveau chapitre
+     2. Change le titre en haut de ce nouveau fichier
+     3. Ajoute ici une ligne :  - [Titre du chapitre](chapitres/nom-du-fichier.qmd)
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.chapitres}
+
+- [Ensembles de nombres et arithmétique](chapitres/ensembles-de-nombres-arithmetique.qmd)
+- [Géométrie repérée](chapitres/geometrie-reperee.qmd)
+- [Intervalles, équations et inéquations](chapitres/intervalles-equations-inequations.qmd)
+- [Fonctions 1 : généralités](chapitres/fonction-1-generalite.qmd)
+- [Pourcentages](chapitres/pourcentages.qmd)
+- [Fonctions 2 : fonctions de référence](chapitres/fonction-2-references.qmd)
+- [Géométrie : vecteurs 1](chapitres/geometrie-vecteurs-1.qmd)
+- [Statistiques 1](chapitres/statistiques-1.qmd)
+- [Fonctions 3 : étude de signes](chapitres/fonctions-3-etude-de-signes.qmd)
+- [Géométrie : vecteurs 2](chapitres/geometrie-vecteurs-2.qmd)
+- [Probabilités](chapitres/probabilites.qmd)
+- [Géométrie : équations de droites](chapitres/geometrie-equations-de-droites.qmd)
+- [Statistiques 2](chapitres/statistiques-2.qmd)
+
+:::
