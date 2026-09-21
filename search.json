@@ -98,291 +98,627 @@
     "text": "4.3 Représentation graphique\n\nReprésentation graphique (proposition admise)\nSoit X une variable aléatoire suivant la loi binomiale B(n;p). Le diagramme en barres associé à X est en forme de cloche, approximativement centré sur son espérance.\n\n\n\n\nLe diagramme en barres associé à la loi B(20;0{,}6), sur lequel k varie de 0 à 20 en abscisses, montre, pour chaque valeur de k, la hauteur de la barre correspondant à P(X=k).\nPar exemple, pour k=10, P(X=10)\\approx 0{,}12.\nLe diagramme est en forme de cloche et approximativement centré sur 12 (l’espérance correspondant à cette loi).\nCe diagramme est quasiment symétrique par rapport à la droite d’équation x=12 tracée en pointillés."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html",
-    "href": "terminale-spe/chapitres/suites.html",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html",
+    "href": "terminale-spe/chapitres/somme-de-va.html",
+    "title": "Somme de variables aléatoires",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "title": "Somme de variables aléatoires",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "title": "Somme de variables aléatoires",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "title": "Loi des grands nombres",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "title": "Loi des grands nombres",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "title": "Loi des grands nombres",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "title": "Limites de fonctions",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "title": "Limites de fonctions",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "title": "Limites de fonctions",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html",
+    "href": "terminale-spe/chapitres/fonction-ln.html",
+    "title": "Fonction logarithme népérien",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "href": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "title": "Fonction logarithme népérien",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "title": "Fonction logarithme népérien",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html",
+    "href": "terminale-spe/chapitres/derivation.html",
+    "title": "Dérivation",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html#cours",
+    "href": "terminale-spe/chapitres/derivation.html#cours",
+    "title": "Dérivation",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "title": "Dérivation",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/index.html",
+    "href": "seconde/index.html",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "seconde/index.html#chapitres",
+    "href": "seconde/index.html#chapitres",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "2.1 Définitions",
+    "text": "2.1 Définitions\n\nL’ensemble des nombres pouvant s’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N} est appelé ensemble des nombres décimaux. Cet ensemble est noté \\mathbb{D}.\n\n\nMontrer que -1.23\\in\\mathbb{D}, \\dfrac{19}{40}\\in\\mathbb{D} et \\dfrac{1}{3}\\notin\\mathbb{D}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. -1.23 est un décimal car -1.23=\\dfrac{-123}{100}=\\dfrac{-123}{10^2}.\n-1.23 est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=-123 et n=2.\n2. \\dfrac{19}{40} est un décimal car \\dfrac{19}{40}=\\dfrac{19\\times 25}{40\\times 25}=\\dfrac{475}{1000}=\\dfrac{475}{10^3}.\n\\dfrac{19}{40} est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=475 et n=3.\n3. \\dfrac{1}{3} n’est pas un décimal car on ne peut pas l’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N}.\nPour le démontrer, on utilise une démonstration par l’absurde :\nSupposons au contraire que \\dfrac{1}{3}\\in\\mathbb{D}. Il existe donc a\\in\\mathbb{Z} et n\\in\\mathbb{N} tels que \\dfrac{1}{3}=\\dfrac{a}{10^n}.\nAinsi, 10^n=3a et donc 10^n est divisible par 3.\nOr, pour être divisible par 3, la somme des chiffres d’un entier doit être un multiple de 3. Or la somme des chiffres de 10^n est 1 et 1 n’est pas un multiple de 3. On arrive donc à une contradiction."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "2.2 Encadrer et arrondir à l’aide d’un décimal",
+    "text": "2.2 Encadrer et arrondir à l’aide d’un décimal\n\n\nEncadrer un nombre x, c’est trouver deux nombres a et b tels que a&lt;x&lt;b.\nLa différence b-a est appelée l’amplitude de l’encadrement.\nArrondir un nombre, c’est lui trouver la valeur décimale la plus proche à une précision donnée.\n\n\n\n\nDonner un encadrement d’amplitude 10^{-3} de \\sqrt{2}.\nDonner une valeur approchée à 10^{-1} de \\pi.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n1.414\\leqslant\\sqrt{2}\\leqslant 1.415 est un encadrement d’amplitude 10^{-3} de \\sqrt{2}. En effet : 1.415-1.414=0.001=10^{-3}.\n3.1 est une valeur approchée de \\pi à 10^{-1}."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.1 Multiples, diviseurs d’un nombre",
+    "text": "3.1 Multiples, diviseurs d’un nombre\n\na désigne un nombre de \\mathbb{Z} et b un nombre de \\mathbb{N} non nul (a\\in\\mathbb{Z}, b\\in\\mathbb{N}^*).\nDire que a est un multiple de b signifie qu’il existe un entier relatif k (k\\in\\mathbb{Z}) tel que a=k\\times b.\nOn dit aussi que b est un diviseur de a ou que a est divisible par b.\n\n\n\n-8 est un multiple de 4 car -8=-2\\times 4. Ainsi, -8 est divisible par 4 ou 4 est un diviseur de -8.\n5 n’est pas un multiple de 2. En effet, 5=2.5\\times 2, mais 2.5\\notin\\mathbb{Z}.\n\n\n\nSoit b\\in\\mathbb{N}.\nLa somme de deux multiples de b est un multiple de b.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit b\\in\\mathbb{N}. Soit a et a' deux multiples de b. Il existe alors deux entiers relatifs k et k' tels que :\n\na=k\\times b, k\\in\\mathbb{Z}\na'=k'\\times b, k'\\in\\mathbb{Z}\n\nAlors a+a'=k\\times b+k'\\times b=(k+k')\\times b avec k+k'\\in\\mathbb{Z}. Donc a+a' est bien un multiple de b.\n\n\n\n\nOn considère b=4. Alors 8 et 12 sont des multiples de 4 (8=4\\times 2 et 12=4\\times 3). 8+12=20 est alors un multiple de 4. En effet, 20=4\\times 5."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.2 Nombres pairs, nombres impairs",
+    "text": "3.2 Nombres pairs, nombres impairs\n\n\nUn nombre pair est un nombre entier multiple de 2. Autrement dit, a\\in\\mathbb{Z} est pair s’il existe k\\in\\mathbb{Z} tel que a=2\\times k.\nUn nombre impair est un nombre entier qui n’est pas un multiple de 2. Autrement dit son reste dans la division euclidienne par 2 est 1. Ainsi, a\\in\\mathbb{Z} est impair s’il existe k\\in\\mathbb{Z} tel que a=2k+1.\n\n\n\n\nLe produit de deux nombres est pair si au moins l’un de ces deux nombres est pair.\nLe produit de deux nombres impairs est impair.\nLa somme de deux nombres de même parité est paire.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a et b deux entiers.\nProduit de deux nombres dont l’un est pair\nSi a est pair, alors par définition, il existe un entier k tel que a=2k.\nLe produit ab s’écrit alors :\n\nab=(2k)b=2(kb)\n\nPuisque k et b sont des entiers, leur produit kb est aussi un entier. Ainsi, ab est de la forme 2\\times(\\text{un entier}), ce qui signifie que ab est pair.\nProduit de deux nombres impairs\nSoient a et b deux nombres entiers impairs.\nPuisque a est impair, par définition, il existe un entier k tel que :\n\na=2k+1\n\nPuisque b est impair, par définition, il existe un entier m tel que :\n\nb=2m+1\n\nMaintenant, calculons le produit ab :\n\n\\begin{align*}\nab&=(2k+1)(2m+1) \\\\\n&=4km+2k+2m+1 \\\\\n&=2(2km+k+m)+1\n\\end{align*}\n\nPosons K=2km+k+m. Puisque k et m sont des entiers, la somme et le produit d’entiers sont des entiers, donc K est également un entier.\nL’expression du produit ab devient alors :\n\nab=2K+1\n\nPar définition, tout nombre entier qui peut s’écrire sous la forme 2K+1 (où K est un entier) est un nombre impair.\nSomme de deux nombres de même parité\n\nSupposons que a et b sont tous les deux pairs.\nPuisque a est pair, par définition, il existe un entier k tel que a=2k. Puisque b est pair, par définition, il existe un entier m tel que b=2m.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=2k+2m \\\\\n&=2(k+m)\n\\end{align*}\n\nPosons K=k+m. Puisque k et m sont des entiers, leur somme k+m est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\nSupposons que a et b sont tous les deux impairs.\nPuisque a est impair, par définition, il existe un entier k tel que a=2k+1. Puisque b est impair, par définition, il existe un entier m tel que b=2m+1.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=(2k+1)+(2m+1) \\\\\n&=2k+2m+2 \\\\\n&=2(k+m+1)\n\\end{align*}\n\nPosons K=k+m+1. Puisque k et m sont des entiers, leur somme k+m+1 est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\n\n\n\n\n\nMontrer que le carré d’un nombre pair est pair.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a\\in\\mathbb{Z} pair. Alors il existe k\\in\\mathbb{Z} tel que a=2k. De plus a^2=(2k)^2=4k^2=2\\times 2k^2. On pose K=2k^2 et alors a^2=2K. Donc a^2 est pair.\n\n\n\n\nMontrer que le carré d’un nombre impair est impair."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.3 Critères de divisibilité",
+    "text": "3.3 Critères de divisibilité\n\n(admise)\nUn nombre entier est divisible :\n\npar 2 lorsque son chiffre des unités est 0, 2, 4, 6 ou 8 ;\npar 5 lorsque son chiffre des unités est 0 ou 5 ;\npar 3 lorsque la somme de ses chiffres est divisible par 3 ;\npar 9 lorsque la somme de ses chiffres est divisible par 9."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "3.4 Nombres premiers",
+    "text": "3.4 Nombres premiers\n\n3.4.1 Définition\n\nUn nombre premier est un entier naturel qui a exactement deux diviseurs : 1 et lui-même.\n\n\nListe des nombres premiers inférieurs à 65 :\n\n2 ; 3 ; 5 ; 7 ; 11 ; 13 ; 17 ; 19 ; 23 ; 29 ; 31 ; 37 ; 41 ; 43 ; 47 ; 53 ; 59 ; 61\n\n\n\n\n1 n’est pas un nombre premier car il n’admet qu’un seul diviseur : 1.\n0 n’est pas un nombre premier car il est divisible par n’importe quel nombre entier non nul.\n6 n’est pas un nombre premier car il est divisible par 1, 2, 3 et 6.\n\n\n\nOn dit que deux nombres entiers sont premiers entre eux lorsque les seuls diviseurs qu’ils ont en commun sont 1 et -1.\n\n\n\n3.4.2 Décomposition en produit de facteurs premiers\n\n(admise)\nTout nombre entier naturel supérieur ou égal à deux se décompose en produit de facteurs premiers et cette décomposition est unique (à l’ordre près des facteurs).\n\n\nDécomposer 84 en produit de facteurs premiers.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nPremière méthode : à vue\nOn recherche le plus grand premier diviseur de 84 et on recherche ensuite tous les diviseurs premiers : 84=7\\times 12. Or 12=4\\times 3=2^2\\times 3. Ainsi 84=2^2\\times 3\\times 7.\nDeuxième méthode : on cherche les diviseurs premiers par ordre croissant\n\n\n\n\\begin{array}{r|l}\n84 & 2 \\\\\n42 & 2 \\\\\n21 & 3 \\\\\n7 & 7 \\\\\n1 &\n\\end{array}\n\n\n\n84 est divisible par 2 : 84=2\\times 42\n42 est divisible par 2 : 42=2\\times 21 donc 84=2\\times 2\\times 21\n21 est divisible par 3 : 21=3\\times 7 donc 84=2^2\\times 3\\times 7\n7 est premier, donc la décomposition en produit de facteurs premiers est 84=2^2\\times 3\\times 7"
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.1 Généralités",
+    "text": "5.1 Généralités\nIl existe des nombres qui n’ont pas un développement décimal périodique. C’est le cas par exemple du nombre \\pi\\simeq 3.1416\\dots Ils appartiennent à l’ensemble des irrationnels.\n\nLes nombres qui ne peuvent pas être exprimés par une fraction sont dits irrationnels. On le note \\mathbb{I}.\n\n\nL’ensemble des réels \\mathbb{R} est la réunion de l’ensemble des rationnels \\mathbb{Q} et des irrationnels \\mathbb{I}.\n\n\n(admise)\n\nÀ tout point d’une droite graduée est associé un unique nombre réel, son abscisse.\nRéciproquement, à tout nombre réel est associé un unique point d’une droite graduée.\n\n\n\nLe nombre réel \\sqrt{2} est un irrationnel.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn raisonne par l’absurde. Supposons que \\sqrt{2} soit rationnel.\nIl existe alors deux entiers a\\in\\mathbb{N}^* et b\\in\\mathbb{N}^* tels que :\n\n\\sqrt{2}=\\dfrac{a}{b} \\quad\\text{avec}\\quad \\gcd(a,b)=1\n\nEn élevant au carré, on obtient :\n\n2=\\dfrac{a^2}{b^2} \\implies a^2=2b^2 \\quad\\text{(1)}\n\nAinsi, a^2 est pair, ce qui implique que a est pair. Il existe donc un entier k\\in\\mathbb{N}^* tel que a=2k.\nEn substituant cette expression de a dans l’égalité (1) :\n\n(2k)^2=2b^2 \\implies 4k^2=2b^2 \\implies b^2=2k^2\n\nOn en déduit que b^2 est pair, et donc que b est pair.\na et b étant tous les deux pairs, ils admettent 2 comme diviseur commun. Cela contredit le fait que la fraction \\dfrac{a}{b} soit irréductible (\\gcd(a,b)=1).\nPar conséquent, l’hypothèse de départ est fausse : \\sqrt{2} est irrationnel."
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.2 Racine carrée",
+    "text": "5.2 Racine carrée\n\n5.2.1 Définitions\n\nSoit x un réel positif.\nLa racine carrée de x, notée \\sqrt{x}, est l’unique nombre réel positif dont le carré est x.\n\n\nComme 2^2=4, on a \\sqrt{4}=2. On a également \\sqrt{0}=0 et \\sqrt{1}=1.\n\n\nLa racine carrée d’un nombre négatif n’a pas de sens. En effet, il n’existe pas de nombre réel qui, mis au carré, est négatif.\n\n\n\nPour tout nombre réel x positif, \\left(\\sqrt{x}\\right)^2=x.\nPour tout nombre réel x, \\sqrt{x^2}=x si x&gt;0 et \\sqrt{x^2}=-x si x&lt;0.\n\n\n\n\\left(\\sqrt{7}\\right)^2=7 et \\sqrt{(-5)^2}=5\n\n\n\n5.2.2 Calculs\n\nSoit a et b deux réels positifs avec b\\neq 0.\n\n\\sqrt{a\\times b}=\\sqrt{a}\\times\\sqrt{b}\n\\sqrt{\\dfrac{a}{b}}=\\dfrac{\\sqrt{a}}{\\sqrt{b}}\n\n\n\nOn dit qu’une racine carrée (ou radical) admet une écriture simplifiée lorsque deux conditions sont remplies :\n\nLe nombre sous le radical est le plus petit entier possible. Cela signifie qu’il ne contient plus de facteurs carrés parfaits (autres que 1).\nLe dénominateur (s’il y en a un) est un nombre entier sans radical.\n\n\n\nDonner les écritures simplifiées de \\sqrt{12} et de \\sqrt{\\dfrac{27}{8}}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1.\n\n\\sqrt{12}=\\sqrt{4\\times 3}=\\sqrt{4}\\times\\sqrt{3}=\\mathbf{2\\sqrt{3}}\n\n2.\n\n\\begin{align*}\n\\sqrt{\\dfrac{27}{8}}&=\\dfrac{\\sqrt{27}}{\\sqrt{8}} \\\\\n&=\\dfrac{\\sqrt{9\\times 3}}{\\sqrt{4\\times 2}} \\\\\n&=\\dfrac{3\\sqrt{3}}{2\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{3}\\times\\sqrt{2}}{2\\sqrt{2}\\times\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{6}}{2\\times 2} \\\\\n&=\\mathbf{\\dfrac{3\\sqrt{6}}{4}}\n\\end{align*}"
+  },
+  {
+    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
+    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
+    "title": "Ensembles de nombres – Arithmétique",
+    "section": "5.3 Les puissances",
+    "text": "5.3 Les puissances\n\nSoit a un réel et m un entier.\n\nSi m&gt;0, alors a^m=\\underbrace{a\\times a\\times a\\times a\\times\\dots\\times a}_{m\\text{ facteurs}}\nSi m&lt;0, alors a^m=\\dfrac{1}{a^{-m}}\nPar convention, pour a\\neq 0, a^0=1\n\n\n\n\n5^3=5\\times 5\\times 5=125\n5^{-3}=\\dfrac{1}{5^3}=\\dfrac{1}{125}\n\n\n\nSoit a et b deux réels non nuls et soit m et n deux entiers relatifs.\n\na^m\\times a^n=a^{m+n}\n(a^n)^m=a^{n\\times m}\n(a\\times b)^m=a^m\\times b^m\n\\left(\\dfrac{a}{b}\\right)^m=\\dfrac{a^m}{b^m}\n\\dfrac{a^m}{a^n}=a^{m-n}\n\n\n\nCalculer :\n\n2^3\\times 2^2\nx\\times x^2\n(3x)^2\n\\left(\\dfrac{2}{x^2}\\right)^2\n\\dfrac{4^5}{4^7}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n2^3\\times 2^2=8\\times 4=32\nx\\times x^2=x^1\\times x^2=x^{2+1}=x^3\n(3x)^2=3x\\times 3x=9x^2\n\\left(\\dfrac{2}{x^2}\\right)^2=\\dfrac{2^2}{(x^2)^2}=\\dfrac{4}{x^4}\n\\dfrac{4^5}{4^7}=4^{5-7}=4^{-2}=\\dfrac{1}{4^2}=\\dfrac{1}{16}"
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html",
+    "href": "seconde/chapitres/statistiques-1.html",
+    "title": "Statistiques 1",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html#cours",
+    "href": "seconde/chapitres/statistiques-1.html#cours",
+    "title": "Statistiques 1",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
+    "href": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
+    "title": "Statistiques 1",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html",
+    "href": "seconde/chapitres/pourcentages.html",
+    "title": "Pourcentages",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html#cours",
+    "href": "seconde/chapitres/pourcentages.html#cours",
+    "title": "Pourcentages",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
+    "href": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
+    "title": "Pourcentages",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "title": "Géométrie : vecteurs 2",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "title": "Géométrie : vecteurs 2",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 2",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html",
+    "href": "seconde/chapitres/geometrie-reperee.html",
+    "title": "Géométrie repérée",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html#cours",
+    "href": "seconde/chapitres/geometrie-reperee.html#cours",
+    "title": "Géométrie repérée",
+    "section": "Cours",
+    "text": "Cours\n\n-Cours : Géométrie repérée"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "title": "Géométrie repérée",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 4 - sujet\nEvaluation 4 - correction\nEvaluation 5 - sujet\nEvaluation 5 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "title": "Fonctions 3 : étude de signes",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html",
+    "href": "seconde/chapitres/fonction-1-generalite.html",
+    "title": "Fonctions 1 : généralités",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "href": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "title": "Fonctions 1 : généralités",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "title": "Fonctions 1 : généralités",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/index.html",
+    "href": "premiere-spe/index.html",
+    "title": "Spécialité mathématiques – Première",
+    "section": "",
+    "text": "Second degré\nSuites\nProbabilités conditionnelles\nTrigonométrie\nDérivation\nProduit scalaire\nVariables aléatoires\nVariations de fonctions\nGéométrie repérée\nFonction exponentielle"
+  },
+  {
+    "objectID": "premiere-spe/index.html#chapitres",
+    "href": "premiere-spe/index.html#chapitres",
+    "title": "Spécialité mathématiques – Première",
+    "section": "",
+    "text": "Second degré\nSuites\nProbabilités conditionnelles\nTrigonométrie\nDérivation\nProduit scalaire\nVariables aléatoires\nVariations de fonctions\nGéométrie repérée\nFonction exponentielle"
+  },
+  {
+    "objectID": "premiere-spe/index.html#bacs-blancs",
+    "href": "premiere-spe/index.html#bacs-blancs",
+    "title": "Spécialité mathématiques – Première",
+    "section": "Bacs blancs",
+    "text": "Bacs blancs\n\n\n\n\n\n\n\n📁 2025 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#définition",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#définition",
+    "title": "Second degré",
+    "section": "1.1 Définition",
+    "text": "1.1 Définition\n\nOn appelle fonction polynôme du second degré toute fonction f, définie sur \\mathbb{R}, pouvant se ramener à la forme f(x)=ax^2+bx+c où a, b et c sont des réels avec a\\neq 0.\nL’expression ax^2+bx+c est appelée trinôme du second degré.\n\n\nLes fonctions suivantes sont-elles des fonctions polynomiales du second degré ?\n\nf(x)=2\\left(2x-\\dfrac{1}{3}\\right)^2-1\ng(x)=-(-3+2x)^2+5+4x^2\nh(x)=(3x+2)^2-12x-4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x) &= 2\\left(4x^2 - \\dfrac{4}{3}x + \\dfrac{1}{9}\\right) - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x + \\dfrac{2}{9} - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x - \\dfrac{7}{9}\n\\end{align*}\n\nf est bien une fonction du second degré avec a=8, b=\\dfrac{-8}{3} et c=\\dfrac{-7}{9}.\n2. \n\\begin{align*}\ng(x) &= -(9 - 12x + 4x^2) + 5 + 4x^2 \\\\\ng(x) &= -9 + 12x - 4x^2 + 5 + 4x^2 \\\\\ng(x) &= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\\\\ng(x) &= 0x^2 + 12x - 4 \\\\\ng(x) &= 12x - 4\n\\end{align*}\n\ng n’est pas une fonction du second degré.\n3. \n\\begin{align*}\nh(x) &= (9x^2 + 12x + 4) - 12x - 4 \\\\\nh(x) &= 9x^2 + 12x + 4 - 12x - 4 \\\\\nh(x) &= 9x^2\n\\end{align*}\n\nh est une fonction du second degré avec a=9, b=0 et c=0."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
+    "title": "Second degré",
+    "section": "1.2 Forme canonique",
+    "text": "1.2 Forme canonique\n\n1.2.1 Exemples\n\nMettre les fonctions polynomiales suivantes sous la forme f(x)=a(x-\\alpha)^2+\\beta :\n\nf(x)=x^2-6x+8\ng(x)=2x^2-x-3\nh(x)=\\dfrac{1}{3}x^2+2x-1\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x)&=x^2-6x+8 \\\\\n&=\\left(x-\\dfrac{6}{2} \\right)^2-3^2 +8 \\\\\n&=\\left(x-3\\right)^2-9+8 \\\\\n&=\\left(x-3\\right)^2-1\n\\end{align*}\n\n2. \n\\begin{align*}\ng(x)&=2x^2-x-3 \\\\\n&=2\\left(x^2-\\dfrac{1}{2}x \\right) -3 \\\\\n&=2 \\left( \\left(x-\\dfrac{1}{4} \\right)^2-\\left(\\dfrac{1}{4}\\right)^2\\right)-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-2\\times \\dfrac{1}{16}-3 \\\\\n&= 2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-\\dfrac{24}{8} \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{25}{8}\n\\end{align*}\n\n3. \n\\begin{align*}\nh(x) &= \\dfrac{1}{3}x^2+2x-1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x + 9 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left((x+3)^2 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - \\dfrac{1}{3} \\times 9 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 3 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 4\n\\end{align*}\n\n\n\n\n\n\n1.2.2 Cas général\n\nToute fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0 admet une écriture de la forme f(x)=a(x-\\alpha)^2+\\beta avec \\alpha=-\\dfrac{b}{2a} et \\beta=f(\\alpha)=-\\dfrac{b^2-4ac}{4a}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0.\n\n\\begin{align*}\nf(x)&=ax^2+bx+c \\\\\n&= a\\left(x^2+\\dfrac{b}{a}x \\right)+c \\\\\n&= a\\left( \\left(x+\\dfrac{b}{2a}\\right)^2-\\left(\\dfrac{b}{2a} \\right)^2  \\right)+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2}{4a}+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2-4ac}{4a}\n\\end{align*}\n\nOn pose \\alpha=-\\dfrac{b}{2a} et \\beta=-\\dfrac{b^2-4ac}{4a} et ainsi f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nCette forme est appelée forme canonique de f.\n\n\nAvec les mêmes notations, le réel b^2-4ac, noté \\Delta, est appelé le discriminant de la fonction polynomiale f.\n \\Delta=b^2-4ac\n\n\nAvec ces formules, il est parfois plus simple de déterminer la forme canonique qu’en la calculant directement : f(x)=a\\left(x-\\alpha \\right)^2-\\dfrac{\\Delta}{4a} avec \\alpha=\\dfrac{-b}{2a} et \\Delta=b^2-4ac.\n\n\nEn utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :\n\nf(x)=3x^2+2x-1\ng(x)=x^2+4x+10\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. f(x)=3x^2+2x-1\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-2}{2\\times 3}=-\\dfrac{1}{3} et \\Delta=b^2-4ac=2^2-4 \\times 3\\times (-1)=16.\nAinsi f(x)=3 \\left( x +\\dfrac{1}{3}\\right)^2-\\dfrac{4}{3}.\n2. g(x)=x^2+4x+10\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-4}{2\\times 1}=-\\dfrac{4}{2}=-2 et \\Delta=b^2-4ac=4^2-4 \\times 1\\times 10=16-40=-24.\n\n\\begin{align*}\ng(x) &= 1 \\left( x -(-2)\\right)^2-\\dfrac{-24}{4\\times 1} \\\\\ng(x) &= 1 \\left( x +2\\right)^2-\\dfrac{-24}{4} \\\\\ng(x) &= 1 \\left( x +2\\right)^2+6\n\\end{align*}"
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
+    "title": "Second degré",
+    "section": "1.3 Étude des fonctions polynomiales du second degré",
+    "text": "1.3 Étude des fonctions polynomiales du second degré\n\nLa courbe représentative d’une fonction polynomiale du second degré s’appelle une parabole.\n\n\nLa parabole représentative d’une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta avec a, \\alpha et \\beta trois réels et a\\neq 0 admet la droite d’équation x=\\alpha pour axe de symétrie.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations, soit h\\in \\mathbb{R}.\nD’une part : \n\\begin{align*}\nf(\\alpha + h) &= a((\\alpha + h) - \\alpha)^2 + \\beta \\\\\n&= a(h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nD’autre part : \n\\begin{align*}\nf(\\alpha - h) &= a((\\alpha - h) - \\alpha)^2 + \\beta \\\\\n&= a(-h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nAinsi f(\\alpha + h) = f(\\alpha - h). Ceci prouve que la parabole est symétrique par rapport à la droite verticale d’équation x=\\alpha.\n\n\n\n\nLe point S(\\alpha;\\beta) est le sommet de la parabole représentative d’une fonction polynomiale du second degré définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0.\n\\forall x \\in \\mathbb{R},~(x-\\alpha)^2 \\ge 0.\nCas 1 : a &gt; 0\nSi a &gt; 0, alors a(x-\\alpha)^2 \\ge 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\ge \\beta. La fonction f(x) atteint un minimum égal à \\beta. Ce minimum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le minimum de la fonction.\nCas 2 : a &lt; 0\nSi a &lt; 0, alors a(x-\\alpha)^2 \\le 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\le \\beta. La fonction f(x) atteint un maximum égal à \\beta. Ce maximum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le maximum de la fonction.\nDans les deux cas, le point (\\alpha; \\beta) correspond à l’extremum (minimum ou maximum) de la fonction. Par définition, ce point d’extremum est le sommet de la parabole. Ainsi, S(\\alpha; \\beta) est le sommet de la parabole représentative de f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0. Voici les deux tableaux de variations possibles :\nSi a&gt;0 : la parabole est tournée vers le haut\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n\\beta\n↗\n\n\n\n\nSi a&lt;0 : la parabole est tournée vers le bas\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↗\n\\beta\n↘\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit x \\in \\mathbb{R}, f(x)=a(x-\\alpha)^2+ \\beta avec \\alpha=-\\dfrac{b}{2a}.\n1er cas : a&gt;0\nVariations sur ]-\\infty; \\alpha]\nSoient x et y deux réels de ]-\\infty; \\alpha] tels que x&lt;y. \n\\begin{align*}\nf(x)-f(y) &= \\left(a(x-\\alpha)^2 + \\beta\\right) - \\left(a(y-\\alpha)^2 + \\beta\\right) \\\\\n&= a(x-\\alpha)^2 - a(y-\\alpha)^2 \\\\\n&= a\\left[(x-\\alpha)^2 - (y-\\alpha)^2\\right] \\\\\n&= a\\left[(x-\\alpha - (y-\\alpha))(x-\\alpha + (y-\\alpha))\\right] \\\\\n&= a(x-\\alpha - y + \\alpha)(x-\\alpha + y - \\alpha) \\\\\n&= a(x-y)(x+y-2\\alpha)\n\\end{align*}\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx&lt;\\alpha et y\\leqslant\\alpha donc x+y&lt;2\\alpha donc x+y-2\\alpha&lt;0\n\nDonc f(x)-f(y)&gt;0 soit f(x)&gt;f(y). Donc f est strictement décroissante sur ]-\\infty; \\alpha].\nVariations sur [\\alpha; +\\infty[\nSoient x et y deux réels de [\\alpha; +\\infty[ tels que x&lt;y. \nf(x)-f(y)=a(x-y)(x+y-2\\alpha)\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx\\geqslant\\alpha et y&gt;\\alpha donc x+y&gt;2\\alpha donc x+y-2\\alpha&gt;0\n\nDonc f(x)-f(y)&lt;0 soit f(x)&lt;f(y). Donc f est strictement croissante sur [\\alpha; +\\infty[.\n2ème cas : a&lt;0\nOn applique un raisonnement similaire.\n\n\n\n\nTracer le tableau de variations des deux fonctions suivantes :\n\nf est définie sur \\mathbb{R} par f(x)=2x^2+4x+5.\ng est définie sur [0;3] par g(x)=-3x^2+6x-4.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}, f(x)=2x^2+4x+5. \\alpha=-\\dfrac{b}{2a}=-1 et \\beta=f(\\alpha)=f(-1)=3. Donc f(x)=2(x+1)^2+3. Comme a&gt;0 on a :\n\n\n\nx\n-\\infty\n\n-1\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n3\n↗\n\n\n\n\n2. Soit x \\in [0;3], g(x)=-3x^2+6x-4.\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-6}{2\\times (-3)}=1 et \\beta=g(\\alpha)=g(1)=-1. Donc g(x)=-3(x-1)^2-1. Comme a&lt;0 on a :\n\n\n\nx\n0\n\n1\n\n3\n\n\n\n\nf(x)\n-4\n↗\n-1\n↘\n-13"
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#généralités",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#généralités",
+    "title": "Second degré",
+    "section": "2.1 Généralités",
+    "text": "2.1 Généralités\n\nOn appelle équation du second degré toute équation pouvant se ramener à la forme ax^2+bx+c=0 où a, b et c sont des réels avec a\\neq 0.\n\n\nRésoudre une équation consiste à trouver toutes les valeurs de x qui vérifient l’équation.\nDans le cas où l’équation a été ramenée à une équation de la forme ax^2+bx+c=0, résoudre l’équation consiste à déterminer le/les antécédent(s) de 0 par la fonction f:x\\mapsto ax^2+bx+c. On dit que l’on cherche les racines de la fonction.\nGraphiquement, cela revient à déterminer les abscisses des points d’intersection de la courbe représentative de la fonction f avec l’axe des abscisses."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
+    "title": "Second degré",
+    "section": "2.2 Résolution d’une équation du second degré",
+    "text": "2.2 Résolution d’une équation du second degré\n\nSoit a, b et c trois réels avec a\\neq0. On considère l’équation ax^2+bx+c=0.\nSoit \\Delta=b^2-4ac le discriminant du trinôme ax^2+bx+c.\n\nSi \\Delta&lt;0, alors l’équation ax^2+bx+c=0 n’admet pas de solution réelle.\nSi \\Delta=0, alors l’équation ax^2+bx+c=0 admet une unique solution réelle : x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0, alors l’équation ax^2+bx+c=0 admet deux solutions réelles : x_1=\\dfrac{-b-\\sqrt{\\Delta}}{2a} et x_2=\\dfrac{-b+\\sqrt{\\Delta}}{2a}.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit x \\in \\mathbb{R} : \n\\begin{align*}\nax^2+bx+c=0 &\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{\\Delta}{4a}=0 \\\\\n&\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a} \\\\\n&\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\n\\end{align*}\n\n\nSi \\Delta&lt;0 : Alors \\dfrac{\\Delta}{4a^2}&lt;0. Or \\left(x+\\dfrac{b}{2a} \\right)^2&gt;0. Donc l’équation n’admet pas de solution.\nSi \\Delta=0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\\\\n&\\iff x+\\dfrac{b}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}\n\\end{align*}\n Ainsi S=\\left\\{ -\\dfrac{b}{2a} \\right\\}.\nSi \\Delta&gt;0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2- \\left(\\dfrac{\\sqrt{\\Delta}}{2a} \\right)^2=0 \\\\\n&\\iff \\left(x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\right) \\left(x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\right)=0 \\text{ équation produit nul} \\\\\n&\\iff x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a}=0 \\text{  ou  } x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\text{ ou } x=-\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\\\\n&\\iff x=\\dfrac{-b+\\sqrt{\\Delta}}{2a} \\text{ ou } x=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\n\\end{align*}\n Finalement : S=\\left\\{\\dfrac{-b+\\sqrt{\\Delta}}{2a}; \\dfrac{-b-\\sqrt{\\Delta}}{2a}  \\right\\}.\n\n\n\n\n\nRésoudre dans \\mathbb{R} les équations suivantes :\n\n15x^2-x-2=0\n3x^2+6x+4=0\n\\dfrac{1}{5}x^2+2x+5=0\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. 15x^2-x-2=0\n\\Delta=(-1)^2-4\\times 15 \\times (-2)=121. Le discriminant du trinôme est strictement positif donc l’équation admet exactement deux solutions :\nx_1=\\dfrac{1 -\\sqrt{121}}{30}=\\dfrac{1-11}{30}=\\dfrac{-1}{3} et x_2=\\dfrac{1+\\sqrt{121}}{30}=\\dfrac{1+11}{30}=\\dfrac{12}{30}=\\dfrac{2}{5}.\nFinalement S=\\left\\{\\dfrac{-1}{3}; \\dfrac{2}{5} \\right\\}.\n2. 3x^2+6x+4=0\n\\Delta=6^2-4\\times3\\times4=-12. Le discriminant du trinôme est strictement négatif, donc l’équation n’admet pas de solution réelle.\n3. \\dfrac{1}{5}x^2+2x+5=0\n\\Delta=2^2-4\\times \\dfrac{1}{5}\\times 5=0. Le discriminant du trinôme est nul, donc l’équation admet une unique solution réelle : S=\\{-5 \\}.\n\n\n\n\nLorsque le trinôme est « incomplet » (b=0 ou c=0), il n’est pas nécessaire de calculer le discriminant pour résoudre l’équation.\n\n\nSans calculer le discriminant des trinômes, résoudre les équations suivantes :\n\n4x^2+3x-10=3x+6\nx^2-5x+4=x+4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}. \n\\begin{align*}\n4x^2+3x-10=3x+6 &\\iff  4x^2-16=0\\\\\n&\\iff (2x)^2-4^2=0 \\\\\n&\\iff (2x-4)(2x+4)=0 \\\\\n&\\iff 2x-4=0 \\text{ ou }2x+4=0 \\\\\n&\\iff x=2 \\text{ ou } x=-2\n\\end{align*}\n Finalement S=\\{-2;2 \\}.\n2. Soit x \\in \\mathbb{R}. \n\\begin{align*}\nx^2-5x+4=x+4 &\\iff x^2-6x=0 \\\\\n&\\iff x(x-6)=0 \\\\\n&\\iff x=0 \\text{ ou }x-6=0 \\\\\n&\\iff x=0 \\text{ ou }x=6\n\\end{align*}\n Finalement S=\\{0;6 \\}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
+    "title": "Second degré",
+    "section": "3.1 Somme et produit des racines",
+    "text": "3.1 Somme et produit des racines\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c dont le discriminant \\Delta est strictement positif. On note x_1 et x_2 les deux racines de f. Alors :  x_1+x_2=-\\dfrac{b}{a} \\text{ et } x_1 \\times x_2=\\dfrac{c}{a}\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nx_1+x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}+\\dfrac{-b+\\sqrt{\\Delta}}{2a}=\\dfrac{-2b}{2a}=\\dfrac{-b}{a}\nx_1 \\times x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\\times\\dfrac{-b+\\sqrt{\\Delta}}{2a}= \\dfrac{(-b)^2-\\sqrt{\\Delta}^2}{4a^2}=\\dfrac{b^2-\\Delta}{4a^2}=\\dfrac{b^2-b^2+4ac}{4a^2}=\\dfrac{c}{a}\n\n\n\n\n\nCes formules peuvent être utiles pour trouver la deuxième racine lorsqu’une des racines du trinôme est évidente. On peut également vérifier qu’aucune erreur de calcul ne s’est glissée lors de la résolution de l’équation.\n\n\nSoit x\\in \\mathbb{R}. Résolvons l’équation -2x^2+5x-3=0. 1 est une racine évidente. En effet, -2\\times 1^2+5\\times 1 -3=0. On cherche la deuxième racine x_2 telle que 1+x_2=\\dfrac{5}{2}. Ainsi x_2=\\dfrac{3}{2}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
+    "title": "Second degré",
+    "section": "3.2 Factorisation",
+    "text": "3.2 Factorisation\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c.\n\nSi \\Delta&lt;0, alors f n’admet pas de forme factorisée.\nSi \\Delta =0, alors la forme factorisée de f est f(x)=a(x-x_0)^2 où x_0 est la racine double de f.\nSi \\Delta&gt;0, alors la forme factorisée de f est f(x)=a(x-x_1)(x-x_2) où x_1 et x_2 sont les deux racines de f.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a vu dans la démonstration de la proposition sur les racines les différentes factorisations de f en fonction du signe de son discriminant \\Delta :\nPour commencer ax^2+bx+c=0 \\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}.\nSi \\Delta=0, alors \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\iff (x-x_0)^2=0 avec x_0=\\dfrac{-b}{2a}."
+  },
+  {
+    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
+    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
+    "title": "Second degré",
+    "section": "3.3 Étude de signe",
+    "text": "3.3 Étude de signe\n\nSoit f un polynôme du second degré définie sur \\mathbb{R} par f(x)=ax^2+bx+c.\n\nSi \\Delta &lt;0, alors :\n\nSi a&lt;0 alors f est strictement négative : \\forall x \\in \\mathbb{R},~f(x)&lt;0\nSi a&gt;0 alors f est strictement positive : \\forall x \\in \\mathbb{R},~f(x)&gt;0\n\nSi \\Delta=0 alors :\n\nSi a&lt;0 alors f est négative et f\\left(-\\dfrac{b}{2a}\\right)=0.\nSi a&gt;0 alors f est positive et f\\left(-\\dfrac{b}{2a}\\right)=0.\n\nSi \\Delta &gt;0, alors on note x_1 et x_2 les deux racines de f. Si on suppose que x_1&lt;x_2 alors le tableau de signe de f est :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nSi \\Delta&lt;0 : Soit x\\in \\mathbb{R}. f(x)=ax^2+bx+c=a \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a}=a\\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]. Or \\left(x+\\dfrac{b}{2a}\\right)^2 \\geq 0 et -\\dfrac{\\Delta}{4a^2}&gt;0 donc par produit \\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]&gt;0. Ainsi f est bien du signe de a.\nSi \\Delta=0 alors f(x)=a(x-x_0)^2. Ainsi f est du signe de a et la racine de f est x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0 : Soit x \\in \\mathbb{R}. f(x)=ax^2+bx+c=a(x-x_1)(x-x_2). Supposons que x_1&lt;x_2, alors on a :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nx-x_1\n-\n\n0\n\n+\n\n+\n\n\nx-x_2\n-\n\n-\n\n0\n\n+\n\n\n(x-x_1)(x-x_2)\n+\n\n0\n\n- → 0\n\n+\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\nFinalement, on peut retenir que f est du signe de a sauf entre ses racines."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/produit-scalaire.html",
+    "href": "premiere-spe/chapitres/produit-scalaire.html",
+    "title": "Produit scalaire",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/produit-scalaire.html#cours",
+    "href": "premiere-spe/chapitres/produit-scalaire.html#cours",
+    "title": "Produit scalaire",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/produit-scalaire.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/produit-scalaire.html#évaluations-et-ds",
+    "title": "Produit scalaire",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html",
+    "title": "Variables aléatoires",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#cours",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html#cours",
+    "title": "Variables aléatoires",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
+    "title": "Variables aléatoires",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "premiere-spe/chapitres/suites.html",
+    "href": "premiere-spe/chapitres/suites.html",
     "title": "Suites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#cours",
-    "href": "terminale-spe/chapitres/suites.html#cours",
+    "objectID": "premiere-spe/chapitres/suites.html#cours",
+    "href": "premiere-spe/chapitres/suites.html#cours",
     "title": "Suites",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+    "text": "Cours\n\n\nCours : Suites"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "objectID": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
     "title": "Suites",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nDS 1 – sujet\nDS 1 – correction\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction"
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 4 – sujet\nÉvaluation 4 – correction\nÉvaluation 5 – sujet\nÉvaluation 5 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "title": "Primitives et équations différentielles",
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html",
+    "title": "Probabilités conditionnelles",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "title": "Primitives et équations différentielles",
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
+    "title": "Probabilités conditionnelles",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "title": "Primitives et équations différentielles",
+    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
+    "title": "Probabilités conditionnelles",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
-    "href": "terminale-spe/chapitres/loi-binomiale.html",
-    "title": "Loi binomiale",
+    "objectID": "premiere-spe/chapitres/derivations.html",
+    "href": "premiere-spe/chapitres/derivations.html",
+    "title": "Dérivation",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "title": "Loi binomiale",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Loi binomiale\nTD"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "title": "Loi binomiale",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/integration.html",
-    "href": "terminale-spe/chapitres/integration.html",
-    "title": "Intégration",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/integration.html#cours",
-    "href": "terminale-spe/chapitres/integration.html#cours",
-    "title": "Intégration",
+    "objectID": "premiere-spe/chapitres/derivations.html#cours",
+    "href": "premiere-spe/chapitres/derivations.html#cours",
+    "title": "Dérivation",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
-    "title": "Intégration",
+    "objectID": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
+    "title": "Dérivation",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/espace-1.html",
-    "href": "terminale-spe/chapitres/espace-1.html",
-    "title": "Espace 1",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mathématiques au Lycée naval",
+    "section": "",
+    "text": "Seconde\n  \n\n  \n    \n    Spécialité en première\n  \n\n  \n    \n    Spécialité en terminale"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html",
+    "title": "Fonction exponentielle",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/espace-1.html#cours",
-    "href": "terminale-spe/chapitres/espace-1.html#cours",
-    "title": "Espace 1",
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
+    "title": "Fonction exponentielle",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
-    "title": "Espace 1",
+    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
+    "title": "Fonction exponentielle",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html",
-    "href": "terminale-spe/chapitres/denombrement.html",
-    "title": "Dénombrement",
+    "objectID": "premiere-spe/chapitres/second-degre.html",
+    "href": "premiere-spe/chapitres/second-degre.html",
+    "title": "Second degré",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html#cours",
-    "href": "terminale-spe/chapitres/denombrement.html#cours",
-    "title": "Dénombrement",
+    "objectID": "premiere-spe/chapitres/second-degre.html#cours",
+    "href": "premiere-spe/chapitres/second-degre.html#cours",
+    "title": "Second degré",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Second degré"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
+    "title": "Second degré",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 1 – sujet\nDS 1 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/trigonometrie.html",
+    "href": "premiere-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "premiere-spe/chapitres/trigonometrie.html#cours",
+    "href": "premiere-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
-    "title": "Dénombrement",
+    "objectID": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
-    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
-    "title": "Chapitre 2 – Géométrie repérée",
-    "section": "1.1 Coordonnées d’un point dans un repère",
-    "text": "1.1 Coordonnées d’un point dans un repère\nPour repérer un point dans le plan, on définit un repère et on indique les coordonnées de ce point dans le repère.\n\n\n\nDéfinir un repère, c’est donner trois points O, I et J non alignés dans un ordre précis.\nOn note alors (O,I,J) ce repère.\n\nLe point O est appelé l’origine du repère.\nLa droite (OI) est l’axe des abscisses orienté de O vers I.\nLa longueur du segment [OI] indique l’unité sur cet axe.\nLa droite (OJ) est l’axe des ordonnées orienté de O vers J.\nLa longueur du segment [OJ] indique l’unité sur cet axe.\n\n\n\n\n\n\n\n\n\n\n\n\n\nPour repérer un point, on indique en premier son abscisse puis son ordonnée.\n\n\nPlacer, dans le repère précédent, le point M(2;3).\n\n\nDans tout repère (O,I,J) les coordonnées de O, I et J sont :\n\nO(0;0) \\qquad\\qquad I(1;0) \\qquad\\qquad J(0;1)"
-  },
-  {
-    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
-    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
-    "title": "Chapitre 2 – Géométrie repérée",
-    "section": "1.2 Différents types de repères",
-    "text": "1.2 Différents types de repères\n\n\nSi le triangle OIJ est rectangle en O, le repère (O,I,J) est dit orthogonal.\nSi le triangle OIJ est isocèle en O, le repère (O,I,J) est dit normé.\nSi le triangle OIJ est isocèle et rectangle en O, le repère (O,I,J) est dit orthonormé."
-  },
-  {
-    "objectID": "seconde/chapitres/statistiques-2.html",
-    "href": "seconde/chapitres/statistiques-2.html",
-    "title": "Statistiques 2",
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html",
+    "title": "Variations de fonctions",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/statistiques-2.html#cours",
-    "href": "seconde/chapitres/statistiques-2.html#cours",
-    "title": "Statistiques 2",
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
+    "title": "Variations de fonctions",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
-    "href": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
-    "title": "Statistiques 2",
+    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
+    "title": "Variations de fonctions",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/chapitres/probabilites.html",
-    "href": "seconde/chapitres/probabilites.html",
-    "title": "Probabilités",
+    "objectID": "premiere-spe/chapitres/geometrie-reperee.html",
+    "href": "premiere-spe/chapitres/geometrie-reperee.html",
+    "title": "Géométrie repérée",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/probabilites.html#cours",
-    "href": "seconde/chapitres/probabilites.html#cours",
-    "title": "Probabilités",
+    "objectID": "premiere-spe/chapitres/geometrie-reperee.html#cours",
+    "href": "premiere-spe/chapitres/geometrie-reperee.html#cours",
+    "title": "Géométrie repérée",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/probabilites.html#évaluations-et-ds",
-    "href": "seconde/chapitres/probabilites.html#évaluations-et-ds",
-    "title": "Probabilités",
+    "objectID": "premiere-spe/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "href": "premiere-spe/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "title": "Géométrie repérée",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html",
-    "title": "Intervalles, équations et inéquations",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#cours",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
-    "title": "Intervalles, équations et inéquations",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
-    "title": "Intervalles, équations et inéquations",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html",
-    "title": "Géométrie : vecteurs 1",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
-    "title": "Géométrie : vecteurs 1",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
-    "title": "Géométrie : vecteurs 1",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html",
-    "title": "Géométrie : équations de droites",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
-    "title": "Géométrie : équations de droites",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
-    "title": "Géométrie : équations de droites",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-2-references.html",
-    "href": "seconde/chapitres/fonction-2-references.html",
-    "title": "Fonctions 2 : fonctions de référence",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-2-references.html#cours",
-    "href": "seconde/chapitres/fonction-2-references.html#cours",
-    "title": "Fonctions 2 : fonctions de référence",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
-    "title": "Fonctions 2 : fonctions de référence",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
-    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
-    "title": "Ensembles de nombres et arithmétique",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
-    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
-    "title": "Ensembles de nombres et arithmétique",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Ensembles de nombres – Arithmétique"
-  },
-  {
-    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
-    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
-    "title": "Ensembles de nombres et arithmétique",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction\nDS 1 - sujet\nDS 1 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n-Évaluation 1 – sujet\n-Évaluation 1 – corrigé\n-Évaluation 2 – sujet\n-Évaluation 2 – corrigé"
   },
   {
     "objectID": "premiere-spe/cours/suites/suites-premiere.html#définition",
@@ -483,585 +819,361 @@
     "text": "5.3 Suites sans limite\n\nCertaines suites n’ont pas de limite. On dit alors que la suite diverge.\n\n\n\n\nC’est le cas de la suite (u_n) définie sur \\mathbb{N} par u_n=(-1)^n. Les termes de la suite (u_n) prennent alternativement les valeurs -1 et 1."
   },
   {
-    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html",
-    "href": "premiere-spe/chapitres/variations-de-fonctions.html",
-    "title": "Variations de fonctions",
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html",
+    "title": "Ensembles de nombres et arithmétique",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
-    "href": "premiere-spe/chapitres/variations-de-fonctions.html#cours",
-    "title": "Variations de fonctions",
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#cours",
+    "title": "Ensembles de nombres et arithmétique",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Ensembles de nombres – Arithmétique"
+  },
+  {
+    "objectID": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
+    "href": "seconde/chapitres/ensembles-de-nombres-arithmetique.html#évaluations-et-ds",
+    "title": "Ensembles de nombres et arithmétique",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction\nDS 1 - sujet\nDS 1 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n-Évaluation 1 – sujet\n-Évaluation 1 – corrigé\n-Évaluation 2 – sujet\n-Évaluation 2 – corrigé"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-2-references.html",
+    "href": "seconde/chapitres/fonction-2-references.html",
+    "title": "Fonctions 2 : fonctions de référence",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-2-references.html#cours",
+    "href": "seconde/chapitres/fonction-2-references.html#cours",
+    "title": "Fonctions 2 : fonctions de référence",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/variations-de-fonctions.html#évaluations-et-ds",
-    "title": "Variations de fonctions",
+    "objectID": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "title": "Fonctions 2 : fonctions de référence",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "premiere-spe/chapitres/trigonometrie.html",
-    "href": "premiere-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "title": "Géométrie : équations de droites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/trigonometrie.html#cours",
-    "href": "premiere-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "title": "Géométrie : équations de droites",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "title": "Géométrie : équations de droites",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "premiere-spe/chapitres/second-degre.html",
-    "href": "premiere-spe/chapitres/second-degre.html",
-    "title": "Second degré",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "title": "Géométrie : vecteurs 1",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/second-degre.html#cours",
-    "href": "premiere-spe/chapitres/second-degre.html#cours",
-    "title": "Second degré",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Second degré"
-  },
-  {
-    "objectID": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/second-degre.html#évaluations-et-ds",
-    "title": "Second degré",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 1 – sujet\nDS 1 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction"
-  },
-  {
-    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html",
-    "href": "premiere-spe/chapitres/fonctions-exponentielle.html",
-    "title": "Fonction exponentielle",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
-    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#cours",
-    "title": "Fonction exponentielle",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "title": "Géométrie : vecteurs 1",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/fonctions-exponentielle.html#évaluations-et-ds",
-    "title": "Fonction exponentielle",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 1",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Mathématiques au Lycée naval",
-    "section": "",
-    "text": "Seconde\n  \n\n  \n    \n    Spécialité en première\n  \n\n  \n    \n    Spécialité en terminale"
-  },
-  {
-    "objectID": "premiere-spe/chapitres/derivations.html",
-    "href": "premiere-spe/chapitres/derivations.html",
-    "title": "Dérivation",
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html",
+    "title": "Intervalles, équations et inéquations",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/derivations.html#cours",
-    "href": "premiere-spe/chapitres/derivations.html#cours",
-    "title": "Dérivation",
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "title": "Intervalles, équations et inéquations",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/derivations.html#évaluations-et-ds",
-    "title": "Dérivation",
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "title": "Intervalles, équations et inéquations",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html",
-    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html",
-    "title": "Probabilités conditionnelles",
+    "objectID": "seconde/chapitres/probabilites.html",
+    "href": "seconde/chapitres/probabilites.html",
+    "title": "Probabilités",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
-    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#cours",
-    "title": "Probabilités conditionnelles",
+    "objectID": "seconde/chapitres/probabilites.html#cours",
+    "href": "seconde/chapitres/probabilites.html#cours",
+    "title": "Probabilités",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/probabilites-conditionnelles.html#évaluations-et-ds",
-    "title": "Probabilités conditionnelles",
+    "objectID": "seconde/chapitres/probabilites.html#évaluations-et-ds",
+    "href": "seconde/chapitres/probabilites.html#évaluations-et-ds",
+    "title": "Probabilités",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "premiere-spe/chapitres/suites.html",
-    "href": "premiere-spe/chapitres/suites.html",
+    "objectID": "seconde/chapitres/statistiques-2.html",
+    "href": "seconde/chapitres/statistiques-2.html",
+    "title": "Statistiques 2",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-2.html#cours",
+    "href": "seconde/chapitres/statistiques-2.html#cours",
+    "title": "Statistiques 2",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
+    "href": "seconde/chapitres/statistiques-2.html#évaluations-et-ds",
+    "title": "Statistiques 2",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
+    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
+    "title": "Chapitre 2 – Géométrie repérée",
+    "section": "1.1 Coordonnées d’un point dans un repère",
+    "text": "1.1 Coordonnées d’un point dans un repère\nPour repérer un point dans le plan, on définit un repère et on indique les coordonnées de ce point dans le repère.\n\n\n\nDéfinir un repère, c’est donner trois points O, I et J non alignés dans un ordre précis.\nOn note alors (O,I,J) ce repère.\n\nLe point O est appelé l’origine du repère.\nLa droite (OI) est l’axe des abscisses orienté de O vers I.\nLa longueur du segment [OI] indique l’unité sur cet axe.\nLa droite (OJ) est l’axe des ordonnées orienté de O vers J.\nLa longueur du segment [OJ] indique l’unité sur cet axe.\n\n\n\n\n\n\n\n\n\n\n\n\n\nPour repérer un point, on indique en premier son abscisse puis son ordonnée.\n\n\nPlacer, dans le repère précédent, le point M(2;3).\n\n\nDans tout repère (O,I,J) les coordonnées de O, I et J sont :\n\nO(0;0) \\qquad\\qquad I(1;0) \\qquad\\qquad J(0;1)"
+  },
+  {
+    "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
+    "href": "seconde/cours/geometrie-reperee/geometrie-reperee.html#différents-types-de-repères",
+    "title": "Chapitre 2 – Géométrie repérée",
+    "section": "1.2 Différents types de repères",
+    "text": "1.2 Différents types de repères\n\n\nSi le triangle OIJ est rectangle en O, le repère (O,I,J) est dit orthogonal.\nSi le triangle OIJ est isocèle en O, le repère (O,I,J) est dit normé.\nSi le triangle OIJ est isocèle et rectangle en O, le repère (O,I,J) est dit orthonormé."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html",
+    "href": "terminale-spe/chapitres/denombrement.html",
+    "title": "Dénombrement",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html#cours",
+    "href": "terminale-spe/chapitres/denombrement.html#cours",
+    "title": "Dénombrement",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "title": "Dénombrement",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/espace-1.html",
+    "href": "terminale-spe/chapitres/espace-1.html",
+    "title": "Espace 1",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/espace-1.html#cours",
+    "href": "terminale-spe/chapitres/espace-1.html#cours",
+    "title": "Espace 1",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Espace 1 ## Évaluations et DS\n\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html",
+    "href": "terminale-spe/chapitres/integration.html",
+    "title": "Intégration",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html#cours",
+    "href": "terminale-spe/chapitres/integration.html#cours",
+    "title": "Intégration",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "title": "Intégration",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
+    "href": "terminale-spe/chapitres/loi-binomiale.html",
+    "title": "Loi binomiale",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "title": "Loi binomiale",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Loi binomiale\nTD"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "title": "Loi binomiale",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "title": "Primitives et équations différentielles",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "title": "Primitives et équations différentielles",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "title": "Primitives et équations différentielles",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
     "title": "Suites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "premiere-spe/chapitres/suites.html#cours",
-    "href": "premiere-spe/chapitres/suites.html#cours",
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
     "title": "Suites",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites"
+    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
   },
   {
-    "objectID": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/suites.html#évaluations-et-ds",
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
     "title": "Suites",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 4 – sujet\nÉvaluation 4 – correction\nÉvaluation 5 – sujet\nÉvaluation 5 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nDS 1 – sujet\nDS 1 – correction\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction"
   },
   {
-    "objectID": "premiere-spe/chapitres/variables-aleatoires.html",
-    "href": "premiere-spe/chapitres/variables-aleatoires.html",
-    "title": "Variables aléatoires",
-    "section": "",
-    "text": "← Retour aux chapitres"
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.1 Vecteurs de l’espace",
+    "text": "1.1 Vecteurs de l’espace\n\n1.1.1 Définition d’un vecteur de l’espace\n\nSoient A et B deux points de l’espace. On associe le vecteur \\overrightarrow{AB} à la translation qui transforme A en B.\n\n\nDeux vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont égaux si et seulement si ABDC est un parallélogramme (éventuellement aplati). On peut alors noter \\overrightarrow{u}=\\overrightarrow{AB}=\\overrightarrow{CD}.\n\n\nLes vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont des représentants du vecteur \\overrightarrow{u}.\n\n\n\nDeux vecteurs sont égaux s’ils ont même direction, même sens et même norme.\nLorsque A et B sont confondus, on dit que le vecteur \\overrightarrow{AB} est nul et on le note \\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} un vecteur et A un point de l’espace. Il existe un unique point M tel que \\overrightarrow{AM}=\\overrightarrow{u}.\n\n\nOn dit que \\overrightarrow{AM} est le représentant de \\overrightarrow{u} d’origine A.\n\n\n\n1.1.2 Opérations sur les vecteurs de l’espace\n\nRègle du parallélogramme\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace de représentants respectifs \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. La somme des vecteurs \\overrightarrow{u} et \\overrightarrow{v} est le vecteur noté \\overrightarrow{u}+\\overrightarrow{v} de représentant \\overrightarrow{AD} tel que ABDC soit un parallélogramme.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nRelation de Chasles\nPour tous points A, B et C de l’espace, \\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}.\n\n\n\nSoient \\overrightarrow{u} un vecteur non nul et k un réel non nul. Le vecteur k\\overrightarrow{u} est le vecteur qui a :\n\nla même direction que le vecteur \\overrightarrow{u} ;\nle même sens que \\overrightarrow{u} si k&gt;0, le sens contraire de \\overrightarrow{u} si k&lt;0 ;\npour norme |k|\\times\\|\\overrightarrow{u}\\|.\n\nPour tout vecteur \\overrightarrow{u} et pour tout réel k, 0\\overrightarrow{u}=k\\overrightarrow{0}=\\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. Soient k et k' deux réels.\n\nk\\overrightarrow{u}=\\overrightarrow{0}\\Leftrightarrow k=0 ou \\overrightarrow{u}=\\overrightarrow{0}\nk(k'\\overrightarrow{u})=kk'\\overrightarrow{u}\n(k+k')\\overrightarrow{u}=k\\overrightarrow{u}+k'\\overrightarrow{u}\nk(\\overrightarrow{u}+\\overrightarrow{v})=k\\overrightarrow{u}+k\\overrightarrow{v}\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On dit que \\overrightarrow{u} et \\overrightarrow{v} sont colinéaires s’il existe un réel k tel que \\overrightarrow{u}=k\\overrightarrow{v} ou \\overrightarrow{v}=k\\overrightarrow{u}.\n\n\n\nDeux vecteurs non nuls sont colinéaires si et seulement si ils ont la même direction.\nLe vecteur nul est colinéaire à tout vecteur."
   },
   {
-    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#cours",
-    "href": "premiere-spe/chapitres/variables-aleatoires.html#cours",
-    "title": "Variables aléatoires",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.2 Droites et plans de l’espace",
+    "text": "1.2 Droites et plans de l’espace\n\n1.2.1 Caractérisation vectorielle d’une droite\n\nSoient A et B deux points distincts de l’espace.\nLa droite (AB) est l’ensemble des points M tels que \\overrightarrow{AM}=k\\overrightarrow{AB}, où k\\in\\mathbb{R}.\nOn dit que \\overrightarrow{AB} est un vecteur directeur de la droite (AB).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nUn point A et un vecteur \\overrightarrow{u} suffisent à déterminer une droite : c’est la droite passant par le point A et de vecteur directeur \\overrightarrow{u}.\n\n\n\n1.2.2 Caractérisation vectorielle d’un plan\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u} et \\overrightarrow{v} ne sont pas colinéaires.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires lorsqu’il existe deux réels x et y tels que \\overrightarrow{w}=x\\overrightarrow{u}+y\\overrightarrow{v}.\nOn dit alors que \\overrightarrow{w} est une combinaison linéaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}.\n\n\nOn considère la pyramide régulière à base carrée ci-dessous. Montrer que les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nDans la pyramide régulière à base carrée, on a l’égalité \\overrightarrow{SO}=\\dfrac{1}{2}\\overrightarrow{SA}+\\dfrac{1}{2}\\overrightarrow{SC}. Les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont donc coplanaires.\nOn peut remarquer que \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SB} ne sont pas coplanaires.\n\n\n\n\nOn dit que des points sont coplanaires lorsqu’il existe un plan qui contient ces points.\nSoient A, B et C trois points non alignés de l’espace.\n\nLe plan (ABC) est l’ensemble des points M tels que \\overrightarrow{AM}=x\\overrightarrow{AB}+y\\overrightarrow{AC} où x\\in\\mathbb{R} et y\\in\\mathbb{R}.\n\\overrightarrow{AB} et \\overrightarrow{AC} sont des vecteurs directeurs du plan (ABC), (\\overrightarrow{AB},\\overrightarrow{AC}) est une base de ce plan et (A;\\overrightarrow{AB},\\overrightarrow{AC}) est un repère de ce plan.\n\n\n\n\nTrois points sont toujours coplanaires.\nUn point A et deux vecteurs non colinéaires \\overrightarrow{u} et \\overrightarrow{v} (ou trois points non alignés) suffisent à déterminer un plan : c’est le plan passant par A et de vecteurs directeurs \\overrightarrow{u} et \\overrightarrow{v} (on dit aussi que le plan est dirigé par \\overrightarrow{u} et \\overrightarrow{v}). Par exemple, dans la pyramide ci-dessus, le point S et les vecteurs \\overrightarrow{SA} et \\overrightarrow{SB} suffisent à déterminer le plan (SAB).\n\n\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u}=\\overrightarrow{AB}, \\overrightarrow{v}=\\overrightarrow{AC} et \\overrightarrow{w}=\\overrightarrow{AD}.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires si et seulement si les points A, B, C et D sont coplanaires.\n\n\nOn considère le cube représenté ci-dessous. On pose \\overrightarrow{u}=\\overrightarrow{AH}, \\overrightarrow{v}=\\overrightarrow{BC} et \\overrightarrow{w}=\\overrightarrow{BF}.\nMontrer que les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a \\overrightarrow{v}=\\overrightarrow{AD} et \\overrightarrow{w}=\\overrightarrow{AE}. Or A, D, H et E sont quatre points coplanaires, donc les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires."
   },
   {
-    "objectID": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
-    "href": "premiere-spe/chapitres/variables-aleatoires.html#évaluations-et-ds",
-    "title": "Variables aléatoires",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.3 Positions relatives de droites et de plans de l’espace",
+    "text": "1.3 Positions relatives de droites et de plans de l’espace\n\n1.3.1 Positions relatives de deux plans\n\nDeux plans de l’espace peuvent être :\n\nsoit strictement parallèles (ils n’ont alors aucun point commun) ;\nsoit parallèles et confondus (tous leurs points sont communs) ;\nsoit sécants, leur intersection est alors une droite contenue dans ces deux plans.\n\n\n\nDeux plans parallèles sont soit strictement parallèles soit confondus.\n\n\n\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n1.3.2 Positions relatives de deux droites\n\nDeux droites de l’espace sont soit coplanaires (elles sont alors dans un même plan) soit non coplanaires.\n\n\nDeux droites de l’espace qui sont coplanaires sont :\n\nsoit strictement parallèles ;\nsoit parallèles et confondues ;\nsoit sécantes en un point.\n\n\n\n\n\n\n\n\nLes droites d_1 et d_2 sont parallèles, les droites d_1 et d_3 ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nLes droites (AB) et (DC) sont parallèles, les droites (AB) et (CG) ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites non coplanaires n’ont aucun point commun ;\nDeux droites de l’espace qui n’ont aucun point commun sont soit strictement parallèles soit non coplanaires.\n\n\n\n\n1.3.3 Positions relatives d’une droite et d’un plan\n\nUne droite et un plan de l’espace sont soit sécants soit parallèles. S’ils sont parallèles, soit ils sont strictement parallèles (sans point d’intersection) soit la droite est incluse dans le plan.\n\n\n\n\n\n\n\nLa droite d_1 est incluse dans le plan. La droite d_2 est strictement parallèle au plan. La droite d_3 est sécante (en H) au plan.\n🔗 Figure interactive GeoGebra"
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#définition",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#définition",
-    "title": "Second degré",
-    "section": "1.1 Définition",
-    "text": "1.1 Définition\n\nOn appelle fonction polynôme du second degré toute fonction f, définie sur \\mathbb{R}, pouvant se ramener à la forme f(x)=ax^2+bx+c où a, b et c sont des réels avec a\\neq 0.\nL’expression ax^2+bx+c est appelée trinôme du second degré.\n\n\nLes fonctions suivantes sont-elles des fonctions polynomiales du second degré ?\n\nf(x)=2\\left(2x-\\dfrac{1}{3}\\right)^2-1\ng(x)=-(-3+2x)^2+5+4x^2\nh(x)=(3x+2)^2-12x-4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x) &= 2\\left(4x^2 - \\dfrac{4}{3}x + \\dfrac{1}{9}\\right) - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x + \\dfrac{2}{9} - 1 \\\\\nf(x) &= 8x^2 - \\dfrac{8}{3}x - \\dfrac{7}{9}\n\\end{align*}\n\nf est bien une fonction du second degré avec a=8, b=\\dfrac{-8}{3} et c=\\dfrac{-7}{9}.\n2. \n\\begin{align*}\ng(x) &= -(9 - 12x + 4x^2) + 5 + 4x^2 \\\\\ng(x) &= -9 + 12x - 4x^2 + 5 + 4x^2 \\\\\ng(x) &= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\\\\ng(x) &= 0x^2 + 12x - 4 \\\\\ng(x) &= 12x - 4\n\\end{align*}\n\ng n’est pas une fonction du second degré.\n3. \n\\begin{align*}\nh(x) &= (9x^2 + 12x + 4) - 12x - 4 \\\\\nh(x) &= 9x^2 + 12x + 4 - 12x - 4 \\\\\nh(x) &= 9x^2\n\\end{align*}\n\nh est une fonction du second degré avec a=9, b=0 et c=0."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.4 Propriétés du parallélisme dans l’espace",
+    "text": "1.4 Propriétés du parallélisme dans l’espace\n\nToutes ces propriétés sont admises.\n\n\n1.4.1 Parallélisme de deux droites\n\nDeux droites distinctes sont parallèles lorsqu’elles sont coplanaires et sans point commun.\n\n\nSi deux droites sont parallèles alors toute droite parallèle à l’une est parallèle à l’autre.\n\n\nSi deux droites sont parallèles alors tout plan qui coupe l’une coupe l’autre.\n\n\n\n1.4.2 Parallélisme de deux plans\n\nDeux plans distincts sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi deux plans sont parallèles alors tout plan parallèle à l’un est parallèle à l’autre.\n\n\nSi deux droites sécantes d’un plan \\mathcal{P}_1 sont parallèles à deux droites sécantes d’un plan \\mathcal{P}_2 alors \\mathcal{P}_1 et \\mathcal{P}_2 sont parallèles.\n\n\n\n\n\n\n\nLes droites sécantes d_1 et d_3 sont respectivement parallèles aux droites d_2 et d_4. Les deux plans sont parallèles.\n🔗 Figure interactive GeoGebra\n\n\nSi deux plans sont parallèles alors tout plan qui coupe l’un coupe l’autre et les droites d’intersection sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n1.4.3 Parallélisme d’une droite et d’un plan\n\nUne droite et un plan sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi un plan \\mathcal{P} contient une droite \\mathcal{D} parallèle à une droite \\mathcal{D}' alors \\mathcal{P} et \\mathcal{D}' sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSi une droite \\mathcal{D} et un plan \\mathcal{P} sont parallèles alors tout plan contenant \\mathcal{D} et sécant à \\mathcal{P} coupe \\mathcal{P} selon une droite parallèle à \\mathcal{D}.\n\n\nThéorème du toit\nSoient \\mathcal{D} et \\mathcal{D}' deux droites parallèles contenues respectivement dans \\mathcal{P} et \\mathcal{P}', deux plans distincts.\nSi \\mathcal{P} et \\mathcal{P}' sont sécants selon une droite \\Delta, alors \\Delta est parallèle à \\mathcal{D} et à \\mathcal{D}'.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#forme-canonique",
-    "title": "Second degré",
-    "section": "1.2 Forme canonique",
-    "text": "1.2 Forme canonique\n\n1.2.1 Exemples\n\nMettre les fonctions polynomiales suivantes sous la forme f(x)=a(x-\\alpha)^2+\\beta :\n\nf(x)=x^2-6x+8\ng(x)=2x^2-x-3\nh(x)=\\dfrac{1}{3}x^2+2x-1\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. \n\\begin{align*}\nf(x)&=x^2-6x+8 \\\\\n&=\\left(x-\\dfrac{6}{2} \\right)^2-3^2 +8 \\\\\n&=\\left(x-3\\right)^2-9+8 \\\\\n&=\\left(x-3\\right)^2-1\n\\end{align*}\n\n2. \n\\begin{align*}\ng(x)&=2x^2-x-3 \\\\\n&=2\\left(x^2-\\dfrac{1}{2}x \\right) -3 \\\\\n&=2 \\left( \\left(x-\\dfrac{1}{4} \\right)^2-\\left(\\dfrac{1}{4}\\right)^2\\right)-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-2\\times \\dfrac{1}{16}-3 \\\\\n&= 2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-3 \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{1}{8}-\\dfrac{24}{8} \\\\\n&=2\\left(x-\\dfrac{1}{4}\\right)^2-\\dfrac{25}{8}\n\\end{align*}\n\n3. \n\\begin{align*}\nh(x) &= \\dfrac{1}{3}x^2+2x-1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left(x^2 + 6x + 9 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}\\left((x+3)^2 - 9\\right) - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - \\dfrac{1}{3} \\times 9 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 3 - 1 \\\\\nh(x) &= \\dfrac{1}{3}(x+3)^2 - 4\n\\end{align*}\n\n\n\n\n\n\n1.2.2 Cas général\n\nToute fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0 admet une écriture de la forme f(x)=a(x-\\alpha)^2+\\beta avec \\alpha=-\\dfrac{b}{2a} et \\beta=f(\\alpha)=-\\dfrac{b^2-4ac}{4a}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=ax^2+bx+c où a, b et c sont trois réels avec a\\neq 0.\n\n\\begin{align*}\nf(x)&=ax^2+bx+c \\\\\n&= a\\left(x^2+\\dfrac{b}{a}x \\right)+c \\\\\n&= a\\left( \\left(x+\\dfrac{b}{2a}\\right)^2-\\left(\\dfrac{b}{2a} \\right)^2  \\right)+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2}{4a}+c \\\\\n&=a \\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{b^2-4ac}{4a}\n\\end{align*}\n\nOn pose \\alpha=-\\dfrac{b}{2a} et \\beta=-\\dfrac{b^2-4ac}{4a} et ainsi f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nCette forme est appelée forme canonique de f.\n\n\nAvec les mêmes notations, le réel b^2-4ac, noté \\Delta, est appelé le discriminant de la fonction polynomiale f.\n \\Delta=b^2-4ac\n\n\nAvec ces formules, il est parfois plus simple de déterminer la forme canonique qu’en la calculant directement : f(x)=a\\left(x-\\alpha \\right)^2-\\dfrac{\\Delta}{4a} avec \\alpha=\\dfrac{-b}{2a} et \\Delta=b^2-4ac.\n\n\nEn utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :\n\nf(x)=3x^2+2x-1\ng(x)=x^2+4x+10\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. f(x)=3x^2+2x-1\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-2}{2\\times 3}=-\\dfrac{1}{3} et \\Delta=b^2-4ac=2^2-4 \\times 3\\times (-1)=16.\nAinsi f(x)=3 \\left( x +\\dfrac{1}{3}\\right)^2-\\dfrac{4}{3}.\n2. g(x)=x^2+4x+10\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-4}{2\\times 1}=-\\dfrac{4}{2}=-2 et \\Delta=b^2-4ac=4^2-4 \\times 1\\times 10=16-40=-24.\n\n\\begin{align*}\ng(x) &= 1 \\left( x -(-2)\\right)^2-\\dfrac{-24}{4\\times 1} \\\\\ng(x) &= 1 \\left( x +2\\right)^2-\\dfrac{-24}{4} \\\\\ng(x) &= 1 \\left( x +2\\right)^2+6\n\\end{align*}"
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.1 Repère de l’espace",
+    "text": "2.1 Repère de l’espace\n\n2.1.1 Base de l’espace\n\nUne base de l’espace est formée d’un triplet de vecteurs (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) non coplanaires.\n\n\nLes vecteurs d’une base sont tous non nuls et non colinéaires deux à deux.\n\n\nSoit (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) une base de l’espace.\nPour tout vecteur \\overrightarrow{u} de l’espace, il existe un unique triplet de réels (x,y,z) tel que\n\n\\overrightarrow{u}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n\n(x,y,z) sont les coordonnées de \\overrightarrow{u} dans cette base. On note \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}.\n\n\n\n2.1.2 Repère de l’espace\n\nUn repère de l’espace est formé d’un point O et d’une base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). On note (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un tel repère. O est l’origine du repère.\n\n\nAttention, en changeant l’ordre des vecteurs, on change le repère.\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace.\nPour tout point M de l’espace, il existe un unique triplet (x;y;z) tel que \\overrightarrow{OM}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n(x,y,z) sont les coordonnées de M dans le repère (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). x est l’abscisse de M, y son ordonnée et z sa cote. On note M(x,y,z).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace. Soient \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix} deux vecteurs, k un réel et A(x_A;y_A;z_A) et B(x_B;y_B;z_B) deux points de l’espace.\n\nLe milieu du segment [AB] a pour coordonnées \\left(\\dfrac{x_A+x_B}{2};\\dfrac{y_A+y_B}{2};\\dfrac{z_A+z_B}{2}\\right).\nDans la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}), \\overrightarrow{u}+\\overrightarrow{v}\\begin{pmatrix}x+x'\\\\y+y'\\\\z+z'\\end{pmatrix} ; k\\overrightarrow{u}\\begin{pmatrix}kx\\\\ky\\\\kz\\end{pmatrix} et \\overrightarrow{AB}\\begin{pmatrix}x_B-x_A\\\\y_B-y_A\\\\z_B-z_A\\end{pmatrix}.\n\\overrightarrow{u} et \\overrightarrow{v} sont colinéaires si et seulement si leurs coordonnées sont proportionnelles."
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-des-fonctions-polynomiales-du-second-degré",
-    "title": "Second degré",
-    "section": "1.3 Étude des fonctions polynomiales du second degré",
-    "text": "1.3 Étude des fonctions polynomiales du second degré\n\nLa courbe représentative d’une fonction polynomiale du second degré s’appelle une parabole.\n\n\nLa parabole représentative d’une fonction polynomiale du second degré f définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta avec a, \\alpha et \\beta trois réels et a\\neq 0 admet la droite d’équation x=\\alpha pour axe de symétrie.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations, soit h\\in \\mathbb{R}.\nD’une part : \n\\begin{align*}\nf(\\alpha + h) &= a((\\alpha + h) - \\alpha)^2 + \\beta \\\\\n&= a(h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nD’autre part : \n\\begin{align*}\nf(\\alpha - h) &= a((\\alpha - h) - \\alpha)^2 + \\beta \\\\\n&= a(-h)^2 + \\beta \\\\\n&= ah^2 + \\beta\n\\end{align*}\n\nAinsi f(\\alpha + h) = f(\\alpha - h). Ceci prouve que la parabole est symétrique par rapport à la droite verticale d’équation x=\\alpha.\n\n\n\n\nLe point S(\\alpha;\\beta) est le sommet de la parabole représentative d’une fonction polynomiale du second degré définie sur \\mathbb{R} par f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0.\n\\forall x \\in \\mathbb{R},~(x-\\alpha)^2 \\ge 0.\nCas 1 : a &gt; 0\nSi a &gt; 0, alors a(x-\\alpha)^2 \\ge 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\ge \\beta. La fonction f(x) atteint un minimum égal à \\beta. Ce minimum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le minimum de la fonction.\nCas 2 : a &lt; 0\nSi a &lt; 0, alors a(x-\\alpha)^2 \\le 0. Donc f(x) = a(x-\\alpha)^2 + \\beta \\le \\beta. La fonction f(x) atteint un maximum égal à \\beta. Ce maximum est atteint quand (x-\\alpha)^2 = 0, soit x=\\alpha. Le point (\\alpha; \\beta) est alors le maximum de la fonction.\nDans les deux cas, le point (\\alpha; \\beta) correspond à l’extremum (minimum ou maximum) de la fonction. Par définition, ce point d’extremum est le sommet de la parabole. Ainsi, S(\\alpha; \\beta) est le sommet de la parabole représentative de f(x)=a(x-\\alpha)^2+\\beta.\n\n\n\n\nSoit f(x)=a(x-\\alpha)^2+\\beta une fonction polynomiale du second degré définie sur \\mathbb{R}, avec a \\neq 0. Voici les deux tableaux de variations possibles :\nSi a&gt;0 : la parabole est tournée vers le haut\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n\\beta\n↗\n\n\n\n\nSi a&lt;0 : la parabole est tournée vers le bas\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\n\\alpha\n\n+\\infty\n\n\n\n\nf(x)\n\n↗\n\\beta\n↘\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit x \\in \\mathbb{R}, f(x)=a(x-\\alpha)^2+ \\beta avec \\alpha=-\\dfrac{b}{2a}.\n1er cas : a&gt;0\nVariations sur ]-\\infty; \\alpha]\nSoient x et y deux réels de ]-\\infty; \\alpha] tels que x&lt;y. \n\\begin{align*}\nf(x)-f(y) &= \\left(a(x-\\alpha)^2 + \\beta\\right) - \\left(a(y-\\alpha)^2 + \\beta\\right) \\\\\n&= a(x-\\alpha)^2 - a(y-\\alpha)^2 \\\\\n&= a\\left[(x-\\alpha)^2 - (y-\\alpha)^2\\right] \\\\\n&= a\\left[(x-\\alpha - (y-\\alpha))(x-\\alpha + (y-\\alpha))\\right] \\\\\n&= a(x-\\alpha - y + \\alpha)(x-\\alpha + y - \\alpha) \\\\\n&= a(x-y)(x+y-2\\alpha)\n\\end{align*}\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx&lt;\\alpha et y\\leqslant\\alpha donc x+y&lt;2\\alpha donc x+y-2\\alpha&lt;0\n\nDonc f(x)-f(y)&gt;0 soit f(x)&gt;f(y). Donc f est strictement décroissante sur ]-\\infty; \\alpha].\nVariations sur [\\alpha; +\\infty[\nSoient x et y deux réels de [\\alpha; +\\infty[ tels que x&lt;y. \nf(x)-f(y)=a(x-y)(x+y-2\\alpha)\n\nOr :\n\na&gt;0\nx&lt;y donc x-y&lt;0\nx\\geqslant\\alpha et y&gt;\\alpha donc x+y&gt;2\\alpha donc x+y-2\\alpha&gt;0\n\nDonc f(x)-f(y)&lt;0 soit f(x)&lt;f(y). Donc f est strictement croissante sur [\\alpha; +\\infty[.\n2ème cas : a&lt;0\nOn applique un raisonnement similaire.\n\n\n\n\nTracer le tableau de variations des deux fonctions suivantes :\n\nf est définie sur \\mathbb{R} par f(x)=2x^2+4x+5.\ng est définie sur [0;3] par g(x)=-3x^2+6x-4.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}, f(x)=2x^2+4x+5. \\alpha=-\\dfrac{b}{2a}=-1 et \\beta=f(\\alpha)=f(-1)=3. Donc f(x)=2(x+1)^2+3. Comme a&gt;0 on a :\n\n\n\nx\n-\\infty\n\n-1\n\n+\\infty\n\n\n\n\nf(x)\n\n↘\n3\n↗\n\n\n\n\n2. Soit x \\in [0;3], g(x)=-3x^2+6x-4.\n\\alpha=\\dfrac{-b}{2a}=\\dfrac{-6}{2\\times (-3)}=1 et \\beta=g(\\alpha)=g(1)=-1. Donc g(x)=-3(x-1)^2-1. Comme a&lt;0 on a :\n\n\n\nx\n0\n\n1\n\n3\n\n\n\n\nf(x)\n-4\n↗\n-1\n↘\n-13"
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.2 Produit scalaire dans l’espace",
+    "text": "2.2 Produit scalaire dans l’espace\n\n2.2.1 Rappel : produit scalaire dans le plan\n\nOn appelle produit scalaire de \\overrightarrow{u} et \\overrightarrow{v} le nombre réel, noté \\overrightarrow{u}\\cdot\\overrightarrow{v} et défini par :\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\n\\begin{cases}\n\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\\times\\cos(\\overrightarrow{u};\\overrightarrow{v}) & \\text{si } \\overrightarrow{u}\\neq\\overrightarrow{0} \\text{ et } \\overrightarrow{v}\\neq\\overrightarrow{0} \\\\\n0 & \\text{si } \\overrightarrow{u}=\\overrightarrow{0} \\text{ ou } \\overrightarrow{v}=\\overrightarrow{0}\n\\end{cases}\n\nLe produit scalaire d’un vecteur \\overrightarrow{u} par lui-même (\\overrightarrow{u}\\cdot\\overrightarrow{u}) est appelé carré scalaire de \\overrightarrow{u} et se note \\overrightarrow{u}^2.\n\n\nLe produit scalaire est donc une nouvelle opération dont les arguments sont des vecteurs et le résultat est un réel.\n\n\n\n\nOn considère le triangle équilatéral ABC ci-contre avec AB=2. On note \\overrightarrow{u}=\\overrightarrow{CA} et \\overrightarrow{v}=\\overrightarrow{CB}.\nCalculer \\overrightarrow{u}\\cdot\\overrightarrow{v}.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a donc \\|\\overrightarrow{u}\\|=\\|\\overrightarrow{v}\\|=2 et (\\overrightarrow{u};\\overrightarrow{v})=\\dfrac{\\pi}{3}.\nAinsi \\overrightarrow{u}\\cdot\\overrightarrow{v}=2\\times 2\\times\\cos\\left(\\dfrac{\\pi}{3}\\right)=2.\n\n\n\nAutres expressions du produit scalaire : cas des vecteurs colinéaires\n\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de même sens alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de sens contraire alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=-\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\n\n\n\nPour tout vecteur \\overrightarrow{u}, \\overrightarrow{u}^2=\\|\\overrightarrow{u}\\|^2.\n\nAutres expressions du produit scalaire : avec des projetés orthogonaux\n\nSoit (d) une droite et soit M un point n’appartenant pas à cette droite.\nOn dit que le point M' de la droite (d) est le projeté orthogonal de M sur (d) si les droites (MM') et (d) sont perpendiculaires.\n\n\n\n\n\n\n\n\n\nSoient A, B, C et D quatre points du plan.\nSi C' et D' sont les projetés orthogonaux de C et D sur (AB), alors :\n\n\\overrightarrow{AB}\\cdot\\overrightarrow{CD}=\\overrightarrow{AB}\\cdot\\overrightarrow{C'D'}\n\n\n\n\n\n\n\n\n\nRègles de calcul\n\n(\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont des vecteurs quelconques, k un réel).\n\nLe produit scalaire est symétrique : \\overrightarrow{u}\\cdot\\overrightarrow{v}=\\overrightarrow{v}\\cdot\\overrightarrow{u}.\nLe produit scalaire est bilinéaire : \\overrightarrow{u}\\cdot(\\overrightarrow{v}+\\overrightarrow{w})=\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{u}\\cdot\\overrightarrow{w} ; (\\overrightarrow{u}+\\overrightarrow{v})\\cdot\\overrightarrow{w}=\\overrightarrow{u}\\cdot\\overrightarrow{w}+\\overrightarrow{v}\\cdot\\overrightarrow{w}.\n\\overrightarrow{u}\\cdot(k\\overrightarrow{v})=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}) ; (k\\overrightarrow{u})\\cdot\\overrightarrow{v}=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}).\nIdentités remarquables :\n\n(\\overrightarrow{u}+\\overrightarrow{v})^2=\\overrightarrow{u}^2+2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})^2=\\overrightarrow{u}^2-2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})\\cdot(\\overrightarrow{u}+\\overrightarrow{v})=\\overrightarrow{u}^2-\\overrightarrow{v}^2\n\n\n\n\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}+\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}\\|^2-\\|\\overrightarrow{v}\\|^2\\right]\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}\\|^2+\\|\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}-\\overrightarrow{v}\\|^2\\right]\n\n\n\n\nOn dit qu’un vecteur est unitaire lorsque sa norme vaut 1.\nOn dit que deux vecteurs sont orthogonaux, et on note \\overrightarrow{u}\\perp\\overrightarrow{v}, lorsque leur produit scalaire est nul, c’est-à-dire\n\n\\boxed{\\overrightarrow{u}\\perp\\overrightarrow{v}\\Longleftrightarrow\\overrightarrow{u}\\cdot\\overrightarrow{v}=0}\n\n\n\n\n\n2.2.2 Définition du produit scalaire dans l’espace\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On considère les points A, B et C tels que \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. Les points A, B et C étant coplanaires, le produit scalaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}, noté \\overrightarrow{u}\\cdot\\overrightarrow{v}, est le réel \\overrightarrow{AB}\\cdot\\overrightarrow{AC} calculé dans un plan contenant les points A, B et C.\n\n\nToutes les propriétés du produit scalaire dans le plan restent donc d’actualité dans l’espace."
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#généralités",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#généralités",
-    "title": "Second degré",
-    "section": "2.1 Généralités",
-    "text": "2.1 Généralités\n\nOn appelle équation du second degré toute équation pouvant se ramener à la forme ax^2+bx+c=0 où a, b et c sont des réels avec a\\neq 0.\n\n\nRésoudre une équation consiste à trouver toutes les valeurs de x qui vérifient l’équation.\nDans le cas où l’équation a été ramenée à une équation de la forme ax^2+bx+c=0, résoudre l’équation consiste à déterminer le/les antécédent(s) de 0 par la fonction f:x\\mapsto ax^2+bx+c. On dit que l’on cherche les racines de la fonction.\nGraphiquement, cela revient à déterminer les abscisses des points d’intersection de la courbe représentative de la fonction f avec l’axe des abscisses."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.3 Orthogonalité dans l’espace",
+    "text": "2.3 Orthogonalité dans l’espace\n\n2.3.1 Orthogonalité de deux droites\n\nSoient d et d' deux droites de l’espace. d et d' sont orthogonales si un vecteur directeur de l’une est orthogonal à un vecteur directeur de l’autre.\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement si tout vecteur directeur de d est orthogonal à tout vecteur directeur de d'.\n\n\n\nDeux droites orthogonales ne sont pas nécessairement coplanaires.\nDans l’espace, deux droites sont perpendiculaires si et seulement si elles sont sécantes selon un angle droit (c’est un cas particulier d’orthogonalité).\nSi deux droites sont perpendiculaires, alors elles sont orthogonales. La réciproque est fausse.\n\n\n\n\n\n\n\n\nLes droites (EF) et (DH) sont orthogonales alors que les droites (GH) et (GC) sont perpendiculaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement s’il existe une droite \\Delta parallèle à d et perpendiculaire à d'.\nSi deux droites sont parallèles, alors toute droite orthogonale à l’une est orthogonale à l’autre.\nSi deux droites sont orthogonales, alors toute droite parallèle à l’une est orthogonale à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n2.3.2 Orthogonalité d’un plan et d’une droite\n\nDans l’espace, soient \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}) et d une droite de vecteur directeur \\overrightarrow{w}.\nLa droite d et le plan \\mathcal{P} sont orthogonaux si \\overrightarrow{w} est orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\nUne droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan.\nSi une droite est orthogonale à un plan, alors elle est orthogonale à toute droite de ce plan.\nSi deux droites sont parallèles, alors tout plan orthogonal à l’une est orthogonal à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nSi deux plans sont parallèles, alors toute droite orthogonale à l’un est orthogonale à l’autre.\nSi deux plans sont orthogonaux à une même droite, alors ils sont parallèles entre eux.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#résolution-dune-équation-du-second-degré",
-    "title": "Second degré",
-    "section": "2.2 Résolution d’une équation du second degré",
-    "text": "2.2 Résolution d’une équation du second degré\n\nSoit a, b et c trois réels avec a\\neq0. On considère l’équation ax^2+bx+c=0.\nSoit \\Delta=b^2-4ac le discriminant du trinôme ax^2+bx+c.\n\nSi \\Delta&lt;0, alors l’équation ax^2+bx+c=0 n’admet pas de solution réelle.\nSi \\Delta=0, alors l’équation ax^2+bx+c=0 admet une unique solution réelle : x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0, alors l’équation ax^2+bx+c=0 admet deux solutions réelles : x_1=\\dfrac{-b-\\sqrt{\\Delta}}{2a} et x_2=\\dfrac{-b+\\sqrt{\\Delta}}{2a}.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit x \\in \\mathbb{R} : \n\\begin{align*}\nax^2+bx+c=0 &\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2-\\dfrac{\\Delta}{4a}=0 \\\\\n&\\iff a\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a} \\\\\n&\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\n\\end{align*}\n\n\nSi \\Delta&lt;0 : Alors \\dfrac{\\Delta}{4a^2}&lt;0. Or \\left(x+\\dfrac{b}{2a} \\right)^2&gt;0. Donc l’équation n’admet pas de solution.\nSi \\Delta=0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\\\\n&\\iff x+\\dfrac{b}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}\n\\end{align*}\n Ainsi S=\\left\\{ -\\dfrac{b}{2a} \\right\\}.\nSi \\Delta&gt;0 : \n\\begin{align*}\n\\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2} &\\iff \\left(x+\\dfrac{b}{2a} \\right)^2- \\left(\\dfrac{\\sqrt{\\Delta}}{2a} \\right)^2=0 \\\\\n&\\iff \\left(x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\right) \\left(x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\right)=0 \\text{ équation produit nul} \\\\\n&\\iff x+\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a}=0 \\text{  ou  } x+\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} =0 \\\\\n&\\iff x=-\\dfrac{b}{2a}+\\dfrac{\\sqrt{\\Delta}}{2a} \\text{ ou } x=-\\dfrac{b}{2a}-\\dfrac{\\sqrt{\\Delta}}{2a} \\\\\n&\\iff x=\\dfrac{-b+\\sqrt{\\Delta}}{2a} \\text{ ou } x=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\n\\end{align*}\n Finalement : S=\\left\\{\\dfrac{-b+\\sqrt{\\Delta}}{2a}; \\dfrac{-b-\\sqrt{\\Delta}}{2a}  \\right\\}.\n\n\n\n\n\nRésoudre dans \\mathbb{R} les équations suivantes :\n\n15x^2-x-2=0\n3x^2+6x+4=0\n\\dfrac{1}{5}x^2+2x+5=0\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. 15x^2-x-2=0\n\\Delta=(-1)^2-4\\times 15 \\times (-2)=121. Le discriminant du trinôme est strictement positif donc l’équation admet exactement deux solutions :\nx_1=\\dfrac{1 -\\sqrt{121}}{30}=\\dfrac{1-11}{30}=\\dfrac{-1}{3} et x_2=\\dfrac{1+\\sqrt{121}}{30}=\\dfrac{1+11}{30}=\\dfrac{12}{30}=\\dfrac{2}{5}.\nFinalement S=\\left\\{\\dfrac{-1}{3}; \\dfrac{2}{5} \\right\\}.\n2. 3x^2+6x+4=0\n\\Delta=6^2-4\\times3\\times4=-12. Le discriminant du trinôme est strictement négatif, donc l’équation n’admet pas de solution réelle.\n3. \\dfrac{1}{5}x^2+2x+5=0\n\\Delta=2^2-4\\times \\dfrac{1}{5}\\times 5=0. Le discriminant du trinôme est nul, donc l’équation admet une unique solution réelle : S=\\{-5 \\}.\n\n\n\n\nLorsque le trinôme est « incomplet » (b=0 ou c=0), il n’est pas nécessaire de calculer le discriminant pour résoudre l’équation.\n\n\nSans calculer le discriminant des trinômes, résoudre les équations suivantes :\n\n4x^2+3x-10=3x+6\nx^2-5x+4=x+4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. Soit x \\in \\mathbb{R}. \n\\begin{align*}\n4x^2+3x-10=3x+6 &\\iff  4x^2-16=0\\\\\n&\\iff (2x)^2-4^2=0 \\\\\n&\\iff (2x-4)(2x+4)=0 \\\\\n&\\iff 2x-4=0 \\text{ ou }2x+4=0 \\\\\n&\\iff x=2 \\text{ ou } x=-2\n\\end{align*}\n Finalement S=\\{-2;2 \\}.\n2. Soit x \\in \\mathbb{R}. \n\\begin{align*}\nx^2-5x+4=x+4 &\\iff x^2-6x=0 \\\\\n&\\iff x(x-6)=0 \\\\\n&\\iff x=0 \\text{ ou }x-6=0 \\\\\n&\\iff x=0 \\text{ ou }x=6\n\\end{align*}\n Finalement S=\\{0;6 \\}."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
+    "title": "Géométrie dans l’espace",
+    "section": "2.4 Vecteur normal, projeté orthogonal",
+    "text": "2.4 Vecteur normal, projeté orthogonal\n\n2.4.1 Vecteur normal à un plan\n\nSoit \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}). Un vecteur \\overrightarrow{n} est normal au plan \\mathcal{P} s’il est non nul et orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoient A un point et \\overrightarrow{n} un vecteur non nul. Il existe un unique plan passant par A et de vecteur normal \\overrightarrow{n}.\n\n\nOn peut donc déterminer de manière unique un plan à l’aide d’un point et d’un vecteur normal.\n\n\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\nOn dit que \\mathcal{P}_1 est perpendiculaire à \\mathcal{P}_2 si \\overrightarrow{n_1} est orthogonal à \\overrightarrow{n_2}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nTout vecteur non nul colinéaire à un vecteur normal à un plan est aussi un vecteur normal à ce plan.\nSi deux vecteurs sont normaux à un même plan, alors ils sont colinéaires entre eux.\n\n\n\n\nUn vecteur est normal à un plan \\mathcal{P} si et seulement s’il est orthogonal à tout vecteur directeur de \\mathcal{P}.\nUne droite est orthogonale à un plan si et seulement si un vecteur directeur de cette droite est colinéaire à un vecteur normal à ce plan.\nUne droite est parallèle à un plan si et seulement si un vecteur directeur de cette droite est orthogonal à un vecteur normal à ce plan.\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\n\\mathcal{P}_1 est parallèle à \\mathcal{P}_2 si et seulement si \\overrightarrow{n_1} est colinéaire à \\overrightarrow{n_2}.\n\n\n\n\n2.4.2 Projeté orthogonal d’un point\n\n\nSoient A un point et d une droite de l’espace. Il existe un unique plan passant par A et orthogonal à d. La droite d est alors sécante avec ce plan et leur point d’intersection est appelé projeté orthogonal de A sur d.\nSoient A un point et \\mathcal{P} un plan de l’espace. Il existe une unique droite passant par A et orthogonale à \\mathcal{P}. Le plan \\mathcal{P} est alors sécant avec cette droite et leur point d’intersection est appelé projeté orthogonal de A sur \\mathcal{P}.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#somme-et-produit-des-racines",
-    "title": "Second degré",
-    "section": "3.1 Somme et produit des racines",
-    "text": "3.1 Somme et produit des racines\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c dont le discriminant \\Delta est strictement positif. On note x_1 et x_2 les deux racines de f. Alors :  x_1+x_2=-\\dfrac{b}{a} \\text{ et } x_1 \\times x_2=\\dfrac{c}{a}\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nx_1+x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}+\\dfrac{-b+\\sqrt{\\Delta}}{2a}=\\dfrac{-2b}{2a}=\\dfrac{-b}{a}\nx_1 \\times x_2=\\dfrac{-b-\\sqrt{\\Delta}}{2a}\\times\\dfrac{-b+\\sqrt{\\Delta}}{2a}= \\dfrac{(-b)^2-\\sqrt{\\Delta}^2}{4a^2}=\\dfrac{b^2-\\Delta}{4a^2}=\\dfrac{b^2-b^2+4ac}{4a^2}=\\dfrac{c}{a}\n\n\n\n\n\nCes formules peuvent être utiles pour trouver la deuxième racine lorsqu’une des racines du trinôme est évidente. On peut également vérifier qu’aucune erreur de calcul ne s’est glissée lors de la résolution de l’équation.\n\n\nSoit x\\in \\mathbb{R}. Résolvons l’équation -2x^2+5x-3=0. 1 est une racine évidente. En effet, -2\\times 1^2+5\\times 1 -3=0. On cherche la deuxième racine x_2 telle que 1+x_2=\\dfrac{5}{2}. Ainsi x_2=\\dfrac{3}{2}."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
+    "title": "Géométrie dans l’espace",
+    "section": "2.5 Calculs de distances",
+    "text": "2.5 Calculs de distances\n\n2.5.1 Calculs dans une base et un repère orthonormé de l’espace\n\nUne base orthonormée de l’espace est une base de l’espace telle que ses trois vecteurs soient orthogonaux deux à deux et tous de norme 1.\nAutrement dit, \\overrightarrow{i}\\cdot\\overrightarrow{j}=\\overrightarrow{i}\\cdot\\overrightarrow{k}=\\overrightarrow{j}\\cdot\\overrightarrow{k}=0 et \\|\\overrightarrow{i}\\|=\\|\\overrightarrow{j}\\|=\\|\\overrightarrow{k}\\|=1.\n\n\nUn repère orthonormé (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) est un repère tel que la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) soit orthonormée.\n\n\nDans une base orthonormée (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) de l’espace, on considère deux vecteurs \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix}.\nOn a alors \\overrightarrow{u}\\cdot\\overrightarrow{v}=xx'+yy'+zz' et \\|\\overrightarrow{u}\\|=\\sqrt{x^2+y^2+z^2}."
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#factorisation",
-    "title": "Second degré",
-    "section": "3.2 Factorisation",
-    "text": "3.2 Factorisation\n\nSoit a, b et c trois réels avec a\\neq0 et f une fonction polynomiale du second degré telle que \\forall x \\in \\mathbb{R},~ f(x)=ax^2+bx+c.\n\nSi \\Delta&lt;0, alors f n’admet pas de forme factorisée.\nSi \\Delta =0, alors la forme factorisée de f est f(x)=a(x-x_0)^2 où x_0 est la racine double de f.\nSi \\Delta&gt;0, alors la forme factorisée de f est f(x)=a(x-x_1)(x-x_2) où x_1 et x_2 sont les deux racines de f.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a vu dans la démonstration de la proposition sur les racines les différentes factorisations de f en fonction du signe de son discriminant \\Delta :\nPour commencer ax^2+bx+c=0 \\iff \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}.\nSi \\Delta=0, alors \\left(x+\\dfrac{b}{2a} \\right)^2=\\dfrac{\\Delta}{4a^2}\\iff \\left(x+\\dfrac{b}{2a} \\right)^2=0 \\iff (x-x_0)^2=0 avec x_0=\\dfrac{-b}{2a}."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
+    "title": "Géométrie dans l’espace",
+    "section": "3.1 Plans",
+    "text": "3.1 Plans\n\n3.1.1 Équation(s) cartésienne et paramétriques\nTout plan \\mathcal{P} de l’espace admet une équation cartésienne de la forme :\n\n\\boxed{\\mathcal{P} : ax+by+cz+d=0, \\qquad (a,b,c)\\neq(0,0,0).}\n\n\nAinsi M(x_M;y_M;z_M)\\in\\mathcal{P}\\iff ax_M+by_M+cz_M+d=0.\n\n\nUn vecteur non nul \\overrightarrow{n} de l’espace est normal à un plan \\mathcal{P} lorsqu’il est orthogonal à tout vecteur admettant un représentant dans \\mathcal{P}.\n\n\nUne équation cartésienne du plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et admettant pour vecteur normal \\overrightarrow{n}(a,b,c) s’obtient ainsi :\n\nM(x,y,z)\\in\\mathcal{P}\\Longleftrightarrow\\overrightarrow{AM}\\cdot\\overrightarrow{n}=0\\Longleftrightarrow a(x-x_0)+b(y-y_0)+c(z-z_0)=0\n\nRéciproquement : tout plan admettant une équation cartésienne du type ax+by+cz+d=0 admet pour vecteur normal le vecteur de coordonnées (a,b,c).\n\n\nUn plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et dirigé par les vecteurs \\overrightarrow{u}(u_1,u_2,u_3) et \\overrightarrow{v}(v_1,v_2,v_3) admet la représentation paramétrique suivante :\n\n\\mathcal{P} :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t+v_1t' \\\\\ny=y_0+u_2t+v_2t' \\\\\nz=z_0+u_3t+v_3t'\n\\end{array}\n\\right| \\qquad (t,t')\\in\\mathbb{R}^2\n\n\n\nDeux plans sont perpendiculaires si et seulement si un vecteur normal de l’un est orthogonal à un vecteur normal de l’autre.\n\n\n\n3.1.2 Distance d’un point à un plan\n\nDistance d’un point à un plan\nSoit A un point de l’espace et \\mathcal{P} un plan passant par un point B et de vecteur normal \\overrightarrow{n}.\nLe projeté orthogonal H de A sur le plan \\mathcal{P} est le point du plan \\mathcal{P} le plus proche de A.\nLa distance AH est appelée distance du point A au plan \\mathcal{P}.\n\n\nCette distance AH est égale à AH=\\dfrac{|\\overrightarrow{AB}\\cdot\\overrightarrow{n}|}{\\|\\overrightarrow{n}\\|}, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit (\\mathcal{P}) le plan passant par A(1;-3;2) et de vecteur normal \\overrightarrow{n}\\begin{pmatrix}5\\\\-2\\\\1\\end{pmatrix}.\nSoit B(3;-2;5). Calculer la distance du point B au plan \\mathcal{P}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur \\mathcal{P}. La distance recherchée est donc la distance BH.\nÉquation du plan \\mathcal{P}. Son équation est de la forme 5x-2y+z+c=0. De plus A\\in\\mathcal{P} donc 5+6+2+c=0, soit c=-13. Finalement l’équation du plan \\mathcal{P} est 5x-2y+z-13=0.\nCoordonnées de H(x_H;y_H;z_H).\nH appartient au plan \\mathcal{P} donc ses coordonnées vérifient 5x_H-2y_H+z_H-13=0.\nDéterminons maintenant une équation paramétrique de la droite (BH) :\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{BM}=k\\overrightarrow{n}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-3=5k\\\\y+2=-2k\\\\z-5=k\\end{array}\\right.\n\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x=5k+3\\\\y=-2k-2\\\\z=k+5\\end{array}\\right.\n\nAinsi, comme H appartient à la fois au plan \\mathcal{P} et à la droite (BH), ses coordonnées vérifient :\n\n\\left\\{\\begin{array}{l}x_H=5k+3\\\\y_H=-2k-2\\\\z_H=k+5\\\\5x_H-2y_H+z_H-13=0\\end{array}\\right.\n\nOn trouve k=\\dfrac{-11}{30} et donc H\\left(\\dfrac{7}{6};\\dfrac{-19}{15};\\dfrac{139}{30}\\right).\nDistance. Finalement la distance BH est\n\nBH=\\sqrt{(x_H-x_B)^2+(y_H-y_B)^2+(z_H-z_B)^2}=\\dfrac{11}{\\sqrt{30}}"
   },
   {
-    "objectID": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
-    "href": "premiere-spe/cours/second-degre/second-degre.html#étude-de-signe",
-    "title": "Second degré",
-    "section": "3.3 Étude de signe",
-    "text": "3.3 Étude de signe\n\nSoit f un polynôme du second degré définie sur \\mathbb{R} par f(x)=ax^2+bx+c.\n\nSi \\Delta &lt;0, alors :\n\nSi a&lt;0 alors f est strictement négative : \\forall x \\in \\mathbb{R},~f(x)&lt;0\nSi a&gt;0 alors f est strictement positive : \\forall x \\in \\mathbb{R},~f(x)&gt;0\n\nSi \\Delta=0 alors :\n\nSi a&lt;0 alors f est négative et f\\left(-\\dfrac{b}{2a}\\right)=0.\nSi a&gt;0 alors f est positive et f\\left(-\\dfrac{b}{2a}\\right)=0.\n\nSi \\Delta &gt;0, alors on note x_1 et x_2 les deux racines de f. Si on suppose que x_1&lt;x_2 alors le tableau de signe de f est :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes notations :\n\nSi \\Delta&lt;0 : Soit x\\in \\mathbb{R}. f(x)=ax^2+bx+c=a \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a}=a\\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]. Or \\left(x+\\dfrac{b}{2a}\\right)^2 \\geq 0 et -\\dfrac{\\Delta}{4a^2}&gt;0 donc par produit \\left[ \\left(x+\\dfrac{b}{2a}\\right)^2-\\dfrac{\\Delta}{4a^2}\\right]&gt;0. Ainsi f est bien du signe de a.\nSi \\Delta=0 alors f(x)=a(x-x_0)^2. Ainsi f est du signe de a et la racine de f est x_0=-\\dfrac{b}{2a}.\nSi \\Delta&gt;0 : Soit x \\in \\mathbb{R}. f(x)=ax^2+bx+c=a(x-x_1)(x-x_2). Supposons que x_1&lt;x_2, alors on a :\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nx\n-\\infty\n\nx_1\n\nx_2\n\n+\\infty\n\n\n\n\nx-x_1\n-\n\n0\n\n+\n\n+\n\n\nx-x_2\n-\n\n-\n\n0\n\n+\n\n\n(x-x_1)(x-x_2)\n+\n\n0\n\n- → 0\n\n+\n\n\nf(x)\nsigne de a\n\n0\nsigne opposé à a\n0\n\nsigne de a\n\n\n\n\n\n\n\nFinalement, on peut retenir que f est du signe de a sauf entre ses racines."
-  },
-  {
-    "objectID": "premiere-spe/index.html",
-    "href": "premiere-spe/index.html",
-    "title": "Spécialité mathématiques – Première",
-    "section": "",
-    "text": "Second degré\nSuites\nVariations de fonctions\nVariables aléatoires\nProbabilités conditionnelles\nFonction exponentielle\nTrigonométrie\nDérivation"
-  },
-  {
-    "objectID": "premiere-spe/index.html#chapitres",
-    "href": "premiere-spe/index.html#chapitres",
-    "title": "Spécialité mathématiques – Première",
-    "section": "",
-    "text": "Second degré\nSuites\nVariations de fonctions\nVariables aléatoires\nProbabilités conditionnelles\nFonction exponentielle\nTrigonométrie\nDérivation"
-  },
-  {
-    "objectID": "premiere-spe/index.html#bacs-blancs",
-    "href": "premiere-spe/index.html#bacs-blancs",
-    "title": "Spécialité mathématiques – Première",
-    "section": "Bacs blancs",
-    "text": "Bacs blancs\n\n\n\n\n\n\n\n📁 2025 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html",
-    "href": "seconde/chapitres/fonction-1-generalite.html",
-    "title": "Fonctions 1 : généralités",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html#cours",
-    "href": "seconde/chapitres/fonction-1-generalite.html#cours",
-    "title": "Fonctions 1 : généralités",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
-    "title": "Fonctions 1 : généralités",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html",
-    "title": "Fonctions 3 : étude de signes",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
-    "title": "Fonctions 3 : étude de signes",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
-    "title": "Fonctions 3 : étude de signes",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-reperee.html",
-    "href": "seconde/chapitres/geometrie-reperee.html",
-    "title": "Géométrie repérée",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-reperee.html#cours",
-    "href": "seconde/chapitres/geometrie-reperee.html#cours",
-    "title": "Géométrie repérée",
-    "section": "Cours",
-    "text": "Cours\n\n-Cours : Géométrie repérée"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
-    "title": "Géométrie repérée",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 4 - sujet\nEvaluation 4 - correction\nEvaluation 5 - sujet\nEvaluation 5 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html",
-    "title": "Géométrie : vecteurs 2",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
-    "title": "Géométrie : vecteurs 2",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
-    "title": "Géométrie : vecteurs 2",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/pourcentages.html",
-    "href": "seconde/chapitres/pourcentages.html",
-    "title": "Pourcentages",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/pourcentages.html#cours",
-    "href": "seconde/chapitres/pourcentages.html#cours",
-    "title": "Pourcentages",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
-    "href": "seconde/chapitres/pourcentages.html#évaluations-et-ds",
-    "title": "Pourcentages",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/statistiques-1.html",
-    "href": "seconde/chapitres/statistiques-1.html",
-    "title": "Statistiques 1",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/statistiques-1.html#cours",
-    "href": "seconde/chapitres/statistiques-1.html#cours",
-    "title": "Statistiques 1",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
-    "href": "seconde/chapitres/statistiques-1.html#évaluations-et-ds",
-    "title": "Statistiques 1",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "2.1 Définitions",
-    "text": "2.1 Définitions\n\nL’ensemble des nombres pouvant s’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N} est appelé ensemble des nombres décimaux. Cet ensemble est noté \\mathbb{D}.\n\n\nMontrer que -1.23\\in\\mathbb{D}, \\dfrac{19}{40}\\in\\mathbb{D} et \\dfrac{1}{3}\\notin\\mathbb{D}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. -1.23 est un décimal car -1.23=\\dfrac{-123}{100}=\\dfrac{-123}{10^2}.\n-1.23 est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=-123 et n=2.\n2. \\dfrac{19}{40} est un décimal car \\dfrac{19}{40}=\\dfrac{19\\times 25}{40\\times 25}=\\dfrac{475}{1000}=\\dfrac{475}{10^3}.\n\\dfrac{19}{40} est bien un décimal car il s’écrit sous la forme \\dfrac{a}{10^n} avec a=475 et n=3.\n3. \\dfrac{1}{3} n’est pas un décimal car on ne peut pas l’écrire sous la forme \\dfrac{a}{10^n} avec a\\in\\mathbb{Z} et n\\in\\mathbb{N}.\nPour le démontrer, on utilise une démonstration par l’absurde :\nSupposons au contraire que \\dfrac{1}{3}\\in\\mathbb{D}. Il existe donc a\\in\\mathbb{Z} et n\\in\\mathbb{N} tels que \\dfrac{1}{3}=\\dfrac{a}{10^n}.\nAinsi, 10^n=3a et donc 10^n est divisible par 3.\nOr, pour être divisible par 3, la somme des chiffres d’un entier doit être un multiple de 3. Or la somme des chiffres de 10^n est 1 et 1 n’est pas un multiple de 3. On arrive donc à une contradiction."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#encadrer-et-arrondir-à-laide-dun-décimal",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "2.2 Encadrer et arrondir à l’aide d’un décimal",
-    "text": "2.2 Encadrer et arrondir à l’aide d’un décimal\n\n\nEncadrer un nombre x, c’est trouver deux nombres a et b tels que a&lt;x&lt;b.\nLa différence b-a est appelée l’amplitude de l’encadrement.\nArrondir un nombre, c’est lui trouver la valeur décimale la plus proche à une précision donnée.\n\n\n\n\nDonner un encadrement d’amplitude 10^{-3} de \\sqrt{2}.\nDonner une valeur approchée à 10^{-1} de \\pi.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n1.414\\leqslant\\sqrt{2}\\leqslant 1.415 est un encadrement d’amplitude 10^{-3} de \\sqrt{2}. En effet : 1.415-1.414=0.001=10^{-3}.\n3.1 est une valeur approchée de \\pi à 10^{-1}."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#multiples-diviseurs-dun-nombre",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "3.1 Multiples, diviseurs d’un nombre",
-    "text": "3.1 Multiples, diviseurs d’un nombre\n\na désigne un nombre de \\mathbb{Z} et b un nombre de \\mathbb{N} non nul (a\\in\\mathbb{Z}, b\\in\\mathbb{N}^*).\nDire que a est un multiple de b signifie qu’il existe un entier relatif k (k\\in\\mathbb{Z}) tel que a=k\\times b.\nOn dit aussi que b est un diviseur de a ou que a est divisible par b.\n\n\n\n-8 est un multiple de 4 car -8=-2\\times 4. Ainsi, -8 est divisible par 4 ou 4 est un diviseur de -8.\n5 n’est pas un multiple de 2. En effet, 5=2.5\\times 2, mais 2.5\\notin\\mathbb{Z}.\n\n\n\nSoit b\\in\\mathbb{N}.\nLa somme de deux multiples de b est un multiple de b.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit b\\in\\mathbb{N}. Soit a et a' deux multiples de b. Il existe alors deux entiers relatifs k et k' tels que :\n\na=k\\times b, k\\in\\mathbb{Z}\na'=k'\\times b, k'\\in\\mathbb{Z}\n\nAlors a+a'=k\\times b+k'\\times b=(k+k')\\times b avec k+k'\\in\\mathbb{Z}. Donc a+a' est bien un multiple de b.\n\n\n\n\nOn considère b=4. Alors 8 et 12 sont des multiples de 4 (8=4\\times 2 et 12=4\\times 3). 8+12=20 est alors un multiple de 4. En effet, 20=4\\times 5."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-pairs-nombres-impairs",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "3.2 Nombres pairs, nombres impairs",
-    "text": "3.2 Nombres pairs, nombres impairs\n\n\nUn nombre pair est un nombre entier multiple de 2. Autrement dit, a\\in\\mathbb{Z} est pair s’il existe k\\in\\mathbb{Z} tel que a=2\\times k.\nUn nombre impair est un nombre entier qui n’est pas un multiple de 2. Autrement dit son reste dans la division euclidienne par 2 est 1. Ainsi, a\\in\\mathbb{Z} est impair s’il existe k\\in\\mathbb{Z} tel que a=2k+1.\n\n\n\n\nLe produit de deux nombres est pair si au moins l’un de ces deux nombres est pair.\nLe produit de deux nombres impairs est impair.\nLa somme de deux nombres de même parité est paire.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a et b deux entiers.\nProduit de deux nombres dont l’un est pair\nSi a est pair, alors par définition, il existe un entier k tel que a=2k.\nLe produit ab s’écrit alors :\n\nab=(2k)b=2(kb)\n\nPuisque k et b sont des entiers, leur produit kb est aussi un entier. Ainsi, ab est de la forme 2\\times(\\text{un entier}), ce qui signifie que ab est pair.\nProduit de deux nombres impairs\nSoient a et b deux nombres entiers impairs.\nPuisque a est impair, par définition, il existe un entier k tel que :\n\na=2k+1\n\nPuisque b est impair, par définition, il existe un entier m tel que :\n\nb=2m+1\n\nMaintenant, calculons le produit ab :\n\n\\begin{align*}\nab&=(2k+1)(2m+1) \\\\\n&=4km+2k+2m+1 \\\\\n&=2(2km+k+m)+1\n\\end{align*}\n\nPosons K=2km+k+m. Puisque k et m sont des entiers, la somme et le produit d’entiers sont des entiers, donc K est également un entier.\nL’expression du produit ab devient alors :\n\nab=2K+1\n\nPar définition, tout nombre entier qui peut s’écrire sous la forme 2K+1 (où K est un entier) est un nombre impair.\nSomme de deux nombres de même parité\n\nSupposons que a et b sont tous les deux pairs.\nPuisque a est pair, par définition, il existe un entier k tel que a=2k. Puisque b est pair, par définition, il existe un entier m tel que b=2m.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=2k+2m \\\\\n&=2(k+m)\n\\end{align*}\n\nPosons K=k+m. Puisque k et m sont des entiers, leur somme k+m est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\nSupposons que a et b sont tous les deux impairs.\nPuisque a est impair, par définition, il existe un entier k tel que a=2k+1. Puisque b est impair, par définition, il existe un entier m tel que b=2m+1.\nMaintenant, calculons la somme a+b :\n\n\\begin{align*}\na+b&=(2k+1)+(2m+1) \\\\\n&=2k+2m+2 \\\\\n&=2(k+m+1)\n\\end{align*}\n\nPosons K=k+m+1. Puisque k et m sont des entiers, leur somme k+m+1 est aussi un entier. Donc K est un entier.\nL’expression de la somme a+b devient alors a+b=2K. Par définition, tout nombre entier qui peut s’écrire sous la forme 2K (où K est un entier) est un nombre pair.\n\n\n\n\n\nMontrer que le carré d’un nombre pair est pair.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nSoit a\\in\\mathbb{Z} pair. Alors il existe k\\in\\mathbb{Z} tel que a=2k. De plus a^2=(2k)^2=4k^2=2\\times 2k^2. On pose K=2k^2 et alors a^2=2K. Donc a^2 est pair.\n\n\n\n\nMontrer que le carré d’un nombre impair est impair."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#critères-de-divisibilité",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "3.3 Critères de divisibilité",
-    "text": "3.3 Critères de divisibilité\n\n(admise)\nUn nombre entier est divisible :\n\npar 2 lorsque son chiffre des unités est 0, 2, 4, 6 ou 8 ;\npar 5 lorsque son chiffre des unités est 0 ou 5 ;\npar 3 lorsque la somme de ses chiffres est divisible par 3 ;\npar 9 lorsque la somme de ses chiffres est divisible par 9."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#nombres-premiers",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "3.4 Nombres premiers",
-    "text": "3.4 Nombres premiers\n\n3.4.1 Définition\n\nUn nombre premier est un entier naturel qui a exactement deux diviseurs : 1 et lui-même.\n\n\nListe des nombres premiers inférieurs à 65 :\n\n2 ; 3 ; 5 ; 7 ; 11 ; 13 ; 17 ; 19 ; 23 ; 29 ; 31 ; 37 ; 41 ; 43 ; 47 ; 53 ; 59 ; 61\n\n\n\n\n1 n’est pas un nombre premier car il n’admet qu’un seul diviseur : 1.\n0 n’est pas un nombre premier car il est divisible par n’importe quel nombre entier non nul.\n6 n’est pas un nombre premier car il est divisible par 1, 2, 3 et 6.\n\n\n\nOn dit que deux nombres entiers sont premiers entre eux lorsque les seuls diviseurs qu’ils ont en commun sont 1 et -1.\n\n\n\n3.4.2 Décomposition en produit de facteurs premiers\n\n(admise)\nTout nombre entier naturel supérieur ou égal à deux se décompose en produit de facteurs premiers et cette décomposition est unique (à l’ordre près des facteurs).\n\n\nDécomposer 84 en produit de facteurs premiers.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nPremière méthode : à vue\nOn recherche le plus grand premier diviseur de 84 et on recherche ensuite tous les diviseurs premiers : 84=7\\times 12. Or 12=4\\times 3=2^2\\times 3. Ainsi 84=2^2\\times 3\\times 7.\nDeuxième méthode : on cherche les diviseurs premiers par ordre croissant\n\n\n\n\\begin{array}{r|l}\n84 & 2 \\\\\n42 & 2 \\\\\n21 & 3 \\\\\n7 & 7 \\\\\n1 &\n\\end{array}\n\n\n\n84 est divisible par 2 : 84=2\\times 42\n42 est divisible par 2 : 42=2\\times 21 donc 84=2\\times 2\\times 21\n21 est divisible par 3 : 21=3\\times 7 donc 84=2^2\\times 3\\times 7\n7 est premier, donc la décomposition en produit de facteurs premiers est 84=2^2\\times 3\\times 7"
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#généralités",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "5.1 Généralités",
-    "text": "5.1 Généralités\nIl existe des nombres qui n’ont pas un développement décimal périodique. C’est le cas par exemple du nombre \\pi\\simeq 3.1416\\dots Ils appartiennent à l’ensemble des irrationnels.\n\nLes nombres qui ne peuvent pas être exprimés par une fraction sont dits irrationnels. On le note \\mathbb{I}.\n\n\nL’ensemble des réels \\mathbb{R} est la réunion de l’ensemble des rationnels \\mathbb{Q} et des irrationnels \\mathbb{I}.\n\n\n(admise)\n\nÀ tout point d’une droite graduée est associé un unique nombre réel, son abscisse.\nRéciproquement, à tout nombre réel est associé un unique point d’une droite graduée.\n\n\n\nLe nombre réel \\sqrt{2} est un irrationnel.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn raisonne par l’absurde. Supposons que \\sqrt{2} soit rationnel.\nIl existe alors deux entiers a\\in\\mathbb{N}^* et b\\in\\mathbb{N}^* tels que :\n\n\\sqrt{2}=\\dfrac{a}{b} \\quad\\text{avec}\\quad \\gcd(a,b)=1\n\nEn élevant au carré, on obtient :\n\n2=\\dfrac{a^2}{b^2} \\implies a^2=2b^2 \\quad\\text{(1)}\n\nAinsi, a^2 est pair, ce qui implique que a est pair. Il existe donc un entier k\\in\\mathbb{N}^* tel que a=2k.\nEn substituant cette expression de a dans l’égalité (1) :\n\n(2k)^2=2b^2 \\implies 4k^2=2b^2 \\implies b^2=2k^2\n\nOn en déduit que b^2 est pair, et donc que b est pair.\na et b étant tous les deux pairs, ils admettent 2 comme diviseur commun. Cela contredit le fait que la fraction \\dfrac{a}{b} soit irréductible (\\gcd(a,b)=1).\nPar conséquent, l’hypothèse de départ est fausse : \\sqrt{2} est irrationnel."
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#racine-carrée",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "5.2 Racine carrée",
-    "text": "5.2 Racine carrée\n\n5.2.1 Définitions\n\nSoit x un réel positif.\nLa racine carrée de x, notée \\sqrt{x}, est l’unique nombre réel positif dont le carré est x.\n\n\nComme 2^2=4, on a \\sqrt{4}=2. On a également \\sqrt{0}=0 et \\sqrt{1}=1.\n\n\nLa racine carrée d’un nombre négatif n’a pas de sens. En effet, il n’existe pas de nombre réel qui, mis au carré, est négatif.\n\n\n\nPour tout nombre réel x positif, \\left(\\sqrt{x}\\right)^2=x.\nPour tout nombre réel x, \\sqrt{x^2}=x si x&gt;0 et \\sqrt{x^2}=-x si x&lt;0.\n\n\n\n\\left(\\sqrt{7}\\right)^2=7 et \\sqrt{(-5)^2}=5\n\n\n\n5.2.2 Calculs\n\nSoit a et b deux réels positifs avec b\\neq 0.\n\n\\sqrt{a\\times b}=\\sqrt{a}\\times\\sqrt{b}\n\\sqrt{\\dfrac{a}{b}}=\\dfrac{\\sqrt{a}}{\\sqrt{b}}\n\n\n\nOn dit qu’une racine carrée (ou radical) admet une écriture simplifiée lorsque deux conditions sont remplies :\n\nLe nombre sous le radical est le plus petit entier possible. Cela signifie qu’il ne contient plus de facteurs carrés parfaits (autres que 1).\nLe dénominateur (s’il y en a un) est un nombre entier sans radical.\n\n\n\nDonner les écritures simplifiées de \\sqrt{12} et de \\sqrt{\\dfrac{27}{8}}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1.\n\n\\sqrt{12}=\\sqrt{4\\times 3}=\\sqrt{4}\\times\\sqrt{3}=\\mathbf{2\\sqrt{3}}\n\n2.\n\n\\begin{align*}\n\\sqrt{\\dfrac{27}{8}}&=\\dfrac{\\sqrt{27}}{\\sqrt{8}} \\\\\n&=\\dfrac{\\sqrt{9\\times 3}}{\\sqrt{4\\times 2}} \\\\\n&=\\dfrac{3\\sqrt{3}}{2\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{3}\\times\\sqrt{2}}{2\\sqrt{2}\\times\\sqrt{2}} \\\\\n&=\\dfrac{3\\sqrt{6}}{2\\times 2} \\\\\n&=\\mathbf{\\dfrac{3\\sqrt{6}}{4}}\n\\end{align*}"
-  },
-  {
-    "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
-    "href": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#les-puissances",
-    "title": "Ensembles de nombres – Arithmétique",
-    "section": "5.3 Les puissances",
-    "text": "5.3 Les puissances\n\nSoit a un réel et m un entier.\n\nSi m&gt;0, alors a^m=\\underbrace{a\\times a\\times a\\times a\\times\\dots\\times a}_{m\\text{ facteurs}}\nSi m&lt;0, alors a^m=\\dfrac{1}{a^{-m}}\nPar convention, pour a\\neq 0, a^0=1\n\n\n\n\n5^3=5\\times 5\\times 5=125\n5^{-3}=\\dfrac{1}{5^3}=\\dfrac{1}{125}\n\n\n\nSoit a et b deux réels non nuls et soit m et n deux entiers relatifs.\n\na^m\\times a^n=a^{m+n}\n(a^n)^m=a^{n\\times m}\n(a\\times b)^m=a^m\\times b^m\n\\left(\\dfrac{a}{b}\\right)^m=\\dfrac{a^m}{b^m}\n\\dfrac{a^m}{a^n}=a^{m-n}\n\n\n\nCalculer :\n\n2^3\\times 2^2\nx\\times x^2\n(3x)^2\n\\left(\\dfrac{2}{x^2}\\right)^2\n\\dfrac{4^5}{4^7}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n2^3\\times 2^2=8\\times 4=32\nx\\times x^2=x^1\\times x^2=x^{2+1}=x^3\n(3x)^2=3x\\times 3x=9x^2\n\\left(\\dfrac{2}{x^2}\\right)^2=\\dfrac{2^2}{(x^2)^2}=\\dfrac{4}{x^4}\n\\dfrac{4^5}{4^7}=4^{5-7}=4^{-2}=\\dfrac{1}{4^2}=\\dfrac{1}{16}"
-  },
-  {
-    "objectID": "seconde/index.html",
-    "href": "seconde/index.html",
-    "title": "Seconde",
-    "section": "",
-    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
-  },
-  {
-    "objectID": "seconde/index.html#chapitres",
-    "href": "seconde/index.html#chapitres",
-    "title": "Seconde",
-    "section": "",
-    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/derivation.html",
-    "href": "terminale-spe/chapitres/derivation.html",
-    "title": "Dérivation",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/derivation.html#cours",
-    "href": "terminale-spe/chapitres/derivation.html#cours",
-    "title": "Dérivation",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
-    "title": "Dérivation",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html",
-    "href": "terminale-spe/chapitres/fonction-ln.html",
-    "title": "Fonction logarithme népérien",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html#cours",
-    "href": "terminale-spe/chapitres/fonction-ln.html#cours",
-    "title": "Fonction logarithme népérien",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
-    "title": "Fonction logarithme népérien",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "title": "Limites de fonctions",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "title": "Limites de fonctions",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "title": "Limites de fonctions",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "title": "Loi des grands nombres",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "title": "Loi des grands nombres",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "title": "Loi des grands nombres",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html",
-    "href": "terminale-spe/chapitres/somme-de-va.html",
-    "title": "Somme de variables aléatoires",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "title": "Somme de variables aléatoires",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "title": "Somme de variables aléatoires",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html",
-    "href": "terminale-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
+    "title": "Géométrie dans l’espace",
+    "section": "3.2 Droites",
+    "text": "3.2 Droites\n\n3.2.1 Équation(s) cartésienne et paramétriques\nL’intersection de deux plans (\\mathcal{P}) et (\\mathcal{P}') non parallèles de l’espace est une droite, donc une droite \\mathcal{D} peut être donnée par un système de deux équations cartésiennes (SEC) :\n\n\\mathcal{D} :\n\\left\\{\n\\begin{array}{ll}\nax+by+cz+d=0 & (\\mathcal{P}) \\\\\na'x+b'y+c'z+d'=0 & (\\mathcal{P}')\n\\end{array}\n\\right.\n\n\nUne droite \\mathcal{D}_A passant par un point A(x_0,y_0,z_0) et dirigée par \\overrightarrow{u}(u_1,u_2,u_3) admet la représentation paramétrique :\n\n\\mathcal{D}_A :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t \\\\\ny=y_0+u_2t \\\\\nz=z_0+u_3t\n\\end{array}\n\\right| \\quad t\\in\\mathbb{R}\n\n\n\n\n3.2.2 Distance d’un point à une droite\n\nDistance d’un point à une droite\nSoient A un point de l’espace et d une droite de l’espace passant par un point B et de vecteur directeur \\overrightarrow{u}.\n\nLe projeté orthogonal H de A sur d est le point de la droite d le plus proche de A.\nLa distance AH est appelée distance du point A à la droite d.\n\n\n\nCette distance AH est égale à AH=\\left\\|\\overrightarrow{AB}-\\dfrac{\\overrightarrow{AB}\\cdot\\overrightarrow{u}}{\\|\\overrightarrow{u}\\|^2}\\overrightarrow{u}\\right\\|, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit d la droite passant par A(2;-5;3) et de vecteur directeur \\overrightarrow{u}\\begin{pmatrix}2\\\\2\\\\1\\end{pmatrix}. Quelle est la distance du point B(-1;2;-4) à la droite d ?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur la droite d. La distance du point B à la droite d est alors la distance BH.\nCoordonnées de H(x_H;y_H;z_H).\nH est le projeté orthogonal de B sur d donc \\overrightarrow{BH}\\cdot\\overrightarrow{u}=0 :\n\n(x_H+1)\\times 2+(y_H-2)\\times 2+(z_H+4)\\times 1=0\\Leftrightarrow 2x_H+2y_H+z_H=-2\n\nDe plus H est sur la droite d, donc ses coordonnées vérifient l’équation de la droite d. Déterminons une équation paramétrique de d. On a \\overrightarrow{AM}\\begin{pmatrix}x-2\\\\y+5\\\\z-3\\end{pmatrix} donc\n\nM(x;y;z)\\in d\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{AM}=k\\overrightarrow{u}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-2=2k\\\\y+5=2k\\\\z-3=k\\end{array}\\right.\n\nAinsi les coordonnées de H vérifient le système :\n\n\\left\\{\\begin{array}{l}x_H=2k+2\\\\y_H=2k-5\\\\z_H=k+3\\\\2x_H+2y_H+z_H=-2\\end{array}\\right.\n\nOn trouve k=\\dfrac{1}{9} et donc H\\left(\\dfrac{20}{9};\\dfrac{-43}{9};\\dfrac{28}{9}\\right).\nDistance. Finalement, la distance recherchée est :\n\nBH=\\sqrt{\\left(\\dfrac{20}{9}+1\\right)^2+\\left(\\dfrac{-43}{9}-2\\right)^2+\\left(\\dfrac{28}{9}+4\\right)^2}\\approx 10.34"
   },
   {
     "objectID": "terminale-spe/cours/suites/suites-terminale.html#définition",
