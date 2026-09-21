@@ -21,8 +21,8 @@ toc: false
 
 - [Cours : Suites](../cours/suites/suites-terminale.qmd)
 - [TD](../cours/suites/suites-TD-terminale.pdf)
-- [Types bac: sujets](../cours/suites/suites-types-bac-sujets-terminale.pdf)
-- [Types bac: corrections](../cours/suites/suites-types-bac-corrections-terminale.pdf)    
+- [Types bac: sujets](../cours/suites/suites-bac-terminale-sujet.pdf)
+- [Types bac: corrections](../cours/suites/suites-bac-terminale-correction.pdf)    
 
 ## Évaluations et DS
 
