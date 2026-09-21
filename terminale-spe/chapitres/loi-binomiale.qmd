@@ -20,6 +20,7 @@ toc: false
      Si tu renommes le fichier, modifie le nom ci-dessous. -->
 
 - [Cours : Loi binomiale](../cours/loi-binomiale/loi-binomiale.qmd)
+-[TD](../cours/loi-binomiale/loi-binomiale-TD-terminale.pdf)
 
 ## Évaluations et DS
 

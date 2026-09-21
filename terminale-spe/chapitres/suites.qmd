@@ -20,6 +20,9 @@ toc: false
      Si tu renommes le fichier, modifie le nom ci-dessous. -->
 
 - [Cours : Suites](../cours/suites/suites-terminale.qmd)
+- [TD](../cours/suites/suites-TD-terminale.pdf)
+- [Types bac: sujets](../cours/suites/suites-types-bac-sujets-terminale.pdf)
+- [Types bac: corrections](../cours/suites/suites-types-bac-corrections-terminale.pdf)    
 
 ## Évaluations et DS
 
