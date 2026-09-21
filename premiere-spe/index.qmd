@@ -21,12 +21,16 @@ toc: false
 
 - [Second degré](chapitres/second-degre.qmd)
 - [Suites](chapitres/suites.qmd)
-- [Variations de fonctions](chapitres/variations-de-fonctions.qmd)
-- [Variables aléatoires](chapitres/variables-aleatoires.qmd)
 - [Probabilités conditionnelles](chapitres/probabilites-conditionnelles.qmd)
-- [Fonction exponentielle](chapitres/fonctions-exponentielle.qmd)
 - [Trigonométrie](chapitres/trigonometrie.qmd)
 - [Dérivation](chapitres/derivations.qmd)
+- [Produit scalaire](chapitres/produit-scalaire.qmd)
+- [Variables aléatoires](chapitres/variables-aleatoires.qmd)
+- [Variations de fonctions](chapitres/variations-de-fonctions.qmd)
+- [Géométrie repérée](chapitres/geometrie-reperee.qmd)
+- [Fonction exponentielle](chapitres/fonctions-exponentielle.qmd)
+
+
 
 :::
 
