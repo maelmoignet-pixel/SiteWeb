@@ -34,7 +34,14 @@ toc: false
         - [Titre affiché](../2025-DS-eval/ensembles-de-nombres-arithmetique/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+- [Evaluation 1 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-sujet.pdf)
+- [Evaluation 1 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-correction.pdf)
+- [Evaluation 2 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-sujet.pdf)
+- [Evaluation 2 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-correction.pdf)
+- [Evaluation 3 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-sujet.pdf)
+- [Evaluation 3 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-correction.pdf)
+- [DS 1 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-sujet.pdf)
+- [DS 1 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-correction.pdf)
 
 :::
 
