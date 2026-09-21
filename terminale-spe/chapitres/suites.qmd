@@ -51,6 +51,16 @@ toc: false
         - [Titre affiché](../2026-DS-eval/suites/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+- [Evaluation 1 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval1-sujet.pdf)
+
+- [Evaluation 1 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval1-correction.pdf)
+
+- [Evaluation 2 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval2-sujet.pdf)
+
+- [Evaluation 2 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval2-correction.pdf)
+
+- [Evaluation 3 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval3-sujet.pdf)
+
+- [Evaluation 3 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval3-correction.pdf)
 
 :::
