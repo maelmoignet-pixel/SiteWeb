@@ -1,5 +1,5 @@
 ---
-title: "Espace 1"
+title: "Géométrie dans l'espace"
 toc: false
 ---
 
@@ -22,7 +22,13 @@ toc: false
         - [Cours : Espace 1](../cours/espace-1/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-- [Cours : Espace 1](../cours/espace-1/geometrie-espace-terminale.qmd)
+- [Cours : Géométrie dans l'espace](../cours/espace-1/geometrie-espace-terminale.qmd)
+
+- [TD : Première partie](../cours/espace-1/espace-TD1-terminale.pdf)
+
+- [TD : Deuxième partie](../cours/espace-1/espace-TD2-terminale.pdf)
+
+
 ## Évaluations et DS
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
@@ -33,7 +39,9 @@ toc: false
         - [Titre affiché](../2025-DS-eval/espace-1/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+- [Evaluation 4 - sujet](../2025-DS-eval/espace-1/espace1-terminale-2025-eval4-sujet.pdf)
+
+- [Evaluation 4 - correction](../2025-DS-eval/espace-1/espace1-terminale-2025-eval4-correction.pdf)
 
 :::
 
