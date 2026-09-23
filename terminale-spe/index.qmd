@@ -54,7 +54,7 @@ toc: false
 ::: {.eval}
 [DS n°1]{.eval-titre} [27 septembre 2025]{.eval-date}
 
-[Sujet](../2025-ds/suites-terminale-2025-DS1.pdf){.eval-btn .sujet} [Correction](../2025-ds/suites-terminale-2025-DS1-correction.pdf){.eval-btn .correction}
+[Sujet](2025-DS-eval/suites-terminale-2025-DS1.pdf){.eval-btn .sujet} [Correction](2025-DS-eval/suites-terminale-2025-DS1-correction.pdf){.eval-btn .correction}
 
 [[Suites]{.tag}]{.chapitres-tags}
 :::
@@ -62,7 +62,7 @@ toc: false
 ::: {.eval}
 [DS n°2]{.eval-titre} [14 octobre 2025]{.eval-date}
 
-[Sujet](../2025-ds/loi-binomiale-terminale-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/loi-binomiale-terminale-2025-DS2-correction.pdf){.eval-btn .correction}
+[Sujet](2025-DS-eval/loi-binomiale-terminale-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](2025-DS-eval/loi-binomiale-terminale-2025-DS2-correction.pdf){.eval-btn .correction}
 
 [[Suites]{.tag} [Loi binomiale]{.tag}]{.chapitres-tags}
 :::
@@ -70,7 +70,7 @@ toc: false
 ::: {.eval}
 [DS n°3]{.eval-titre} [4 décembre 2025]{.eval-date}
 
-[Sujet](../2025-ds/limites-fonctions-terminale-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/limites-fonctions-terminale-2025-DS3-correction.pdf){.eval-btn .correction}
+[Sujet](2025-DS-eval/limites-fonctions-terminale-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](2025-DS-eval/limites-fonctions-terminale-2025-DS3-correction.pdf){.eval-btn .correction}
 
 [[Loi binomiale]{.tag} [Limites de fonctions]{.tag} [Somme de variables aléatoires]{.tag}]{.chapitres-tags}
 :::
@@ -78,7 +78,7 @@ toc: false
 ::: {.eval}
 [DS n°4]{.eval-titre} [6 janvier 2026]{.eval-date}
 
-[Sujet](../2025-ds/derivation-terminale-2025-DS4-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/derivation-terminale-2025-DS4-correction.pdf){.eval-btn .correction}
+[Sujet](2025-DS-eval/derivation-terminale-2025-DS4-sujet.pdf){.eval-btn .sujet} [Correction](2025-DS-eval/derivation-terminale-2025-DS4-correction.pdf){.eval-btn .correction}
 
 [[Suites]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
 :::
@@ -86,7 +86,7 @@ toc: false
 ::: {.eval}
 [DS n°5]{.eval-titre} [14 mars 2026]{.eval-date}
 
-[Sujet](../2025-ds/sommes-variables-aleatoires-terminale-2025-DS5-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/sommes-variables-aleatoires-terminale-2025-DS5-correction.pdf){.eval-btn .correction}
+[Sujet](2025-DS-eval/sommes-variables-aleatoires-terminale-2025-DS5-sujet.pdf){.eval-btn .sujet} [Correction](2025-DS-eval/sommes-variables-aleatoires-terminale-2025-DS5-correction.pdf){.eval-btn .correction}
 
 [[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Somme de variables aléatoires]{.tag} [Dérivation]{.tag} [Fonction logarithme népérien]{.tag} [Loi des grands nombres]{.tag}]{.chapitres-tags}
 :::
@@ -100,7 +100,7 @@ toc: false
 ::: {.eval}
 [Bac blanc n°1]{.eval-titre} [26 janvier 2026]{.eval-date}
 
-[Sujet](../2025-bac-blanc/terminale-2025-BB1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-bac-blanc/terminale-2025-BB1-correction.pdf){.eval-btn .correction}
+[Sujet](2025-bac-blanc/terminale-2025-BB1-sujet.pdf){.eval-btn .sujet} [Correction](2025-bac-blanc/terminale-2025-BB1-correction.pdf){.eval-btn .correction}
 
 [[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
 :::
@@ -108,7 +108,7 @@ toc: false
 ::: {.eval}
 [Bac blanc n°3]{.eval-titre} [Mai 2026]{.eval-date}
 
-[Sujet](../2025-bac-blanc/terminale-2025-BB3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-bac-blanc/terminale-2025-BB3-correction.pdf){.eval-btn .correction}
+[Sujet](2025-bac-blanc/terminale-2025-BB3-sujet.pdf){.eval-btn .sujet} [Correction](2025-bac-blanc/terminale-2025-BB3-correction.pdf){.eval-btn .correction}
 
 [[Loi binomiale]{.tag} [Espace 1]{.tag} [Somme de variables aléatoires]{.tag} [Dérivation]{.tag} [Loi des grands nombres]{.tag} [Primitives et équations différentielles]{.tag} [Intégration]{.tag} [Trigonométrie]{.tag}]{.chapitres-tags}
 :::
