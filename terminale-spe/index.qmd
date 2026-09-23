@@ -39,19 +39,83 @@ toc: false
 <!-- Les bacs blancs couvrent plusieurs chapitres : ils sont ici, au niveau de la classe,
      et non dans chaque chapitre (comme dans ton arborescence de dossiers). -->
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – Bac blanc"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – Bac blanc et DS"}
 
-<!-- ➕ AJOUTER UN DOCUMENT :
-     1. Copie ton PDF dans le dossier  terminale-spe/2025-bac-blanc/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2025-bac-blanc/nom-exact-du-fichier.pdf)
-     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+<!-- ➕ AJOUTER UNE ÉVALUATION : copie une carte complète (de ::: {.eval} à :::)
+     et colle-la dans le bon groupe, puis modifie :
+       - le titre et la date
+       - les deux liens (le nom doit être IDENTIQUE au fichier : majuscules, tirets, .pdf)
+       - les chapitres dans la dernière ligne -->
 
-- [Bac blanc n°1 - sujet](../2025-bac-blanc/terminale-2025-BB1-sujet.pdf)
-  [[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
+[Devoirs surveillés]{.eval-groupe}
 
+:::: {.evals}
 
+::: {.eval}
+[DS n°1]{.eval-titre} [27 septembre 2025]{.eval-date}
+
+[Sujet](../2025-ds/suites-terminale-2025-DS1.pdf){.eval-btn .sujet} [Correction](../2025-ds/suites-terminale-2025-DS1-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag}]{.chapitres-tags}
 :::
+
+::: {.eval}
+[DS n°2]{.eval-titre} [14 octobre 2025]{.eval-date}
+
+[Sujet](../2025-ds/loi-binomiale-terminale-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/loi-binomiale-terminale-2025-DS2-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag} [Loi binomiale]{.tag}]{.chapitres-tags}
+:::
+
+::: {.eval}
+[DS n°3]{.eval-titre} [4 décembre 2025]{.eval-date}
+
+[Sujet](../2025-ds/limites-fonctions-terminale-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/limites-fonctions-terminale-2025-DS3-correction.pdf){.eval-btn .correction}
+
+[[Loi binomiale]{.tag} [Limites de fonctions]{.tag} [Somme de variables aléatoires]{.tag}]{.chapitres-tags}
+:::
+
+::: {.eval}
+[DS n°4]{.eval-titre} [6 janvier 2026]{.eval-date}
+
+[Sujet](../2025-ds/derivation-terminale-2025-DS4-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/derivation-terminale-2025-DS4-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
+:::
+
+::: {.eval}
+[DS n°5]{.eval-titre} [14 mars 2026]{.eval-date}
+
+[Sujet](../2025-ds/sommes-variables-aleatoires-terminale-2025-DS5-sujet.pdf){.eval-btn .sujet} [Correction](../2025-ds/sommes-variables-aleatoires-terminale-2025-DS5-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Somme de variables aléatoires]{.tag} [Dérivation]{.tag} [Fonction logarithme népérien]{.tag} [Loi des grands nombres]{.tag}]{.chapitres-tags}
+:::
+
+::::
+
+[Bacs blancs]{.eval-groupe}
+
+:::: {.evals}
+
+::: {.eval}
+[Bac blanc n°1]{.eval-titre} [26 janvier 2026]{.eval-date}
+
+[Sujet](../2025-bac-blanc/terminale-2025-BB1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-bac-blanc/terminale-2025-BB1-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
+:::
+
+::: {.eval}
+[Bac blanc n°3]{.eval-titre} [Mai 2026]{.eval-date}
+
+[Sujet](../2025-bac-blanc/terminale-2025-BB3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-bac-blanc/terminale-2025-BB3-correction.pdf){.eval-btn .correction}
+
+[[Loi binomiale]{.tag} [Espace 1]{.tag} [Somme de variables aléatoires]{.tag} [Dérivation]{.tag} [Loi des grands nombres]{.tag} [Primitives et équations différentielles]{.tag} [Intégration]{.tag} [Trigonométrie]{.tag}]{.chapitres-tags}
+:::
+
+::::
+
+:::::
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – Bac blanc"}
 
