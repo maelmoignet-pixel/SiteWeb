@@ -77,3 +77,82 @@ main a { color: var(--mer); }
 .callout { margin-bottom: 1rem; }
 .callout.callout-note { border-left-color: var(--marine) !important; }
 .callout.callout-note .callout-title-container { color: var(--marine); font-weight: 600; }
+
+/* Étiquettes de chapitres sous un sujet de DS / bac blanc */
+.chapitres-tags {
+  display: block;
+  margin-top: 0.35rem;
+}
+.chapitres-tags .tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.1rem 0.6rem;
+  margin: 0.15rem 0.3rem 0.15rem 0;
+  border-radius: 999px;
+  background: #e8edf3;
+  border: 1px solid #cfd8e3;
+  color: #13294b;
+}
+
+/* Cartes des DS / bacs blancs */
+.eval-groupe {
+  display: block;
+  margin: 1rem 0 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7785;
+}
+.evals {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+.eval {
+  background: #fff;
+  border: 1px solid #dde3ea;
+  border-left: 4px solid #13294b;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+}
+.eval p {
+  margin: 0 0 0.6rem;
+}
+.eval p:last-child {
+  margin-bottom: 0;
+}
+.eval-titre {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #13294b;
+  margin-right: 0.4rem;
+}
+.eval-date {
+  font-size: 0.8rem;
+  color: #6b7785;
+}
+.eval a.eval-btn {
+  display: inline-block;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.85rem;
+  margin-right: 0.4rem;
+  border: 1px solid #13294b;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.eval a.sujet {
+  background: #13294b;
+  color: #fff;
+}
+.eval a.correction {
+  background: transparent;
+  color: #13294b;
+}
+.eval a.eval-btn:hover {
+  opacity: 0.85;
+}
+.eval .chapitres-tags {
+  margin-top: 0;
+}
