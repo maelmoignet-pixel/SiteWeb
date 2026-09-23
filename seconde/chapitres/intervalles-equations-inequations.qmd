@@ -22,7 +22,7 @@ toc: false
         - [Cours : Intervalles, équations et inéquations](../cours/intervalles-equations-inequations/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-*Cours bientôt disponible.*
+- [Cours : Intervalles, équations et inéquations](../cours/intervalles-equations-inequations/intervalles-equations-inequations.qmd)
 
 ## Évaluations et DS
 

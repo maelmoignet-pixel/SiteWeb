@@ -1,0 +1,443 @@
+---
+title: "Limites de fonctions"
+lang: fr
+format:
+  html:
+    embed-resources: true
+    html-math-method: katex
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    include-in-header:
+      text: |
+        <meta name="google" content="notranslate">
+editor:
+  render-on-save: true
+---
+```css
+```
+```{=html}
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+```
+
+\gdef\R{\mathbb{R}}
+
+\gdef\N{\mathbb{N}}
+
+# Limite d'une fonction en l'infini
+
+::: {.definition}
+Soit $f$ une fonction définie sur un intervalle de $\R$. Soit $\ell$ un réel.
+
+On dit qu'une fonction $f$ tend vers un réel $\ell$ quand $x$ tend vers $+\infty$ (respectivement quand $x$ tend vers $-\infty$) lorsque tout intervalle ouvert contenant $\ell$ contient $f(x)$ pour $x$ suffisamment grand (respectivement pour $x$ suffisamment petit). On note $\lim\limits_{x\to+\infty}f(x)=\ell$ (respectivement $\lim\limits_{x\to-\infty}f(x)=\ell$).
+:::
+
+::: {.definition}
+Soit $f$ une fonction définie sur un intervalle de $\R$. Soit $\ell$ un réel.
+
+Si $\lim\limits_{x\to+\infty}f(x)=\ell$ (respectivement $\lim\limits_{x\to-\infty}f(x)=\ell$) alors la droite $\Delta$ d'équation $y=\ell$ est asymptote horizontale à la courbe représentative de la fonction $f$ en $+\infty$ (respectivement en $-\infty$).
+:::
+
+::: {.illustration}
+![](images-cours/asymptote%20horizontale.png){fig-alt="Courbe admettant une asymptote horizontale d'équation y = l" fig-align="center" width="55%"}
+:::
+
+::: {.definition}
+Soit $f$ une fonction définie sur un intervalle de $\R$. Soit $M$ un réel.
+
+On dit qu'une fonction $f$ tend vers $+\infty$ quand $x$ tend vers $+\infty$ (respectivement quand $x$ tend vers $-\infty$) lorsque tout intervalle de la forme $]M;+\infty[$ contient $f(x)$ pour $x$ suffisamment grand (respectivement pour $x$ suffisamment petit). On note $\lim\limits_{x\to+\infty}f(x)=+\infty$ (respectivement $\lim\limits_{x\to-\infty}f(x)=+\infty$).
+:::
+
+::: {.illustration}
+![](images-cours/limite%20infinie.png){fig-alt="Courbe dont les valeurs tendent vers plus l'infini" fig-align="center" width="45%"}
+:::
+
+::: {.definition}
+Soit $f$ une fonction définie sur un intervalle de $\R$. Soit $M$ un réel.
+
+On dit qu'une fonction $f$ tend vers $-\infty$ quand $x$ tend vers $+\infty$ (respectivement quand $x$ tend vers $-\infty$) lorsque tout intervalle de la forme $]-\infty;M[$ contient $f(x)$ pour $x$ suffisamment grand (respectivement pour $x$ suffisamment petit). On note $\lim\limits_{x\to+\infty}f(x)=-\infty$ (respectivement $\lim\limits_{x\to-\infty}f(x)=-\infty$).
+:::
+
+::: {.proposition}
+| $f(x)$                                       | $x^n,\ n\in\N^*$                                     | $\sqrt{x}$    | $\dfrac{1}{x^n},\ n\in\N^*$ | $\dfrac{1}{\sqrt{x}}$ | $e^x$      |
+|-----------------------------------------------|-------------------------------------------------------|---------------|-------------------------------|-------------------------|------------|
+| $\lim\limits_{x\to+\infty}f(x)$               | $+\infty$                                               | $+\infty$     | $0$                            | $0$                      | $+\infty$  |
+| $\lim\limits_{x\to-\infty}f(x)$               | $+\infty$ si $n$ pair, $-\infty$ si $n$ impair          | non définie   | $0$                            | non définie              | $0$        |
+:::
+
+# Limite d'une fonction en un nombre réel
+
+::: {.definition}
+Soit $M$ un réel. Soit $a$ un réel. Soit $f$ une fonction définie sur un intervalle ouvert contenant $a$ (ou avec une borne égale à $a$).
+
+On dit qu'une fonction $f$ tend vers $+\infty$ quand $x$ tend vers $a$ lorsque tout intervalle de la forme $]M;+\infty[$ contient $f(x)$ pour $x$ suffisamment proche de $a$. On note $\lim\limits_{x\to a}f(x)=+\infty$.
+:::
+
+::: {.definition}
+Soit $a$ un réel. Soit $f$ une fonction définie sur un intervalle ouvert contenant $a$ (ou avec une borne égale à $a$).
+
+Si $\lim\limits_{x\to a}f(x)=+\infty$ alors la droite $\Delta$ d'équation $x=a$ est asymptote verticale à la courbe représentative de la fonction $f$.
+:::
+
+::: {.illustration}
+![](images-cours/limite%20finie.png){fig-alt="Courbe admettant une asymptote verticale en x = a" fig-align="center" width="45%"}
+:::
+
+::: {.definition}
+Soit $M$ un réel. Soit $a$ un réel. Soit $f$ une fonction définie sur un intervalle ouvert contenant $a$ (ou avec une borne égale à $a$).
+
+On dit qu'une fonction $f$ tend vers $-\infty$ quand $x$ tend vers $a$ lorsque tout intervalle de la forme $]-\infty;M[$ contient $f(x)$ pour $x$ suffisamment proche de $a$. On note $\lim\limits_{x\to a}f(x)=-\infty$.
+:::
+
+::: {.remarque}
+Lorsque la fonction $f$ est définie sur $]-\infty;a[\cup]a;+\infty[$, on étudie les limites « à gauche » et « à droite » de $a$, notées respectivement $\lim\limits_{\substack{x\to a\\x<a}}f(x)$ (ou $\lim\limits_{x\to a^-}f(x)$) et $\lim\limits_{\substack{x\to a\\x>a}}f(x)$ (ou $\lim\limits_{x\to a^+}f(x)$).
+:::
+
+::: {.proposition}
+| $f(x)$                          | $\dfrac{1}{x^n}$ où $n\in\N^*$                         | $\dfrac{1}{\sqrt{x}}$ |
+|-----------------------------------|----------------------------------------------------------|--------------------------|
+| $\lim\limits_{x\to 0^-}f(x)$     | $+\infty$ si $n$ pair, $-\infty$ si $n$ impair            | non définie              |
+| $\lim\limits_{x\to 0^+}f(x)$     | $+\infty$                                                  | $+\infty$                |
+:::
+
+# Opérations sur les limites
+
+Dans cette partie, on considère $f$ et $g$ deux fonctions définies sur un même intervalle, $\ell$ et $\ell'$ deux réels, et $a$ une valeur réelle ou $+\infty$ ou $-\infty$.
+
+## Somme
+
+| $\lim\limits_{x\to a}f(x)$              | $\ell$   | $\ell$    | $\ell$    | $+\infty$ | $+\infty$ | $-\infty$ |
+|-------------------------------------------|----------|-----------|-----------|-----------|-----------|-----------|
+| $\lim\limits_{x\to a}g(x)$              | $\ell'$  | $+\infty$ | $-\infty$ | $+\infty$ | $-\infty$ | $-\infty$ |
+| $\lim\limits_{x\to a}[f(x)+g(x)]$        | $\ell+\ell'$ | $+\infty$ | $-\infty$ | $+\infty$ | FI        | $-\infty$ |
+
+## Produit
+
+| $\lim\limits_{x\to a}f(x)$                 | $\ell$          | $\ell\neq 0$ | $\infty$ | $0$      |
+|-----------------------------------------------|-----------------|--------------|----------|----------|
+| $\lim\limits_{x\to a}g(x)$                 | $\ell'$         | $\infty$     | $\infty$ | $\infty$ |
+| $\lim\limits_{x\to a}[f(x)\times g(x)]$     | $\ell\times\ell'$ | $\infty$    | $\infty$ | FI       |
+
+On applique la règle des signes pour déterminer le signe devant $\infty$.
+
+## Quotient
+
+| $\lim\limits_{x\to a}f(x)$                        | $\ell$          | $\ell$    | $\ell\neq 0$                                              | $\infty$ | $\infty$ | $0$ |
+|------------------------------------------------------|-----------------|-----------|--------------------------------------------------------------|----------|----------|-----|
+| $\lim\limits_{x\to a}g(x)$                        | $\ell'\neq 0$  | $\infty$  | $0^+$ pour un nombre positif, $0^-$ pour un nombre négatif    | $\ell'$  | $\infty$ | $0$ |
+| $\lim\limits_{x\to a}\dfrac{f(x)}{g(x)}$          | $\dfrac{\ell}{\ell'}$ | $0$  | $\infty$                                                      | $\infty$ | FI       | FI  |
+
+On applique la règle des signes pour déterminer le signe devant $\infty$.
+
+## Exemples
+
+::: {.application}
+On considère les fonctions définies par $f(x)=x+3+\dfrac{1}{x}$, $g(x)=-x^3+4x^2+6$, $h(x)=\dfrac{2x+1}{x+2}$.
+
+Déterminer la limite de ces fonctions aux bornes de leur ensemble de définition.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** $f(x)=x+3+\dfrac{1}{x}$ pour $x\in\R^*$.
+
+- $\lim\limits_{x\to-\infty}x=-\infty$ et $\lim\limits_{x\to-\infty}\dfrac{1}{x}=0$ donc par somme $\lim\limits_{x\to-\infty}f(x)=-\infty$.
+- $\lim\limits_{x\to+\infty}x=+\infty$ et $\lim\limits_{x\to+\infty}\dfrac{1}{x}=0$ donc par somme $\lim\limits_{x\to+\infty}f(x)=+\infty$.
+- $\lim\limits_{x\to 0^-}x=0$ et $\lim\limits_{x\to 0^-}\dfrac{1}{x}=-\infty$ donc par somme $\lim\limits_{x\to 0^-}f(x)=-\infty$.
+- $\lim\limits_{x\to 0^+}x=0$ et $\lim\limits_{x\to 0^+}\dfrac{1}{x}=+\infty$ donc par somme $\lim\limits_{x\to 0^+}f(x)=+\infty$.
+
+**2.** $g(x)=-x^3+4x^2+6$ pour $x\in\R$.
+
+Pour lever l'indétermination, on factorise par le monôme de plus haut degré :
+
+Soit $x\in\R^*$, $g(x)=x^3\left(-1+\dfrac{4}{x}+\dfrac{6}{x^3}\right)$.
+
+- $\lim\limits_{x\to-\infty}\dfrac{4}{x}=\lim\limits_{x\to-\infty}\dfrac{6}{x^3}=0$ donc par somme $\lim\limits_{x\to-\infty}\left(-1+\dfrac{4}{x}+\dfrac{6}{x^3}\right)=-1$ et $\lim\limits_{x\to-\infty}x^3=-\infty$. Enfin par produit $\lim\limits_{x\to-\infty}g(x)=+\infty$.
+- $\lim\limits_{x\to+\infty}\dfrac{4}{x}=\lim\limits_{x\to+\infty}\dfrac{6}{x^3}=0$ donc par somme $\lim\limits_{x\to+\infty}\left(-1+\dfrac{4}{x}+\dfrac{6}{x^3}\right)=-1$ et $\lim\limits_{x\to+\infty}x^3=+\infty$. Enfin par produit $\lim\limits_{x\to+\infty}g(x)=-\infty$.
+
+**3.** $h(x)=\dfrac{2x+1}{x+2}$ pour $x\in I=\,]-\infty;-2[\cup]-2;+\infty[$.
+
+Pour lever l'indétermination, on factorise le numérateur et le dénominateur par leur monôme de plus haut degré :
+
+Soit $x\in I^*$, $h(x)=\dfrac{x\left(2+\dfrac{1}{x}\right)}{x\left(1+\dfrac{2}{x}\right)}=\dfrac{2+\dfrac{1}{x}}{1+\dfrac{2}{x}}$.
+
+- $\lim\limits_{x\to-\infty}\dfrac{1}{x}=0$ donc par somme $\lim\limits_{x\to-\infty}\left(2+\dfrac{1}{x}\right)=2$ et $\lim\limits_{x\to-\infty}\dfrac{2}{x}=0$ donc par somme $\lim\limits_{x\to-\infty}\left(1+\dfrac{2}{x}\right)=1$. Enfin par quotient $\lim\limits_{x\to-\infty}h(x)=2$.
+- $\lim\limits_{x\to+\infty}\dfrac{1}{x}=0$ donc par somme $\lim\limits_{x\to+\infty}\left(2+\dfrac{1}{x}\right)=2$ et $\lim\limits_{x\to+\infty}\dfrac{2}{x}=0$ donc par somme $\lim\limits_{x\to+\infty}\left(1+\dfrac{2}{x}\right)=1$. Enfin par quotient $\lim\limits_{x\to+\infty}h(x)=2$.
+- $\lim\limits_{x\to-2^-}(2x+1)=\lim\limits_{x\to-2^+}(2x+1)=-3$ et voici le tableau de signes de $x+2$ :
+
+  | $x$      | $-\infty$ |    | $-2$ |    | $+\infty$ |
+  |----------|:---------:|:--:|:----:|:--:|:---------:|
+  | $x+2$    |           | $-$ | $0$  | $+$ |           |
+
+  $\lim\limits_{x\to-2^-}(x+2)=0^-$ donc par quotient $\lim\limits_{x\to-2^-}h(x)=+\infty$.
+
+  $\lim\limits_{x\to-2^+}(x+2)=0^+$ donc par quotient $\lim\limits_{x\to-2^+}h(x)=-\infty$.
+:::
+
+# Limites et comparaison
+
+::: {.theoreme}
+**dit « de comparaison »**
+
+Soient $f$ et $g$ deux fonctions définies sur un intervalle de la forme $]a;+\infty[$, où $a$ est un réel ou $-\infty$.
+
+Si, pour tout $x\in\,]a;+\infty[$, $f(x)\leqslant g(x)$ et :
+
+- si $\lim\limits_{x\to+\infty}f(x)=+\infty$ alors $\lim\limits_{x\to+\infty}g(x)=+\infty$ ;
+- si $\lim\limits_{x\to+\infty}g(x)=-\infty$ alors $\lim\limits_{x\to+\infty}f(x)=-\infty$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+Démonstration du premier point :
+
+Soit $M\in\R^{+*}$.
+
+Si $\lim\limits_{x\to+\infty}f(x)=+\infty$ alors il existe un réel $x_0$ tel que pour tout $x>x_0$, $f(x)>M$.
+
+De plus, pour tout $x\in\,]a;+\infty[$, $f(x)\leqslant g(x)$.
+
+En choisissant $x_p=\max(x_0;a)$, on a, pour tout $x>x_p$, $g(x)\geqslant f(x)>M$.
+
+Ainsi, $\lim\limits_{x\to+\infty}g(x)=+\infty$.
+
+On démontre le deuxième point de manière analogue.
+:::
+
+::: {.theoreme}
+**dit « des gendarmes » ou « d'encadrement »**
+
+Soient $f$, $g$ et $h$ trois fonctions définies sur un intervalle de la forme $]a;+\infty[$, où $a$ est un réel ou $-\infty$. Soit $\ell$ un réel.
+
+Si, pour tout $x\in\,]a;+\infty[$, $f(x)\leqslant g(x)\leqslant h(x)$, et si $\lim\limits_{x\to+\infty}f(x)=\lim\limits_{x\to+\infty}h(x)=\ell$,
+
+alors $\lim\limits_{x\to+\infty}g(x)=\ell$.
+:::
+
+::: {.remarque}
+Le théorème est valable pour une limite en $-\infty$ ou une limite en $a$.
+:::
+
+::: {.application}
+Déterminer les limites en $+\infty$ des fonctions $f$ et $g$ définies sur $]0;+\infty[$ par $f(x)=\dfrac{\sin(x)}{x}$ et $g(x)=x+\cos(x)$.
+:::
+
+:::{.callout-caution collapse="true"}
+## Solution
+
+**1.** Soit $x\in\,]0;+\infty[$.
+
+$-1\leqslant\sin(x)\leqslant 1$
+
+$\Leftrightarrow\dfrac{-1}{x}\leqslant\dfrac{\sin(x)}{x}\leqslant\dfrac{1}{x}$ car on a divisé par $x>0$.
+
+Or $\lim\limits_{x\to+\infty}\dfrac{-1}{x}=\lim\limits_{x\to+\infty}\dfrac{1}{x}=0$.
+
+D'après le théorème des gendarmes : $\lim\limits_{x\to+\infty}f(x)=0$.
+
+**2.** Soit $x\in\,]0;+\infty[$.
+
+$-1\leqslant\cos(x)\leqslant 1$
+
+$\Leftrightarrow -1+x\leqslant\cos(x)+x\leqslant 1+x$
+
+Or $\lim\limits_{x\to+\infty}(-1+x)=+\infty$.
+
+D'après le théorème de comparaison : $\lim\limits_{x\to+\infty}g(x)=+\infty$.
+:::
+
+::: {.theoreme}
+**dit « des croissances comparées »**
+
+Pour tout $n\in\N$, $\lim\limits_{x\to+\infty}\dfrac{e^x}{x^n}=+\infty$ et $\lim\limits_{x\to-\infty}x^ne^x=0$.
+:::
+
+# Limite et composition
+
+::: {.definition}
+Soient $I$ et $J$ deux intervalles de $\R$.
+
+Soit $u$ une fonction définie sur un intervalle $I$ telle que pour tout $x\in I$, $u(x)\in J$.
+
+Soit $v$ une fonction définie sur $J$.
+
+On appelle fonction composée de $u$ suivie de $v$, et on note $v\circ u$, la fonction $f$ définie sur $I$ par $f(x)=v(u(x))$.
+:::
+
+::: {.exemple}
+On considère la fonction $f$ définie sur $]-\infty;2]$ par $f(x)=\sqrt{6-3x}$.
+
+$f$ est la composée des deux fonctions :
+
+- $u$ définie sur $]-\infty;2]$ par $u(x)=6-3x$ et à valeurs dans $\R^+$ ;
+- $v$ définie sur $\R^+$ par $v(x)=\sqrt{x}$.
+
+On note $f=v\circ u$.
+:::
+
+::: {.theoreme}
+Soit $f$ la fonction composée de $u$ suivie de $v$.
+
+Soient $a$, $b$ et $c$ des réels ou $-\infty$ ou $+\infty$.
+
+Si $\lim\limits_{x\to a}u(x)=b$ et $\lim\limits_{x\to b}v(x)=c$ alors $\lim\limits_{x\to a}f(x)=c$.
+:::
+
+::: {.exemple}
+On reprend l'exemple précédent et on cherche $\lim\limits_{x\to-\infty}f(x)$.
+
+$\lim\limits_{x\to-\infty}(6-3x)=+\infty$ et $\lim\limits_{x\to+\infty}\sqrt{x}=+\infty$ donc, par composition, $\lim\limits_{x\to-\infty}f(x)=+\infty$.
+:::
