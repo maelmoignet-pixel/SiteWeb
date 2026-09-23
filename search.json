@@ -98,144 +98,242 @@
     "text": "4.3 Représentation graphique\n\nReprésentation graphique (proposition admise)\nSoit X une variable aléatoire suivant la loi binomiale B(n;p). Le diagramme en barres associé à X est en forme de cloche, approximativement centré sur son espérance.\n\n\n\n\nLe diagramme en barres associé à la loi B(20;0{,}6), sur lequel k varie de 0 à 20 en abscisses, montre, pour chaque valeur de k, la hauteur de la barre correspondant à P(X=k).\nPar exemple, pour k=10, P(X=10)\\approx 0{,}12.\nLe diagramme est en forme de cloche et approximativement centré sur 12 (l’espérance correspondant à cette loi).\nCe diagramme est quasiment symétrique par rapport à la droite d’équation x=12 tracée en pointillés."
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html",
-    "href": "terminale-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.1 Vecteurs de l’espace",
+    "text": "1.1 Vecteurs de l’espace\n\n1.1.1 Définition d’un vecteur de l’espace\n\nSoient A et B deux points de l’espace. On associe le vecteur \\overrightarrow{AB} à la translation qui transforme A en B.\n\n\nDeux vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont égaux si et seulement si ABDC est un parallélogramme (éventuellement aplati). On peut alors noter \\overrightarrow{u}=\\overrightarrow{AB}=\\overrightarrow{CD}.\n\n\nLes vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont des représentants du vecteur \\overrightarrow{u}.\n\n\n\nDeux vecteurs sont égaux s’ils ont même direction, même sens et même norme.\nLorsque A et B sont confondus, on dit que le vecteur \\overrightarrow{AB} est nul et on le note \\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} un vecteur et A un point de l’espace. Il existe un unique point M tel que \\overrightarrow{AM}=\\overrightarrow{u}.\n\n\nOn dit que \\overrightarrow{AM} est le représentant de \\overrightarrow{u} d’origine A.\n\n\n\n1.1.2 Opérations sur les vecteurs de l’espace\n\nRègle du parallélogramme\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace de représentants respectifs \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. La somme des vecteurs \\overrightarrow{u} et \\overrightarrow{v} est le vecteur noté \\overrightarrow{u}+\\overrightarrow{v} de représentant \\overrightarrow{AD} tel que ABDC soit un parallélogramme.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nRelation de Chasles\nPour tous points A, B et C de l’espace, \\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}.\n\n\n\nSoient \\overrightarrow{u} un vecteur non nul et k un réel non nul. Le vecteur k\\overrightarrow{u} est le vecteur qui a :\n\nla même direction que le vecteur \\overrightarrow{u} ;\nle même sens que \\overrightarrow{u} si k&gt;0, le sens contraire de \\overrightarrow{u} si k&lt;0 ;\npour norme |k|\\times\\|\\overrightarrow{u}\\|.\n\nPour tout vecteur \\overrightarrow{u} et pour tout réel k, 0\\overrightarrow{u}=k\\overrightarrow{0}=\\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. Soient k et k' deux réels.\n\nk\\overrightarrow{u}=\\overrightarrow{0}\\Leftrightarrow k=0 ou \\overrightarrow{u}=\\overrightarrow{0}\nk(k'\\overrightarrow{u})=kk'\\overrightarrow{u}\n(k+k')\\overrightarrow{u}=k\\overrightarrow{u}+k'\\overrightarrow{u}\nk(\\overrightarrow{u}+\\overrightarrow{v})=k\\overrightarrow{u}+k\\overrightarrow{v}\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On dit que \\overrightarrow{u} et \\overrightarrow{v} sont colinéaires s’il existe un réel k tel que \\overrightarrow{u}=k\\overrightarrow{v} ou \\overrightarrow{v}=k\\overrightarrow{u}.\n\n\n\nDeux vecteurs non nuls sont colinéaires si et seulement si ils ont la même direction.\nLe vecteur nul est colinéaire à tout vecteur."
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.2 Droites et plans de l’espace",
+    "text": "1.2 Droites et plans de l’espace\n\n1.2.1 Caractérisation vectorielle d’une droite\n\nSoient A et B deux points distincts de l’espace.\nLa droite (AB) est l’ensemble des points M tels que \\overrightarrow{AM}=k\\overrightarrow{AB}, où k\\in\\mathbb{R}.\nOn dit que \\overrightarrow{AB} est un vecteur directeur de la droite (AB).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nUn point A et un vecteur \\overrightarrow{u} suffisent à déterminer une droite : c’est la droite passant par le point A et de vecteur directeur \\overrightarrow{u}.\n\n\n\n1.2.2 Caractérisation vectorielle d’un plan\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u} et \\overrightarrow{v} ne sont pas colinéaires.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires lorsqu’il existe deux réels x et y tels que \\overrightarrow{w}=x\\overrightarrow{u}+y\\overrightarrow{v}.\nOn dit alors que \\overrightarrow{w} est une combinaison linéaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}.\n\n\nOn considère la pyramide régulière à base carrée ci-dessous. Montrer que les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nDans la pyramide régulière à base carrée, on a l’égalité \\overrightarrow{SO}=\\dfrac{1}{2}\\overrightarrow{SA}+\\dfrac{1}{2}\\overrightarrow{SC}. Les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont donc coplanaires.\nOn peut remarquer que \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SB} ne sont pas coplanaires.\n\n\n\n\nOn dit que des points sont coplanaires lorsqu’il existe un plan qui contient ces points.\nSoient A, B et C trois points non alignés de l’espace.\n\nLe plan (ABC) est l’ensemble des points M tels que \\overrightarrow{AM}=x\\overrightarrow{AB}+y\\overrightarrow{AC} où x\\in\\mathbb{R} et y\\in\\mathbb{R}.\n\\overrightarrow{AB} et \\overrightarrow{AC} sont des vecteurs directeurs du plan (ABC), (\\overrightarrow{AB},\\overrightarrow{AC}) est une base de ce plan et (A;\\overrightarrow{AB},\\overrightarrow{AC}) est un repère de ce plan.\n\n\n\n\nTrois points sont toujours coplanaires.\nUn point A et deux vecteurs non colinéaires \\overrightarrow{u} et \\overrightarrow{v} (ou trois points non alignés) suffisent à déterminer un plan : c’est le plan passant par A et de vecteurs directeurs \\overrightarrow{u} et \\overrightarrow{v} (on dit aussi que le plan est dirigé par \\overrightarrow{u} et \\overrightarrow{v}). Par exemple, dans la pyramide ci-dessus, le point S et les vecteurs \\overrightarrow{SA} et \\overrightarrow{SB} suffisent à déterminer le plan (SAB).\n\n\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u}=\\overrightarrow{AB}, \\overrightarrow{v}=\\overrightarrow{AC} et \\overrightarrow{w}=\\overrightarrow{AD}.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires si et seulement si les points A, B, C et D sont coplanaires.\n\n\nOn considère le cube représenté ci-dessous. On pose \\overrightarrow{u}=\\overrightarrow{AH}, \\overrightarrow{v}=\\overrightarrow{BC} et \\overrightarrow{w}=\\overrightarrow{BF}.\nMontrer que les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a \\overrightarrow{v}=\\overrightarrow{AD} et \\overrightarrow{w}=\\overrightarrow{AE}. Or A, D, H et E sont quatre points coplanaires, donc les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires."
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.3 Positions relatives de droites et de plans de l’espace",
+    "text": "1.3 Positions relatives de droites et de plans de l’espace\n\n1.3.1 Positions relatives de deux plans\n\nDeux plans de l’espace peuvent être :\n\nsoit strictement parallèles (ils n’ont alors aucun point commun) ;\nsoit parallèles et confondus (tous leurs points sont communs) ;\nsoit sécants, leur intersection est alors une droite contenue dans ces deux plans.\n\n\n\nDeux plans parallèles sont soit strictement parallèles soit confondus.\n\n\n\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n1.3.2 Positions relatives de deux droites\n\nDeux droites de l’espace sont soit coplanaires (elles sont alors dans un même plan) soit non coplanaires.\n\n\nDeux droites de l’espace qui sont coplanaires sont :\n\nsoit strictement parallèles ;\nsoit parallèles et confondues ;\nsoit sécantes en un point.\n\n\n\n\n\n\n\n\nLes droites d_1 et d_2 sont parallèles, les droites d_1 et d_3 ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nLes droites (AB) et (DC) sont parallèles, les droites (AB) et (CG) ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites non coplanaires n’ont aucun point commun ;\nDeux droites de l’espace qui n’ont aucun point commun sont soit strictement parallèles soit non coplanaires.\n\n\n\n\n1.3.3 Positions relatives d’une droite et d’un plan\n\nUne droite et un plan de l’espace sont soit sécants soit parallèles. S’ils sont parallèles, soit ils sont strictement parallèles (sans point d’intersection) soit la droite est incluse dans le plan.\n\n\n\n\n\n\n\nLa droite d_1 est incluse dans le plan. La droite d_2 est strictement parallèle au plan. La droite d_3 est sécante (en H) au plan.\n🔗 Figure interactive GeoGebra"
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "1.4 Propriétés du parallélisme dans l’espace",
+    "text": "1.4 Propriétés du parallélisme dans l’espace\n\nToutes ces propriétés sont admises.\n\n\n1.4.1 Parallélisme de deux droites\n\nDeux droites distinctes sont parallèles lorsqu’elles sont coplanaires et sans point commun.\n\n\nSi deux droites sont parallèles alors toute droite parallèle à l’une est parallèle à l’autre.\n\n\nSi deux droites sont parallèles alors tout plan qui coupe l’une coupe l’autre.\n\n\n\n1.4.2 Parallélisme de deux plans\n\nDeux plans distincts sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi deux plans sont parallèles alors tout plan parallèle à l’un est parallèle à l’autre.\n\n\nSi deux droites sécantes d’un plan \\mathcal{P}_1 sont parallèles à deux droites sécantes d’un plan \\mathcal{P}_2 alors \\mathcal{P}_1 et \\mathcal{P}_2 sont parallèles.\n\n\n\n\n\n\n\nLes droites sécantes d_1 et d_3 sont respectivement parallèles aux droites d_2 et d_4. Les deux plans sont parallèles.\n🔗 Figure interactive GeoGebra\n\n\nSi deux plans sont parallèles alors tout plan qui coupe l’un coupe l’autre et les droites d’intersection sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n1.4.3 Parallélisme d’une droite et d’un plan\n\nUne droite et un plan sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi un plan \\mathcal{P} contient une droite \\mathcal{D} parallèle à une droite \\mathcal{D}' alors \\mathcal{P} et \\mathcal{D}' sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSi une droite \\mathcal{D} et un plan \\mathcal{P} sont parallèles alors tout plan contenant \\mathcal{D} et sécant à \\mathcal{P} coupe \\mathcal{P} selon une droite parallèle à \\mathcal{D}.\n\n\nThéorème du toit\nSoient \\mathcal{D} et \\mathcal{D}' deux droites parallèles contenues respectivement dans \\mathcal{P} et \\mathcal{P}', deux plans distincts.\nSi \\mathcal{P} et \\mathcal{P}' sont sécants selon une droite \\Delta, alors \\Delta est parallèle à \\mathcal{D} et à \\mathcal{D}'.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.1 Repère de l’espace",
+    "text": "2.1 Repère de l’espace\n\n2.1.1 Base de l’espace\n\nUne base de l’espace est formée d’un triplet de vecteurs (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) non coplanaires.\n\n\nLes vecteurs d’une base sont tous non nuls et non colinéaires deux à deux.\n\n\nSoit (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) une base de l’espace.\nPour tout vecteur \\overrightarrow{u} de l’espace, il existe un unique triplet de réels (x,y,z) tel que\n\n\\overrightarrow{u}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n\n(x,y,z) sont les coordonnées de \\overrightarrow{u} dans cette base. On note \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}.\n\n\n\n2.1.2 Repère de l’espace\n\nUn repère de l’espace est formé d’un point O et d’une base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). On note (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un tel repère. O est l’origine du repère.\n\n\nAttention, en changeant l’ordre des vecteurs, on change le repère.\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace.\nPour tout point M de l’espace, il existe un unique triplet (x;y;z) tel que \\overrightarrow{OM}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n(x,y,z) sont les coordonnées de M dans le repère (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). x est l’abscisse de M, y son ordonnée et z sa cote. On note M(x,y,z).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace. Soient \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix} deux vecteurs, k un réel et A(x_A;y_A;z_A) et B(x_B;y_B;z_B) deux points de l’espace.\n\nLe milieu du segment [AB] a pour coordonnées \\left(\\dfrac{x_A+x_B}{2};\\dfrac{y_A+y_B}{2};\\dfrac{z_A+z_B}{2}\\right).\nDans la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}), \\overrightarrow{u}+\\overrightarrow{v}\\begin{pmatrix}x+x'\\\\y+y'\\\\z+z'\\end{pmatrix} ; k\\overrightarrow{u}\\begin{pmatrix}kx\\\\ky\\\\kz\\end{pmatrix} et \\overrightarrow{AB}\\begin{pmatrix}x_B-x_A\\\\y_B-y_A\\\\z_B-z_A\\end{pmatrix}.\n\\overrightarrow{u} et \\overrightarrow{v} sont colinéaires si et seulement si leurs coordonnées sont proportionnelles."
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.2 Produit scalaire dans l’espace",
+    "text": "2.2 Produit scalaire dans l’espace\n\n2.2.1 Rappel : produit scalaire dans le plan\n\nOn appelle produit scalaire de \\overrightarrow{u} et \\overrightarrow{v} le nombre réel, noté \\overrightarrow{u}\\cdot\\overrightarrow{v} et défini par :\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\n\\begin{cases}\n\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\\times\\cos(\\overrightarrow{u};\\overrightarrow{v}) & \\text{si } \\overrightarrow{u}\\neq\\overrightarrow{0} \\text{ et } \\overrightarrow{v}\\neq\\overrightarrow{0} \\\\\n0 & \\text{si } \\overrightarrow{u}=\\overrightarrow{0} \\text{ ou } \\overrightarrow{v}=\\overrightarrow{0}\n\\end{cases}\n\nLe produit scalaire d’un vecteur \\overrightarrow{u} par lui-même (\\overrightarrow{u}\\cdot\\overrightarrow{u}) est appelé carré scalaire de \\overrightarrow{u} et se note \\overrightarrow{u}^2.\n\n\nLe produit scalaire est donc une nouvelle opération dont les arguments sont des vecteurs et le résultat est un réel.\n\n\n\n\nOn considère le triangle équilatéral ABC ci-contre avec AB=2. On note \\overrightarrow{u}=\\overrightarrow{CA} et \\overrightarrow{v}=\\overrightarrow{CB}.\nCalculer \\overrightarrow{u}\\cdot\\overrightarrow{v}.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a donc \\|\\overrightarrow{u}\\|=\\|\\overrightarrow{v}\\|=2 et (\\overrightarrow{u};\\overrightarrow{v})=\\dfrac{\\pi}{3}.\nAinsi \\overrightarrow{u}\\cdot\\overrightarrow{v}=2\\times 2\\times\\cos\\left(\\dfrac{\\pi}{3}\\right)=2.\n\n\n\nAutres expressions du produit scalaire : cas des vecteurs colinéaires\n\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de même sens alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de sens contraire alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=-\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\n\n\n\nPour tout vecteur \\overrightarrow{u}, \\overrightarrow{u}^2=\\|\\overrightarrow{u}\\|^2.\n\nAutres expressions du produit scalaire : avec des projetés orthogonaux\n\nSoit (d) une droite et soit M un point n’appartenant pas à cette droite.\nOn dit que le point M' de la droite (d) est le projeté orthogonal de M sur (d) si les droites (MM') et (d) sont perpendiculaires.\n\n\n\n\n\n\n\n\n\nSoient A, B, C et D quatre points du plan.\nSi C' et D' sont les projetés orthogonaux de C et D sur (AB), alors :\n\n\\overrightarrow{AB}\\cdot\\overrightarrow{CD}=\\overrightarrow{AB}\\cdot\\overrightarrow{C'D'}\n\n\n\n\n\n\n\n\n\nRègles de calcul\n\n(\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont des vecteurs quelconques, k un réel).\n\nLe produit scalaire est symétrique : \\overrightarrow{u}\\cdot\\overrightarrow{v}=\\overrightarrow{v}\\cdot\\overrightarrow{u}.\nLe produit scalaire est bilinéaire : \\overrightarrow{u}\\cdot(\\overrightarrow{v}+\\overrightarrow{w})=\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{u}\\cdot\\overrightarrow{w} ; (\\overrightarrow{u}+\\overrightarrow{v})\\cdot\\overrightarrow{w}=\\overrightarrow{u}\\cdot\\overrightarrow{w}+\\overrightarrow{v}\\cdot\\overrightarrow{w}.\n\\overrightarrow{u}\\cdot(k\\overrightarrow{v})=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}) ; (k\\overrightarrow{u})\\cdot\\overrightarrow{v}=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}).\nIdentités remarquables :\n\n(\\overrightarrow{u}+\\overrightarrow{v})^2=\\overrightarrow{u}^2+2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})^2=\\overrightarrow{u}^2-2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})\\cdot(\\overrightarrow{u}+\\overrightarrow{v})=\\overrightarrow{u}^2-\\overrightarrow{v}^2\n\n\n\n\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}+\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}\\|^2-\\|\\overrightarrow{v}\\|^2\\right]\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}\\|^2+\\|\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}-\\overrightarrow{v}\\|^2\\right]\n\n\n\n\nOn dit qu’un vecteur est unitaire lorsque sa norme vaut 1.\nOn dit que deux vecteurs sont orthogonaux, et on note \\overrightarrow{u}\\perp\\overrightarrow{v}, lorsque leur produit scalaire est nul, c’est-à-dire\n\n\\boxed{\\overrightarrow{u}\\perp\\overrightarrow{v}\\Longleftrightarrow\\overrightarrow{u}\\cdot\\overrightarrow{v}=0}\n\n\n\n\n\n2.2.2 Définition du produit scalaire dans l’espace\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On considère les points A, B et C tels que \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. Les points A, B et C étant coplanaires, le produit scalaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}, noté \\overrightarrow{u}\\cdot\\overrightarrow{v}, est le réel \\overrightarrow{AB}\\cdot\\overrightarrow{AC} calculé dans un plan contenant les points A, B et C.\n\n\nToutes les propriétés du produit scalaire dans le plan restent donc d’actualité dans l’espace."
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
+    "title": "Géométrie dans l’espace",
+    "section": "2.3 Orthogonalité dans l’espace",
+    "text": "2.3 Orthogonalité dans l’espace\n\n2.3.1 Orthogonalité de deux droites\n\nSoient d et d' deux droites de l’espace. d et d' sont orthogonales si un vecteur directeur de l’une est orthogonal à un vecteur directeur de l’autre.\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement si tout vecteur directeur de d est orthogonal à tout vecteur directeur de d'.\n\n\n\nDeux droites orthogonales ne sont pas nécessairement coplanaires.\nDans l’espace, deux droites sont perpendiculaires si et seulement si elles sont sécantes selon un angle droit (c’est un cas particulier d’orthogonalité).\nSi deux droites sont perpendiculaires, alors elles sont orthogonales. La réciproque est fausse.\n\n\n\n\n\n\n\n\nLes droites (EF) et (DH) sont orthogonales alors que les droites (GH) et (GC) sont perpendiculaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement s’il existe une droite \\Delta parallèle à d et perpendiculaire à d'.\nSi deux droites sont parallèles, alors toute droite orthogonale à l’une est orthogonale à l’autre.\nSi deux droites sont orthogonales, alors toute droite parallèle à l’une est orthogonale à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n2.3.2 Orthogonalité d’un plan et d’une droite\n\nDans l’espace, soient \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}) et d une droite de vecteur directeur \\overrightarrow{w}.\nLa droite d et le plan \\mathcal{P} sont orthogonaux si \\overrightarrow{w} est orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\nUne droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan.\nSi une droite est orthogonale à un plan, alors elle est orthogonale à toute droite de ce plan.\nSi deux droites sont parallèles, alors tout plan orthogonal à l’une est orthogonal à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nSi deux plans sont parallèles, alors toute droite orthogonale à l’un est orthogonale à l’autre.\nSi deux plans sont orthogonaux à une même droite, alors ils sont parallèles entre eux.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
+    "title": "Géométrie dans l’espace",
+    "section": "2.4 Vecteur normal, projeté orthogonal",
+    "text": "2.4 Vecteur normal, projeté orthogonal\n\n2.4.1 Vecteur normal à un plan\n\nSoit \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}). Un vecteur \\overrightarrow{n} est normal au plan \\mathcal{P} s’il est non nul et orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoient A un point et \\overrightarrow{n} un vecteur non nul. Il existe un unique plan passant par A et de vecteur normal \\overrightarrow{n}.\n\n\nOn peut donc déterminer de manière unique un plan à l’aide d’un point et d’un vecteur normal.\n\n\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\nOn dit que \\mathcal{P}_1 est perpendiculaire à \\mathcal{P}_2 si \\overrightarrow{n_1} est orthogonal à \\overrightarrow{n_2}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nTout vecteur non nul colinéaire à un vecteur normal à un plan est aussi un vecteur normal à ce plan.\nSi deux vecteurs sont normaux à un même plan, alors ils sont colinéaires entre eux.\n\n\n\n\nUn vecteur est normal à un plan \\mathcal{P} si et seulement s’il est orthogonal à tout vecteur directeur de \\mathcal{P}.\nUne droite est orthogonale à un plan si et seulement si un vecteur directeur de cette droite est colinéaire à un vecteur normal à ce plan.\nUne droite est parallèle à un plan si et seulement si un vecteur directeur de cette droite est orthogonal à un vecteur normal à ce plan.\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\n\\mathcal{P}_1 est parallèle à \\mathcal{P}_2 si et seulement si \\overrightarrow{n_1} est colinéaire à \\overrightarrow{n_2}.\n\n\n\n\n2.4.2 Projeté orthogonal d’un point\n\n\nSoient A un point et d une droite de l’espace. Il existe un unique plan passant par A et orthogonal à d. La droite d est alors sécante avec ce plan et leur point d’intersection est appelé projeté orthogonal de A sur d.\nSoient A un point et \\mathcal{P} un plan de l’espace. Il existe une unique droite passant par A et orthogonale à \\mathcal{P}. Le plan \\mathcal{P} est alors sécant avec cette droite et leur point d’intersection est appelé projeté orthogonal de A sur \\mathcal{P}.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
+    "title": "Géométrie dans l’espace",
+    "section": "2.5 Calculs de distances",
+    "text": "2.5 Calculs de distances\n\n2.5.1 Calculs dans une base et un repère orthonormé de l’espace\n\nUne base orthonormée de l’espace est une base de l’espace telle que ses trois vecteurs soient orthogonaux deux à deux et tous de norme 1.\nAutrement dit, \\overrightarrow{i}\\cdot\\overrightarrow{j}=\\overrightarrow{i}\\cdot\\overrightarrow{k}=\\overrightarrow{j}\\cdot\\overrightarrow{k}=0 et \\|\\overrightarrow{i}\\|=\\|\\overrightarrow{j}\\|=\\|\\overrightarrow{k}\\|=1.\n\n\nUn repère orthonormé (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) est un repère tel que la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) soit orthonormée.\n\n\nDans une base orthonormée (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) de l’espace, on considère deux vecteurs \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix}.\nOn a alors \\overrightarrow{u}\\cdot\\overrightarrow{v}=xx'+yy'+zz' et \\|\\overrightarrow{u}\\|=\\sqrt{x^2+y^2+z^2}."
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
+    "title": "Géométrie dans l’espace",
+    "section": "3.1 Plans",
+    "text": "3.1 Plans\n\n3.1.1 Équation(s) cartésienne et paramétriques\nTout plan \\mathcal{P} de l’espace admet une équation cartésienne de la forme :\n\n\\boxed{\\mathcal{P} : ax+by+cz+d=0, \\qquad (a,b,c)\\neq(0,0,0).}\n\n\nAinsi M(x_M;y_M;z_M)\\in\\mathcal{P}\\iff ax_M+by_M+cz_M+d=0.\n\n\nUn vecteur non nul \\overrightarrow{n} de l’espace est normal à un plan \\mathcal{P} lorsqu’il est orthogonal à tout vecteur admettant un représentant dans \\mathcal{P}.\n\n\nUne équation cartésienne du plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et admettant pour vecteur normal \\overrightarrow{n}(a,b,c) s’obtient ainsi :\n\nM(x,y,z)\\in\\mathcal{P}\\Longleftrightarrow\\overrightarrow{AM}\\cdot\\overrightarrow{n}=0\\Longleftrightarrow a(x-x_0)+b(y-y_0)+c(z-z_0)=0\n\nRéciproquement : tout plan admettant une équation cartésienne du type ax+by+cz+d=0 admet pour vecteur normal le vecteur de coordonnées (a,b,c).\n\n\nUn plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et dirigé par les vecteurs \\overrightarrow{u}(u_1,u_2,u_3) et \\overrightarrow{v}(v_1,v_2,v_3) admet la représentation paramétrique suivante :\n\n\\mathcal{P} :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t+v_1t' \\\\\ny=y_0+u_2t+v_2t' \\\\\nz=z_0+u_3t+v_3t'\n\\end{array}\n\\right| \\qquad (t,t')\\in\\mathbb{R}^2\n\n\n\nDeux plans sont perpendiculaires si et seulement si un vecteur normal de l’un est orthogonal à un vecteur normal de l’autre.\n\n\n\n3.1.2 Distance d’un point à un plan\n\nDistance d’un point à un plan\nSoit A un point de l’espace et \\mathcal{P} un plan passant par un point B et de vecteur normal \\overrightarrow{n}.\nLe projeté orthogonal H de A sur le plan \\mathcal{P} est le point du plan \\mathcal{P} le plus proche de A.\nLa distance AH est appelée distance du point A au plan \\mathcal{P}.\n\n\nCette distance AH est égale à AH=\\dfrac{|\\overrightarrow{AB}\\cdot\\overrightarrow{n}|}{\\|\\overrightarrow{n}\\|}, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit (\\mathcal{P}) le plan passant par A(1;-3;2) et de vecteur normal \\overrightarrow{n}\\begin{pmatrix}5\\\\-2\\\\1\\end{pmatrix}.\nSoit B(3;-2;5). Calculer la distance du point B au plan \\mathcal{P}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur \\mathcal{P}. La distance recherchée est donc la distance BH.\nÉquation du plan \\mathcal{P}. Son équation est de la forme 5x-2y+z+c=0. De plus A\\in\\mathcal{P} donc 5+6+2+c=0, soit c=-13. Finalement l’équation du plan \\mathcal{P} est 5x-2y+z-13=0.\nCoordonnées de H(x_H;y_H;z_H).\nH appartient au plan \\mathcal{P} donc ses coordonnées vérifient 5x_H-2y_H+z_H-13=0.\nDéterminons maintenant une équation paramétrique de la droite (BH) :\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{BM}=k\\overrightarrow{n}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-3=5k\\\\y+2=-2k\\\\z-5=k\\end{array}\\right.\n\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x=5k+3\\\\y=-2k-2\\\\z=k+5\\end{array}\\right.\n\nAinsi, comme H appartient à la fois au plan \\mathcal{P} et à la droite (BH), ses coordonnées vérifient :\n\n\\left\\{\\begin{array}{l}x_H=5k+3\\\\y_H=-2k-2\\\\z_H=k+5\\\\5x_H-2y_H+z_H-13=0\\end{array}\\right.\n\nOn trouve k=\\dfrac{-11}{30} et donc H\\left(\\dfrac{7}{6};\\dfrac{-19}{15};\\dfrac{139}{30}\\right).\nDistance. Finalement la distance BH est\n\nBH=\\sqrt{(x_H-x_B)^2+(y_H-y_B)^2+(z_H-z_B)^2}=\\dfrac{11}{\\sqrt{30}}"
+  },
+  {
+    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
+    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
+    "title": "Géométrie dans l’espace",
+    "section": "3.2 Droites",
+    "text": "3.2 Droites\n\n3.2.1 Équation(s) cartésienne et paramétriques\nL’intersection de deux plans (\\mathcal{P}) et (\\mathcal{P}') non parallèles de l’espace est une droite, donc une droite \\mathcal{D} peut être donnée par un système de deux équations cartésiennes (SEC) :\n\n\\mathcal{D} :\n\\left\\{\n\\begin{array}{ll}\nax+by+cz+d=0 & (\\mathcal{P}) \\\\\na'x+b'y+c'z+d'=0 & (\\mathcal{P}')\n\\end{array}\n\\right.\n\n\nUne droite \\mathcal{D}_A passant par un point A(x_0,y_0,z_0) et dirigée par \\overrightarrow{u}(u_1,u_2,u_3) admet la représentation paramétrique :\n\n\\mathcal{D}_A :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t \\\\\ny=y_0+u_2t \\\\\nz=z_0+u_3t\n\\end{array}\n\\right| \\quad t\\in\\mathbb{R}\n\n\n\n\n3.2.2 Distance d’un point à une droite\n\nDistance d’un point à une droite\nSoient A un point de l’espace et d une droite de l’espace passant par un point B et de vecteur directeur \\overrightarrow{u}.\n\nLe projeté orthogonal H de A sur d est le point de la droite d le plus proche de A.\nLa distance AH est appelée distance du point A à la droite d.\n\n\n\nCette distance AH est égale à AH=\\left\\|\\overrightarrow{AB}-\\dfrac{\\overrightarrow{AB}\\cdot\\overrightarrow{u}}{\\|\\overrightarrow{u}\\|^2}\\overrightarrow{u}\\right\\|, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit d la droite passant par A(2;-5;3) et de vecteur directeur \\overrightarrow{u}\\begin{pmatrix}2\\\\2\\\\1\\end{pmatrix}. Quelle est la distance du point B(-1;2;-4) à la droite d ?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur la droite d. La distance du point B à la droite d est alors la distance BH.\nCoordonnées de H(x_H;y_H;z_H).\nH est le projeté orthogonal de B sur d donc \\overrightarrow{BH}\\cdot\\overrightarrow{u}=0 :\n\n(x_H+1)\\times 2+(y_H-2)\\times 2+(z_H+4)\\times 1=0\\Leftrightarrow 2x_H+2y_H+z_H=-2\n\nDe plus H est sur la droite d, donc ses coordonnées vérifient l’équation de la droite d. Déterminons une équation paramétrique de d. On a \\overrightarrow{AM}\\begin{pmatrix}x-2\\\\y+5\\\\z-3\\end{pmatrix} donc\n\nM(x;y;z)\\in d\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{AM}=k\\overrightarrow{u}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-2=2k\\\\y+5=2k\\\\z-3=k\\end{array}\\right.\n\nAinsi les coordonnées de H vérifient le système :\n\n\\left\\{\\begin{array}{l}x_H=2k+2\\\\y_H=2k-5\\\\z_H=k+3\\\\2x_H+2y_H+z_H=-2\\end{array}\\right.\n\nOn trouve k=\\dfrac{1}{9} et donc H\\left(\\dfrac{20}{9};\\dfrac{-43}{9};\\dfrac{28}{9}\\right).\nDistance. Finalement, la distance recherchée est :\n\nBH=\\sqrt{\\left(\\dfrac{20}{9}+1\\right)^2+\\left(\\dfrac{-43}{9}-2\\right)^2+\\left(\\dfrac{28}{9}+4\\right)^2}\\approx 10.34"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
+    "title": "Suites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
+    "title": "Suites",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nDS 1 – sujet\nDS 1 – correction\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction"
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html",
-    "href": "terminale-spe/chapitres/somme-de-va.html",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "title": "Primitives et équations différentielles",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "title": "Primitives et équations différentielles",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "title": "Primitives et équations différentielles",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "title": "Loi des grands nombres",
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
+    "href": "terminale-spe/chapitres/loi-binomiale.html",
+    "title": "Loi binomiale",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "title": "Loi des grands nombres",
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "title": "Loi binomiale",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Loi binomiale\nTD"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "title": "Loi des grands nombres",
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "title": "Loi binomiale",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "title": "Limites de fonctions",
+    "objectID": "terminale-spe/chapitres/integration.html",
+    "href": "terminale-spe/chapitres/integration.html",
+    "title": "Intégration",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "title": "Limites de fonctions",
+    "objectID": "terminale-spe/chapitres/integration.html#cours",
+    "href": "terminale-spe/chapitres/integration.html#cours",
+    "title": "Intégration",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "title": "Limites de fonctions",
+    "objectID": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
+    "title": "Intégration",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html",
-    "href": "terminale-spe/chapitres/fonction-ln.html",
-    "title": "Fonction logarithme népérien",
+    "objectID": "terminale-spe/chapitres/espace-1.html",
+    "href": "terminale-spe/chapitres/espace-1.html",
+    "title": "Géométrie dans l’espace",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html#cours",
-    "href": "terminale-spe/chapitres/fonction-ln.html#cours",
-    "title": "Fonction logarithme népérien",
+    "objectID": "terminale-spe/chapitres/espace-1.html#cours",
+    "href": "terminale-spe/chapitres/espace-1.html#cours",
+    "title": "Géométrie dans l’espace",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Géométrie dans l’espace\nTD : Première partie\nTD : Deuxième partie"
   },
   {
-    "objectID": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
-    "title": "Fonction logarithme népérien",
+    "objectID": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
+    "title": "Géométrie dans l’espace",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 4 - sujet\nEvaluation 4 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/derivation.html",
-    "href": "terminale-spe/chapitres/derivation.html",
-    "title": "Dérivation, Convexité, Continuité",
+    "objectID": "terminale-spe/chapitres/denombrement.html",
+    "href": "terminale-spe/chapitres/denombrement.html",
+    "title": "Dénombrement",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/derivation.html#cours",
-    "href": "terminale-spe/chapitres/derivation.html#cours",
-    "title": "Dérivation, Convexité, Continuité",
+    "objectID": "terminale-spe/chapitres/denombrement.html#cours",
+    "href": "terminale-spe/chapitres/denombrement.html#cours",
+    "title": "Dénombrement",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
-    "title": "Dérivation, Convexité, Continuité",
+    "objectID": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
+    "title": "Dénombrement",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/index.html",
-    "href": "seconde/index.html",
-    "title": "Seconde",
-    "section": "",
-    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+    "objectID": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#intervalles-bornés",
+    "href": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#intervalles-bornés",
+    "title": "Intervalles, équations et inéquations",
+    "section": "1.1 Intervalles bornés",
+    "text": "1.1 Intervalles bornés\n\n\n\nInégalité\nDroite graduée\nNotation\n\n\n\n\n-1\\leqslant x\\leqslant 2\n(à tracer)\nx\\in\\ \\dots\n\n\n0&lt;x&lt;2\n(à tracer)\nx\\in\\ \\dots\n\n\n-2\\leqslant x&lt;0\n(à tracer)\nx\\in\\ \\dots\n\n\n0&lt;x\\leqslant 3\n(à tracer)\nx\\in\\ \\dots\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\n\n\n\n\n\n\nInégalité\nDroite graduée\nNotation\n\n\n\n\n-1\\leqslant x\\leqslant 2\n\nx\\in[-1;2]\n\n\n0&lt;x&lt;2\n\nx\\in\\ ]0;2[\n\n\n-2\\leqslant x&lt;0\n\nx\\in[-2;0[\n\n\n0&lt;x\\leqslant 3\n\nx\\in\\ ]0;3]"
   },
   {
-    "objectID": "seconde/index.html#chapitres",
-    "href": "seconde/index.html#chapitres",
-    "title": "Seconde",
-    "section": "",
-    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+    "objectID": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#vocabulaire",
+    "href": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#vocabulaire",
+    "title": "Intervalles, équations et inéquations",
+    "section": "1.2 Vocabulaire",
+    "text": "1.2 Vocabulaire\n\n\nL’intervalle [a;b] est un intervalle fermé en ce sens que les crochets sont tournés vers l’intérieur : les réels a et b appartiennent à l’ensemble considéré.\nL’intervalle ]a;b[ est un intervalle ouvert en ce sens que les crochets sont tournés vers l’extérieur : les réels a et b n’appartiennent pas à l’ensemble considéré.\nLes intervalles [a;b[ et ]a;b] sont des intervalles semi-ouverts. Par exemple, on dit que l’intervalle [a;b[ est fermé à gauche et ouvert à droite.\n\n\n\nPour les inégalités suivantes, tracer l’ensemble sur une droite graduée, donner la notation sous la forme d’intervalle, et préciser le vocabulaire.\n\n-3&lt;x&lt;5\n6\\geqslant x&gt;3\n3\\leqslant x\\leqslant 4\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. -3&lt;x&lt;5\n\nx\\in\\,]-3;5[. C’est un intervalle ouvert (borné).\n2. 6\\geqslant x&gt;3, c’est-à-dire 3&lt;x\\leqslant 6\n\nx\\in\\,]3;6]. C’est un intervalle semi-ouvert : ouvert à gauche, fermé à droite.\n3. 3\\leqslant x\\leqslant 4\n\nx\\in[3;4]. C’est un intervalle fermé."
+  },
+  {
+    "objectID": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#intervalles-non-bornés",
+    "href": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#intervalles-non-bornés",
+    "title": "Intervalles, équations et inéquations",
+    "section": "1.3 Intervalles non bornés",
+    "text": "1.3 Intervalles non bornés\n\n\n\nInégalité\nDroite graduée\nNotation\n\n\n\n\nx\\geqslant 0\n(à tracer)\nx\\in\\ \\dots\n\n\nx&gt;1\n(à tracer)\nx\\in\\ \\dots\n\n\nx\\leqslant 1\n(à tracer)\nx\\in\\ \\dots\n\n\nx&lt;0\n(à tracer)\nx\\in\\ \\dots\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\n\n\n\n\n\n\nInégalité\nDroite graduée\nNotation\n\n\n\n\nx\\geqslant 0\n\nx\\in[0;+\\infty[\n\n\nx&gt;1\n\nx\\in\\ ]1;+\\infty[\n\n\nx\\leqslant 1\n\nx\\in\\ ]-\\infty;1]\n\n\nx&lt;0\n\nx\\in\\ ]-\\infty;0["
+  },
+  {
+    "objectID": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#équations",
+    "href": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#équations",
+    "title": "Intervalles, équations et inéquations",
+    "section": "5.1 Équations",
+    "text": "5.1 Équations\n\nOn appelle équation produit nulle une équation du type A(x)\\times B(x)=0.\n\n\nUn produit de facteurs est nul si et seulement si l’un des facteurs est nul.\n\n\nRésoudre l’équation (3x+1)\\left(-\\dfrac{1}{2}x+2\\right)=0.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nUn produit de facteurs est nul si et seulement si l’un des facteurs est nul, donc :\n\n(3x+1)\\left(-\\dfrac{1}{2}x+2\\right)=0 \\Leftrightarrow 3x+1=0 \\text{ ou } -\\dfrac{1}{2}x+2=0\n\n\n3x+1=0 \\Leftrightarrow x=-\\dfrac{1}{3}\n-\\dfrac{1}{2}x+2=0 \\Leftrightarrow \\dfrac{1}{2}x=2 \\Leftrightarrow x=4\n\nS=\\left\\{-\\dfrac{1}{3};4\\right\\}\n\n\n\n\nOn appelle équation quotient nulle une équation du type \\dfrac{A(x)}{B(x)}=0 avec B(x)\\neq 0.\n\n\nUn quotient est nul si et seulement si le numérateur est nul, et le dénominateur est non nul.\n\n\nRésoudre l’équation \\dfrac{-3x+5}{x+6}=0.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nUn quotient est nul si et seulement si le numérateur est nul, et le dénominateur est non nul.\nCondition d’existence : x+6\\neq 0 \\Leftrightarrow x\\neq -6.\nNumérateur nul : -3x+5=0 \\Leftrightarrow x=\\dfrac{5}{3}.\nOr \\dfrac{5}{3}\\neq -6, donc cette valeur est bien solution.\nS=\\left\\{\\dfrac{5}{3}\\right\\}"
+  },
+  {
+    "objectID": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#inéquations",
+    "href": "seconde/cours/intervalles-equations-inequations/intervalles-equations-inequations.html#inéquations",
+    "title": "Intervalles, équations et inéquations",
+    "section": "5.2 Inéquations",
+    "text": "5.2 Inéquations\n\nOn appelle équation du premier degré une équation du type ax+b=0 avec a\\neq 0. On appelle inéquation du premier degré une inéquation du type ax+b\\geqslant 0 ou ax+b\\leqslant 0.\n\n\nLa résolution algébrique d’une (in)équation permet de trouver la valeur exacte de chacune des solutions.\n\n\nOpérations sur les inéquations\nLes opérations suivantes ne changent pas l’ensemble des solutions d’une inéquation :\n\nadditionner ou soustraire un même nombre aux deux membres d’une inéquation ;\nmultiplier ou diviser par un même nombre positif non nul les deux membres d’une inéquation ;\nmultiplier ou diviser par un même nombre négatif non nul les deux membres d’une inéquation à condition d’inverser le sens de l’inégalité.\n\n\n\nEn pratique, pour résoudre une (in)équation :\n\non regroupe les termes contenant l’inconnue dans le même membre de l’(in)équation ;\nsi nécessaire, on réduit les expressions des deux membres ;\non isole l’inconnue dans l’ordre inverse des priorités de calcul.\n\n\n\nRésoudre l’inéquation 15+6x&lt;9x.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n\\begin{align*}\n15+6x&lt;9x &\\Leftrightarrow 15+6x-9x&lt;9x-9x \\\\\n&\\Leftrightarrow 15-3x&lt;0 \\\\\n&\\Leftrightarrow -3x&lt;-15 \\\\\n&\\Leftrightarrow x&gt;\\dfrac{-15}{-3} \\\\\n&\\Leftrightarrow x&gt;5\n\\end{align*}\n\nS=\\,]5;+\\infty[\n\n\n\n\nRésoudre dans \\mathbb{R} :\n\n\\dfrac{x-3}{4}+\\dfrac{x}{6}&lt;\\dfrac{2x-3}{3}\n\\dfrac{2(x-3)}{3}+1&lt;\\dfrac{1-2x}{6}+5+x\n3x-\\dfrac{x-1}{3}\\geqslant\\dfrac{1}{3}-x\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. On multiplie les deux membres par 12 (multiple commun de 4, 6 et 3) :\n\n\\begin{align*}\n\\dfrac{x-3}{4}+\\dfrac{x}{6}&lt;\\dfrac{2x-3}{3} &\\Leftrightarrow 3(x-3)+2x&lt;4(2x-3) \\\\\n&\\Leftrightarrow 3x-9+2x&lt;8x-12 \\\\\n&\\Leftrightarrow 5x-9&lt;8x-12 \\\\\n&\\Leftrightarrow 5x-8x&lt;-12+9 \\\\\n&\\Leftrightarrow -3x&lt;-3 \\\\\n&\\Leftrightarrow x&gt;1\n\\end{align*}\n\nS=\\,]1;+\\infty[\n2. On multiplie les deux membres par 6 :\n\n\\begin{align*}\n\\dfrac{2(x-3)}{3}+1&lt;\\dfrac{1-2x}{6}+5+x &\\Leftrightarrow 4(x-3)+6&lt;(1-2x)+30+6x \\\\\n&\\Leftrightarrow 4x-12+6&lt;1-2x+30+6x \\\\\n&\\Leftrightarrow 4x-6&lt;4x+31 \\\\\n&\\Leftrightarrow 4x-4x&lt;31+6 \\\\\n&\\Leftrightarrow 0&lt;37\n\\end{align*}\n\nL’inégalité 0&lt;37 est toujours vraie, quelle que soit la valeur de x.\nS=\\mathbb{R}\n3. On multiplie les deux membres par 3 :\n\n\\begin{align*}\n3x-\\dfrac{x-1}{3}\\geqslant\\dfrac{1}{3}-x &\\Leftrightarrow 9x-(x-1)\\geqslant 1-3x \\\\\n&\\Leftrightarrow 9x-x+1\\geqslant 1-3x \\\\\n&\\Leftrightarrow 8x+1\\geqslant 1-3x \\\\\n&\\Leftrightarrow 8x+3x\\geqslant 1-1 \\\\\n&\\Leftrightarrow 11x\\geqslant 0 \\\\\n&\\Leftrightarrow x\\geqslant 0\n\\end{align*}\n\nS=[0;+\\infty["
   },
   {
     "objectID": "seconde/cours/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique.html#définitions",
@@ -914,7 +1012,7 @@
     "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
     "title": "Intervalles, équations et inéquations",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Intervalles, équations et inéquations"
   },
   {
     "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
@@ -980,207 +1078,172 @@
     "text": "1.2 Différents types de repères\n\n\nSi le triangle OIJ est rectangle en O, le repère (O,I,J) est dit orthogonal.\nSi le triangle OIJ est isocèle en O, le repère (O,I,J) est dit normé.\nSi le triangle OIJ est isocèle et rectangle en O, le repère (O,I,J) est dit orthonormé."
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html",
-    "href": "terminale-spe/chapitres/denombrement.html",
-    "title": "Dénombrement",
+    "objectID": "seconde/index.html",
+    "href": "seconde/index.html",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "seconde/index.html#chapitres",
+    "href": "seconde/index.html#chapitres",
+    "title": "Seconde",
+    "section": "",
+    "text": "Ensembles de nombres et arithmétique\nGéométrie repérée\nIntervalles, équations et inéquations\nFonctions 1 : généralités\nPourcentages\nFonctions 2 : fonctions de référence\nGéométrie : vecteurs 1\nStatistiques 1\nFonctions 3 : étude de signes\nGéométrie : vecteurs 2\nProbabilités\nGéométrie : équations de droites\nStatistiques 2"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/derivation.html",
+    "href": "terminale-spe/chapitres/derivation.html",
+    "title": "Dérivation, Convexité, Continuité",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html#cours",
-    "href": "terminale-spe/chapitres/denombrement.html#cours",
-    "title": "Dénombrement",
+    "objectID": "terminale-spe/chapitres/derivation.html#cours",
+    "href": "terminale-spe/chapitres/derivation.html#cours",
+    "title": "Dérivation, Convexité, Continuité",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/denombrement.html#évaluations-et-ds",
-    "title": "Dénombrement",
+    "objectID": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/derivation.html#évaluations-et-ds",
+    "title": "Dérivation, Convexité, Continuité",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/espace-1.html",
-    "href": "terminale-spe/chapitres/espace-1.html",
-    "title": "Géométrie dans l’espace",
+    "objectID": "terminale-spe/chapitres/fonction-ln.html",
+    "href": "terminale-spe/chapitres/fonction-ln.html",
+    "title": "Fonction logarithme népérien",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/espace-1.html#cours",
-    "href": "terminale-spe/chapitres/espace-1.html#cours",
-    "title": "Géométrie dans l’espace",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Géométrie dans l’espace\nTD : Première partie\nTD : Deuxième partie"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/espace-1.html#évaluations-et-ds",
-    "title": "Géométrie dans l’espace",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 4 - sujet\nEvaluation 4 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/integration.html",
-    "href": "terminale-spe/chapitres/integration.html",
-    "title": "Intégration",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/integration.html#cours",
-    "href": "terminale-spe/chapitres/integration.html#cours",
-    "title": "Intégration",
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "href": "terminale-spe/chapitres/fonction-ln.html#cours",
+    "title": "Fonction logarithme népérien",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/integration.html#évaluations-et-ds",
-    "title": "Intégration",
+    "objectID": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/fonction-ln.html#évaluations-et-ds",
+    "title": "Fonction logarithme népérien",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
-    "href": "terminale-spe/chapitres/loi-binomiale.html",
-    "title": "Loi binomiale",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "title": "Limites de fonctions",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "title": "Loi binomiale",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "title": "Limites de fonctions",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Loi binomiale\nTD"
+    "text": "Cours\n\n\nCours : Limites de fonctions"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "title": "Loi binomiale",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "title": "Limites de fonctions",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nÉvaluation 3 – sujet\nÉvaluation 3 – correction\nDS 2 – sujet\nDS 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\nEvaluation 5 - sujet\nEvaluation 5 - correction\nEvaluation 6 - sujet\nEvaluation 6 - correction\nDS3 - sujet\nDS3 - correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "title": "Primitives et équations différentielles",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "title": "Loi des grands nombres",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "title": "Primitives et équations différentielles",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "title": "Loi des grands nombres",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "title": "Primitives et équations différentielles",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "title": "Loi des grands nombres",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html",
-    "href": "terminale-spe/chapitres/suites.html",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html",
+    "href": "terminale-spe/chapitres/somme-de-va.html",
+    "title": "Somme de variables aléatoires",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#cours",
-    "href": "terminale-spe/chapitres/suites.html#cours",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "title": "Somme de variables aléatoires",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+    "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "title": "Somme de variables aléatoires",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\nDS 1 – sujet\nDS 1 – correction\nÉvaluation 1 – sujet\nÉvaluation 1 – correction\nÉvaluation 2 – sujet\nÉvaluation 2 – correction\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\nEvaluation 1 - sujet\nEvaluation 1 - correction\nEvaluation 2 - sujet\nEvaluation 2 - correction\nEvaluation 3 - sujet\nEvaluation 3 - correction"
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteurs-de-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "1.1 Vecteurs de l’espace",
-    "text": "1.1 Vecteurs de l’espace\n\n1.1.1 Définition d’un vecteur de l’espace\n\nSoient A et B deux points de l’espace. On associe le vecteur \\overrightarrow{AB} à la translation qui transforme A en B.\n\n\nDeux vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont égaux si et seulement si ABDC est un parallélogramme (éventuellement aplati). On peut alors noter \\overrightarrow{u}=\\overrightarrow{AB}=\\overrightarrow{CD}.\n\n\nLes vecteurs \\overrightarrow{AB} et \\overrightarrow{CD} sont des représentants du vecteur \\overrightarrow{u}.\n\n\n\nDeux vecteurs sont égaux s’ils ont même direction, même sens et même norme.\nLorsque A et B sont confondus, on dit que le vecteur \\overrightarrow{AB} est nul et on le note \\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} un vecteur et A un point de l’espace. Il existe un unique point M tel que \\overrightarrow{AM}=\\overrightarrow{u}.\n\n\nOn dit que \\overrightarrow{AM} est le représentant de \\overrightarrow{u} d’origine A.\n\n\n\n1.1.2 Opérations sur les vecteurs de l’espace\n\nRègle du parallélogramme\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace de représentants respectifs \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. La somme des vecteurs \\overrightarrow{u} et \\overrightarrow{v} est le vecteur noté \\overrightarrow{u}+\\overrightarrow{v} de représentant \\overrightarrow{AD} tel que ABDC soit un parallélogramme.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nRelation de Chasles\nPour tous points A, B et C de l’espace, \\overrightarrow{AB}+\\overrightarrow{BC}=\\overrightarrow{AC}.\n\n\n\nSoient \\overrightarrow{u} un vecteur non nul et k un réel non nul. Le vecteur k\\overrightarrow{u} est le vecteur qui a :\n\nla même direction que le vecteur \\overrightarrow{u} ;\nle même sens que \\overrightarrow{u} si k&gt;0, le sens contraire de \\overrightarrow{u} si k&lt;0 ;\npour norme |k|\\times\\|\\overrightarrow{u}\\|.\n\nPour tout vecteur \\overrightarrow{u} et pour tout réel k, 0\\overrightarrow{u}=k\\overrightarrow{0}=\\overrightarrow{0}.\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. Soient k et k' deux réels.\n\nk\\overrightarrow{u}=\\overrightarrow{0}\\Leftrightarrow k=0 ou \\overrightarrow{u}=\\overrightarrow{0}\nk(k'\\overrightarrow{u})=kk'\\overrightarrow{u}\n(k+k')\\overrightarrow{u}=k\\overrightarrow{u}+k'\\overrightarrow{u}\nk(\\overrightarrow{u}+\\overrightarrow{v})=k\\overrightarrow{u}+k\\overrightarrow{v}\n\n\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On dit que \\overrightarrow{u} et \\overrightarrow{v} sont colinéaires s’il existe un réel k tel que \\overrightarrow{u}=k\\overrightarrow{v} ou \\overrightarrow{v}=k\\overrightarrow{u}.\n\n\n\nDeux vecteurs non nuls sont colinéaires si et seulement si ils ont la même direction.\nLe vecteur nul est colinéaire à tout vecteur."
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites-et-plans-de-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "1.2 Droites et plans de l’espace",
-    "text": "1.2 Droites et plans de l’espace\n\n1.2.1 Caractérisation vectorielle d’une droite\n\nSoient A et B deux points distincts de l’espace.\nLa droite (AB) est l’ensemble des points M tels que \\overrightarrow{AM}=k\\overrightarrow{AB}, où k\\in\\mathbb{R}.\nOn dit que \\overrightarrow{AB} est un vecteur directeur de la droite (AB).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nUn point A et un vecteur \\overrightarrow{u} suffisent à déterminer une droite : c’est la droite passant par le point A et de vecteur directeur \\overrightarrow{u}.\n\n\n\n1.2.2 Caractérisation vectorielle d’un plan\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u} et \\overrightarrow{v} ne sont pas colinéaires.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires lorsqu’il existe deux réels x et y tels que \\overrightarrow{w}=x\\overrightarrow{u}+y\\overrightarrow{v}.\nOn dit alors que \\overrightarrow{w} est une combinaison linéaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}.\n\n\nOn considère la pyramide régulière à base carrée ci-dessous. Montrer que les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nDans la pyramide régulière à base carrée, on a l’égalité \\overrightarrow{SO}=\\dfrac{1}{2}\\overrightarrow{SA}+\\dfrac{1}{2}\\overrightarrow{SC}. Les vecteurs \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SC} sont donc coplanaires.\nOn peut remarquer que \\overrightarrow{SO}, \\overrightarrow{SA} et \\overrightarrow{SB} ne sont pas coplanaires.\n\n\n\n\nOn dit que des points sont coplanaires lorsqu’il existe un plan qui contient ces points.\nSoient A, B et C trois points non alignés de l’espace.\n\nLe plan (ABC) est l’ensemble des points M tels que \\overrightarrow{AM}=x\\overrightarrow{AB}+y\\overrightarrow{AC} où x\\in\\mathbb{R} et y\\in\\mathbb{R}.\n\\overrightarrow{AB} et \\overrightarrow{AC} sont des vecteurs directeurs du plan (ABC), (\\overrightarrow{AB},\\overrightarrow{AC}) est une base de ce plan et (A;\\overrightarrow{AB},\\overrightarrow{AC}) est un repère de ce plan.\n\n\n\n\nTrois points sont toujours coplanaires.\nUn point A et deux vecteurs non colinéaires \\overrightarrow{u} et \\overrightarrow{v} (ou trois points non alignés) suffisent à déterminer un plan : c’est le plan passant par A et de vecteurs directeurs \\overrightarrow{u} et \\overrightarrow{v} (on dit aussi que le plan est dirigé par \\overrightarrow{u} et \\overrightarrow{v}). Par exemple, dans la pyramide ci-dessus, le point S et les vecteurs \\overrightarrow{SA} et \\overrightarrow{SB} suffisent à déterminer le plan (SAB).\n\n\n\nSoient \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} trois vecteurs de l’espace tels que \\overrightarrow{u}=\\overrightarrow{AB}, \\overrightarrow{v}=\\overrightarrow{AC} et \\overrightarrow{w}=\\overrightarrow{AD}.\n\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires si et seulement si les points A, B, C et D sont coplanaires.\n\n\nOn considère le cube représenté ci-dessous. On pose \\overrightarrow{u}=\\overrightarrow{AH}, \\overrightarrow{v}=\\overrightarrow{BC} et \\overrightarrow{w}=\\overrightarrow{BF}.\nMontrer que les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires.\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a \\overrightarrow{v}=\\overrightarrow{AD} et \\overrightarrow{w}=\\overrightarrow{AE}. Or A, D, H et E sont quatre points coplanaires, donc les vecteurs \\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont coplanaires."
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#positions-relatives-de-droites-et-de-plans-de-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "1.3 Positions relatives de droites et de plans de l’espace",
-    "text": "1.3 Positions relatives de droites et de plans de l’espace\n\n1.3.1 Positions relatives de deux plans\n\nDeux plans de l’espace peuvent être :\n\nsoit strictement parallèles (ils n’ont alors aucun point commun) ;\nsoit parallèles et confondus (tous leurs points sont communs) ;\nsoit sécants, leur intersection est alors une droite contenue dans ces deux plans.\n\n\n\nDeux plans parallèles sont soit strictement parallèles soit confondus.\n\n\n\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n\n🔗 GeoGebra\n\n\n\n\n\n1.3.2 Positions relatives de deux droites\n\nDeux droites de l’espace sont soit coplanaires (elles sont alors dans un même plan) soit non coplanaires.\n\n\nDeux droites de l’espace qui sont coplanaires sont :\n\nsoit strictement parallèles ;\nsoit parallèles et confondues ;\nsoit sécantes en un point.\n\n\n\n\n\n\n\n\nLes droites d_1 et d_2 sont parallèles, les droites d_1 et d_3 ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\n\n\n\n\nLes droites (AB) et (DC) sont parallèles, les droites (AB) et (CG) ne sont pas coplanaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites non coplanaires n’ont aucun point commun ;\nDeux droites de l’espace qui n’ont aucun point commun sont soit strictement parallèles soit non coplanaires.\n\n\n\n\n1.3.3 Positions relatives d’une droite et d’un plan\n\nUne droite et un plan de l’espace sont soit sécants soit parallèles. S’ils sont parallèles, soit ils sont strictement parallèles (sans point d’intersection) soit la droite est incluse dans le plan.\n\n\n\n\n\n\n\nLa droite d_1 est incluse dans le plan. La droite d_2 est strictement parallèle au plan. La droite d_3 est sécante (en H) au plan.\n🔗 Figure interactive GeoGebra"
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#propriétés-du-parallélisme-dans-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "1.4 Propriétés du parallélisme dans l’espace",
-    "text": "1.4 Propriétés du parallélisme dans l’espace\n\nToutes ces propriétés sont admises.\n\n\n1.4.1 Parallélisme de deux droites\n\nDeux droites distinctes sont parallèles lorsqu’elles sont coplanaires et sans point commun.\n\n\nSi deux droites sont parallèles alors toute droite parallèle à l’une est parallèle à l’autre.\n\n\nSi deux droites sont parallèles alors tout plan qui coupe l’une coupe l’autre.\n\n\n\n1.4.2 Parallélisme de deux plans\n\nDeux plans distincts sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi deux plans sont parallèles alors tout plan parallèle à l’un est parallèle à l’autre.\n\n\nSi deux droites sécantes d’un plan \\mathcal{P}_1 sont parallèles à deux droites sécantes d’un plan \\mathcal{P}_2 alors \\mathcal{P}_1 et \\mathcal{P}_2 sont parallèles.\n\n\n\n\n\n\n\nLes droites sécantes d_1 et d_3 sont respectivement parallèles aux droites d_2 et d_4. Les deux plans sont parallèles.\n🔗 Figure interactive GeoGebra\n\n\nSi deux plans sont parallèles alors tout plan qui coupe l’un coupe l’autre et les droites d’intersection sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n1.4.3 Parallélisme d’une droite et d’un plan\n\nUne droite et un plan sont parallèles lorsqu’ils n’ont aucun point commun.\n\n\nSi un plan \\mathcal{P} contient une droite \\mathcal{D} parallèle à une droite \\mathcal{D}' alors \\mathcal{P} et \\mathcal{D}' sont parallèles.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSi une droite \\mathcal{D} et un plan \\mathcal{P} sont parallèles alors tout plan contenant \\mathcal{D} et sécant à \\mathcal{P} coupe \\mathcal{P} selon une droite parallèle à \\mathcal{D}.\n\n\nThéorème du toit\nSoient \\mathcal{D} et \\mathcal{D}' deux droites parallèles contenues respectivement dans \\mathcal{P} et \\mathcal{P}', deux plans distincts.\nSi \\mathcal{P} et \\mathcal{P}' sont sécants selon une droite \\Delta, alors \\Delta est parallèle à \\mathcal{D} et à \\mathcal{D}'.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
+    "objectID": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#somme",
+    "href": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#somme",
+    "title": "Limites de fonctions",
+    "section": "3.1 Somme",
+    "text": "3.1 Somme\n\n\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{x\\to a}f(x)\n\\ell\n\\ell\n\\ell\n+\\infty\n+\\infty\n-\\infty\n\n\n\n\n\\lim\\limits_{x\\to a}g(x)\n\\ell'\n+\\infty\n-\\infty\n+\\infty\n-\\infty\n-\\infty\n\n\n\\lim\\limits_{x\\to a}[f(x)+g(x)]\n\\ell+\\ell'\n+\\infty\n-\\infty\n+\\infty\nFI\n-\\infty"
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#repère-de-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "2.1 Repère de l’espace",
-    "text": "2.1 Repère de l’espace\n\n2.1.1 Base de l’espace\n\nUne base de l’espace est formée d’un triplet de vecteurs (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) non coplanaires.\n\n\nLes vecteurs d’une base sont tous non nuls et non colinéaires deux à deux.\n\n\nSoit (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) une base de l’espace.\nPour tout vecteur \\overrightarrow{u} de l’espace, il existe un unique triplet de réels (x,y,z) tel que\n\n\\overrightarrow{u}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n\n(x,y,z) sont les coordonnées de \\overrightarrow{u} dans cette base. On note \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix}.\n\n\n\n2.1.2 Repère de l’espace\n\nUn repère de l’espace est formé d’un point O et d’une base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). On note (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un tel repère. O est l’origine du repère.\n\n\nAttention, en changeant l’ordre des vecteurs, on change le repère.\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace.\nPour tout point M de l’espace, il existe un unique triplet (x;y;z) tel que \\overrightarrow{OM}=x\\overrightarrow{i}+y\\overrightarrow{j}+z\\overrightarrow{k}.\n\n\n(x,y,z) sont les coordonnées de M dans le repère (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}). x est l’abscisse de M, y son ordonnée et z sa cote. On note M(x,y,z).\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoit (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) un repère de l’espace. Soient \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix} deux vecteurs, k un réel et A(x_A;y_A;z_A) et B(x_B;y_B;z_B) deux points de l’espace.\n\nLe milieu du segment [AB] a pour coordonnées \\left(\\dfrac{x_A+x_B}{2};\\dfrac{y_A+y_B}{2};\\dfrac{z_A+z_B}{2}\\right).\nDans la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}), \\overrightarrow{u}+\\overrightarrow{v}\\begin{pmatrix}x+x'\\\\y+y'\\\\z+z'\\end{pmatrix} ; k\\overrightarrow{u}\\begin{pmatrix}kx\\\\ky\\\\kz\\end{pmatrix} et \\overrightarrow{AB}\\begin{pmatrix}x_B-x_A\\\\y_B-y_A\\\\z_B-z_A\\end{pmatrix}.\n\\overrightarrow{u} et \\overrightarrow{v} sont colinéaires si et seulement si leurs coordonnées sont proportionnelles."
+    "objectID": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#produit",
+    "href": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#produit",
+    "title": "Limites de fonctions",
+    "section": "3.2 Produit",
+    "text": "3.2 Produit\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{x\\to a}f(x)\n\\ell\n\\ell\\neq 0\n\\infty\n0\n\n\n\n\n\\lim\\limits_{x\\to a}g(x)\n\\ell'\n\\infty\n\\infty\n\\infty\n\n\n\\lim\\limits_{x\\to a}[f(x)\\times g(x)]\n\\ell\\times\\ell'\n\\infty\n\\infty\nFI\n\n\n\nOn applique la règle des signes pour déterminer le signe devant \\infty."
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#produit-scalaire-dans-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "2.2 Produit scalaire dans l’espace",
-    "text": "2.2 Produit scalaire dans l’espace\n\n2.2.1 Rappel : produit scalaire dans le plan\n\nOn appelle produit scalaire de \\overrightarrow{u} et \\overrightarrow{v} le nombre réel, noté \\overrightarrow{u}\\cdot\\overrightarrow{v} et défini par :\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\n\\begin{cases}\n\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\\times\\cos(\\overrightarrow{u};\\overrightarrow{v}) & \\text{si } \\overrightarrow{u}\\neq\\overrightarrow{0} \\text{ et } \\overrightarrow{v}\\neq\\overrightarrow{0} \\\\\n0 & \\text{si } \\overrightarrow{u}=\\overrightarrow{0} \\text{ ou } \\overrightarrow{v}=\\overrightarrow{0}\n\\end{cases}\n\nLe produit scalaire d’un vecteur \\overrightarrow{u} par lui-même (\\overrightarrow{u}\\cdot\\overrightarrow{u}) est appelé carré scalaire de \\overrightarrow{u} et se note \\overrightarrow{u}^2.\n\n\nLe produit scalaire est donc une nouvelle opération dont les arguments sont des vecteurs et le résultat est un réel.\n\n\n\n\nOn considère le triangle équilatéral ABC ci-contre avec AB=2. On note \\overrightarrow{u}=\\overrightarrow{CA} et \\overrightarrow{v}=\\overrightarrow{CB}.\nCalculer \\overrightarrow{u}\\cdot\\overrightarrow{v}.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn a donc \\|\\overrightarrow{u}\\|=\\|\\overrightarrow{v}\\|=2 et (\\overrightarrow{u};\\overrightarrow{v})=\\dfrac{\\pi}{3}.\nAinsi \\overrightarrow{u}\\cdot\\overrightarrow{v}=2\\times 2\\times\\cos\\left(\\dfrac{\\pi}{3}\\right)=2.\n\n\n\nAutres expressions du produit scalaire : cas des vecteurs colinéaires\n\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de même sens alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\nSi \\overrightarrow{u} et \\overrightarrow{v} sont deux vecteurs colinéaires de sens contraire alors\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=-\\|\\overrightarrow{u}\\|\\times\\|\\overrightarrow{v}\\|\n\n\n\n\nPour tout vecteur \\overrightarrow{u}, \\overrightarrow{u}^2=\\|\\overrightarrow{u}\\|^2.\n\nAutres expressions du produit scalaire : avec des projetés orthogonaux\n\nSoit (d) une droite et soit M un point n’appartenant pas à cette droite.\nOn dit que le point M' de la droite (d) est le projeté orthogonal de M sur (d) si les droites (MM') et (d) sont perpendiculaires.\n\n\n\n\n\n\n\n\n\nSoient A, B, C et D quatre points du plan.\nSi C' et D' sont les projetés orthogonaux de C et D sur (AB), alors :\n\n\\overrightarrow{AB}\\cdot\\overrightarrow{CD}=\\overrightarrow{AB}\\cdot\\overrightarrow{C'D'}\n\n\n\n\n\n\n\n\n\nRègles de calcul\n\n(\\overrightarrow{u}, \\overrightarrow{v} et \\overrightarrow{w} sont des vecteurs quelconques, k un réel).\n\nLe produit scalaire est symétrique : \\overrightarrow{u}\\cdot\\overrightarrow{v}=\\overrightarrow{v}\\cdot\\overrightarrow{u}.\nLe produit scalaire est bilinéaire : \\overrightarrow{u}\\cdot(\\overrightarrow{v}+\\overrightarrow{w})=\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{u}\\cdot\\overrightarrow{w} ; (\\overrightarrow{u}+\\overrightarrow{v})\\cdot\\overrightarrow{w}=\\overrightarrow{u}\\cdot\\overrightarrow{w}+\\overrightarrow{v}\\cdot\\overrightarrow{w}.\n\\overrightarrow{u}\\cdot(k\\overrightarrow{v})=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}) ; (k\\overrightarrow{u})\\cdot\\overrightarrow{v}=k\\times(\\overrightarrow{u}\\cdot\\overrightarrow{v}).\nIdentités remarquables :\n\n(\\overrightarrow{u}+\\overrightarrow{v})^2=\\overrightarrow{u}^2+2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})^2=\\overrightarrow{u}^2-2\\overrightarrow{u}\\cdot\\overrightarrow{v}+\\overrightarrow{v}^2\n(\\overrightarrow{u}-\\overrightarrow{v})\\cdot(\\overrightarrow{u}+\\overrightarrow{v})=\\overrightarrow{u}^2-\\overrightarrow{v}^2\n\n\n\n\n\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}+\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}\\|^2-\\|\\overrightarrow{v}\\|^2\\right]\n\\overrightarrow{u}\\cdot\\overrightarrow{v}=\\dfrac{1}{2}\\left[\\|\\overrightarrow{u}\\|^2+\\|\\overrightarrow{v}\\|^2-\\|\\overrightarrow{u}-\\overrightarrow{v}\\|^2\\right]\n\n\n\n\nOn dit qu’un vecteur est unitaire lorsque sa norme vaut 1.\nOn dit que deux vecteurs sont orthogonaux, et on note \\overrightarrow{u}\\perp\\overrightarrow{v}, lorsque leur produit scalaire est nul, c’est-à-dire\n\n\\boxed{\\overrightarrow{u}\\perp\\overrightarrow{v}\\Longleftrightarrow\\overrightarrow{u}\\cdot\\overrightarrow{v}=0}\n\n\n\n\n\n2.2.2 Définition du produit scalaire dans l’espace\n\nSoient \\overrightarrow{u} et \\overrightarrow{v} deux vecteurs de l’espace. On considère les points A, B et C tels que \\overrightarrow{u}=\\overrightarrow{AB} et \\overrightarrow{v}=\\overrightarrow{AC}. Les points A, B et C étant coplanaires, le produit scalaire des vecteurs \\overrightarrow{u} et \\overrightarrow{v}, noté \\overrightarrow{u}\\cdot\\overrightarrow{v}, est le réel \\overrightarrow{AB}\\cdot\\overrightarrow{AC} calculé dans un plan contenant les points A, B et C.\n\n\nToutes les propriétés du produit scalaire dans le plan restent donc d’actualité dans l’espace."
+    "objectID": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#quotient",
+    "href": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#quotient",
+    "title": "Limites de fonctions",
+    "section": "3.3 Quotient",
+    "text": "3.3 Quotient\n\n\n\n\n\n\n\n\n\n\n\n\n\\lim\\limits_{x\\to a}f(x)\n\\ell\n\\ell\n\\ell\\neq 0\n\\infty\n\\infty\n0\n\n\n\n\n\\lim\\limits_{x\\to a}g(x)\n\\ell'\\neq 0\n\\infty\n0^+ pour un nombre positif, 0^- pour un nombre négatif\n\\ell'\n\\infty\n0\n\n\n\\lim\\limits_{x\\to a}\\dfrac{f(x)}{g(x)}\n\\dfrac{\\ell}{\\ell'}\n0\n\\infty\n\\infty\nFI\nFI\n\n\n\nOn applique la règle des signes pour déterminer le signe devant \\infty."
   },
   {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#orthogonalité-dans-lespace",
-    "title": "Géométrie dans l’espace",
-    "section": "2.3 Orthogonalité dans l’espace",
-    "text": "2.3 Orthogonalité dans l’espace\n\n2.3.1 Orthogonalité de deux droites\n\nSoient d et d' deux droites de l’espace. d et d' sont orthogonales si un vecteur directeur de l’une est orthogonal à un vecteur directeur de l’autre.\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement si tout vecteur directeur de d est orthogonal à tout vecteur directeur de d'.\n\n\n\nDeux droites orthogonales ne sont pas nécessairement coplanaires.\nDans l’espace, deux droites sont perpendiculaires si et seulement si elles sont sécantes selon un angle droit (c’est un cas particulier d’orthogonalité).\nSi deux droites sont perpendiculaires, alors elles sont orthogonales. La réciproque est fausse.\n\n\n\n\n\n\n\n\nLes droites (EF) et (DH) sont orthogonales alors que les droites (GH) et (GC) sont perpendiculaires.\n🔗 Figure interactive GeoGebra\n\n\n\nDeux droites d et d' de l’espace sont orthogonales si et seulement s’il existe une droite \\Delta parallèle à d et perpendiculaire à d'.\nSi deux droites sont parallèles, alors toute droite orthogonale à l’une est orthogonale à l’autre.\nSi deux droites sont orthogonales, alors toute droite parallèle à l’une est orthogonale à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\n2.3.2 Orthogonalité d’un plan et d’une droite\n\nDans l’espace, soient \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}) et d une droite de vecteur directeur \\overrightarrow{w}.\nLa droite d et le plan \\mathcal{P} sont orthogonaux si \\overrightarrow{w} est orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\nUne droite est orthogonale à un plan si et seulement si elle est orthogonale à deux droites sécantes de ce plan.\nSi une droite est orthogonale à un plan, alors elle est orthogonale à toute droite de ce plan.\nSi deux droites sont parallèles, alors tout plan orthogonal à l’une est orthogonal à l’autre.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nSi deux plans sont parallèles, alors toute droite orthogonale à l’un est orthogonale à l’autre.\nSi deux plans sont orthogonaux à une même droite, alors ils sont parallèles entre eux.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
-  },
-  {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#vecteur-normal-projeté-orthogonal",
-    "title": "Géométrie dans l’espace",
-    "section": "2.4 Vecteur normal, projeté orthogonal",
-    "text": "2.4 Vecteur normal, projeté orthogonal\n\n2.4.1 Vecteur normal à un plan\n\nSoit \\mathcal{P} un plan de base (\\overrightarrow{u},\\overrightarrow{v}). Un vecteur \\overrightarrow{n} est normal au plan \\mathcal{P} s’il est non nul et orthogonal à la fois à \\overrightarrow{u} et à \\overrightarrow{v}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nSoient A un point et \\overrightarrow{n} un vecteur non nul. Il existe un unique plan passant par A et de vecteur normal \\overrightarrow{n}.\n\n\nOn peut donc déterminer de manière unique un plan à l’aide d’un point et d’un vecteur normal.\n\n\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\nOn dit que \\mathcal{P}_1 est perpendiculaire à \\mathcal{P}_2 si \\overrightarrow{n_1} est orthogonal à \\overrightarrow{n_2}.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\n\nTout vecteur non nul colinéaire à un vecteur normal à un plan est aussi un vecteur normal à ce plan.\nSi deux vecteurs sont normaux à un même plan, alors ils sont colinéaires entre eux.\n\n\n\n\nUn vecteur est normal à un plan \\mathcal{P} si et seulement s’il est orthogonal à tout vecteur directeur de \\mathcal{P}.\nUne droite est orthogonale à un plan si et seulement si un vecteur directeur de cette droite est colinéaire à un vecteur normal à ce plan.\nUne droite est parallèle à un plan si et seulement si un vecteur directeur de cette droite est orthogonal à un vecteur normal à ce plan.\nSoient \\mathcal{P}_1 un plan de vecteur normal \\overrightarrow{n_1} et \\mathcal{P}_2 un plan de vecteur normal \\overrightarrow{n_2}.\n\\mathcal{P}_1 est parallèle à \\mathcal{P}_2 si et seulement si \\overrightarrow{n_1} est colinéaire à \\overrightarrow{n_2}.\n\n\n\n\n2.4.2 Projeté orthogonal d’un point\n\n\nSoient A un point et d une droite de l’espace. Il existe un unique plan passant par A et orthogonal à d. La droite d est alors sécante avec ce plan et leur point d’intersection est appelé projeté orthogonal de A sur d.\nSoient A un point et \\mathcal{P} un plan de l’espace. Il existe une unique droite passant par A et orthogonale à \\mathcal{P}. Le plan \\mathcal{P} est alors sécant avec cette droite et leur point d’intersection est appelé projeté orthogonal de A sur \\mathcal{P}.\n\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra"
-  },
-  {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#calculs-de-distances",
-    "title": "Géométrie dans l’espace",
-    "section": "2.5 Calculs de distances",
-    "text": "2.5 Calculs de distances\n\n2.5.1 Calculs dans une base et un repère orthonormé de l’espace\n\nUne base orthonormée de l’espace est une base de l’espace telle que ses trois vecteurs soient orthogonaux deux à deux et tous de norme 1.\nAutrement dit, \\overrightarrow{i}\\cdot\\overrightarrow{j}=\\overrightarrow{i}\\cdot\\overrightarrow{k}=\\overrightarrow{j}\\cdot\\overrightarrow{k}=0 et \\|\\overrightarrow{i}\\|=\\|\\overrightarrow{j}\\|=\\|\\overrightarrow{k}\\|=1.\n\n\nUn repère orthonormé (O;\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) est un repère tel que la base (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) soit orthonormée.\n\n\nDans une base orthonormée (\\overrightarrow{i},\\overrightarrow{j},\\overrightarrow{k}) de l’espace, on considère deux vecteurs \\overrightarrow{u}\\begin{pmatrix}x\\\\y\\\\z\\end{pmatrix} et \\overrightarrow{v}\\begin{pmatrix}x'\\\\y'\\\\z'\\end{pmatrix}.\nOn a alors \\overrightarrow{u}\\cdot\\overrightarrow{v}=xx'+yy'+zz' et \\|\\overrightarrow{u}\\|=\\sqrt{x^2+y^2+z^2}."
-  },
-  {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#plans",
-    "title": "Géométrie dans l’espace",
-    "section": "3.1 Plans",
-    "text": "3.1 Plans\n\n3.1.1 Équation(s) cartésienne et paramétriques\nTout plan \\mathcal{P} de l’espace admet une équation cartésienne de la forme :\n\n\\boxed{\\mathcal{P} : ax+by+cz+d=0, \\qquad (a,b,c)\\neq(0,0,0).}\n\n\nAinsi M(x_M;y_M;z_M)\\in\\mathcal{P}\\iff ax_M+by_M+cz_M+d=0.\n\n\nUn vecteur non nul \\overrightarrow{n} de l’espace est normal à un plan \\mathcal{P} lorsqu’il est orthogonal à tout vecteur admettant un représentant dans \\mathcal{P}.\n\n\nUne équation cartésienne du plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et admettant pour vecteur normal \\overrightarrow{n}(a,b,c) s’obtient ainsi :\n\nM(x,y,z)\\in\\mathcal{P}\\Longleftrightarrow\\overrightarrow{AM}\\cdot\\overrightarrow{n}=0\\Longleftrightarrow a(x-x_0)+b(y-y_0)+c(z-z_0)=0\n\nRéciproquement : tout plan admettant une équation cartésienne du type ax+by+cz+d=0 admet pour vecteur normal le vecteur de coordonnées (a,b,c).\n\n\nUn plan \\mathcal{P} passant par un point A(x_0,y_0,z_0) et dirigé par les vecteurs \\overrightarrow{u}(u_1,u_2,u_3) et \\overrightarrow{v}(v_1,v_2,v_3) admet la représentation paramétrique suivante :\n\n\\mathcal{P} :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t+v_1t' \\\\\ny=y_0+u_2t+v_2t' \\\\\nz=z_0+u_3t+v_3t'\n\\end{array}\n\\right| \\qquad (t,t')\\in\\mathbb{R}^2\n\n\n\nDeux plans sont perpendiculaires si et seulement si un vecteur normal de l’un est orthogonal à un vecteur normal de l’autre.\n\n\n\n3.1.2 Distance d’un point à un plan\n\nDistance d’un point à un plan\nSoit A un point de l’espace et \\mathcal{P} un plan passant par un point B et de vecteur normal \\overrightarrow{n}.\nLe projeté orthogonal H de A sur le plan \\mathcal{P} est le point du plan \\mathcal{P} le plus proche de A.\nLa distance AH est appelée distance du point A au plan \\mathcal{P}.\n\n\nCette distance AH est égale à AH=\\dfrac{|\\overrightarrow{AB}\\cdot\\overrightarrow{n}|}{\\|\\overrightarrow{n}\\|}, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit (\\mathcal{P}) le plan passant par A(1;-3;2) et de vecteur normal \\overrightarrow{n}\\begin{pmatrix}5\\\\-2\\\\1\\end{pmatrix}.\nSoit B(3;-2;5). Calculer la distance du point B au plan \\mathcal{P}.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur \\mathcal{P}. La distance recherchée est donc la distance BH.\nÉquation du plan \\mathcal{P}. Son équation est de la forme 5x-2y+z+c=0. De plus A\\in\\mathcal{P} donc 5+6+2+c=0, soit c=-13. Finalement l’équation du plan \\mathcal{P} est 5x-2y+z-13=0.\nCoordonnées de H(x_H;y_H;z_H).\nH appartient au plan \\mathcal{P} donc ses coordonnées vérifient 5x_H-2y_H+z_H-13=0.\nDéterminons maintenant une équation paramétrique de la droite (BH) :\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{BM}=k\\overrightarrow{n}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-3=5k\\\\y+2=-2k\\\\z-5=k\\end{array}\\right.\n\n\nM(x;y;z)\\in(BH)\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x=5k+3\\\\y=-2k-2\\\\z=k+5\\end{array}\\right.\n\nAinsi, comme H appartient à la fois au plan \\mathcal{P} et à la droite (BH), ses coordonnées vérifient :\n\n\\left\\{\\begin{array}{l}x_H=5k+3\\\\y_H=-2k-2\\\\z_H=k+5\\\\5x_H-2y_H+z_H-13=0\\end{array}\\right.\n\nOn trouve k=\\dfrac{-11}{30} et donc H\\left(\\dfrac{7}{6};\\dfrac{-19}{15};\\dfrac{139}{30}\\right).\nDistance. Finalement la distance BH est\n\nBH=\\sqrt{(x_H-x_B)^2+(y_H-y_B)^2+(z_H-z_B)^2}=\\dfrac{11}{\\sqrt{30}}"
-  },
-  {
-    "objectID": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
-    "href": "terminale-spe/cours/espace-1/geometrie-espace-terminale.html#droites",
-    "title": "Géométrie dans l’espace",
-    "section": "3.2 Droites",
-    "text": "3.2 Droites\n\n3.2.1 Équation(s) cartésienne et paramétriques\nL’intersection de deux plans (\\mathcal{P}) et (\\mathcal{P}') non parallèles de l’espace est une droite, donc une droite \\mathcal{D} peut être donnée par un système de deux équations cartésiennes (SEC) :\n\n\\mathcal{D} :\n\\left\\{\n\\begin{array}{ll}\nax+by+cz+d=0 & (\\mathcal{P}) \\\\\na'x+b'y+c'z+d'=0 & (\\mathcal{P}')\n\\end{array}\n\\right.\n\n\nUne droite \\mathcal{D}_A passant par un point A(x_0,y_0,z_0) et dirigée par \\overrightarrow{u}(u_1,u_2,u_3) admet la représentation paramétrique :\n\n\\mathcal{D}_A :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t \\\\\ny=y_0+u_2t \\\\\nz=z_0+u_3t\n\\end{array}\n\\right| \\quad t\\in\\mathbb{R}\n\n\n\n\n3.2.2 Distance d’un point à une droite\n\nDistance d’un point à une droite\nSoient A un point de l’espace et d une droite de l’espace passant par un point B et de vecteur directeur \\overrightarrow{u}.\n\nLe projeté orthogonal H de A sur d est le point de la droite d le plus proche de A.\nLa distance AH est appelée distance du point A à la droite d.\n\n\n\nCette distance AH est égale à AH=\\left\\|\\overrightarrow{AB}-\\dfrac{\\overrightarrow{AB}\\cdot\\overrightarrow{u}}{\\|\\overrightarrow{u}\\|^2}\\overrightarrow{u}\\right\\|, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit d la droite passant par A(2;-5;3) et de vecteur directeur \\overrightarrow{u}\\begin{pmatrix}2\\\\2\\\\1\\end{pmatrix}. Quelle est la distance du point B(-1;2;-4) à la droite d ?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur la droite d. La distance du point B à la droite d est alors la distance BH.\nCoordonnées de H(x_H;y_H;z_H).\nH est le projeté orthogonal de B sur d donc \\overrightarrow{BH}\\cdot\\overrightarrow{u}=0 :\n\n(x_H+1)\\times 2+(y_H-2)\\times 2+(z_H+4)\\times 1=0\\Leftrightarrow 2x_H+2y_H+z_H=-2\n\nDe plus H est sur la droite d, donc ses coordonnées vérifient l’équation de la droite d. Déterminons une équation paramétrique de d. On a \\overrightarrow{AM}\\begin{pmatrix}x-2\\\\y+5\\\\z-3\\end{pmatrix} donc\n\nM(x;y;z)\\in d\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{AM}=k\\overrightarrow{u}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-2=2k\\\\y+5=2k\\\\z-3=k\\end{array}\\right.\n\nAinsi les coordonnées de H vérifient le système :\n\n\\left\\{\\begin{array}{l}x_H=2k+2\\\\y_H=2k-5\\\\z_H=k+3\\\\2x_H+2y_H+z_H=-2\\end{array}\\right.\n\nOn trouve k=\\dfrac{1}{9} et donc H\\left(\\dfrac{20}{9};\\dfrac{-43}{9};\\dfrac{28}{9}\\right).\nDistance. Finalement, la distance recherchée est :\n\nBH=\\sqrt{\\left(\\dfrac{20}{9}+1\\right)^2+\\left(\\dfrac{-43}{9}-2\\right)^2+\\left(\\dfrac{28}{9}+4\\right)^2}\\approx 10.34"
+    "objectID": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#exemples",
+    "href": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#exemples",
+    "title": "Limites de fonctions",
+    "section": "3.4 Exemples",
+    "text": "3.4 Exemples\n\nOn considère les fonctions définies par f(x)=x+3+\\dfrac{1}{x}, g(x)=-x^3+4x^2+6, h(x)=\\dfrac{2x+1}{x+2}.\nDéterminer la limite de ces fonctions aux bornes de leur ensemble de définition.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n1. f(x)=x+3+\\dfrac{1}{x} pour x\\in\\mathbb{R}^*.\n\n\\lim\\limits_{x\\to-\\infty}x=-\\infty et \\lim\\limits_{x\\to-\\infty}\\dfrac{1}{x}=0 donc par somme \\lim\\limits_{x\\to-\\infty}f(x)=-\\infty.\n\\lim\\limits_{x\\to+\\infty}x=+\\infty et \\lim\\limits_{x\\to+\\infty}\\dfrac{1}{x}=0 donc par somme \\lim\\limits_{x\\to+\\infty}f(x)=+\\infty.\n\\lim\\limits_{x\\to 0^-}x=0 et \\lim\\limits_{x\\to 0^-}\\dfrac{1}{x}=-\\infty donc par somme \\lim\\limits_{x\\to 0^-}f(x)=-\\infty.\n\\lim\\limits_{x\\to 0^+}x=0 et \\lim\\limits_{x\\to 0^+}\\dfrac{1}{x}=+\\infty donc par somme \\lim\\limits_{x\\to 0^+}f(x)=+\\infty.\n\n2. g(x)=-x^3+4x^2+6 pour x\\in\\mathbb{R}.\nPour lever l’indétermination, on factorise par le monôme de plus haut degré :\nSoit x\\in\\mathbb{R}^*, g(x)=x^3\\left(-1+\\dfrac{4}{x}+\\dfrac{6}{x^3}\\right).\n\n\\lim\\limits_{x\\to-\\infty}\\dfrac{4}{x}=\\lim\\limits_{x\\to-\\infty}\\dfrac{6}{x^3}=0 donc par somme \\lim\\limits_{x\\to-\\infty}\\left(-1+\\dfrac{4}{x}+\\dfrac{6}{x^3}\\right)=-1 et \\lim\\limits_{x\\to-\\infty}x^3=-\\infty. Enfin par produit \\lim\\limits_{x\\to-\\infty}g(x)=+\\infty.\n\\lim\\limits_{x\\to+\\infty}\\dfrac{4}{x}=\\lim\\limits_{x\\to+\\infty}\\dfrac{6}{x^3}=0 donc par somme \\lim\\limits_{x\\to+\\infty}\\left(-1+\\dfrac{4}{x}+\\dfrac{6}{x^3}\\right)=-1 et \\lim\\limits_{x\\to+\\infty}x^3=+\\infty. Enfin par produit \\lim\\limits_{x\\to+\\infty}g(x)=-\\infty.\n\n3. h(x)=\\dfrac{2x+1}{x+2} pour x\\in I=\\,]-\\infty;-2[\\cup]-2;+\\infty[.\nPour lever l’indétermination, on factorise le numérateur et le dénominateur par leur monôme de plus haut degré :\nSoit x\\in I^*, h(x)=\\dfrac{x\\left(2+\\dfrac{1}{x}\\right)}{x\\left(1+\\dfrac{2}{x}\\right)}=\\dfrac{2+\\dfrac{1}{x}}{1+\\dfrac{2}{x}}.\n\n\\lim\\limits_{x\\to-\\infty}\\dfrac{1}{x}=0 donc par somme \\lim\\limits_{x\\to-\\infty}\\left(2+\\dfrac{1}{x}\\right)=2 et \\lim\\limits_{x\\to-\\infty}\\dfrac{2}{x}=0 donc par somme \\lim\\limits_{x\\to-\\infty}\\left(1+\\dfrac{2}{x}\\right)=1. Enfin par quotient \\lim\\limits_{x\\to-\\infty}h(x)=2.\n\\lim\\limits_{x\\to+\\infty}\\dfrac{1}{x}=0 donc par somme \\lim\\limits_{x\\to+\\infty}\\left(2+\\dfrac{1}{x}\\right)=2 et \\lim\\limits_{x\\to+\\infty}\\dfrac{2}{x}=0 donc par somme \\lim\\limits_{x\\to+\\infty}\\left(1+\\dfrac{2}{x}\\right)=1. Enfin par quotient \\lim\\limits_{x\\to+\\infty}h(x)=2.\n\\lim\\limits_{x\\to-2^-}(2x+1)=\\lim\\limits_{x\\to-2^+}(2x+1)=-3 et voici le tableau de signes de x+2 :\n\n\n\nx\n-\\infty\n\n-2\n\n+\\infty\n\n\n\n\nx+2\n\n-\n0\n+\n\n\n\n\n\\lim\\limits_{x\\to-2^-}(x+2)=0^- donc par quotient \\lim\\limits_{x\\to-2^-}h(x)=+\\infty.\n\\lim\\limits_{x\\to-2^+}(x+2)=0^+ donc par quotient \\lim\\limits_{x\\to-2^+}h(x)=-\\infty."
   },
   {
     "objectID": "terminale-spe/cours/suites/suites-terminale.html#définition",
