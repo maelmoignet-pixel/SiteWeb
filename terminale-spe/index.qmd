@@ -34,7 +34,7 @@ toc: false
 
 :::
 
-## Bacs blancs
+## Bacs blancs et DS
 
 <!-- Les bacs blancs couvrent plusieurs chapitres : ils sont ici, au niveau de la classe,
      et non dans chaque chapitre (comme dans ton arborescence de dossiers). -->
@@ -47,7 +47,9 @@ toc: false
         - [Titre affiché](../2025-bac-blanc/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+- [Bac blanc n°1 - sujet](../2025-bac-blanc/terminale-2025-BB1-sujet.pdf)
+  [[Suites]{.tag} [Loi binomiale]{.tag} [Espace 1]{.tag} [Limites de fonctions]{.tag} [Dérivation]{.tag}]{.chapitres-tags}
+
 
 :::
 
