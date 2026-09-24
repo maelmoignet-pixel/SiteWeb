@@ -26,42 +26,72 @@ toc: false
 
 ## Évaluations et DS
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  seconde/2025-DS-eval/ensembles-de-nombres-arithmetique/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2025-DS-eval/ensembles-de-nombres-arithmetique/nom-exact-du-fichier.pdf)
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens :
+        [Sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/nom-exact-du-fichier.pdf){.eval-btn .sujet}
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-- [Evaluation 1 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-sujet.pdf)
-- [Evaluation 1 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-correction.pdf)
-- [Evaluation 2 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-sujet.pdf)
-- [Evaluation 2 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-correction.pdf)
-- [Evaluation 3 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-sujet.pdf)
-- [Evaluation 3 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-correction.pdf)
-- [DS 1 - sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-sujet.pdf)
-- [DS 1 - correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-correction.pdf)
+:::: {.evals}
 
+::: {.eval}
+[Évaluation n°1]{.eval-titre}
+
+[Sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval1-correction.pdf){.eval-btn .correction}
 :::
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+::: {.eval}
+[Évaluation n°2]{.eval-titre}
+
+[Sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval2-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°3]{.eval-titre}
+
+[Sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-eval3-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°1]{.eval-titre}
+
+[Sujet](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2025-DS1-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
+
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  seconde/2026-DS-eval/ensembles-de-nombres-arithmetique/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2026-DS-eval/ensembles-de-nombres-arithmetique/nom-exact-du-fichier.pdf)
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens :
+        [Sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/nom-exact-du-fichier.pdf){.eval-btn .sujet}
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+:::: {.evals}
 
--[Évaluation 1 – sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval1-sujet.pdf)
+::: {.eval}
+[Évaluation n°1]{.eval-titre}
 
--[Évaluation 1 – corrigé](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval1-corrigé.pdf)
-
--[Évaluation 2 – sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval2-sujet.pdf)
-
-
--[Évaluation 2 – corrigé](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval2-corrigé.pdf)
-
+[Sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval1-correction.pdf){.eval-btn .correction}
 :::
+
+::: {.eval}
+[Évaluation n°2]{.eval-titre}
+
+[Sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval2-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-eval2-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°1]{.eval-titre}
+
+[Sujet](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/ensembles-de-nombres-arithmetique/ensembles-de-nombres-arithmetique-seconde-2026-DS1-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::

@@ -23,22 +23,37 @@ toc: false
 
 ## Évaluations et DS
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  premiere-spe/2025-DS-eval/suites/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2025-DS-eval/suites/nom-exact-du-fichier.pdf)
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens :
+        [Sujet](../2025-DS-eval/suites/nom-exact-du-fichier.pdf){.eval-btn .sujet}
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-- [Évaluation 4 – sujet](../2025-DS-eval/suites/suites-premiere-2025-eval4-sujet.pdf)
-- [Évaluation 4 – correction](../2025-DS-eval/suites/suites-premiere-2025-eval4-correction.pdf)
-- [Évaluation 5 – sujet](../2025-DS-eval/suites/suites-premiere-2025-eval5-sujet.pdf)
-- [Évaluation 5 – correction](../2025-DS-eval/suites/suites-premiere-2025-eval5-correction.pdf)
-- [DS 2 – sujet](../2025-DS-eval/suites/suites-premiere-2025-DS2-sujet.pdf)
-- [DS 2 – correction](../2025-DS-eval/suites/suites-premiere-2025-DS2-correction.pdf)
+:::: {.evals}
 
+::: {.eval}
+[Évaluation n°4]{.eval-titre}
+
+[Sujet](../2025-DS-eval/suites/suites-premiere-2025-eval4-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites/suites-premiere-2025-eval4-correction.pdf){.eval-btn .correction}
 :::
+
+::: {.eval}
+[Évaluation n°5]{.eval-titre}
+
+[Sujet](../2025-DS-eval/suites/suites-premiere-2025-eval5-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites/suites-premiere-2025-eval5-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°2]{.eval-titre}
+
+[Sujet](../2025-DS-eval/suites/suites-premiere-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites/suites-premiere-2025-DS2-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
 

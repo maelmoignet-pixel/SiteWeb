@@ -10,6 +10,10 @@ toc: false
      COMMENT LIRE LES LIENS :
      Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
      « remonter d'un dossier ». Donc ../cours/... désigne terminale-spe/cours/...
+
+     RANGEMENT DES PDF :
+     - DS et bacs blancs (plusieurs chapitres) : ../2025-DS-eval/  et  ../2025-bac-blanc/
+     - Évaluations de ce chapitre uniquement  : ../2025-DS-eval/suites/
      ===================================================================== -->
 
 [← Retour aux chapitres](../index.qmd)
@@ -22,45 +26,105 @@ toc: false
 - [Cours : Suites](../cours/suites/suites-terminale.qmd)
 - [TD](../cours/suites/suites-TD-terminale.pdf)
 - [Types bac: sujets](../cours/suites/suites-bac-terminale-sujet.pdf)
-- [Types bac: corrections](../cours/suites/suites-bac-terminale-correction.pdf)    
+- [Types bac: corrections](../cours/suites/suites-bac-terminale-correction.pdf)
 
 ## Évaluations et DS
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
 
-<!-- ➕ AJOUTER UN DOCUMENT :
-     1. Copie ton PDF dans le dossier  terminale-spe/2025-DS-eval/suites/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2025-DS-eval/suites/nom-exact-du-fichier.pdf)
-     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+<!-- ➕ AJOUTER UNE ÉVALUATION : copie une carte complète (de ::: {.eval} à :::),
+     colle-la dans le bon groupe et modifie le titre, la date et les liens.
+     Pour un DS ou un bac blanc, les PDF sont dans ../2025-DS-eval/ ou ../2025-bac-blanc/ -->
 
-- [DS 1 – sujet](../2025-DS-eval/suites/suites-terminale-2025-DS1.pdf)
-- [DS 1 – correction](../2025-DS-eval/suites/suites-terminale-2025-DS1-correction.pdf)
-- [Évaluation 1 – sujet](../2025-DS-eval/suites/suites-terminale-2025-eval1-sujet.pdf)
-- [Évaluation 1 – correction](../2025-DS-eval/suites/suites-terminale-2025-eval1-correction.pdf)
-- [Évaluation 2 – sujet](../2025-DS-eval/suites/suites-terminale-2025-eval2-sujet.pdf)
-- [Évaluation 2 – correction](../2025-DS-eval/suites/suites-terminale-2025-eval2-correction.pdf)
+[Devoirs surveillés]{.eval-groupe}
 
+:::: {.evals}
+
+::: {.eval}
+[DS n°1]{.eval-titre} [27 septembre 2025]{.eval-date}
+
+[Sujet](../2025-DS-eval/suites-terminale-2025-DS1.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites-terminale-2025-DS1-correction.pdf){.eval-btn .correction}
 :::
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+::: {.eval}
+[DS n°2]{.eval-titre} [14 octobre 2025]{.eval-date}
 
-<!-- ➕ AJOUTER UN DOCUMENT :
-     1. Copie ton PDF dans le dossier  terminale-spe/2026-DS-eval/suites/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2026-DS-eval/suites/nom-exact-du-fichier.pdf)
-     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
-
-- [Evaluation 1 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval1-sujet.pdf)
-
-- [Evaluation 1 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval1-correction.pdf)
-
-- [Evaluation 2 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval2-sujet.pdf)
-
-- [Evaluation 2 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval2-correction.pdf)
-
-- [Evaluation 3 - sujet](../2026-DS-eval/suites/suites-terminale-2026-eval3-sujet.pdf)
-
-- [Evaluation 3 - correction](../2026-DS-eval/suites/suites-terminale-2026-eval3-correction.pdf)
-
+[Sujet](../2025-DS-eval/loi-binomiale-terminale-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/loi-binomiale-terminale-2025-DS2-correction.pdf){.eval-btn .correction}
 :::
+
+::: {.eval}
+[DS n°4]{.eval-titre} [6 janvier 2026]{.eval-date}
+
+[Sujet](../2025-DS-eval/derivation-terminale-2025-DS4-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/derivation-terminale-2025-DS4-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°5]{.eval-titre} [14 mars 2026]{.eval-date}
+
+[Sujet](../2025-DS-eval/sommes-variables-aleatoires-terminale-2025-DS5-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/sommes-variables-aleatoires-terminale-2025-DS5-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+[Évaluations]{.eval-groupe}
+
+:::: {.evals}
+
+::: {.eval}
+[Évaluation n°1]{.eval-titre}
+
+[Sujet](../2025-DS-eval/suites/suites-terminale-2025-eval1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites/suites-terminale-2025-eval1-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°2]{.eval-titre}
+
+[Sujet](../2025-DS-eval/suites/suites-terminale-2025-eval2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/suites/suites-terminale-2025-eval2-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+[Bacs blancs]{.eval-groupe}
+
+:::: {.evals}
+
+::: {.eval}
+[Bac blanc n°1]{.eval-titre} [26 janvier 2026]{.eval-date}
+
+[Sujet](../2025-bac-blanc/terminale-2025-BB1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-bac-blanc/terminale-2025-BB1-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
+
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UNE ÉVALUATION : même principe que pour 2025,
+     avec les dossiers ../2026-DS-eval/suites/ (et ../2026-DS-eval/ pour les DS) -->
+
+[Évaluations]{.eval-groupe}
+
+:::: {.evals}
+
+::: {.eval}
+[Évaluation n°1]{.eval-titre}
+
+[Sujet](../2026-DS-eval/suites/suites-terminale-2026-eval1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/suites/suites-terminale-2026-eval1-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°2]{.eval-titre}
+
+[Sujet](../2026-DS-eval/suites/suites-terminale-2026-eval2-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/suites/suites-terminale-2026-eval2-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°3]{.eval-titre}
+
+[Sujet](../2026-DS-eval/suites/suites-terminale-2026-eval3-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/suites/suites-terminale-2026-eval3-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::

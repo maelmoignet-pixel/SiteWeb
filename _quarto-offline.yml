@@ -1,0 +1,8 @@
+# Profil "offline" : lu UNIQUEMENT avec  quarto render --profile offline
+# Un simple "quarto render" ou "quarto publish" l'ignore complètement.
+
+project:
+  # Garde-fou : sortie dans un dossier séparé, _site (la version en ligne) n'est pas touché
+  output-dir: _site_offline
+  post-render:
+    - offline_mathjax.py

@@ -1,3 +1,5 @@
 
 /.quarto/
 _site/
+_site_offline/
+_offline_cache/

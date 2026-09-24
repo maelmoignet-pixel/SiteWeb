@@ -26,29 +26,37 @@ toc: false
 
 ## Évaluations et DS
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  terminale-spe/2025-DS-eval/limites-de-fonctions/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2025-DS-eval/limites-de-fonctions/nom-exact-du-fichier.pdf)
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens :
+        [Sujet](../2025-DS-eval/limites-de-fonctions/nom-exact-du-fichier.pdf){.eval-btn .sujet}
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+:::: {.evals}
 
-- [Evaluation 5 - sujet](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval5-sujet.pdf)
+::: {.eval}
+[Évaluation n°5]{.eval-titre}
 
-- [Evaluation 5 - correction](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval5-correction.pdf)
-
-- [Evaluation 6 - sujet](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval6-sujet.pdf)
-
-- [Evaluation 6 - correction](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval6-correction.pdf)
-
-- [DS3 - sujet](../2025-DS-eval/limites-de-fonctions/limites-fonctions-terminale-2025-DS3-sujet.pdf)
-
-- [DS3 - correction](../2025-DS-eval/limites-de-fonctions/limites-fonctions-terminale-2025-DS3-correction.pdf)
-
+[Sujet](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval5-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval5-correction.pdf){.eval-btn .correction}
 :::
+
+::: {.eval}
+[Évaluation n°6]{.eval-titre}
+
+[Sujet](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval6-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/limites-de-fonctions/limites-de-fonctions-2025-eval6-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°3]{.eval-titre}
+
+[Sujet](../2025-DS-eval/limites-de-fonctions/limites-fonctions-terminale-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/limites-de-fonctions/limites-fonctions-terminale-2025-DS3-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
 
