@@ -36,6 +36,32 @@ toc: false
 
 *Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
 
+:::: {.evals}
+
+::: {.eval}
+[Évaluation n°6]{.eval-titre}
+
+[Sujet](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval6-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval6-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°7]{.eval-titre}
+
+[Sujet](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval7-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval7-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Évaluation n°8]{.eval-titre}
+
+[Sujet](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval8-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-eval8-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+
+
+
+
 :::
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
