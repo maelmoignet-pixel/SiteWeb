@@ -156,3 +156,19 @@ main a { color: var(--mer); }
 .eval .chapitres-tags {
   margin-top: 0;
 }
+
+.liens-utiles ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Le contenu de chaque ligne reste sur une seule ligne */
+.liens-utiles li p {
+  display: inline;
+  margin: 0;
+}
+
+/* L'icône est collée devant le nom du lien */
+.liens-utiles li a::before {
+  content: "🔗 ";
+}
