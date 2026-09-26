@@ -128,3 +128,23 @@ toc: false
 *Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
 
 :::
+
+## Liens utiles
+
+<!-- AJOUTER UN LIEN :
+     Ajoute ici une ligne :  - [Nom du site](https://adresse-du-site){target="_blank"}
+     Le {target="_blank"} ouvre le lien dans un nouvel onglet,
+     pour que les élèves ne quittent pas le site de cours.
+     Tu peux ajouter une petite description après un tiret : — Description
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.liens-utiles}
+
+
+- [APMEP](https://www.apmep.fr/Annales-Terminale-Generale#Enseignement-de-specialite-depuis-2021){target="_blank"} — Annales Terminale Générale
+
+- [Numworks](https://www.numworks.com/fr/emulateur/graphique/){target="_blank"} — Émulateur de calculatrice Numworks
+
+- [Manuel: Le livre scolaire](https://www.lelivrescolaire.fr/manuels/mathematiques-specialite-terminale-2020){target="_blank"} — Manuel de première en ligne (le livre scolaire 2020)
+
+:::

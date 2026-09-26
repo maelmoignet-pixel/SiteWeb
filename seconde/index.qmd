@@ -34,3 +34,21 @@ toc: false
 - [Statistiques 2](chapitres/statistiques-2.qmd)
 
 :::
+
+## Liens utiles
+
+<!-- AJOUTER UN LIEN :
+     Ajoute ici une ligne :  - [Nom du site](https://adresse-du-site){target="_blank"}
+     Le {target="_blank"} ouvre le lien dans un nouvel onglet,
+     pour que les élèves ne quittent pas le site de cours.
+     Tu peux ajouter une petite description après un tiret : — Description
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.liens-utiles}
+
+- [Automaths](https://maths-au-quotidien.fr/automaths/#/notions/2de){target="_blank"} — Travailler les automatismes pour l'épreuve anticipée de première
+
+- [Numworks](https://www.numworks.com/fr/emulateur/graphique/){target="_blank"} — Émulateur de calculatrice Numworks
+
+- [Manuel sesamath 2019](https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019){target="_blank"} — Manuel de seconde en ligne (Sesamath 2019)
+:::
