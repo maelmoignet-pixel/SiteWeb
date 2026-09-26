@@ -16,7 +16,7 @@ project:
 lang: fr
 
 website:
-  title: "Mathématiques au Lycée naval"
+  title: "Mathématiques au Lycée"
 
   # ---- MENU DU HAUT ----------------------------------------------------
   # Pour ajouter un onglet : copie deux lignes « - text / href » et adapte-les.
@@ -33,7 +33,7 @@ website:
       # - text: "1re tronc commun"        # <- décommente quand ce niveau existe
       #   href: premiere-tc/index.qmd
 
-  page-footer: "Maël Moignet · Lycée Naval de Brest"
+  page-footer: "Maël Moignet"
 
 # ---- APPARENCE ------------------------------------------------------------
 format:

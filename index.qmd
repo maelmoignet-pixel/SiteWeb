@@ -1,5 +1,5 @@
 ---
-title: "Mathématiques au Lycée naval"
+title: "Mathématiques au Lycée"
 subtitle: "Maël Moignet"
 toc: false
 title-block-banner: "#1c4568"
