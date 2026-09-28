@@ -406,6 +406,27 @@
     "text": "5.3 Les puissances\n\nSoit a un réel et m un entier.\n\nSi m&gt;0, alors a^m=\\underbrace{a\\times a\\times a\\times a\\times\\dots\\times a}_{m\\text{ facteurs}}\nSi m&lt;0, alors a^m=\\dfrac{1}{a^{-m}}\nPar convention, pour a\\neq 0, a^0=1\n\n\n\n\n5^3=5\\times 5\\times 5=125\n5^{-3}=\\dfrac{1}{5^3}=\\dfrac{1}{125}\n\n\n\nSoit a et b deux réels non nuls et soit m et n deux entiers relatifs.\n\na^m\\times a^n=a^{m+n}\n(a^n)^m=a^{n\\times m}\n(a\\times b)^m=a^m\\times b^m\n\\left(\\dfrac{a}{b}\\right)^m=\\dfrac{a^m}{b^m}\n\\dfrac{a^m}{a^n}=a^{m-n}\n\n\n\nCalculer :\n\n2^3\\times 2^2\nx\\times x^2\n(3x)^2\n\\left(\\dfrac{2}{x^2}\\right)^2\n\\dfrac{4^5}{4^7}\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\n2^3\\times 2^2=8\\times 4=32\nx\\times x^2=x^1\\times x^2=x^{2+1}=x^3\n(3x)^2=3x\\times 3x=9x^2\n\\left(\\dfrac{2}{x^2}\\right)^2=\\dfrac{2^2}{(x^2)^2}=\\dfrac{4}{x^4}\n\\dfrac{4^5}{4^7}=4^{5-7}=4^{-2}=\\dfrac{1}{4^2}=\\dfrac{1}{16}"
   },
   {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html",
+    "href": "seconde/chapitres/fonction-1-generalite.html",
+    "title": "Fonctions 1 : généralités",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "href": "seconde/chapitres/fonction-1-generalite.html#cours",
+    "title": "Fonctions 1 : généralités",
+    "section": "Cours",
+    "text": "Cours\n\nCours bientôt disponible."
+  },
+  {
+    "objectID": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
+    "title": "Fonctions 1 : généralités",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°9\nSujet Correction\n\n\nDS n°3\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
     "objectID": "seconde/chapitres/statistiques-1.html",
     "href": "seconde/chapitres/statistiques-1.html",
     "title": "Statistiques 1",
@@ -448,86 +469,65 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html",
-    "title": "Géométrie : vecteurs 2",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html",
+    "title": "Géométrie : vecteurs 1",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
-    "title": "Géométrie : vecteurs 2",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
+    "title": "Géométrie : vecteurs 1",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
-    "title": "Géométrie : vecteurs 2",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 1",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/chapitres/geometrie-reperee.html",
-    "href": "seconde/chapitres/geometrie-reperee.html",
-    "title": "Géométrie repérée",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html",
+    "title": "Géométrie : équations de droites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/geometrie-reperee.html#cours",
-    "href": "seconde/chapitres/geometrie-reperee.html#cours",
-    "title": "Géométrie repérée",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Géométrie repérée"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
-    "title": "Géométrie repérée",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°4\nSujet Correction\n\n\nÉvaluation n°5\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html",
-    "title": "Fonctions 3 : étude de signes",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
-    "title": "Fonctions 3 : étude de signes",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
+    "title": "Géométrie : équations de droites",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
-    "title": "Fonctions 3 : étude de signes",
+    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
+    "title": "Géométrie : équations de droites",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html",
-    "href": "seconde/chapitres/fonction-1-generalite.html",
-    "title": "Fonctions 1 : généralités",
+    "objectID": "seconde/chapitres/fonction-2-references.html",
+    "href": "seconde/chapitres/fonction-2-references.html",
+    "title": "Fonctions 2 : fonctions de référence",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html#cours",
-    "href": "seconde/chapitres/fonction-1-generalite.html#cours",
-    "title": "Fonctions 1 : généralités",
+    "objectID": "seconde/chapitres/fonction-2-references.html#cours",
+    "href": "seconde/chapitres/fonction-2-references.html#cours",
+    "title": "Fonctions 2 : fonctions de référence",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonction-1-generalite.html#évaluations-et-ds",
-    "title": "Fonctions 1 : généralités",
+    "objectID": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
+    "title": "Fonctions 2 : fonctions de référence",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
@@ -952,88 +952,67 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction\n\n\nDS n°1\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nDS n°1\nSujet Correction"
   },
   {
-    "objectID": "seconde/chapitres/fonction-2-references.html",
-    "href": "seconde/chapitres/fonction-2-references.html",
-    "title": "Fonctions 2 : fonctions de référence",
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html",
+    "title": "Fonctions 3 : étude de signes",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/fonction-2-references.html#cours",
-    "href": "seconde/chapitres/fonction-2-references.html#cours",
-    "title": "Fonctions 2 : fonctions de référence",
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#cours",
+    "title": "Fonctions 3 : étude de signes",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
-    "href": "seconde/chapitres/fonction-2-references.html#évaluations-et-ds",
-    "title": "Fonctions 2 : fonctions de référence",
+    "objectID": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "href": "seconde/chapitres/fonctions-3-etude-de-signes.html#évaluations-et-ds",
+    "title": "Fonctions 3 : étude de signes",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html",
-    "title": "Géométrie : équations de droites",
+    "objectID": "seconde/chapitres/geometrie-reperee.html",
+    "href": "seconde/chapitres/geometrie-reperee.html",
+    "title": "Géométrie repérée",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html#cours",
-    "title": "Géométrie : équations de droites",
+    "objectID": "seconde/chapitres/geometrie-reperee.html#cours",
+    "href": "seconde/chapitres/geometrie-reperee.html#cours",
+    "title": "Géométrie repérée",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Géométrie repérée"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-reperee.html#évaluations-et-ds",
+    "title": "Géométrie repérée",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°4\nSujet Correction\n\n\nÉvaluation n°5\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html",
+    "title": "Géométrie : vecteurs 2",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#cours",
+    "title": "Géométrie : vecteurs 2",
     "section": "Cours",
     "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-equations-de-droites.html#évaluations-et-ds",
-    "title": "Géométrie : équations de droites",
+    "objectID": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "href": "seconde/chapitres/geometrie-vecteurs-2.html#évaluations-et-ds",
+    "title": "Géométrie : vecteurs 2",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html",
-    "title": "Géométrie : vecteurs 1",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html#cours",
-    "title": "Géométrie : vecteurs 1",
-    "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
-  },
-  {
-    "objectID": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
-    "href": "seconde/chapitres/geometrie-vecteurs-1.html#évaluations-et-ds",
-    "title": "Géométrie : vecteurs 1",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html",
-    "title": "Intervalles, équations et inéquations",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#cours",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
-    "title": "Intervalles, équations et inéquations",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Intervalles, équations et inéquations"
-  },
-  {
-    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
-    "href": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
-    "title": "Intervalles, équations et inéquations",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°6\nSujet Correction\n\n\nÉvaluation n°7\nSujet Correction\n\n\nÉvaluation n°8\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
     "objectID": "seconde/chapitres/probabilites.html",
@@ -1076,6 +1055,27 @@
     "title": "Statistiques 2",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html",
+    "title": "Intervalles, équations et inéquations",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#cours",
+    "title": "Intervalles, équations et inéquations",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Intervalles, équations et inéquations"
+  },
+  {
+    "objectID": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "href": "seconde/chapitres/intervalles-equations-inequations.html#évaluations-et-ds",
+    "title": "Intervalles, équations et inéquations",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°6\nSujet Correction\n\n\nÉvaluation n°7\nSujet Correction\n\n\nÉvaluation n°8\nSujet Correction\n\n\nDS n°2\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
     "objectID": "seconde/cours/geometrie-reperee/geometrie-reperee.html#coordonnées-dun-point-dans-un-repère",
