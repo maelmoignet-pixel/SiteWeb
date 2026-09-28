@@ -58,7 +58,7 @@ toc: false
 ::: {.eval}
 [DS n°2]{.eval-titre}
 
-[Sujet](../2025-DS-eval/intervalles-equations-inequations/intervalles-equation-inequations-seconde2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/intervalles-equations-inequations/intervalles-equation-inequations-seconde2025-DS2-correction.pdf){.eval-btn .correction}
+[Sujet](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-DS2-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2025-DS2-correction.pdf){.eval-btn .correction}
 :::
 
 ::::

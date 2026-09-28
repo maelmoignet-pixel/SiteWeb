@@ -39,13 +39,13 @@ toc: false
 ::: {.eval}
 [Évaluation n°9]{.eval-titre}
 
-[Sujet](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-eval9-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-eval9-correction.pdf){.eval-btn .correction}
+[Sujet](../2025-DS-eval/fonction-1-generalite/fonction-1-generalite-seconde-2025-eval9-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction-1-generalite-seconde-2025-eval9-correction.pdf){.eval-btn .correction}
 :::
 
 ::: {.eval}
 [DS n°3]{.eval-titre}
 
-[Sujet](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-DS3-correction.pdf){.eval-btn .correction}
+[Sujet](../2025-DS-eval/fonction-1-generalite/fonction-1-generalite-seconde-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction-1-generalite-seconde-2025-DS3-correction.pdf){.eval-btn .correction}
 :::
 
 ::::
