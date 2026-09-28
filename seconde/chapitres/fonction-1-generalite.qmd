@@ -34,7 +34,21 @@ toc: false
         - [Titre affiché](../2025-DS-eval/fonction-1-generalite/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+:::: {.evals}
+
+::: {.eval}
+[Évaluation n°9]{.eval-titre}
+
+[Sujet](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-eval9-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-eval9-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[DS n°3]{.eval-titre}
+
+[Sujet](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/fonction-1-generalite/fonction1-seconde-2025-DS3-correction.pdf){.eval-btn .correction}
+:::
+
+::::
 
 :::
 
