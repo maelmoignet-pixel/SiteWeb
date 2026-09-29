@@ -18,7 +18,7 @@
     "href": "terminale-spe/index.html#bacs-blancs-et-ds",
     "title": "Spécialité mathématiques – Terminale",
     "section": "Bacs blancs et DS",
-    "text": "Bacs blancs et DS\n\n\n\n\n\n\n\n📁 2025 – Bac blanc et DS\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\nSuites\n\n\nDS n°2 14 octobre 2025\nSujet Correction\nSuites Loi binomiale\n\n\nDS n°3 4 décembre 2025\nSujet Correction\nLoi binomiale Limites de fonctions Somme de variables aléatoires\n\n\nDS n°4 6 janvier 2026\nSujet Correction\nSuites Limites de fonctions Dérivation\n\n\nDS n°5 14 mars 2026\nSujet Correction\nSuites Loi binomiale Espace 1 Limites de fonctions Somme de variables aléatoires Dérivation Fonction logarithme népérien Loi des grands nombres\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\nSuites Loi binomiale Espace 1 Limites de fonctions Dérivation\n\n\nBac blanc n°3 Mai 2026\nSujet Correction\nLoi binomiale Espace 1 Somme de variables aléatoires Dérivation Loi des grands nombres Primitives et équations différentielles Intégration Trigonométrie\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Bacs blancs et DS\n\n\n\n\n\n\n\n📁 2025 – Bac blanc et DS\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\nSuites\n\n\nDS n°2 14 octobre 2025\nSujet Correction\nSuites Loi binomiale\n\n\nDS n°3 4 décembre 2025\nSujet Correction\nLoi binomiale Limites de fonctions Somme de variables aléatoires\n\n\nDS n°4 6 janvier 2026\nSujet Correction\nSuites Limites de fonctions Dérivation\n\n\nDS n°5 14 mars 2026\nSujet Correction\nSuites Loi binomiale Espace 1 Limites de fonctions Somme de variables aléatoires Dérivation Fonction logarithme népérien Loi des grands nombres\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\nSuites Loi binomiale Espace 1 Limites de fonctions Dérivation\n\n\nBac blanc n°3 Mai 2026\nSujet Correction\nLoi binomiale Espace 1 Somme de variables aléatoires Dérivation Loi des grands nombres Primitives et équations différentielles Intégration Trigonométrie\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – Bac blanc et DS\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\nSuites\n\n\nBacs blancs\nDocuments bientôt disponibles."
   },
   {
     "objectID": "terminale-spe/index.html#liens-utiles",
@@ -182,25 +182,25 @@
     "text": "3.2 Droites\n\n3.2.1 Équation(s) cartésienne et paramétriques\nL’intersection de deux plans (\\mathcal{P}) et (\\mathcal{P}') non parallèles de l’espace est une droite, donc une droite \\mathcal{D} peut être donnée par un système de deux équations cartésiennes (SEC) :\n\n\\mathcal{D} :\n\\left\\{\n\\begin{array}{ll}\nax+by+cz+d=0 & (\\mathcal{P}) \\\\\na'x+b'y+c'z+d'=0 & (\\mathcal{P}')\n\\end{array}\n\\right.\n\n\nUne droite \\mathcal{D}_A passant par un point A(x_0,y_0,z_0) et dirigée par \\overrightarrow{u}(u_1,u_2,u_3) admet la représentation paramétrique :\n\n\\mathcal{D}_A :\n\\left\\{\n\\begin{array}{l}\nx=x_0+u_1t \\\\\ny=y_0+u_2t \\\\\nz=z_0+u_3t\n\\end{array}\n\\right| \\quad t\\in\\mathbb{R}\n\n\n\n\n3.2.2 Distance d’un point à une droite\n\nDistance d’un point à une droite\nSoient A un point de l’espace et d une droite de l’espace passant par un point B et de vecteur directeur \\overrightarrow{u}.\n\nLe projeté orthogonal H de A sur d est le point de la droite d le plus proche de A.\nLa distance AH est appelée distance du point A à la droite d.\n\n\n\nCette distance AH est égale à AH=\\left\\|\\overrightarrow{AB}-\\dfrac{\\overrightarrow{AB}\\cdot\\overrightarrow{u}}{\\|\\overrightarrow{u}\\|^2}\\overrightarrow{u}\\right\\|, mais en pratique on n’utilise pas cette formule directement : on la retrouve par le calcul.\n\n\n\n\n\n\n\n🔗 Figure interactive GeoGebra\n\n\nOn se place dans un repère orthonormé de l’espace. Soit d la droite passant par A(2;-5;3) et de vecteur directeur \\overrightarrow{u}\\begin{pmatrix}2\\\\2\\\\1\\end{pmatrix}. Quelle est la distance du point B(-1;2;-4) à la droite d ?\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nOn note H le projeté orthogonal de B sur la droite d. La distance du point B à la droite d est alors la distance BH.\nCoordonnées de H(x_H;y_H;z_H).\nH est le projeté orthogonal de B sur d donc \\overrightarrow{BH}\\cdot\\overrightarrow{u}=0 :\n\n(x_H+1)\\times 2+(y_H-2)\\times 2+(z_H+4)\\times 1=0\\Leftrightarrow 2x_H+2y_H+z_H=-2\n\nDe plus H est sur la droite d, donc ses coordonnées vérifient l’équation de la droite d. Déterminons une équation paramétrique de d. On a \\overrightarrow{AM}\\begin{pmatrix}x-2\\\\y+5\\\\z-3\\end{pmatrix} donc\n\nM(x;y;z)\\in d\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\overrightarrow{AM}=k\\overrightarrow{u}\\Leftrightarrow\\exists k\\in\\mathbb{R}\\ |\\ \\left\\{\\begin{array}{l}x-2=2k\\\\y+5=2k\\\\z-3=k\\end{array}\\right.\n\nAinsi les coordonnées de H vérifient le système :\n\n\\left\\{\\begin{array}{l}x_H=2k+2\\\\y_H=2k-5\\\\z_H=k+3\\\\2x_H+2y_H+z_H=-2\\end{array}\\right.\n\nOn trouve k=\\dfrac{1}{9} et donc H\\left(\\dfrac{20}{9};\\dfrac{-43}{9};\\dfrac{28}{9}\\right).\nDistance. Finalement, la distance recherchée est :\n\nBH=\\sqrt{\\left(\\dfrac{20}{9}+1\\right)^2+\\left(\\dfrac{-43}{9}-2\\right)^2+\\left(\\dfrac{28}{9}+4\\right)^2}\\approx 10.34"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html",
-    "href": "terminale-spe/chapitres/suites.html",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#cours",
-    "href": "terminale-spe/chapitres/suites.html#cours",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+    "text": "Cours\n\nCours bientôt disponible."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
     "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
@@ -1218,25 +1218,25 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html",
-    "href": "terminale-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
+    "title": "Suites",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
+    "title": "Suites",
     "section": "Cours",
-    "text": "Cours\n\nCours bientôt disponible."
+    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
   },
   {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
   },
   {
     "objectID": "terminale-spe/cours/limites-de-fonctions/limites-de-fonctions-terminale.html#somme",
