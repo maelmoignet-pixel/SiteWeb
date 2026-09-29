@@ -117,17 +117,34 @@ toc: false
 
 :::::
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – Bac blanc"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – Bac blanc et DS"}
 
-<!-- ➕ AJOUTER UN DOCUMENT :
-     1. Copie ton PDF dans le dossier  terminale-spe/2026-bac-blanc/  (sur ton disque)
-     2. Ajoute ici une ligne sur ce modèle :
-        - [Titre affiché](../2026-bac-blanc/nom-exact-du-fichier.pdf)
-     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+<!-- ➕ AJOUTER UNE ÉVALUATION : copie une carte complète (de ::: {.eval} à :::)
+     et colle-la dans le bon groupe, puis modifie :
+       - le titre et la date
+       - les deux liens (le nom doit être IDENTIQUE au fichier : majuscules, tirets, .pdf)
+         PDF des DS : 2026-DS-eval/...   PDF des bacs blancs : 2026-bac-blanc/...
+       - les chapitres dans la dernière ligne -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+[Devoirs surveillés]{.eval-groupe}
 
+:::: {.evals}
+
+::: {.eval}
+[DS n°1]{.eval-titre}
+
+[Sujet](2026-DS-eval/suites/suites-terminale-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](2026-DS-eval/suites/suites-terminale-2026-DS1-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag}]{.chapitres-tags}
 :::
+
+::::
+
+[Bacs blancs]{.eval-groupe}
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un bac blanc -->
+
+:::::
 
 ## Liens utiles
 

@@ -103,6 +103,18 @@ toc: false
 <!-- ➕ AJOUTER UNE ÉVALUATION : même principe que pour 2025,
      avec les dossiers ../2026-DS-eval/suites/ (et ../2026-DS-eval/ pour les DS) -->
 
+[Devoirs surveillés]{.eval-groupe}
+
+:::: {.evals}
+
+::: {.eval}
+[DS n°1]{.eval-titre}
+
+[Sujet](../2026-DS-eval/suites/suites-terminale-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/suites/suites-terminale-2026-DS1-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
 [Évaluations]{.eval-groupe}
 
 :::: {.evals}
