@@ -311,9 +311,9 @@ Au lieu d'utiliser cette notation sur deux lignes, on utilise la notation conden
 :::
 
 ::: {.proposition}
-Soit $a$ et $r$ deux réels avec $r>0$.
+Soient $a$ et $r$ deux réels avec $r>0$.
 
-$|x-a|\leqslant r$ équivaut à $x\in[a-r;a+r]$.
+Pour tout réel $x$, $|x-a|\leqslant r$ équivaut à $x\in[a-r;a+r]$.
 :::
 
 ::: {.illustration}
@@ -325,7 +325,7 @@ $|x-a|\leqslant r$ équivaut à $x\in[a-r;a+r]$.
 ## Équations
 
 ::: {.definition}
-On appelle équation produit nulle une équation du type $A(x)\times B(x)=0$.
+On appelle équation produit nul une équation du type $A(x)\times B(x)=0$.
 :::
 
 ::: {.proposition}
@@ -352,7 +352,7 @@ $S=\left\{-\dfrac{1}{3};4\right\}$
 :::
 
 ::: {.definition}
-On appelle équation quotient nulle une équation du type $\dfrac{A(x)}{B(x)}=0$ avec $B(x)\neq 0$.
+On appelle équation quotient nul une équation du type $\dfrac{A(x)}{B(x)}=0$ avec $B(x)\neq 0$.
 :::
 
 ::: {.proposition}
@@ -380,7 +380,7 @@ $S=\left\{\dfrac{5}{3}\right\}$
 ## Inéquations
 
 ::: {.definition}
-On appelle équation du premier degré une équation du type $ax+b=0$ avec $a\neq 0$. On appelle inéquation du premier degré une inéquation du type $ax+b\geqslant 0$ ou $ax+b\leqslant 0$.
+On appelle équation du premier degré une équation du type $ax+b=0$ avec $a\neq 0$. On appelle inéquation du premier degré une inéquation du type $ax+b>0$, $ax+b\geqslant 0$, $ax+b<0$ ou $ax+b\leqslant 0$ avec $a\neq 0$.
 :::
 
 ::: {.remarque}

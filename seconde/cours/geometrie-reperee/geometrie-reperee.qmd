@@ -339,7 +339,7 @@ On note $N$ le milieu de $[SU]$. $N\left(\dfrac{-2+3}{2};\dfrac{0+5}{2}\right)$ 
 
 **3.**
 
-Le repère $(O;I,J)$ est orthonormé, on peut donc utiliser la formule de la distance :
+Le repère $(O;I;J)$ est orthonormé, on peut donc utiliser la formule de la distance :
 
 $$
 \begin{align*}
