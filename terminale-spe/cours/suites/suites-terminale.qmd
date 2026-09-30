@@ -338,7 +338,7 @@ Une suite $(u_n)_{n\in \N}$ croissante ou décroissante est dite monotone.
 On définit de même une suite strictement croissante (ou strictement décroissante) en utilisant une inégalité stricte.
 :::
 
-## Etude du sens de variation
+## Étude du sens de variation
 
 ::: {.methode}
 Lorsqu'on cherche à déterminer les variations d'une suite $(u_n)_{n\in \N}$ on peut :\
@@ -349,7 +349,7 @@ Lorsqu'on cherche à déterminer les variations d'une suite $(u_n)_{n\in \N}$ on
 
     -   si $u_{n+1}-u_n \le 0$ alors $u_{n+1} \le u_n$ et donc $(u_n)$ est décroissante.
 
-2.  si la suite est définie par $u_n=f(n)$ où $f$ est une fonction connue. On étudie les variations de $f$ sur $[0;+\infty[$ :
+2.  si la suite est définie par $u_n=f(n)$ où $f$ est une fonction connue, étudier les variations de $f$ sur $[0;+\infty[$ :
 
     -   si $f$ est croissante alors $(u_n)$ est croissante.
 
@@ -367,7 +367,7 @@ Lorsqu'on cherche à déterminer les variations d'une suite $(u_n)_{n\in \N}$ on
 
 2.  Soit $(v_n)_{n\in \N}$ la suite définie par $v_n=\dfrac{3}{n+2}$.\
 
-3.  Soit $(w_n)_{n\in \N}$la suite définie par $w_n=\dfrac{3^n}{4^{n+2}}$.\
+3.  Soit $(w_n)_{n\in \N}$ la suite définie par $w_n=\dfrac{3^n}{4^{n+2}}$.\
 
 4.  Soit $(z_n)_{n\in \N}$ la suite définie par $z_n=(-1)^n$.
 :::
@@ -378,16 +378,16 @@ Lorsqu'on cherche à déterminer les variations d'une suite $(u_n)_{n\in \N}$ on
 1.  Soit $(u_n)_{n\in \N}$ la suite définie par $u_n=\dfrac{n+1}{2^n}$.\
     $u_{n+1}-u_n=\dfrac{n+2}{2^{n+1}}-\dfrac{n+1}{2^n}=\dfrac{n+2-2(n+1)}{2^{n+1}}=\dfrac{n+2-2n-2}{2^{n+1}}=\dfrac{-n}{2^{n+1}}$\
     Comme $2^{n+1}>0$ et $-n \le 0$, alors $u_{n+1}-u_n \le 0$\
-    La suite $(u_n)_{n\in \N}$ est donc strictement décroissante sur $\N$.
+    La suite $(u_n)_{n\in \N}$ est donc décroissante sur $\N$.
 
 2.  Soit $(v_n)_{n\in \N}$ la suite définie par $v_n=\dfrac{3}{n+2}$.\
     Soit $f$ la fonction associée à $(v_n)$ définie sur $[0;+\infty[$ par $f(x)=\dfrac{3}{x+2}$.\
     La fonction $f$ est dérivable sur $\R^+$ et $f'(x)=-\dfrac{3}{(x+2)^2} < 0$.\
     Ainsi la fonction $f$ est décroissante sur $\R^+$, et donc la suite $(v_n)_{n\in \N}$ est décroissante.
 
-3.  Soit $(w_n)_{n\in \N}$la suite définie par $w_n=\dfrac{3^n}{4^{n+2}}$.\
+3.  Soit $(w_n)_{n\in \N}$ la suite définie par $w_n=\dfrac{3^n}{4^{n+2}}$.\
     $(w_n)_{n\in \N}$ est à termes strictement positifs.\
-    $\dfrac{w_{n+1}}{w_n}=\dfrac{\dfrac{3^{n+1}}{4^{n+3}}}{\dfrac{3^n}{4^{n+2}}}=\dfrac{3^{n+1}}{4^{n+3}}\times \dfrac{4^{n+2}}{3^n}=\dfrac{3^{n+1}}{3^n}\times \dfrac{4^{n+2}}{4^{n+1}}=3\times \dfrac{1}{4}=\dfrac{3}{4}$\
+    $\dfrac{w_{n+1}}{w_n}=\dfrac{\dfrac{3^{n+1}}{4^{n+3}}}{\dfrac{3^n}{4^{n+2}}}=\dfrac{3^{n+1}}{4^{n+3}}\times \dfrac{4^{n+2}}{3^n}=\dfrac{3^{n+1}}{3^n}\times \dfrac{4^{n+2}}{4^{n+3}}=3\times \dfrac{1}{4}=\dfrac{3}{4}$\
     Ainsi, pour tout $n$ entier naturel, on a $\dfrac{w_{n+1}}{w_n}<1$ donc la suite $(w_n)_{n\in \N}$ est strictement décroissante.
 
 4.  Soit $(z_n)_{n\in \N}$ la suite définie par $z_n=(-1)^n$.\
@@ -481,7 +481,7 @@ Pour tout ${n\in \N}$, $u_{n+1}-u_n=r$
 
 -   Si $r<0$, alors $u_{n+1}-u_n<0$ et donc la suite est strictement décroissante ;
 
--   Si $r=0$, alors $u_{n+1}-u_n+0$ et donc la suite est constante.
+-   Si $r=0$, alors $u_{n+1}-u_n=0$ et donc la suite est constante.
 :::
 
 ::: {.exemple}
@@ -503,10 +503,10 @@ Pour tout $n\in \N^*$, $\displaystyle\sum_{i=1}^n i=1+2+3+...+n=\frac{n(n+1)}{2}
 :::{.callout-caution collapse="true"}
 ## Solution
 
-méthode de Gauss (mathématicien allemand du XVIII-XIX siècle)\
+Méthode de Gauss (mathématicien allemand des XVIII^e^-XIX^e^ siècles)\
 On écrit la somme dans l'ordre croissant des termes puis dans l'ordre décroissant des termes :\
 $S=1+2+3+...+(n-2)+(n-1)+n$\
-$S=n+(n-1)+(n-2)+...3+2+1$\
+$S=n+(n-1)+(n-2)+...+3+2+1$\
 Par somme, membre à membre, on obtient :\
 $2S=(1+n)+(1+n)+(1+n)+...+(1+n)+(1+n)+(1+n)$\
 $2S=n(n+1)$\
@@ -641,11 +641,11 @@ Soit $n\in \N$, $u_{n+1}-u_n=u_0 \times q^{n+1}-u_0 \times q^n=u_0 \times q^n(q-
 :::
 
 ::: {.application}
-Etudier la monotonie des suites suivantes:
+Étudier la monotonie des suites suivantes :
 
 1.  Soit $(u_n)_{n\in \N}$ la suite définie par $u_0=2$ et $u_{n+1}=2{u_n}$\
 
-2.  Soit $(v_n)_{n\in \N}$ la suite définie par $u_0=-5$ et $v_{n+1}=0,5v_n$.\
+2.  Soit $(v_n)_{n\in \N}$ la suite définie par $v_0=-5$ et $v_{n+1}=0,5v_n$.\
 :::
 
 :::{.callout-caution collapse="true"}
@@ -655,7 +655,7 @@ Etudier la monotonie des suites suivantes:
     La suite $(u_n)$ est géométrique de raison $q=2>1$ et de premier terme $u_0=2>0$.\
     Donc la suite $(u_n)$ est croissante.
 
-2.  Soit $(v_n)_{n\in \N}$ la suite définie par $u_0=-5$ et $v_{n+1}=0,5v_n$.\
+2.  Soit $(v_n)_{n\in \N}$ la suite définie par $v_0=-5$ et $v_{n+1}=0,5v_n$.\
     La suite $(v_n)$ est géométrique de raison $q=0,5 \in ]0;1[$ et de premier terme $v_0=-5<0$.\
     Donc la suite $(v_n)$ est croissante.
 :::
@@ -685,14 +685,14 @@ Calculer la somme S=4-8+16-32+64-\...+4096-8192.
 :::{.callout-caution collapse="true"}
 ## Solution
 
-$S=(-2)^2+(-2)^3+(-2)^4+(-2)^5+(-2)^6+...+(-2)^12+(-2)^13$\
-$S=(-2)^2(1+(-2)+(-2)^2+(-3)^3+(-2)^4+...+(-2)^11)$\
-$S=4 \times \frac{1-(-2)^12}{1-(-2)}$\
+$S=(-2)^2+(-2)^3+(-2)^4+(-2)^5+(-2)^6+...+(-2)^{12}+(-2)^{13}$\
+$S=(-2)^2(1+(-2)+(-2)^2+(-2)^3+(-2)^4+...+(-2)^{11})$\
+$S=4 \times \frac{1-(-2)^{12}}{1-(-2)}$\
 $S=-5460$\
 On peut aussi poser
 $(u_n)_{n\in \N} : 
     \begin{cases}u_0 = 4 \\ u_{n+1} = -2u_n\end{cases}$
-et S est alors la somme des 11 premiers termes de la suite $(u_n)$.
+et $S$ est alors la somme des 12 premiers termes de la suite $(u_n)$.
 :::
 
 # Raisonnement par récurrence
@@ -703,12 +703,12 @@ Notons $P_n$ cette propriété.\
 La démonstration s'opère en 3 étapes:
 
 -   Étape 1 : Initialisation\
-    On démontre que $P_n$ est vraie au premier rang (en général $n=0$, $n=1$).\
+    On démontre que $P_n$ est vraie au premier rang (en général $n=0$ ou $n=1$).\
 
 -   Étape 2 : Hérédité\
-    On suppose que la propriété est vraie pour un certain rang $P_k$, et on montre que dans ce cas, la propriété reste vrai au rang d'après. Autrement dit, on suppose que $P_k$ est vraie et on montre que $P_{k+1}$ est vraie.
+    On suppose que la propriété est vraie pour un certain rang $k$, et on montre que dans ce cas, la propriété reste vraie au rang suivant. Autrement dit, on suppose que $P_k$ est vraie et on montre que $P_{k+1}$ est vraie.
 
--   Etape 3: Conclusion:\
+-   Étape 3 : Conclusion\
     Si $P_0$ est vraie, grâce à l'hérédité $P_1$ est vraie et donc $P_2$ aussi \...\
     Donc, $\forall n \in \N$, $P_n$ vraie.
 :::
@@ -741,7 +741,7 @@ Soit $n\in \N^*$. On note $P_n : "S_n=1+2+3+...+n=\frac{n(n+1)}{2}"$\
 
 -   Conclusion:\
     $P_1$ est vraie.\
-    $\forall k \in \N^*$, $P_k\Rightarrow P_{n+1}$\
+    $\forall k \in \N^*$, $P_k\Rightarrow P_{k+1}$\
     Donc, $\forall n \in \N^*$, $S_n=1+2+3+...+n=\frac{n(n+1)}{2}$.\
 :::
 
@@ -750,7 +750,7 @@ Soit $n\in \N^*$. On note $P_n : "S_n=1+2+3+...+n=\frac{n(n+1)}{2}"$\
 ## Limites infinies
 
 ::: {.definition}
-**Définition "instinctive" de la limite infinie d'une suite:**
+**Définition "intuitive" de la limite infinie d'une suite:**
 
 -   On dit qu'une suite $(u_n)$ tend vers $+\infty$ lorsque, pour tout réel $A$, l'intervalle $]A;+\infty[$ contient tous les termes de la suite à partir d'un certain rang. On note $\lim\limits_{n \to +\infty} u_n=+\infty$ .
 
@@ -801,14 +801,14 @@ Soit $A \in \R^{+*}$,\
 $$\begin{aligned}
         u_n>A &\Leftrightarrow 4n-1>A \\
         &\Leftrightarrow 4n>A+1 \\
-        &\Leftrightarrow n>\frac{A+1}{4} \text{ car 4>0}
+        &\Leftrightarrow n>\frac{A+1}{4} \text{ car } 4>0
 \end{aligned}$$
 Soit $n_0$ l'entier immédiatement supérieur à $\frac{A+1}{4}$. Ainsi on a bien: $\forall n \geq n_0,~u_n\geq A$\
 Donc, $\lim\limits_{n \to +\infty} u_n=+\infty$
 :::
 
 ::: {.proposition}
-**Limites en l'infinie des suites de références:**
+**Limites en l'infini des suites de référence:**
 
 -   $\lim\limits_{n \to +\infty} n=+\infty$
 
@@ -875,7 +875,7 @@ Le deuxième point de la proposition se démontre de manière analogue.
 ## Limites finies
 
 ::: {.definition}
-**Définition "instinctive" de la limite finie d'une suite:**
+**Définition "intuitive" de la limite finie d'une suite:**
 On dit qu'une suite $(u_n)$ tend vers un réel $\ell$ lorsque tout intervalle ouvert contenant $\ell$ contient tous les termes de la suite à partir d'un certain rang.\
 On note $\lim\limits_{n \to +\infty} u_n=\ell$.
 :::
@@ -883,7 +883,7 @@ On note $\lim\limits_{n \to +\infty} u_n=\ell$.
 ::: {.definition}
 **Définition formelle de la limite finie d'une suite:**
 On dit qu'une suite $(u_n)$ tend vers un réel $\ell$ lorsque:\
-$$\forall \epsilon>0,~\exists n_0 \in \N,~\forall n \in \N,~n\geq n_0 \Rightarrow u_n\in ]\ell -\epsilon;\ell+\epsilon[$$
+$$\forall \varepsilon>0,~\exists n_0 \in \N,~\forall n \in \N,~n\geq n_0 \Rightarrow u_n\in ]\ell -\varepsilon;\ell+\varepsilon[$$
 :::
 
 ::: {.vocabulaire}
@@ -908,9 +908,9 @@ Soit $\varepsilon \in \R^{+*}$,
 $$\begin{aligned}
         u_n \in ]2-\varepsilon;2+\varepsilon[ &\Leftrightarrow 2-\varepsilon < 2-\frac{1}{n} < 2+\varepsilon \\
         &\Leftrightarrow -\varepsilon < -\frac{1}{n} < \varepsilon \\
-        &\Leftrightarrow \varepsilon > \frac{1}{n} > -\varepsilon \text{ car -1<0} \\
+        &\Leftrightarrow \varepsilon > \frac{1}{n} > -\varepsilon \text{ car } -1<0 \\
         &\Leftrightarrow \varepsilon > \frac{1}{n} \text{ car } \forall n \in \N \frac{1}{n} > -\varepsilon \\
-        &\Leftrightarrow \frac{1}{\varepsilon} < n \text{ car la fonction inverse est décroissante sur } \R^{-*}
+        &\Leftrightarrow \frac{1}{\varepsilon} < n \text{ car la fonction inverse est strictement décroissante sur } ]0;+\infty[
 \end{aligned}$$
 Soit $n_0$ l'entier immédiatement supérieur à $\frac{1}{\varepsilon}$.\
 Ainsi on a bien $\forall n \in \N,~ n \ge n_0 \Rightarrow u_n \in ]2-\varepsilon;2+\varepsilon[$\
@@ -944,7 +944,7 @@ Soit $\varepsilon \in \R^{+*}$,
     $\Leftrightarrow \sqrt{n} > \frac{1}{\varepsilon}$ car la fonction inverse est strictement décroissante sur $]0;+\infty[$\
     $\Leftrightarrow n > \frac{1}{\varepsilon^2}$ car la fonction carrée est strictement croissante sur $[0;+\infty[$\
     Ainsi, en prenant comme valeur de $n_0$ le plus petit entier supérieur à $\frac{1}{\varepsilon^2}$, on a bien :\
-    Pour tout réel $\varepsilon>0$, il existe une valeur $n_0$ telle que $n \ge n_0 \Rightarrow u_n \in ]-\varepsilon;\varepsilon[$.
+    Pour tout réel $\varepsilon>0$, il existe une valeur $n_0$ telle que $n \ge n_0 \Rightarrow u_n \in ]-\varepsilon;\varepsilon[$. Donc,
     $\lim\limits_{n \to +\infty} \frac{1}{\sqrt{n}}=0$
 
 3.  Cette propriété est admise pour le moment mais pourra être démontrée avec les opérations sur les limites.
@@ -977,7 +977,7 @@ Posons $h=\dfrac{l'-l}{3}$.\
 
     $$\forall n>B,~u_n\in ]l'-h;l'+h[$$
 
--   Soit $C=max(A;B)$. Alors:
+-   Soit $C=\max(A;B)$. Alors:
 
     $$\forall n>C,~u_n\in ]l-h;l+h[ \cap ]l'-h;l'+h[$$
 
@@ -986,7 +986,7 @@ Posons $h=\dfrac{l'-l}{3}$.\
     $$\begin{aligned}
             l'-h-(l+h)&=l'-h-l-h \\
             &=l'-l-2h \\
-            &=l'-l\dfrac{2l'-2l}{3} \\
+            &=l'-l-\dfrac{2l'-2l}{3} \\
             &=\dfrac{3l'-3l-2l'+2l}{3} \\
             &=\dfrac{l'-l}{3}\\
             &>0
@@ -1010,7 +1010,7 @@ Soit $(u_n)_{n\in \N}$ la suite définie par $u_0=0,7$ et $u_{n+1}=0,92u_n+0,3$.
 
 1.  Montrer que, pour tout entier naturel $n$, $u_n\le u_{n+1} \le 4$.\
 
-2.  Montrer que, $(u_n)$ converge vers un réel $\ell$.\
+2.  Montrer que $(u_n)$ converge vers un réel $\ell$.\
 
 3.  On admet (pour le moment) que $\ell$ est solution de l'équation $x=0,92x+0,3$. Déterminer la valeur de $\ell$. (voir le résultat sur le théorème du point fixe).
 :::
@@ -1112,22 +1112,22 @@ Soient $(u_n)_{n\in \N}$, $(v_n)_{n\in \N}$, $(w_n)_{n\in \N}$ et $(z_n)_{n\in \
 
 Dans ces 4 exemples, on est face à des formes indéterminées.
 
-1.  Pour lever cette indéterminée, on factorise l'expression : Soit ${n\in \N}$, $u_n=n(n-1)$\
+1.  Pour lever cette indétermination, on factorise l'expression : Soit ${n\in \N}$, $u_n=n(n-1)$\
     $\lim\limits_{n \to +\infty} n=+\infty$ et, par somme, $\lim\limits_{n \to +\infty} (n-1)=+\infty$\
     donc, par produit, $\lim\limits_{n \to +\infty} u_n=+\infty$
 
-2.  Pour lever cette indéterminée, on factorise le numérateur et le dénominateur par le monôme de plus haut degré puis on simplifie : Soit ${n\in \N^*}$, $v_n=\frac{n^2\times 4}{n(1+\frac{1}{n})}=\frac{4n}{1+\frac{1}{n}}$\
+2.  Pour lever cette indétermination, on factorise le numérateur et le dénominateur par le monôme de plus haut degré puis on simplifie : Soit ${n\in \N^*}$, $v_n=\frac{n^2\times 4}{n(1+\frac{1}{n})}=\frac{4n}{1+\frac{1}{n}}$\
     $\lim\limits_{n \to +\infty} n=+\infty$ donc, par produit, $\lim\limits_{n \to +\infty} 4n=+\infty$\
     et $\lim\limits_{n \to +\infty} \frac{1}{n}=0$ donc, par somme, $\lim\limits_{n \to +\infty} (1+\frac{1}{n})=1$\
     donc, par quotient, $\lim\limits_{n \to +\infty} v_n=+\infty$
 
-3.  Pour lever cette indéterminée, on utilise l'expression conjuguée :\
+3.  Pour lever cette indétermination, on utilise l'expression conjuguée :\
     Soit ${n\in \N}$, $w_n=\frac{(\sqrt{n+1}-\sqrt{n})(\sqrt{n+1}+\sqrt{n})}{\sqrt{n+1}+\sqrt{n}}=\frac{n+1-n}{\sqrt{n+1}+\sqrt{n}}=\frac{1}{\sqrt{n+1}+\sqrt{n}}$\
     $\lim\limits_{n \to +\infty} \sqrt{n}=+\infty$ et par composition, $\lim\limits_{n \to +\infty} \sqrt{n+1}=+\infty$\
     donc, par somme $\lim\limits_{n \to +\infty} (\sqrt{n+1}+\sqrt{n})=+\infty$\
     donc, par quotient, $\lim\limits_{n \to +\infty} w_n=0$
 
-4.  Pour lever cette indéterminée, on développe et on simplifie l'expression : Soit ${n\in \N^*}$, $z_n=n-\frac{2}{n}$\
+4.  Pour lever cette indétermination, on développe et on simplifie l'expression : Soit ${n\in \N^*}$, $z_n=n-\frac{2}{n}$\
     $\lim\limits_{n \to +\infty} n=+\infty$ et $\lim\limits_{n \to +\infty} \frac{2}{n}=0$\
     donc, par somme, $\lim\limits_{n \to +\infty} z_n=+\infty$
 :::
@@ -1137,7 +1137,7 @@ Dans ces 4 exemples, on est face à des formes indéterminées.
 ### Théorème de comparaison
 
 ::: {.theoreme}
-**Théorème de Comparaison**
+**Théorème de comparaison**
 Soient $(u_n)_{n\in \N}$, $(v_n)_{n\in \N}$ deux suites telles que $u_n \le v_n$ à partir d'un certain rang.
 
 -   Si $\lim\limits_{n \to +\infty} u_n=+\infty$ alors $\lim\limits_{n \to +\infty} v_n=+\infty$.
@@ -1160,22 +1160,22 @@ Soient $(u_n)_{n\in \N}$, $(v_n)_{n\in \N}$ deux suites telles que $u_n \le v_n$
     Par hypothèse, il existe un rang $n_0$ tel que, pour tout $n \ge n_0$, $u_n \le v_n$.\
     De plus, comme $\lim\limits_{n \to +\infty} u_n=+\infty$ alors il existe $n_p \in \N$ tel que, pour tout $n \ge n_p$, $u_n>A$.\
     Ainsi, pour tout entier n tel que $n \ge n_0$ et $n \ge n_p$, $v_n \ge u_n>A$\
-    En choisissant $N=max(n_0;p)$, on obtient que : pour tout $n \ge N$, $v_n>A$. Donc, $\lim\limits_{n \to +\infty} v_n=+\infty$.
+    En choisissant $N=\max(n_0;n_p)$, on obtient que : pour tout $n \ge N$, $v_n>A$. Donc, $\lim\limits_{n \to +\infty} v_n=+\infty$.
 
 -   On démontre le second point de manière analogue.
 :::
 
 ::: {.application}
-Soient $(u_n)_{n\in \N}$ et $(v_n)_{n\in \N}$ les suites définies par $u_n=n+2sin(n)$, $v_n=-n^2-n+(-1)^n$. Déterminer la limites de ces suites en $+\infty$
+Soient $(u_n)_{n\in \N}$ et $(v_n)_{n\in \N}$ les suites définies par $u_n=n+2\sin(n)$, $v_n=-n^2-n+(-1)^n$. Déterminer les limites de ces suites en $+\infty$.
 :::
 
 :::{.callout-caution collapse="true"}
 ## Solution
 
-1.  On ne peut pas déterminer directement la limite de la suite $(u_n)$ car la suite $(sin(n))$ n'a pas de limite.\
-    Soit $n\in \N$, $-1 \le sin(n) \le 1$
-    $\Leftrightarrow -2 \le 2sin(n) \le 2$
-    $\Leftrightarrow n-2 \le n+2sin(n) \le n+2$\
+1.  On ne peut pas déterminer directement la limite de la suite $(u_n)$ car la suite $(\sin(n))$ n'a pas de limite.\
+    Soit $n\in \N$, $-1 \le \sin(n) \le 1$
+    $\Leftrightarrow -2 \le 2\sin(n) \le 2$
+    $\Leftrightarrow n-2 \le n+2\sin(n) \le n+2$\
     Or, par somme, $\lim\limits_{n \to +\infty} (n-2)=+\infty$\
     D'après le théorème de comparaison : $\lim\limits_{n \to +\infty} u_n=+\infty$.
 
@@ -1191,7 +1191,7 @@ Soient $(u_n)_{n\in \N}$ et $(v_n)_{n\in \N}$ les suites définies par $u_n=n+2s
 ::: {.theoreme}
 **Théorème des gendarmes (ou d'encadrement)**
 Soient $(u_n)_{n\in \N}$, $(v_n)_{n\in \N}$ et $(w_n)_{n\in \N}$ trois suites telles que $u_n \le v_n \le w_n$ à partir d'un certain rang. Soit $\ell$ un réel.\
-Si $(u_n)$ et $(w_n)$ converge vers $\ell$ alors $(v_n)$ converge vers $\ell$.
+Si $(u_n)$ et $(w_n)$ convergent vers $\ell$ alors $(v_n)$ converge vers $\ell$.
 :::
 
 ::: {.illustration}
@@ -1205,7 +1205,7 @@ Soient $\alpha \in \R^{+*}$ et $\beta \in \R^{+*}$,\
 Comme $\lim\limits_{n \to +\infty} u_n=\ell$ alors il existe un rang $n_1$ tel que, pour tout $n \ge n_1$, $u_n \in ]\ell-\alpha;\ell+\alpha[$\
 Comme $\lim\limits_{n \to +\infty} w_n=\ell$ alors il existe un rang $n_2$ tel que, pour tout $n \ge n_2$, $w_n \in ]\ell-\beta;\ell+\beta[$\
 Par hypothèse, il existe un rang $n_3$ tel que, pour tout $n \ge n_3$, $u_n \le v_n \le w_n$.\
-En choisissant $N=max(n_1;n_2;n_3)$, on obtient que : pour tout $n \ge N$, $\ell-\alpha < u_n \le v_n \le w_n < \ell+\beta$. L'intervalle $]\ell-\alpha; \ell+\beta[$ contient donc toutes les valeurs $v_n$ pour $n$ assez grand. Donc, $\lim\limits_{n \to +\infty} w_n=\ell$.
+En choisissant $N=\max(n_1;n_2;n_3)$, on obtient que : pour tout $n \ge N$, $\ell-\alpha < u_n \le v_n \le w_n < \ell+\beta$. L'intervalle $]\ell-\alpha; \ell+\beta[$ contient donc toutes les valeurs $v_n$ pour $n$ assez grand. Donc, $\lim\limits_{n \to +\infty} v_n=\ell$.
 :::
 
 ::: {.application}
@@ -1217,7 +1217,7 @@ Soit $(u_n)_{n\in \N^*}$ la suite définie par $u_n=3+\frac{(-1)^n}{n}$. Déterm
 
 Soit ${n\in \N^*}$, $-1 \le (-1)^n \le 1$
 $\Leftrightarrow \frac{-1}{n} \le \frac{(-1)^n}{n} \le \frac{1}{n}$ car $n>0$\
-$\Leftrightarrow 3-\frac{1}{n} \le 3-\frac{(-1)^n}{n} \le 3+\frac{1}{n}$\
+$\Leftrightarrow 3-\frac{1}{n} \le 3+\frac{(-1)^n}{n} \le 3+\frac{1}{n}$\
 Or, $\lim\limits_{n \to +\infty} (3-\frac{1}{n})=\lim\limits_{n \to +\infty} (3+\frac{1}{n})=3$\
 D'après le théorème des gendarmes : $\lim\limits_{n \to +\infty} u_n=3$.
 :::
@@ -1254,12 +1254,12 @@ Supposons $P_n$ vraie pour un entier naturel $n$ quelconque.\
 $(1+a)^n \ge 1+na$\
 $\Leftrightarrow (1+a)^{n+1} \ge (1+a)(1+na)$ car $(1+a)>0$\
 $\Leftrightarrow (1+a)^{n+1} \ge 1+na+a+na^2$\
-$\Leftrightarrow (1+a)^{n+1} \ge 1+(n+1)a+na^2>1+(n+1)a$ car $na^2 \ge 0$\
+$\Leftrightarrow (1+a)^{n+1} \ge 1+(n+1)a+na^2 \ge 1+(n+1)a$ car $na^2 \ge 0$\
 Ainsi, $P_{n+1}$ vraie.\
 <u>Conclusion :</u>\
 $P_0$ est vraie.\
 $\forall n \in \N$, $P_n$ vraie $\Rightarrow$ $P_{n+1}$ vraie.\
-Donc,$\forall a \in \R^{+*}$, $\forall n \in \N$, $(1+a)^n \ge 1+na$.\
+Donc, $\forall a \in \R^{+*}$, $\forall n \in \N$, $(1+a)^n \ge 1+na$.\
 :::
 
 ::: {.proposition}
