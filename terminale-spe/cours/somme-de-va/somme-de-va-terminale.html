@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Mathématiques au Lycée - Second degré</title>
+<title>Mathématiques au Lycée - Somme de variables aléatoires</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4689,6 +4689,7 @@ vertical-align: -.125em;
     "search-label": "Recherche"
   }
 }</script>
+<meta name="google" content="notranslate">
 
   
   <script>
@@ -4995,26 +4996,16 @@ content: "🔗 ";
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#fonction-polynôme-du-second-degré" id="toc-fonction-polynôme-du-second-degré" class="nav-link active" data-scroll-target="#fonction-polynôme-du-second-degré"><span class="header-section-number">1</span> Fonction polynôme du second degré</a>
+  <li><a href="#somme-de-variables-aléatoires" id="toc-somme-de-variables-aléatoires" class="nav-link active" data-scroll-target="#somme-de-variables-aléatoires"><span class="header-section-number">1</span> Somme de variables aléatoires</a>
   <ul class="collapse">
-  <li><a href="#définition" id="toc-définition" class="nav-link" data-scroll-target="#définition"><span class="header-section-number">1.1</span> Définition</a></li>
-  <li><a href="#forme-canonique" id="toc-forme-canonique" class="nav-link" data-scroll-target="#forme-canonique"><span class="header-section-number">1.2</span> Forme canonique</a>
-  <ul class="collapse">
-  <li><a href="#exemples" id="toc-exemples" class="nav-link" data-scroll-target="#exemples"><span class="header-section-number">1.2.1</span> Exemples</a></li>
-  <li><a href="#cas-général" id="toc-cas-général" class="nav-link" data-scroll-target="#cas-général"><span class="header-section-number">1.2.2</span> Cas général</a></li>
+  <li><a href="#définitions" id="toc-définitions" class="nav-link" data-scroll-target="#définitions"><span class="header-section-number">1.1</span> Définitions</a></li>
+  <li><a href="#espérance-dune-somme-de-variables-aléatoires" id="toc-espérance-dune-somme-de-variables-aléatoires" class="nav-link" data-scroll-target="#espérance-dune-somme-de-variables-aléatoires"><span class="header-section-number">1.2</span> Espérance d’une somme de variables aléatoires</a></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">1.3</span> Variance</a></li>
   </ul></li>
-  <li><a href="#étude-des-fonctions-polynomiales-du-second-degré" id="toc-étude-des-fonctions-polynomiales-du-second-degré" class="nav-link" data-scroll-target="#étude-des-fonctions-polynomiales-du-second-degré"><span class="header-section-number">1.3</span> Étude des fonctions polynomiales du second degré</a></li>
-  </ul></li>
-  <li><a href="#équation-du-second-degré" id="toc-équation-du-second-degré" class="nav-link" data-scroll-target="#équation-du-second-degré"><span class="header-section-number">2</span> Équation du second degré</a>
+  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">2</span> Applications</a>
   <ul class="collapse">
-  <li><a href="#généralités" id="toc-généralités" class="nav-link" data-scroll-target="#généralités"><span class="header-section-number">2.1</span> Généralités</a></li>
-  <li><a href="#résolution-dune-équation-du-second-degré" id="toc-résolution-dune-équation-du-second-degré" class="nav-link" data-scroll-target="#résolution-dune-équation-du-second-degré"><span class="header-section-number">2.2</span> Résolution d’une équation du second degré</a></li>
-  </ul></li>
-  <li><a href="#propriété-des-trinômes" id="toc-propriété-des-trinômes" class="nav-link" data-scroll-target="#propriété-des-trinômes"><span class="header-section-number">3</span> Propriété des trinômes</a>
-  <ul class="collapse">
-  <li><a href="#somme-et-produit-des-racines" id="toc-somme-et-produit-des-racines" class="nav-link" data-scroll-target="#somme-et-produit-des-racines"><span class="header-section-number">3.1</span> Somme et produit des racines</a></li>
-  <li><a href="#factorisation" id="toc-factorisation" class="nav-link" data-scroll-target="#factorisation"><span class="header-section-number">3.2</span> Factorisation</a></li>
-  <li><a href="#étude-de-signe" id="toc-étude-de-signe" class="nav-link" data-scroll-target="#étude-de-signe"><span class="header-section-number">3.3</span> Étude de signe</a></li>
+  <li><a href="#loi-binomiale" id="toc-loi-binomiale" class="nav-link" data-scroll-target="#loi-binomiale"><span class="header-section-number">2.1</span> Loi binomiale</a></li>
+  <li><a href="#échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées" id="toc-échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées" class="nav-link" data-scroll-target="#échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées"><span class="header-section-number">2.2</span> Échantillons de <span class="math inline">n</span> variables aléatoires indépendantes et identiquement distribuées</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -5024,7 +5015,7 @@ content: "🔗 ";
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Second degré</h1>
+<h1 class="title">Somme de variables aléatoires</h1>
 </div>
 
 
@@ -5046,12 +5037,17 @@ content: "🔗 ";
 :root {
 --def-color: #2563eb;
 --prop-color: #7c3aed;
+--theo-color: #c026d3;
 --voc-color: #0d9488;
 --rem-color: #d97706;
 --ex-color: #16a34a;
 --app-color: #ea580c;
+--not-color: #4f46e5;
+--meth-color: #dc2626;
+--ill-color: #475569;
 }
-.definition, .proposition, .vocabulaire, .remarque, .exemple, .application {
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
 margin: 1.5em 0;
 padding: 1em 1.3em 1em 1.3em;
 border-radius: 10px;
@@ -5059,8 +5055,9 @@ border-left: 6px solid;
 box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 font-family: "Georgia", serif;
 }
-.definition::before, .proposition::before, .vocabulaire::before,
-.remarque::before, .exemple::before, .application::before {
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
 display: block;
 font-family: "Helvetica Neue", Arial, sans-serif;
 font-weight: 700;
@@ -5086,6 +5083,15 @@ color: #3b2467;
 .proposition::before {
 content: "📐 Proposition";
 color: var(--prop-color);
+}
+.theoreme {
+background: #fdf4ff;
+border-color: var(--theo-color);
+color: #701a75;
+}
+.theoreme::before {
+content: "🏛️ Théorème";
+color: var(--theo-color);
 }
 .vocabulaire {
 background: #f0fdfa;
@@ -5125,6 +5131,33 @@ content: "✏️ Application";
 color: var(--app-color);
 font-size: 1.05em;
 }
+.notation {
+background: #eef2ff;
+border-color: var(--not-color);
+color: #312e81;
+}
+.notation::before {
+content: "🖊️ Notation";
+color: var(--not-color);
+}
+.methode {
+background: #fef2f2;
+border-color: var(--meth-color);
+color: #7f1d1d;
+}
+.methode::before {
+content: "🧭 Méthode";
+color: var(--meth-color);
+}
+.illustration {
+background: #f8fafc;
+border-color: var(--ill-color);
+color: #1e293b;
+}
+.illustration::before {
+content: "🖼️ Illustration";
+color: var(--ill-color);
+}
 
 div.callout-caution {
 border-radius: 10px;
@@ -5138,21 +5171,27 @@ div.callout-caution .callout-title::before {
 content: "🔓 ";
 }
 </style>
-<section id="fonction-polynôme-du-second-degré" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Fonction polynôme du second degré</h1>
-<section id="définition" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="définition"><span class="header-section-number">1.1</span> Définition</h2>
+<section id="somme-de-variables-aléatoires" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Somme de variables aléatoires</h1>
+<section id="définitions" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="définitions"><span class="header-section-number">1.1</span> Définitions</h2>
 <div class="definition">
-<p>On appelle fonction polynôme du second degré toute fonction <span class="math inline">f</span>, définie sur <span class="math inline">\mathbb{R}</span>, pouvant se ramener à la forme <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont des réels avec <span class="math inline">a\neq 0</span>.<br>
-L’expression <span class="math inline">ax^2+bx+c</span> est appelée trinôme du second degré.</p>
+<p>Soient <span class="math inline">X</span> et <span class="math inline">Y</span> deux variables aléatoires définies sur l’univers <span class="math inline">\Omega</span>. Soit <span class="math inline">a</span> un réel.</p>
+<ul>
+<li><p>On définit une variable aléatoire <span class="math inline">Z</span> telle que, pour tout élément <span class="math inline">\omega \in \Omega</span>, <span class="math inline">Z(\omega)=aX(\omega)</span>. On note <span class="math inline">Z=aX</span>.</p></li>
+<li><p>On définit une variable aléatoire <span class="math inline">S</span> telle que, pour tout élément <span class="math inline">\omega \in \Omega</span>, <span class="math inline">S(\omega)=X(\omega)+Y(\omega)</span>. On note <span class="math inline">S=X+Y</span>.</p></li>
+</ul>
+</div>
+<div class="remarque">
+<ul>
+<li><p>On peut définir de la même façon la somme de <span class="math inline">n</span> variables aléatoires (<span class="math inline">n \in \mathbb{N}^*</span>).</p></li>
+<li><p>On peut définir de la même façon la variable aléatoire <span class="math inline">X-Y</span>.</p></li>
+</ul>
 </div>
 <div class="application">
-<p>Les fonctions suivantes sont-elles des fonctions polynomiales du second degré ?</p>
-<ol type="1">
-<li><span class="math inline">f(x)=2\left(2x-\dfrac{1}{3}\right)^2-1</span></li>
-<li><span class="math inline">g(x)=-(-3+2x)^2+5+4x^2</span></li>
-<li><span class="math inline">h(x)=(3x+2)^2-12x-4</span></li>
-</ol>
+<p>Un jeu consiste à lancer un dé équilibré numéroté de 1 à 6. Le nombre de points obtenus est le résultat du dé multiplié par 5.<br>
+On note <span class="math inline">X</span> et <span class="math inline">Y</span> les variables aléatoires correspondant au résultat du dé et aux points obtenus.<br>
+Déterminer la loi de probabilité de <span class="math inline">Y</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -5166,47 +5205,50 @@ Solution
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math display">
-\begin{align*}
-f(x) &amp;= 2\left(4x^2 - \dfrac{4}{3}x + \dfrac{1}{9}\right) - 1 \\
-f(x) &amp;= 8x^2 - \dfrac{8}{3}x + \dfrac{2}{9} - 1 \\
-f(x) &amp;= 8x^2 - \dfrac{8}{3}x - \dfrac{7}{9}
-\end{align*}
-</span></p>
-<p><span class="math inline">f</span> est bien une fonction du second degré avec <span class="math inline">a=8</span>, <span class="math inline">b=\dfrac{-8}{3}</span> et <span class="math inline">c=\dfrac{-7}{9}</span>.</p>
-<p><strong>2.</strong> <span class="math display">
-\begin{align*}
-g(x) &amp;= -(9 - 12x + 4x^2) + 5 + 4x^2 \\
-g(x) &amp;= -9 + 12x - 4x^2 + 5 + 4x^2 \\
-g(x) &amp;= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\
-g(x) &amp;= 0x^2 + 12x - 4 \\
-g(x) &amp;= 12x - 4
-\end{align*}
-</span></p>
-<p><span class="math inline">g</span> n’est pas une fonction du second degré.</p>
-<p><strong>3.</strong> <span class="math display">
-\begin{align*}
-h(x) &amp;= (9x^2 + 12x + 4) - 12x - 4 \\
-h(x) &amp;= 9x^2 + 12x + 4 - 12x - 4 \\
-h(x) &amp;= 9x^2
-\end{align*}
-</span></p>
-<p><span class="math inline">h</span> est une fonction du second degré avec <span class="math inline">a=9</span>, <span class="math inline">b=0</span> et <span class="math inline">c=0</span>.</p>
+<p>Ainsi, <span class="math inline">Y=5X</span>.<br>
+La variable <span class="math inline">Y</span> prend ses valeurs dans l’ensemble <span class="math inline">\{5;10;15;20;25;30\}</span> et sa loi de probabilité est :<br>
+</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">y</span></th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">10</th>
+<th style="text-align: center;">15</th>
+<th style="text-align: center;">20</th>
+<th style="text-align: center;">25</th>
+<th style="text-align: center;">30</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{Y=y\})</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
-</section>
-<section id="forme-canonique" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="forme-canonique"><span class="header-section-number">1.2</span> Forme canonique</h2>
-<section id="exemples" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="exemples"><span class="header-section-number">1.2.1</span> Exemples</h3>
 <div class="application">
-<p>Mettre les fonctions polynomiales suivantes sous la forme <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> :</p>
-<ol type="1">
-<li><span class="math inline">f(x)=x^2-6x+8</span></li>
-<li><span class="math inline">g(x)=2x^2-x-3</span></li>
-<li><span class="math inline">h(x)=\dfrac{1}{3}x^2+2x-1</span></li>
-</ol>
+<p>On lance un dé jaune équilibré à 4 faces et un dé vert équilibré à 6 faces.<br>
+On note <span class="math inline">J</span> et <span class="math inline">V</span> les variables aléatoires correspondant au résultat du dé jaune et du dé vert.<br>
+La variable aléatoire <span class="math inline">S=J+V</span> est la variable donnant la somme des résultats des deux dés.<br>
+Donner la loi de probabilité de la variable aléatoire <span class="math inline">S</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -5220,44 +5262,115 @@ Solution
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math display">
-\begin{align*}
-f(x)&amp;=x^2-6x+8 \\
-&amp;=\left(x-\dfrac{6}{2} \right)^2-3^2 +8 \\
-&amp;=\left(x-3\right)^2-9+8 \\
-&amp;=\left(x-3\right)^2-1
-\end{align*}
-</span></p>
-<p><strong>2.</strong> <span class="math display">
-\begin{align*}
-g(x)&amp;=2x^2-x-3 \\
-&amp;=2\left(x^2-\dfrac{1}{2}x \right) -3 \\
-&amp;=2 \left( \left(x-\dfrac{1}{4} \right)^2-\left(\dfrac{1}{4}\right)^2\right)-3 \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-2\times \dfrac{1}{16}-3 \\
-&amp;= 2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-3 \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-\dfrac{24}{8} \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{25}{8}
-\end{align*}
-</span></p>
-<p><strong>3.</strong> <span class="math display">
-\begin{align*}
-h(x) &amp;= \dfrac{1}{3}x^2+2x-1 \\
-h(x) &amp;= \dfrac{1}{3}\left(x^2 + 6x\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}\left(x^2 + 6x + 9 - 9\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}\left((x+3)^2 - 9\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - \dfrac{1}{3} \times 9 - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - 3 - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - 4
-\end{align*}
-</span></p>
+<p>On peut dresser un tableau à double entrée pour lister toutes les sommes possibles.<br>
+</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">J \backslash V</span></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">10</td>
+</tr>
+</tbody>
+</table>
+<p>La variable aléatoire <span class="math inline">S</span> prend les valeurs de l’ensemble <span class="math inline">\llbracket 2;10\rrbracket</span> et sa loi de probabilité est donnée par :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">s</span></th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;">4</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">6</th>
+<th style="text-align: center;">7</th>
+<th style="text-align: center;">8</th>
+<th style="text-align: center;">9</th>
+<th style="text-align: center;">10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{S=s\})</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{24}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{12}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{8}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{6}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{8}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{12}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{24}</span></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </section>
-<section id="cas-général" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="cas-général"><span class="header-section-number">1.2.2</span> Cas général</h3>
+<section id="espérance-dune-somme-de-variables-aléatoires" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="espérance-dune-somme-de-variables-aléatoires"><span class="header-section-number">1.2</span> Espérance d’une somme de variables aléatoires</h2>
+<p>Dans cette partie, on considère une variable aléatoire <span class="math inline">X</span> définie sur <span class="math inline">\Omega=\lbrace \omega_1;\omega_2; ... ;\omega_n \rbrace</span> et on note <span class="math inline">\lbrace x_1; x_2;...; x_p\rbrace</span> l’ensemble des valeurs prises par <span class="math inline">X</span> où <span class="math inline">n</span> et <span class="math inline">p</span> sont des entiers naturels non nuls.</p>
 <div class="proposition">
-<p>Toute fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont trois réels avec <span class="math inline">a\neq 0</span> admet une écriture de la forme <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> avec <span class="math inline">\alpha=-\dfrac{b}{2a}</span> et <span class="math inline">\beta=f(\alpha)=-\dfrac{b^2-4ac}{4a}</span>.</p>
+<p><strong>(admise)</strong><br>
+<span class="math display">E(X)=\sum \limits_{i=1}^n X(\omega_i)P(\lbrace \omega_i \rbrace)</span></p>
+</div>
+<div class="application">
+<p>Dans le cadre d’un lancer de dé cubique équilibré, on gagne 2  si on obtient un nombre pair et on perd 6  si on obtient un nombre impair. On note <span class="math inline">X</span> la variable aléatoire correspondant au gain remporté. Calculer l’espérance de <span class="math inline">X</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -5271,36 +5384,16 @@ Solution
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">f</span> une fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont trois réels avec <span class="math inline">a\neq 0</span>.</p>
-<p><span class="math display">
-\begin{align*}
-f(x)&amp;=ax^2+bx+c \\
-&amp;= a\left(x^2+\dfrac{b}{a}x \right)+c \\
-&amp;= a\left( \left(x+\dfrac{b}{2a}\right)^2-\left(\dfrac{b}{2a} \right)^2  \right)+c \\
-&amp;=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2}{4a}+c \\
-&amp;=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2-4ac}{4a}
-\end{align*}
-</span></p>
-<p>On pose <span class="math inline">\alpha=-\dfrac{b}{2a}</span> et <span class="math inline">\beta=-\dfrac{b^2-4ac}{4a}</span> et ainsi <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<p>L’espérance de la variable aléatoire <span class="math inline">X</span> correspondant au gain remporté s’élève à : <span class="math display">E(X) = (-6)\times \dfrac{1}{6} + ... + 2 \times \dfrac{1}{6} = -2 \text{ €}</span></p>
 </div>
 </div>
 </div>
-<div class="vocabulaire">
-<p>Cette forme est appelée forme canonique de <span class="math inline">f</span>.</p>
-</div>
-<div class="vocabulaire">
-<p>Avec les mêmes notations, le réel <span class="math inline">b^2-4ac</span>, noté <span class="math inline">\Delta</span>, est appelé le discriminant de la fonction polynomiale <span class="math inline">f</span>.</p>
-<p><span class="math display"> \Delta=b^2-4ac</span></p>
-</div>
-<div class="remarque">
-<p>Avec ces formules, il est parfois plus simple de déterminer la forme canonique qu’en la calculant directement : <span class="math inline">f(x)=a\left(x-\alpha \right)^2-\dfrac{\Delta}{4a}</span> avec <span class="math inline">\alpha=\dfrac{-b}{2a}</span> et <span class="math inline">\Delta=b^2-4ac</span>.</p>
-</div>
-<div class="application">
-<p>En utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :</p>
-<ol type="1">
-<li><span class="math inline">f(x)=3x^2+2x-1</span></li>
-<li><span class="math inline">g(x)=x^2+4x+10</span></li>
-</ol>
+<div class="proposition">
+<p>Soient <span class="math inline">X</span> et <span class="math inline">Y</span> deux variables aléatoires définies sur le même univers <span class="math inline">\Omega</span>. Soit <span class="math inline">a</span> un réel. Alors :</p>
+<ul>
+<li><p><span class="math inline">E(X+Y)=E(X)+E(Y)</span></p></li>
+<li><p><span class="math inline">E(aX)=aE(X)</span></p></li>
+</ul>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -5314,30 +5407,41 @@ Solution
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math inline">f(x)=3x^2+2x-1</span></p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-2}{2\times 3}=-\dfrac{1}{3}</span> et <span class="math inline">\Delta=b^2-4ac=2^2-4 \times 3\times (-1)=16</span>.</p>
-<p>Ainsi <span class="math inline">f(x)=3 \left( x +\dfrac{1}{3}\right)^2-\dfrac{4}{3}</span>.</p>
-<p><strong>2.</strong> <span class="math inline">g(x)=x^2+4x+10</span></p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-4}{2\times 1}=-\dfrac{4}{2}=-2</span> et <span class="math inline">\Delta=b^2-4ac=4^2-4 \times 1\times 10=16-40=-24</span>.</p>
-<p><span class="math display">
-\begin{align*}
-g(x) &amp;= 1 \left( x -(-2)\right)^2-\dfrac{-24}{4\times 1} \\
-g(x) &amp;= 1 \left( x +2\right)^2-\dfrac{-24}{4} \\
-g(x) &amp;= 1 \left( x +2\right)^2+6
-\end{align*}
-</span></p>
+<ul>
+<li><p>Soient <span class="math inline">X</span>, <span class="math inline">Y</span> et <span class="math inline">Z</span> trois variables aléatoires définies sur <span class="math inline">\Omega</span> telles que <span class="math inline">Z=X+Y</span>.</p>
+<p>On a alors <span class="math inline">E(X+Y)=E(Z)=\sum \limits_{i=1}^n Z(\omega_i)P(\lbrace \omega_i \rbrace) = \sum \limits_{i=1}^n (X+Y)(\omega_i)P(\lbrace \omega_i \rbrace)</span>.</p>
+<p>Or, <span class="math inline">(X+Y)(\omega_i)=X(\omega_i) + Y(\omega_i)</span>.</p>
+<p>Donc <span class="math inline">E(X+Y)=\sum \limits_{i=1}^n X(\omega_i)P(\lbrace \omega_i \rbrace) + \sum \limits_{i=1}^n Y(\omega_i)P(\lbrace \omega_i \rbrace)</span>.</p>
+<p>D’où <span class="math inline">E(X+Y)=E(X)+E(Y)</span> en identifiant les deux sommes précédentes à <span class="math inline">E(X)</span> et <span class="math inline">E(Y)</span>.</p></li>
+<li><p>Pour <span class="math inline">a=0</span> la propriété est évidente.<br>
+Considérons maintenant <span class="math inline">a \neq 0</span>.</p>
+<p>En notant <span class="math inline">x_1; ... x_n</span>, les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1; ... ax_n</span>.</p>
+<p>Par définition <span class="math inline">E(aX) = \sum \limits_{i=1}^n ax_iP(aX=ax_i)</span>.</p>
+<p>Or <span class="math inline">aX=ax_i</span> si, et seulement si, <span class="math inline">X=x_i</span> donc <span class="math inline">P(aX=ax_i)=P(X=x_i)</span>.</p>
+<p>Ainsi, <span class="math inline">E(aX) = \sum \limits_{i=1}^n ax_iP(X=x_i) = a \times \sum \limits_{i=1}^n x_iP(X=x_i) = aE(X)</span></p></li>
+</ul>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="étude-des-fonctions-polynomiales-du-second-degré" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="étude-des-fonctions-polynomiales-du-second-degré"><span class="header-section-number">1.3</span> Étude des fonctions polynomiales du second degré</h2>
-<div class="vocabulaire">
-<p>La courbe représentative d’une fonction polynomiale du second degré s’appelle une parabole.</p>
+<div class="remarque">
+<ul>
+<li><p>Le premier point de cette propriété permet de déterminer l’espérance de <span class="math inline">X+Y</span> simplement à l’aide de celles de <span class="math inline">X</span> et <span class="math inline">Y</span> (donc sans la connaissance de la loi de probabilité de <span class="math inline">X+Y</span>).</p></li>
+<li><p>On a également <span class="math inline">E(X-Y)=E(X)-E(Y)</span>.</p></li>
+</ul>
 </div>
-<div class="proposition">
-<p>La parabole représentative d’une fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> avec <span class="math inline">a</span>, <span class="math inline">\alpha</span> et <span class="math inline">\beta</span> trois réels et <span class="math inline">a\neq 0</span> admet la droite d’équation <span class="math inline">x=\alpha</span> pour axe de symétrie.</p>
+<div class="application">
+<p>Dans une fête foraine, un jeu de hasard se déroule en deux temps.<br>
+Le joueur fait d’abord tourner la roue ci-dessous et gagne le montant indiqué dans le secteur obtenu. Puis, il pioche un jeton bonus dans un sac qui contient 25 jetons marqués 0 euros, 20 jetons marqués 2 euros et 5 jetons marqués 5 euros.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="data:image/png;base64,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" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%" alt="Roue de la fête foraine partagée en secteurs de gains"></p>
+</figure>
+</div>
+<ol type="1">
+<li><p>Définir deux variables aléatoires <span class="math inline">X</span> et <span class="math inline">Y</span> telles que <span class="math inline">Z=X+Y</span>.</p></li>
+<li><p>Calculer l’espérance de <span class="math inline">X</span> et celle de <span class="math inline">Y</span>.</p></li>
+<li><p>En déduire l’espérance de <span class="math inline">Z</span>. Interpréter.</p></li>
+</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -5351,27 +5455,84 @@ Solution
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Avec les mêmes notations, soit <span class="math inline">h\in \mathbb{R}</span>.</p>
-<p>D’une part : <span class="math display">
-\begin{align*}
-f(\alpha + h) &amp;= a((\alpha + h) - \alpha)^2 + \beta \\
-&amp;= a(h)^2 + \beta \\
-&amp;= ah^2 + \beta
-\end{align*}
-</span></p>
-<p>D’autre part : <span class="math display">
-\begin{align*}
-f(\alpha - h) &amp;= a((\alpha - h) - \alpha)^2 + \beta \\
-&amp;= a(-h)^2 + \beta \\
-&amp;= ah^2 + \beta
-\end{align*}
-</span></p>
-<p>Ainsi <span class="math inline">f(\alpha + h) = f(\alpha - h)</span>. Ceci prouve que la parabole est symétrique par rapport à la droite verticale d’équation <span class="math inline">x=\alpha</span>.</p>
+<ol type="1">
+<li><p><span class="math inline">X</span> est la variable aléatoire correspondant au gain obtenu avec la roue.<br>
+La loi de probabilité de <span class="math inline">X</span> est :</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">5</th>
+<th style="text-align: center;">10</th>
+<th style="text-align: center;">20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(X=x_i)</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{2}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{8}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{8}</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">Y</span> est la variable aléatoire correspondant au gain obtenu avec le jeton.<br>
+La loi de probabilité de <span class="math inline">Y</span> est :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">y_i</span></th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(Y=y_i)</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{2}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{2}{5}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{10}</span></td>
+</tr>
+</tbody>
+</table></li>
+<li><p><span class="math inline">E(X)=0 \times \frac{1}{2} + 5 \times \frac{1}{4}+10 \times \frac{1}{8} + 20 \times \frac{1}{8} = 5</span><br>
+<span class="math inline">E(Y)=0 \times \frac{1}{2} + 2 \times \frac{2}{5}+ 5 \times \frac{1}{10}=1{,}3</span></p></li>
+<li><p><span class="math inline">E(Z)=E(X+Y)=E(X)+E(Y)=5+1{,}3=6{,}3</span><br>
+Sur un grand nombre de joueurs, le gain moyen par joueur est de <span class="math inline">6{,}30</span> euros.</p></li>
+</ol>
 </div>
 </div>
+</div>
+</section>
+<section id="variance" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="variance"><span class="header-section-number">1.3</span> Variance</h2>
+<div class="definition">
+<p><span class="math inline">V(X) = \sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i)</span>.</p>
+</div>
+<div class="definition">
+<p>Soient <span class="math inline">X_1, X_2, ... , X_n</span>, <span class="math inline">n</span> variables aléatoires à valeurs respectivement dans <span class="math inline">E_1, ...E_n</span>.<br>
+On dit que <span class="math inline">X_1, X_2, ... , X_n</span> sont indépendantes lorsque, pour tous <span class="math inline">x_1 \in E_1, ..., x_n \in E_n</span> : <span class="math display">P(X_1=x_1 \cap X_2=x_2 \cap ... \cap X_n=x_n) = P(X_1=x_1) \times P(X_2=x_2) \times ... \times P(X_n=x_n)</span></p>
+</div>
+<div class="remarque">
+<p>De manière intuitive, deux variables aléatoires sont indépendantes si les résultats de l’une n’ont pas d’influence sur les résultats de l’autre.</p>
 </div>
 <div class="proposition">
-<p>Le point <span class="math inline">S(\alpha;\beta)</span> est le sommet de la parabole représentative d’une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<p>Soient <span class="math inline">X</span> et <span class="math inline">Y</span> deux variables aléatoires définies sur un même univers fini <span class="math inline">\Omega</span>. Soit <span class="math inline">a\in \mathbb{R}</span>. Alors :</p>
+<ul>
+<li><p><span class="math inline">V(X+Y)=V(X)+V(Y)</span> si <span class="math inline">X</span> et <span class="math inline">Y</span> sont deux variables aléatoires indépendantes</p></li>
+<li><p><span class="math inline">V(aX)=a^2V(X)</span></p></li>
+<li><p><span class="math inline">\sigma(aX)=|a|\sigma(X)</span></p></li>
+</ul>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -5385,80 +5546,21 @@ Solution
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span>, avec <span class="math inline">a \neq 0</span>.</p>
-<p><span class="math inline">\forall x \in \mathbb{R},~(x-\alpha)^2 \ge 0</span>.</p>
-<p><strong>Cas 1 : <span class="math inline">a &gt; 0</span></strong></p>
-<p>Si <span class="math inline">a &gt; 0</span>, alors <span class="math inline">a(x-\alpha)^2 \ge 0</span>. Donc <span class="math inline">f(x) = a(x-\alpha)^2 + \beta \ge \beta</span>. La fonction <span class="math inline">f(x)</span> atteint un minimum égal à <span class="math inline">\beta</span>. Ce minimum est atteint quand <span class="math inline">(x-\alpha)^2 = 0</span>, soit <span class="math inline">x=\alpha</span>. Le point <span class="math inline">(\alpha; \beta)</span> est alors le minimum de la fonction.</p>
-<p><strong>Cas 2 : <span class="math inline">a &lt; 0</span></strong></p>
-<p>Si <span class="math inline">a &lt; 0</span>, alors <span class="math inline">a(x-\alpha)^2 \le 0</span>. Donc <span class="math inline">f(x) = a(x-\alpha)^2 + \beta \le \beta</span>. La fonction <span class="math inline">f(x)</span> atteint un maximum égal à <span class="math inline">\beta</span>. Ce maximum est atteint quand <span class="math inline">(x-\alpha)^2 = 0</span>, soit <span class="math inline">x=\alpha</span>. Le point <span class="math inline">(\alpha; \beta)</span> est alors le maximum de la fonction.</p>
-<p>Dans les deux cas, le point <span class="math inline">(\alpha; \beta)</span> correspond à l’extremum (minimum ou maximum) de la fonction. Par définition, ce point d’extremum est le sommet de la parabole. Ainsi, <span class="math inline">S(\alpha; \beta)</span> est le sommet de la parabole représentative de <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<ul>
+<li><p>Ce premier point est admis.</p></li>
+<li><p>Si <span class="math inline">a=0</span>, la propriété est évidente.<br>
+On suppose que <span class="math inline">a\neq 0</span>.</p>
+<p>En notant <span class="math inline">x_1;...x_n</span> les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1;...ax_n</span>.</p>
+<p>Par définition, <span class="math inline">V(aX) = \sum \limits_{i=1}^n (ax_i-E(aX))^2 P(aX=ax_i)</span></p>
+<p>Donc <span class="math inline">V(aX) = \sum \limits_{i=1}^n a^2(x_i-E(X))^2 P(X=x_i)</span></p>
+<p>Ainsi <span class="math inline">V(aX) = a^2\sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i) = a^2V(X)</span></p></li>
+<li><p><span class="math inline">\sigma(aX)=\sqrt{V(aX)}=\sqrt{a^2V(X)}=|a|\sqrt{V(X)}=|a|\sigma(X)</span>.</p></li>
+</ul>
 </div>
 </div>
 </div>
-<div class="proposition">
-<p>Soit <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span>, avec <span class="math inline">a \neq 0</span>. Voici les deux tableaux de variations possibles :</p>
-<p><strong>Si <span class="math inline">a&gt;0</span> : la parabole est tournée vers le haut</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 16%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">\alpha</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↘</td>
-<td><span class="math inline">\beta</span></td>
-<td>↗</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Si <span class="math inline">a&lt;0</span> : la parabole est tournée vers le bas</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 16%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">\alpha</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↗</td>
-<td><span class="math inline">\beta</span></td>
-<td>↘</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<div class="application">
+<p>On reprend l’exemple précédent. Calculer la variance de <span class="math inline">Z</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -5472,48 +5574,34 @@ Solution
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">x \in \mathbb{R}</span>, <span class="math inline">f(x)=a(x-\alpha)^2+ \beta</span> avec <span class="math inline">\alpha=-\dfrac{b}{2a}</span>.</p>
-<p><strong>1er cas : <span class="math inline">a&gt;0</span></strong></p>
-<p><em>Variations sur <span class="math inline">]-\infty; \alpha]</span></em></p>
-<p>Soient <span class="math inline">x</span> et <span class="math inline">y</span> deux réels de <span class="math inline">]-\infty; \alpha]</span> tels que <span class="math inline">x&lt;y</span>. <span class="math display">
-\begin{align*}
-f(x)-f(y) &amp;= \left(a(x-\alpha)^2 + \beta\right) - \left(a(y-\alpha)^2 + \beta\right) \\
-&amp;= a(x-\alpha)^2 - a(y-\alpha)^2 \\
-&amp;= a\left[(x-\alpha)^2 - (y-\alpha)^2\right] \\
-&amp;= a\left[(x-\alpha - (y-\alpha))(x-\alpha + (y-\alpha))\right] \\
-&amp;= a(x-\alpha - y + \alpha)(x-\alpha + y - \alpha) \\
-&amp;= a(x-y)(x+y-2\alpha)
-\end{align*}
-</span></p>
-<p>Or :</p>
+<p><span class="math inline">V(X)=(0-5)^2 \times \frac{1}{2} + (5-5)^2 \times \frac{1}{4}+(10-5)^2 \times \frac{1}{8} + (20-5)^2 \times \frac{1}{8} = 43{,}75</span><br>
+<span class="math inline">V(Y)=(0-1{,}3)^2 \times \frac{1}{2} + (2-1{,}3)^2 \times \frac{2}{5}+ (5-1{,}3)^2 \times \frac{1}{10}=2{,}41</span><br>
+Les variables aléatoires <span class="math inline">X</span> et <span class="math inline">Y</span> sont indépendantes.<br>
+<span class="math inline">V(Z)=V(X)+V(Y)=43{,}75+2{,}41=46{,}16</span></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="applications" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Applications</h1>
+<p>Dans cette partie, <span class="math inline">n</span> désigne un entier naturel non nul et <span class="math inline">p</span> désigne un nombre réel de l’intervalle <span class="math inline">[0;1]</span>.</p>
+<section id="loi-binomiale" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="loi-binomiale"><span class="header-section-number">2.1</span> Loi binomiale</h2>
+<div class="definition">
+<p>Deux variables aléatoires sont dites identiquement distribuées lorsqu’elles ont la même loi de probabilité.</p>
+</div>
+<div class="proposition">
+<p><strong>(admise)</strong><br>
+Toute variable aléatoire suivant une loi binomiale peut s’écrire comme une somme de variables aléatoires de Bernoulli indépendantes et identiquement distribuées.</p>
+</div>
+<div class="proposition">
+<p>Si <span class="math inline">X</span> suit une loi binomiale de paramètres <span class="math inline">n</span> et <span class="math inline">p</span>, alors :</p>
 <ul>
-<li><span class="math inline">a&gt;0</span></li>
-<li><span class="math inline">x&lt;y</span> donc <span class="math inline">x-y&lt;0</span></li>
-<li><span class="math inline">x&lt;\alpha</span> et <span class="math inline">y\leqslant\alpha</span> donc <span class="math inline">x+y&lt;2\alpha</span> donc <span class="math inline">x+y-2\alpha&lt;0</span></li>
+<li><p><span class="math inline">E(X)=np</span></p></li>
+<li><p><span class="math inline">V(X)=np(1-p)</span></p></li>
+<li><p><span class="math inline">\sigma(X)=\displaystyle \sqrt{np(1-p)}</span></p></li>
 </ul>
-<p>Donc <span class="math inline">f(x)-f(y)&gt;0</span> soit <span class="math inline">f(x)&gt;f(y)</span>. Donc <span class="math inline">f</span> est strictement décroissante sur <span class="math inline">]-\infty; \alpha]</span>.</p>
-<p><em>Variations sur <span class="math inline">[\alpha; +\infty[</span></em></p>
-<p>Soient <span class="math inline">x</span> et <span class="math inline">y</span> deux réels de <span class="math inline">[\alpha; +\infty[</span> tels que <span class="math inline">x&lt;y</span>. <span class="math display">
-f(x)-f(y)=a(x-y)(x+y-2\alpha)
-</span></p>
-<p>Or :</p>
-<ul>
-<li><span class="math inline">a&gt;0</span></li>
-<li><span class="math inline">x&lt;y</span> donc <span class="math inline">x-y&lt;0</span></li>
-<li><span class="math inline">x\geqslant\alpha</span> et <span class="math inline">y&gt;\alpha</span> donc <span class="math inline">x+y&gt;2\alpha</span> donc <span class="math inline">x+y-2\alpha&gt;0</span></li>
-</ul>
-<p>Donc <span class="math inline">f(x)-f(y)&lt;0</span> soit <span class="math inline">f(x)&lt;f(y)</span>. Donc <span class="math inline">f</span> est strictement croissante sur <span class="math inline">[\alpha; +\infty[</span>.</p>
-<p><strong>2ème cas : <span class="math inline">a&lt;0</span></strong></p>
-<p>On applique un raisonnement similaire.</p>
-</div>
-</div>
-</div>
-<div class="application">
-<p>Tracer le tableau de variations des deux fonctions suivantes :</p>
-<ol type="1">
-<li><span class="math inline">f</span> est définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=2x^2+4x+5</span>.</li>
-<li><span class="math inline">g</span> est définie sur <span class="math inline">[0;3]</span> par <span class="math inline">g(x)=-3x^2+6x-4</span>.</li>
-</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
@@ -5527,81 +5615,23 @@ Solution
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>, <span class="math inline">f(x)=2x^2+4x+5</span>. <span class="math inline">\alpha=-\dfrac{b}{2a}=-1</span> et <span class="math inline">\beta=f(\alpha)=f(-1)=3</span>. Donc <span class="math inline">f(x)=2(x+1)^2+3</span>. Comme <span class="math inline">a&gt;0</span> on a :</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">-1</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↘</td>
-<td><span class="math inline">3</span></td>
-<td>↗</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>2.</strong> Soit <span class="math inline">x \in [0;3]</span>, <span class="math inline">g(x)=-3x^2+6x-4</span>.</p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-6}{2\times (-3)}=1</span> et <span class="math inline">\beta=g(\alpha)=g(1)=-1</span>. Donc <span class="math inline">g(x)=-3(x-1)^2-1</span>. Comme <span class="math inline">a&lt;0</span> on a :</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">0</span></th>
-<th></th>
-<th><span class="math inline">1</span></th>
-<th></th>
-<th><span class="math inline">3</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td><span class="math inline">-4</span></td>
-<td>↗</td>
-<td><span class="math inline">-1</span></td>
-<td>↘</td>
-<td><span class="math inline">-13</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="équation-du-second-degré" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Équation du second degré</h1>
-<section id="généralités" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="généralités"><span class="header-section-number">2.1</span> Généralités</h2>
-<div class="definition">
-<p>On appelle équation du second degré toute équation pouvant se ramener à la forme <span class="math inline">ax^2+bx+c=0</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont des réels avec <span class="math inline">a\neq 0</span>.</p>
-</div>
-<div class="remarque">
-<p>Résoudre une équation consiste à trouver toutes les valeurs de <span class="math inline">x</span> qui vérifient l’équation.</p>
-<p>Dans le cas où l’équation a été ramenée à une équation de la forme <span class="math inline">ax^2+bx+c=0</span>, résoudre l’équation consiste à déterminer le/les antécédent(s) de <span class="math inline">0</span> par la fonction <span class="math inline">f:x\mapsto ax^2+bx+c</span>. On dit que l’on cherche les racines de la fonction.</p>
-<p>Graphiquement, cela revient à déterminer les abscisses des points d’intersection de la courbe représentative de la fonction <span class="math inline">f</span> avec l’axe des abscisses.</p>
-</div>
-</section>
-<section id="résolution-dune-équation-du-second-degré" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="résolution-dune-équation-du-second-degré"><span class="header-section-number">2.2</span> Résolution d’une équation du second degré</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span>. On considère l’équation <span class="math inline">ax^2+bx+c=0</span>.</p>
-<p>Soit <span class="math inline">\Delta=b^2-4ac</span> le discriminant du trinôme <span class="math inline">ax^2+bx+c</span>.</p>
 <ul>
-<li>Si <span class="math inline">\Delta&lt;0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> n’admet pas de solution réelle.</li>
-<li>Si <span class="math inline">\Delta=0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> admet une unique solution réelle : <span class="math inline">x_0=-\dfrac{b}{2a}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> admet deux solutions réelles : <span class="math inline">x_1=\dfrac{-b-\sqrt{\Delta}}{2a}</span> et <span class="math inline">x_2=\dfrac{-b+\sqrt{\Delta}}{2a}</span>.</li>
+<li><p>Soit <span class="math inline">X</span> une variable aléatoire suivant la loi binomiale de paramètres <span class="math inline">n</span> et <span class="math inline">p</span>. Alors, il existe <span class="math inline">n</span> variables aléatoires de Bernoulli indépendantes, de paramètre <span class="math inline">p</span>, telles que <span class="math inline">X=X_1+...+X_n</span>.</p>
+<p>Ainsi, pour tout <span class="math inline">k \in \left\lbrace1;...;n \right\rbrace</span>, <span class="math inline">E(X_k)=p</span> et <span class="math inline">V(X_k)=p(1-p)</span>.</p>
+<p>Or, <span class="math inline">E(X)=E(X_1+...+X_n)=E(X_1)+...+E(X_n)=p+...+p=np</span></p></li>
+<li><p>Les variables aléatoires <span class="math inline">X_1, ... X_n</span> étant indépendantes, par définition du schéma de Bernoulli, on a : <span class="math inline">V(X)=V(X_1)+...+V(X_n)=p(1-p)+...+p(1-p)=np(1-p)</span></p></li>
+<li><p><span class="math inline">\sigma(X)=\displaystyle \sqrt{V(X)} = \displaystyle \sqrt{np(1-p)}</span></p></li>
 </ul>
+</div>
+</div>
+</div>
+<div class="application">
+<p>On effectue 40 lancers d’une pièce équilibrée. Pour <span class="math inline">i \in \llbracket 1;40\rrbracket</span>, <span class="math inline">X_i</span> est la variable aléatoire donnant 1 si la pièce tombe sur Pile et 0 sinon au <span class="math inline">i</span>-ième lancer.</p>
+<ol type="1">
+<li><p>Quelle est la loi suivie par <span class="math inline">X=X_1+X_2+...+X_{40}</span> ?</p></li>
+<li><p>À quoi correspond <span class="math inline">X</span> concrètement ?</p></li>
+<li><p>Déterminer <span class="math inline">E(X)</span>.</p></li>
+</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
@@ -5615,42 +5645,26 @@ Solution
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Avec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit <span class="math inline">x \in \mathbb{R}</span> : <span class="math display">
-\begin{align*}
-ax^2+bx+c=0 &amp;\iff a\left(x+\dfrac{b}{2a} \right)^2-\dfrac{\Delta}{4a}=0 \\
-&amp;\iff a\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a} \\
-&amp;\iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}
-\end{align*}
-</span></p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span> : Alors <span class="math inline">\dfrac{\Delta}{4a^2}&lt;0</span>. Or <span class="math inline">\left(x+\dfrac{b}{2a} \right)^2\geqslant 0</span>. Donc l’équation n’admet pas de solution.</li>
-<li>Si <span class="math inline">\Delta=0</span> : <span class="math display">
-\begin{align*}
-\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &amp;\iff \left(x+\dfrac{b}{2a} \right)^2=0 \\
-&amp;\iff x+\dfrac{b}{2a} =0 \\
-&amp;\iff x=-\dfrac{b}{2a}
-\end{align*}
-</span> Ainsi <span class="math inline">S=\left\{ -\dfrac{b}{2a} \right\}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span> : <span class="math display">
-\begin{align*}
-\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &amp;\iff \left(x+\dfrac{b}{2a} \right)^2- \left(\dfrac{\sqrt{\Delta}}{2a} \right)^2=0 \\
-&amp;\iff \left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=0 \text{ équation produit nul} \\
-&amp;\iff x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a}=0 \text{  ou  } x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} =0 \\
-&amp;\iff x=-\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \text{ ou } x=-\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \\
-&amp;\iff x=\dfrac{-b+\sqrt{\Delta}}{2a} \text{ ou } x=\dfrac{-b-\sqrt{\Delta}}{2a}
-\end{align*}
-</span> Finalement : <span class="math inline">S=\left\{\dfrac{-b+\sqrt{\Delta}}{2a}; \dfrac{-b-\sqrt{\Delta}}{2a}  \right\}</span>.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="application">
-<p>Résoudre dans <span class="math inline">\mathbb{R}</span> les équations suivantes :</p>
 <ol type="1">
-<li><span class="math inline">15x^2-x-2=0</span></li>
-<li><span class="math inline">3x^2+6x+4=0</span></li>
-<li><span class="math inline">\dfrac{1}{5}x^2+2x+5=0</span></li>
+<li><p>Les <span class="math inline">X_i</span> étant toutes indépendantes et suivant une loi de Bernoulli de paramètre <span class="math inline">p=0{,}5</span>, on peut en déduire que <span class="math inline">X</span> suit la loi binomiale de paramètres <span class="math inline">n=40</span> et <span class="math inline">p=0{,}5</span>.</p></li>
+<li><p><span class="math inline">X</span> est la variable aléatoire donnant le nombre de Pile obtenus à l’issue des 40 lancers.</p></li>
+<li><p><span class="math inline">E(X)=40 \times 0{,}5=20</span>.</p></li>
 </ol>
+</div>
+</div>
+</div>
+</section>
+<section id="échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées"><span class="header-section-number">2.2</span> Échantillons de <span class="math inline">n</span> variables aléatoires indépendantes et identiquement distribuées</h2>
+<p>On considère un entier naturel <span class="math inline">n</span> non nul et <span class="math inline">X_1, ... X_n</span>, <span class="math inline">n</span> variables aléatoires définies sur <span class="math inline">\Omega</span> supposées indépendantes et identiquement distribuées.</p>
+<p>On note <span class="math inline">S_n=X_1+... + X_n</span> la somme de ces <span class="math inline">n</span> variables aléatoires et <span class="math inline">M_n=\dfrac{X_1+...+X_n}{n}</span> la moyenne de ces <span class="math inline">n</span> variables aléatoires.</p>
+<div class="proposition">
+<p>Pour tout <span class="math inline">k \in \left\lbrace 1;...;n \right\rbrace</span>, on a :</p>
+<ul>
+<li><p><span class="math inline">E(S_n)=nE(X_k)</span></p></li>
+<li><p><span class="math inline">V(S_n)=nV(X_k)</span></p></li>
+<li><p><span class="math inline">\sigma(S_n)=\displaystyle \sqrt{n}\sigma(X_k)</span></p></li>
+</ul>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
@@ -5664,26 +5678,23 @@ Solution
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math inline">15x^2-x-2=0</span></p>
-<p><span class="math inline">\Delta=(-1)^2-4\times 15 \times (-2)=121</span>. Le discriminant du trinôme est strictement positif donc l’équation admet exactement deux solutions :</p>
-<p><span class="math inline">x_1=\dfrac{1 -\sqrt{121}}{30}=\dfrac{1-11}{30}=\dfrac{-1}{3}</span> et <span class="math inline">x_2=\dfrac{1+\sqrt{121}}{30}=\dfrac{1+11}{30}=\dfrac{12}{30}=\dfrac{2}{5}</span>.</p>
-<p>Finalement <span class="math inline">S=\left\{\dfrac{-1}{3}; \dfrac{2}{5} \right\}</span>.</p>
-<p><strong>2.</strong> <span class="math inline">3x^2+6x+4=0</span></p>
-<p><span class="math inline">\Delta=6^2-4\times3\times4=-12</span>. Le discriminant du trinôme est strictement négatif, donc l’équation n’admet pas de solution réelle.</p>
-<p><strong>3.</strong> <span class="math inline">\dfrac{1}{5}x^2+2x+5=0</span></p>
-<p><span class="math inline">\Delta=2^2-4\times \dfrac{1}{5}\times 5=0</span>. Le discriminant du trinôme est nul, donc l’équation admet une unique solution réelle : <span class="math inline">S=\{-5 \}</span>.</p>
+<ul>
+<li><p>La linéarité de l’espérance donne <span class="math inline">E(S_n)=E(X_1)+...+E(X_n)</span>.<br>
+Or ces variables aléatoires suivent la même loi. Elles ont donc la même espérance.<br>
+D’où, pour tout <span class="math inline">k \in\lbrace 1;...;n \rbrace</span>, <span class="math inline">E(S_n)=nE(X_k)</span></p></li>
+<li><p>De la même manière, les variables aléatoires <span class="math inline">X_1, ... X_n</span> étant indépendantes, on a, pour tout <span class="math inline">k \in\lbrace 1;...;n \rbrace</span>, <span class="math inline">V(S_n)=V(X_1)+...+V(X_n) = nV(X_k)</span></p></li>
+<li><p><span class="math inline">\sigma(S_n)=\displaystyle\sqrt{V(S_n)} = \displaystyle\sqrt{nV(X_k)}=\displaystyle\sqrt{n}\sqrt{V(X_k)}= \displaystyle\sqrt{n}\sigma(X_k)</span></p></li>
+</ul>
 </div>
 </div>
 </div>
-<div class="remarque">
-<p>Lorsque le trinôme est « incomplet » (<span class="math inline">b=0</span> ou <span class="math inline">c=0</span>), il n’est pas nécessaire de calculer le discriminant pour résoudre l’équation.</p>
-</div>
-<div class="application">
-<p>Sans calculer le discriminant des trinômes, résoudre les équations suivantes :</p>
-<ol type="1">
-<li><span class="math inline">4x^2+3x-10=3x+6</span></li>
-<li><span class="math inline">x^2-5x+4=x+4</span></li>
-</ol>
+<div class="proposition">
+<p>Pour tout <span class="math inline">k\in\lbrace 1;...;n \rbrace</span>, on a :</p>
+<ul>
+<li><p><span class="math inline">E(M_n)=E(X_k)</span></p></li>
+<li><p><span class="math inline">V(M_n)=\dfrac{V(X_k)}{n}</span></p></li>
+<li><p><span class="math inline">\sigma(M_n)=\dfrac{\sigma(X_k)}{\displaystyle\sqrt{n}}</span></p></li>
+</ul>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
@@ -5697,34 +5708,23 @@ Solution
 </div>
 <div id="callout-11" class="callout-11-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math display">
-\begin{align*}
-4x^2+3x-10=3x+6 &amp;\iff  4x^2-16=0\\
-&amp;\iff (2x)^2-4^2=0 \\
-&amp;\iff (2x-4)(2x+4)=0 \\
-&amp;\iff 2x-4=0 \text{ ou }2x+4=0 \\
-&amp;\iff x=2 \text{ ou } x=-2
-\end{align*}
-</span> Finalement <span class="math inline">S=\{-2;2 \}</span>.</p>
-<p><strong>2.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math display">
-\begin{align*}
-x^2-5x+4=x+4 &amp;\iff x^2-6x=0 \\
-&amp;\iff x(x-6)=0 \\
-&amp;\iff x=0 \text{ ou }x-6=0 \\
-&amp;\iff x=0 \text{ ou }x=6
-\end{align*}
-</span> Finalement <span class="math inline">S=\{0;6 \}</span>.</p>
+<ul>
+<li><p>Soit <span class="math inline">k\in\lbrace 1;...;n \rbrace</span>, la linéarité de l’espérance et la propriété précédente donnent<br>
+<span class="math inline">E(M_n)=E\left(\dfrac{X_1+...+X_n}{n}\right) = E\left(\dfrac{S_n}{n}\right) = \dfrac{1}{n}E(S_n) = \dfrac{1}{n} \times n E(X_k) = E(X_k)</span></p></li>
+<li><p>On sait que, pour tout <span class="math inline">a \in \mathbb{R}</span>, on a <span class="math inline">V(aS_n)=a^2V(S_n)</span><br>
+Donc <span class="math inline">V(M_n)=V\left(\dfrac{S_n}{n}\right) = \dfrac{1}{n^2}V(S_n)=\dfrac{1}{n^2}\times n V(X_k) = \dfrac{V(X_k)}{n}</span></p></li>
+<li><p><span class="math inline">\sigma(M_n)=\displaystyle\sqrt{V(M_n)} = \displaystyle\sqrt{\dfrac{V(X_k)}{n}}=\dfrac{\sigma(X_k)}{\displaystyle\sqrt{n}}</span></p></li>
+</ul>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="propriété-des-trinômes" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Propriété des trinômes</h1>
-<section id="somme-et-produit-des-racines" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="somme-et-produit-des-racines"><span class="header-section-number">3.1</span> Somme et produit des racines</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span> et <span class="math inline">f</span> une fonction polynomiale du second degré telle que <span class="math inline">\forall x \in \mathbb{R},~ f(x)=ax^2+bx+c</span> dont le discriminant <span class="math inline">\Delta</span> est strictement positif. On note <span class="math inline">x_1</span> et <span class="math inline">x_2</span> les deux racines de <span class="math inline">f</span>. Alors : <span class="math display"> x_1+x_2=-\dfrac{b}{a} \text{ et } x_1 \times x_2=\dfrac{c}{a}</span></p>
+<div class="application">
+<p>Le matin, suivant le temps dont elle dispose et selon sa faim, Carla mange une, deux ou trois tartines de beurre avec des probabilités respectives de 0,25 ; 0,62 et 0,13.<br>
+On note <span class="math inline">S</span> la variable aléatoire donnant le nombre de tartines mangées par Carla au cours d’une semaine.</p>
+<ol type="1">
+<li><p>Décomposer <span class="math inline">S</span> en une somme de variables aléatoires indépendantes suivant toutes une même loi que l’on précisera.</p></li>
+<li><p>Calculer <span class="math inline">E(S)</span> et <span class="math inline">\sigma(S)</span>.</p></li>
+</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
@@ -5738,194 +5738,35 @@ Solution
 </div>
 <div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Avec les mêmes notations :</p>
-<ul>
-<li><span class="math inline">x_1+x_2=\dfrac{-b-\sqrt{\Delta}}{2a}+\dfrac{-b+\sqrt{\Delta}}{2a}=\dfrac{-2b}{2a}=\dfrac{-b}{a}</span></li>
-<li><span class="math inline">x_1 \times x_2=\dfrac{-b-\sqrt{\Delta}}{2a}\times\dfrac{-b+\sqrt{\Delta}}{2a}= \dfrac{(-b)^2-\sqrt{\Delta}^2}{4a^2}=\dfrac{b^2-\Delta}{4a^2}=\dfrac{b^2-b^2+4ac}{4a^2}=\dfrac{c}{a}</span></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="remarque">
-<p>Ces formules peuvent être utiles pour trouver la deuxième racine lorsqu’une des racines du trinôme est évidente. On peut également vérifier qu’aucune erreur de calcul ne s’est glissée lors de la résolution de l’équation.</p>
-</div>
-<div class="exemple">
-<p>Soit <span class="math inline">x\in \mathbb{R}</span>. Résolvons l’équation <span class="math inline">-2x^2+5x-3=0</span>. <span class="math inline">1</span> est une racine évidente. En effet, <span class="math inline">-2\times 1^2+5\times 1 -3=0</span>. On cherche la deuxième racine <span class="math inline">x_2</span> telle que <span class="math inline">1+x_2=\dfrac{5}{2}</span>. Ainsi <span class="math inline">x_2=\dfrac{3}{2}</span>.</p>
-</div>
-</section>
-<section id="factorisation" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="factorisation"><span class="header-section-number">3.2</span> Factorisation</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span> et <span class="math inline">f</span> une fonction polynomiale du second degré telle que <span class="math inline">\forall x \in \mathbb{R},~ f(x)=ax^2+bx+c</span>.</p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span>, alors <span class="math inline">f</span> n’admet pas de forme factorisée.</li>
-<li>Si <span class="math inline">\Delta =0</span>, alors la forme factorisée de <span class="math inline">f</span> est <span class="math inline">f(x)=a(x-x_0)^2</span> où <span class="math inline">x_0</span> est la racine double de <span class="math inline">f</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span>, alors la forme factorisée de <span class="math inline">f</span> est <span class="math inline">f(x)=a(x-x_1)(x-x_2)</span> où <span class="math inline">x_1</span> et <span class="math inline">x_2</span> sont les deux racines de <span class="math inline">f</span>.</li>
-</ul>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>On a vu dans la démonstration de la proposition sur les racines les différentes factorisations de <span class="math inline">f</span> en fonction du signe de son discriminant <span class="math inline">\Delta</span> :</p>
-<p>Pour commencer <span class="math inline">ax^2+bx+c=0 \iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}</span>.</p>
-<p>Si <span class="math inline">\Delta=0</span>, alors <span class="math inline">\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}\iff \left(x+\dfrac{b}{2a} \right)^2=0 \iff (x-x_0)^2=0</span> avec <span class="math inline">x_0=\dfrac{-b}{2a}</span>, donc <span class="math inline">f(x)=a(x-x_0)^2</span>.</p>
-<p>Si <span class="math inline">\Delta&gt;0</span>, alors d’après la démonstration sur les racines, <span class="math inline">ax^2+bx+c=a\left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=a(x-x_2)(x-x_1)</span>.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="étude-de-signe" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="étude-de-signe"><span class="header-section-number">3.3</span> Étude de signe</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">f</span> une fonction polynôme du second degré définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span>.</p>
-<ul>
-<li>Si <span class="math inline">\Delta &lt;0</span>, alors :
-<ul>
-<li>Si <span class="math inline">a&lt;0</span> alors <span class="math inline">f</span> est strictement négative : <span class="math inline">\forall x \in \mathbb{R},~f(x)&lt;0</span></li>
-<li>Si <span class="math inline">a&gt;0</span> alors <span class="math inline">f</span> est strictement positive : <span class="math inline">\forall x \in \mathbb{R},~f(x)&gt;0</span></li>
-</ul></li>
-<li>Si <span class="math inline">\Delta=0</span> alors :
-<ul>
-<li>Si <span class="math inline">a&lt;0</span> alors <span class="math inline">f</span> est négative et <span class="math inline">f\left(-\dfrac{b}{2a}\right)=0</span>.</li>
-<li>Si <span class="math inline">a&gt;0</span> alors <span class="math inline">f</span> est positive et <span class="math inline">f\left(-\dfrac{b}{2a}\right)=0</span>.</li>
-</ul></li>
-<li>Si <span class="math inline">\Delta &gt;0</span>, alors on note <span class="math inline">x_1</span> et <span class="math inline">x_2</span> les deux racines de <span class="math inline">f</span>. Si on suppose que <span class="math inline">x_1&lt;x_2</span> alors le tableau de signes de <span class="math inline">f</span> est :</li>
-</ul>
+<ol type="1">
+<li><p><span class="math inline">S=X_1+X_2+...+X_7</span>, où pour <span class="math inline">k\in\llbracket 1;7\rrbracket</span>, <span class="math inline">X_k</span> est une variable aléatoire donnant le nombre de tartines mangées par Carla le <span class="math inline">k</span>-ième jour de la semaine.<br>
+La loi de probabilité de <span class="math inline">X_k</span> est donnée par :</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 23%">
-<col style="width: 2%">
-<col style="width: 14%">
-<col style="width: 2%">
-<col style="width: 14%">
-<col style="width: 2%">
-<col style="width: 23%">
-</colgroup>
 <thead>
 <tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">x_1</span></th>
-<th></th>
-<th><span class="math inline">x_2</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td>signe de <span class="math inline">a</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td>signe opposé à <span class="math inline">a</span></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td>signe de <span class="math inline">a</span></td>
+<td style="text-align: center;"><span class="math inline">P(X_k=x_i)</span></td>
+<td style="text-align: center;">0,25</td>
+<td style="text-align: center;">0,62</td>
+<td style="text-align: center;">0,13</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Avec les mêmes notations :</p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span> : Soit <span class="math inline">x\in \mathbb{R}</span>. <span class="math inline">f(x)=ax^2+bx+c=a \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a}=a\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]</span>. Or <span class="math inline">\left(x+\dfrac{b}{2a}\right)^2 \geq 0</span> et <span class="math inline">-\dfrac{\Delta}{4a^2}&gt;0</span> donc par somme <span class="math inline">\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]&gt;0</span>. Ainsi <span class="math inline">f</span> est bien du signe de <span class="math inline">a</span>.</li>
-<li>Si <span class="math inline">\Delta=0</span> alors <span class="math inline">f(x)=a(x-x_0)^2</span>. Ainsi <span class="math inline">f</span> est du signe de <span class="math inline">a</span> et la racine de <span class="math inline">f</span> est <span class="math inline">x_0=-\dfrac{b}{2a}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span> : Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math inline">f(x)=ax^2+bx+c=a(x-x_1)(x-x_2)</span>. Supposons que <span class="math inline">x_1&lt;x_2</span>, alors on a :</li>
-</ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 31%">
-<col style="width: 19%">
-<col style="width: 1%">
-<col style="width: 12%">
-<col style="width: 1%">
-<col style="width: 12%">
-<col style="width: 1%">
-<col style="width: 19%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">x_1</span></th>
-<th></th>
-<th><span class="math inline">x_2</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">x-x_1</span></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">x-x_2</span></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">(x-x_1)(x-x_2)</span></td>
-<td><span class="math inline">+</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">-</span> → <span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">f(x)</span></td>
-<td>signe de <span class="math inline">a</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td>signe opposé à <span class="math inline">a</span></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td>signe de <span class="math inline">a</span></td>
-</tr>
-</tbody>
-</table>
+</table></li>
+<li><p>Les variables aléatoires <span class="math inline">X_k</span>, pour <span class="math inline">k\in\llbracket 1;7\rrbracket</span>, sont indépendantes et identiquement distribuées.<br>
+Donc, <span class="math inline">E(S)=7E(X_1)=7(1 \times 0{,}25+2 \times 0{,}62 + 3 \times 0{,}13)=7 \times 1{,}88 = 13{,}16</span><br>
+Sur un grand nombre de semaines, Carla va manger environ 13,16 tartines en moyenne durant chaque semaine.<br>
+<span class="math inline">V(X_1) = (1^2 \times 0{,}25+2^2 \times 0{,}62 + 3^2 \times 0{,}13) - 1{,}88^2 \simeq 0{,}3656</span><br>
+<span class="math inline">\sigma(S)=\sqrt{7}\sigma(X_1) \simeq 1{,}600</span></p></li>
+</ol>
 </div>
 </div>
-</div>
-<div class="remarque">
-<p>Finalement, on peut retenir que <span class="math inline">f</span> est du signe de <span class="math inline">a</span> sauf entre ses racines.</p>
 </div>
 
 

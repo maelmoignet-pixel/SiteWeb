@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Mathématiques au Lycée - Second degré</title>
+<title>Mathématiques au Lycée - Probabilités conditionnelles et indépendance</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -4689,6 +4689,7 @@ vertical-align: -.125em;
     "search-label": "Recherche"
   }
 }</script>
+<meta name="google" content="notranslate">
 
   
   <script>
@@ -4995,26 +4996,22 @@ content: "🔗 ";
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#fonction-polynôme-du-second-degré" id="toc-fonction-polynôme-du-second-degré" class="nav-link active" data-scroll-target="#fonction-polynôme-du-second-degré"><span class="header-section-number">1</span> Fonction polynôme du second degré</a>
+  <li><a href="#probabilité-conditionnelle" id="toc-probabilité-conditionnelle" class="nav-link active" data-scroll-target="#probabilité-conditionnelle"><span class="header-section-number">1</span> Probabilité conditionnelle</a>
   <ul class="collapse">
   <li><a href="#définition" id="toc-définition" class="nav-link" data-scroll-target="#définition"><span class="header-section-number">1.1</span> Définition</a></li>
-  <li><a href="#forme-canonique" id="toc-forme-canonique" class="nav-link" data-scroll-target="#forme-canonique"><span class="header-section-number">1.2</span> Forme canonique</a>
-  <ul class="collapse">
-  <li><a href="#exemples" id="toc-exemples" class="nav-link" data-scroll-target="#exemples"><span class="header-section-number">1.2.1</span> Exemples</a></li>
-  <li><a href="#cas-général" id="toc-cas-général" class="nav-link" data-scroll-target="#cas-général"><span class="header-section-number">1.2.2</span> Cas général</a></li>
+  <li><a href="#propriétés" id="toc-propriétés" class="nav-link" data-scroll-target="#propriétés"><span class="header-section-number">1.2</span> Propriétés</a></li>
   </ul></li>
-  <li><a href="#étude-des-fonctions-polynomiales-du-second-degré" id="toc-étude-des-fonctions-polynomiales-du-second-degré" class="nav-link" data-scroll-target="#étude-des-fonctions-polynomiales-du-second-degré"><span class="header-section-number">1.3</span> Étude des fonctions polynomiales du second degré</a></li>
-  </ul></li>
-  <li><a href="#équation-du-second-degré" id="toc-équation-du-second-degré" class="nav-link" data-scroll-target="#équation-du-second-degré"><span class="header-section-number">2</span> Équation du second degré</a>
+  <li><a href="#arbres-pondérés" id="toc-arbres-pondérés" class="nav-link" data-scroll-target="#arbres-pondérés"><span class="header-section-number">2</span> Arbres pondérés</a>
   <ul class="collapse">
-  <li><a href="#généralités" id="toc-généralités" class="nav-link" data-scroll-target="#généralités"><span class="header-section-number">2.1</span> Généralités</a></li>
-  <li><a href="#résolution-dune-équation-du-second-degré" id="toc-résolution-dune-équation-du-second-degré" class="nav-link" data-scroll-target="#résolution-dune-équation-du-second-degré"><span class="header-section-number">2.2</span> Résolution d’une équation du second degré</a></li>
+  <li><a href="#règles-de-calcul-sur-un-arbre" id="toc-règles-de-calcul-sur-un-arbre" class="nav-link" data-scroll-target="#règles-de-calcul-sur-un-arbre"><span class="header-section-number">2.1</span> Règles de calcul sur un arbre</a></li>
+  <li><a href="#formule-des-probabilités-totales" id="toc-formule-des-probabilités-totales" class="nav-link" data-scroll-target="#formule-des-probabilités-totales"><span class="header-section-number">2.2</span> Formule des probabilités totales</a></li>
+  <li><a href="#cas-particulier-des-probabilités-totales" id="toc-cas-particulier-des-probabilités-totales" class="nav-link" data-scroll-target="#cas-particulier-des-probabilités-totales"><span class="header-section-number">2.3</span> Cas particulier des probabilités totales</a></li>
+  <li><a href="#cas-général" id="toc-cas-général" class="nav-link" data-scroll-target="#cas-général"><span class="header-section-number">2.4</span> Cas général</a></li>
   </ul></li>
-  <li><a href="#propriété-des-trinômes" id="toc-propriété-des-trinômes" class="nav-link" data-scroll-target="#propriété-des-trinômes"><span class="header-section-number">3</span> Propriété des trinômes</a>
+  <li><a href="#notion-dindépendance" id="toc-notion-dindépendance" class="nav-link" data-scroll-target="#notion-dindépendance"><span class="header-section-number">3</span> Notion d’indépendance</a>
   <ul class="collapse">
-  <li><a href="#somme-et-produit-des-racines" id="toc-somme-et-produit-des-racines" class="nav-link" data-scroll-target="#somme-et-produit-des-racines"><span class="header-section-number">3.1</span> Somme et produit des racines</a></li>
-  <li><a href="#factorisation" id="toc-factorisation" class="nav-link" data-scroll-target="#factorisation"><span class="header-section-number">3.2</span> Factorisation</a></li>
-  <li><a href="#étude-de-signe" id="toc-étude-de-signe" class="nav-link" data-scroll-target="#étude-de-signe"><span class="header-section-number">3.3</span> Étude de signe</a></li>
+  <li><a href="#événements-indépendants" id="toc-événements-indépendants" class="nav-link" data-scroll-target="#événements-indépendants"><span class="header-section-number">3.1</span> Événements indépendants</a></li>
+  <li><a href="#succession-de-deux-épreuves-indépendantes" id="toc-succession-de-deux-épreuves-indépendantes" class="nav-link" data-scroll-target="#succession-de-deux-épreuves-indépendantes"><span class="header-section-number">3.2</span> Succession de deux épreuves indépendantes</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -5024,7 +5021,7 @@ content: "🔗 ";
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Second degré</h1>
+<h1 class="title">Probabilités conditionnelles et indépendance</h1>
 </div>
 
 
@@ -5050,8 +5047,12 @@ content: "🔗 ";
 --rem-color: #d97706;
 --ex-color: #16a34a;
 --app-color: #ea580c;
+--not-color: #4f46e5;
+--meth-color: #dc2626;
+--ill-color: #475569;
 }
-.definition, .proposition, .vocabulaire, .remarque, .exemple, .application {
+.definition, .proposition, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
 margin: 1.5em 0;
 padding: 1em 1.3em 1em 1.3em;
 border-radius: 10px;
@@ -5060,7 +5061,8 @@ box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 font-family: "Georgia", serif;
 }
 .definition::before, .proposition::before, .vocabulaire::before,
-.remarque::before, .exemple::before, .application::before {
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
 display: block;
 font-family: "Helvetica Neue", Arial, sans-serif;
 font-weight: 700;
@@ -5125,6 +5127,33 @@ content: "✏️ Application";
 color: var(--app-color);
 font-size: 1.05em;
 }
+.notation {
+background: #eef2ff;
+border-color: var(--not-color);
+color: #312e81;
+}
+.notation::before {
+content: "🖊️ Notation";
+color: var(--not-color);
+}
+.methode {
+background: #fef2f2;
+border-color: var(--meth-color);
+color: #7f1d1d;
+}
+.methode::before {
+content: "🧭 Méthode";
+color: var(--meth-color);
+}
+.illustration {
+background: #f8fafc;
+border-color: var(--ill-color);
+color: #1e293b;
+}
+.illustration::before {
+content: "🖼️ Illustration";
+color: var(--ill-color);
+}
 
 div.callout-caution {
 border-radius: 10px;
@@ -5138,20 +5167,63 @@ div.callout-caution .callout-title::before {
 content: "🔓 ";
 }
 </style>
-<section id="fonction-polynôme-du-second-degré" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Fonction polynôme du second degré</h1>
+<p>Dans tout le chapitre, on considère une expérience aléatoire d’univers <span class="math inline">\Omega</span>, deux événements <span class="math inline">A</span> et <span class="math inline">B</span> de cette expérience et <span class="math inline">P</span> une probabilité sur <span class="math inline">\Omega</span>.</p>
+<section id="probabilité-conditionnelle" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Probabilité conditionnelle</h1>
+<p>Dans cette partie, on suppose que <span class="math inline">P(A)\neq 0</span>.</p>
 <section id="définition" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="définition"><span class="header-section-number">1.1</span> Définition</h2>
 <div class="definition">
-<p>On appelle fonction polynôme du second degré toute fonction <span class="math inline">f</span>, définie sur <span class="math inline">\mathbb{R}</span>, pouvant se ramener à la forme <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont des réels avec <span class="math inline">a\neq 0</span>.<br>
-L’expression <span class="math inline">ax^2+bx+c</span> est appelée trinôme du second degré.</p>
+<p>La probabilité que l’événement <span class="math inline">B</span> se réalise sachant que l’événement <span class="math inline">A</span> est réalisé est appelée une probabilité conditionnelle. On la note <span class="math inline">P_A(B)</span> (se lit « <span class="math inline">P</span> de <span class="math inline">B</span> sachant <span class="math inline">A</span> »).</p>
 </div>
-<div class="application">
-<p>Les fonctions suivantes sont-elles des fonctions polynomiales du second degré ?</p>
+<div class="exemple">
+<p>Le tableau ci-dessous concerne l’ensemble des adhérents « jeunes » d’un club de tennis :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Benjamins</th>
+<th style="text-align: center;">Minimes</th>
+<th style="text-align: center;">Cadets</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Filles</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">52</td>
+</tr>
+<tr class="even">
+<td>Garçons</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">36</td>
+<td style="text-align: center;">108</td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td style="text-align: center;">44</td>
+<td style="text-align: center;">66</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">160</td>
+</tr>
+</tbody>
+</table>
+<p>On prend au hasard la fiche d’un des adhérents et on considère les événements :</p>
+<ul>
+<li><span class="math inline">M</span> : « L’adhérent est un minime » ;</li>
+<li><span class="math inline">G</span> : « L’adhérent est un garçon » ;</li>
+<li>etc.</li>
+</ul>
+<p>Donner la notation probabiliste ainsi que la valeur de la probabilité des événements suivants :</p>
 <ol type="1">
-<li><span class="math inline">f(x)=2\left(2x-\dfrac{1}{3}\right)^2-1</span></li>
-<li><span class="math inline">g(x)=-(-3+2x)^2+5+4x^2</span></li>
-<li><span class="math inline">h(x)=(3x+2)^2-12x-4</span></li>
+<li>L’adhérent est minime sachant que c’est un garçon.</li>
+<li>L’adhérent est un garçon sachant qu’il est minime.</li>
+<li>L’adhérent est un cadet sachant que c’est une fille.</li>
+<li>L’adhérent est une fille sachant qu’elle est benjamine.</li>
 </ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -5166,47 +5238,38 @@ Solution
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math display">
-\begin{align*}
-f(x) &amp;= 2\left(4x^2 - \dfrac{4}{3}x + \dfrac{1}{9}\right) - 1 \\
-f(x) &amp;= 8x^2 - \dfrac{8}{3}x + \dfrac{2}{9} - 1 \\
-f(x) &amp;= 8x^2 - \dfrac{8}{3}x - \dfrac{7}{9}
-\end{align*}
-</span></p>
-<p><span class="math inline">f</span> est bien une fonction du second degré avec <span class="math inline">a=8</span>, <span class="math inline">b=\dfrac{-8}{3}</span> et <span class="math inline">c=\dfrac{-7}{9}</span>.</p>
-<p><strong>2.</strong> <span class="math display">
-\begin{align*}
-g(x) &amp;= -(9 - 12x + 4x^2) + 5 + 4x^2 \\
-g(x) &amp;= -9 + 12x - 4x^2 + 5 + 4x^2 \\
-g(x) &amp;= (-4x^2 + 4x^2) + 12x + (-9 + 5) \\
-g(x) &amp;= 0x^2 + 12x - 4 \\
-g(x) &amp;= 12x - 4
-\end{align*}
-</span></p>
-<p><span class="math inline">g</span> n’est pas une fonction du second degré.</p>
-<p><strong>3.</strong> <span class="math display">
-\begin{align*}
-h(x) &amp;= (9x^2 + 12x + 4) - 12x - 4 \\
-h(x) &amp;= 9x^2 + 12x + 4 - 12x - 4 \\
-h(x) &amp;= 9x^2
-\end{align*}
-</span></p>
-<p><span class="math inline">h</span> est une fonction du second degré avec <span class="math inline">a=9</span>, <span class="math inline">b=0</span> et <span class="math inline">c=0</span>.</p>
+<ol type="1">
+<li><span class="math inline">P_G(M)=\dfrac{44}{108}=\dfrac{11}{27}</span></li>
+<li><span class="math inline">P_M(G)=\dfrac{44}{66}=\dfrac{2}{3}</span></li>
+<li><span class="math inline">P_F(C)=\dfrac{14}{52}=\dfrac{7}{26}</span></li>
+<li><span class="math inline">P_B(F)=\dfrac{16}{44}=\dfrac{4}{11}</span></li>
+</ol>
 </div>
 </div>
 </div>
 </section>
-<section id="forme-canonique" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="forme-canonique"><span class="header-section-number">1.2</span> Forme canonique</h2>
-<section id="exemples" class="level3" data-number="1.2.1">
-<h3 data-number="1.2.1" class="anchored" data-anchor-id="exemples"><span class="header-section-number">1.2.1</span> Exemples</h3>
-<div class="application">
-<p>Mettre les fonctions polynomiales suivantes sous la forme <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> :</p>
-<ol type="1">
-<li><span class="math inline">f(x)=x^2-6x+8</span></li>
-<li><span class="math inline">g(x)=2x^2-x-3</span></li>
-<li><span class="math inline">h(x)=\dfrac{1}{3}x^2+2x-1</span></li>
-</ol>
+<section id="propriétés" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="propriétés"><span class="header-section-number">1.2</span> Propriétés</h2>
+<div class="proposition">
+<p><strong>(admise)</strong></p>
+<p><span class="math display">
+P(A \cap B)=P(A)\times P_A(B)
+</span></p>
+</div>
+<div class="remarque">
+<p>De la proposition précédente, on déduit également :</p>
+<p><span class="math display">
+P_A(B)=\dfrac{P(A\cap B)}{P(A)}
+</span></p>
+</div>
+<div class="exemple">
+<p>À la montagne, 80 % des vacanciers pratiquent le ski alpin et 20 % la randonnée en raquettes. 60 % des skieurs et 50 % des marcheurs sont des hommes.</p>
+<p>On choisit un vacancier au hasard et on considère les événements suivants :</p>
+<ul>
+<li><span class="math inline">S</span> : « Le vacancier choisi pratique le ski » ;</li>
+<li><span class="math inline">H</span> : « Le vacancier choisi est un homme ».</li>
+</ul>
+<p>Donner la notation probabiliste ainsi que la valeur de la probabilité de l’événement « Le vacancier choisi est un homme qui pratique le ski ».</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -5220,44 +5283,137 @@ Solution
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math display">
-\begin{align*}
-f(x)&amp;=x^2-6x+8 \\
-&amp;=\left(x-\dfrac{6}{2} \right)^2-3^2 +8 \\
-&amp;=\left(x-3\right)^2-9+8 \\
-&amp;=\left(x-3\right)^2-1
-\end{align*}
-</span></p>
-<p><strong>2.</strong> <span class="math display">
-\begin{align*}
-g(x)&amp;=2x^2-x-3 \\
-&amp;=2\left(x^2-\dfrac{1}{2}x \right) -3 \\
-&amp;=2 \left( \left(x-\dfrac{1}{4} \right)^2-\left(\dfrac{1}{4}\right)^2\right)-3 \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-2\times \dfrac{1}{16}-3 \\
-&amp;= 2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-3 \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{1}{8}-\dfrac{24}{8} \\
-&amp;=2\left(x-\dfrac{1}{4}\right)^2-\dfrac{25}{8}
-\end{align*}
-</span></p>
-<p><strong>3.</strong> <span class="math display">
-\begin{align*}
-h(x) &amp;= \dfrac{1}{3}x^2+2x-1 \\
-h(x) &amp;= \dfrac{1}{3}\left(x^2 + 6x\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}\left(x^2 + 6x + 9 - 9\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}\left((x+3)^2 - 9\right) - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - \dfrac{1}{3} \times 9 - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - 3 - 1 \\
-h(x) &amp;= \dfrac{1}{3}(x+3)^2 - 4
-\end{align*}
-</span></p>
+<p><span class="math inline">P(S\cap H)=P(S)\times P_S(H)=0{,}8 \times 0{,}6=0{,}48</span></p>
 </div>
 </div>
 </div>
 </section>
-<section id="cas-général" class="level3" data-number="1.2.2">
-<h3 data-number="1.2.2" class="anchored" data-anchor-id="cas-général"><span class="header-section-number">1.2.2</span> Cas général</h3>
+</section>
+<section id="arbres-pondérés" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Arbres pondérés</h1>
+<section id="règles-de-calcul-sur-un-arbre" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="règles-de-calcul-sur-un-arbre"><span class="header-section-number">2.1</span> Règles de calcul sur un arbre</h2>
 <div class="proposition">
-<p>Toute fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont trois réels avec <span class="math inline">a\neq 0</span> admet une écriture de la forme <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> avec <span class="math inline">\alpha=-\dfrac{b}{2a}</span> et <span class="math inline">\beta=f(\alpha)=-\dfrac{b^2-4ac}{4a}</span>.</p>
+<p><strong>(admise)</strong></p>
+<p>Dans un arbre pondéré :</p>
+<ul>
+<li>la somme des probabilités des branches issues d’un même nœud est égale à 1 ;</li>
+<li>la probabilité de l’événement correspondant à un chemin de l’arbre est égale au produit des probabilités inscrites sur les branches du chemin.</li>
+</ul>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><svg id="svg_7c5d22bbc3e1f61b741d" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Arbre pondéré général : A et A barre au premier niveau, B et B barre au second, avec les probabilités P(A), P(A barre) et les probabilités conditionnelles sur les branches" viewBox="0 0 559 310" width="559" height="310" font-family="&#39;Times New Roman&#39;, &#39;DejaVu Serif&#39;, serif" color="#1e293b" fill="#1e293b" role="img">
+<title>Arbre pondéré général à deux niveaux</title>
+<defs><marker id="svg_7c5d22bbc3e1f61b741d_fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" /></marker></defs>
+<rect width="100%" height="100%" fill="white" />
+<line x1="42.7" y1="148.9" x2="203.4" y2="77.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="66.3" x2="328.8" y2="34.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="75.7" x2="328.8" y2="107.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="42.7" y1="161.1" x2="203.4" y2="232.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="234.3" x2="328.8" y2="202.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="243.7" x2="328.8" y2="275.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<rect x="101.2" y="101.0" width="44.7" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="106.2" y="118.8" font-size="17" font-style="italic">P</text>
+<text x="117.4" y="118.8" font-size="17">(</text>
+<text x="123.5" y="118.8" font-size="17" font-style="italic">A</text>
+<text x="134.7" y="118.8" font-size="17">)</text>
+<rect x="254.2" y="38.0" width="53.6" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="259.2" y="55.8" font-size="17" font-style="italic">P</text>
+<text x="270.4" y="59.8" font-size="12" font-style="italic">A</text>
+<text x="279.3" y="55.8" font-size="17">(</text>
+<text x="285.5" y="55.8" font-size="17" font-style="italic">B</text>
+<text x="296.7" y="55.8" font-size="17">)</text>
+<rect x="254.2" y="80.0" width="53.6" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="259.2" y="97.8" font-size="17" font-style="italic">P</text>
+<text x="270.4" y="101.8" font-size="12" font-style="italic">A</text>
+<text x="279.3" y="97.8" font-size="17">(</text>
+<text x="285.5" y="97.8" font-size="17" font-style="italic">B</text>
+<line x1="287.5" y1="84.5" x2="296.3" y2="84.5" stroke="currentColor" stroke-width="1.1"></line>
+<text x="296.7" y="97.8" font-size="17">)</text>
+<rect x="101.2" y="185.0" width="44.7" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="106.2" y="202.8" font-size="17" font-style="italic">P</text>
+<text x="117.4" y="202.8" font-size="17">(</text>
+<text x="123.5" y="202.8" font-size="17" font-style="italic">A</text>
+<line x1="125.5" y1="189.5" x2="134.4" y2="189.5" stroke="currentColor" stroke-width="1.1"></line>
+<text x="134.7" y="202.8" font-size="17">)</text>
+<rect x="254.2" y="206.0" width="53.6" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="259.2" y="223.8" font-size="17" font-style="italic">P</text>
+<text x="270.4" y="227.8" font-size="12" font-style="italic">A</text>
+<line x1="271.9" y1="218.4" x2="279.1" y2="218.4" stroke="currentColor" stroke-width="1.1"></line>
+<text x="279.3" y="223.8" font-size="17">(</text>
+<text x="285.5" y="223.8" font-size="17" font-style="italic">B</text>
+<text x="296.7" y="223.8" font-size="17">)</text>
+<rect x="254.2" y="248.0" width="53.6" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="259.2" y="265.8" font-size="17" font-style="italic">P</text>
+<text x="270.4" y="269.8" font-size="12" font-style="italic">A</text>
+<line x1="271.9" y1="260.4" x2="279.1" y2="260.4" stroke="currentColor" stroke-width="1.1"></line>
+<text x="279.3" y="265.8" font-size="17">(</text>
+<text x="285.5" y="265.8" font-size="17" font-style="italic">B</text>
+<line x1="287.5" y1="252.5" x2="296.3" y2="252.5" stroke="currentColor" stroke-width="1.1"></line>
+<text x="296.7" y="265.8" font-size="17">)</text>
+<circle cx="29.0" cy="155.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<circle cx="218.0" cy="71.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="76.8" font-size="17" font-style="italic">A</text>
+<circle cx="344.0" cy="29.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="34.8" font-size="17" font-style="italic">B</text>
+<circle cx="344.0" cy="113.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="118.8" font-size="17" font-style="italic">B</text>
+<line x1="340.4" y1="105.5" x2="349.3" y2="105.5" stroke="currentColor" stroke-width="1.1"></line>
+<circle cx="218.0" cy="239.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="244.8" font-size="17" font-style="italic">A</text>
+<line x1="214.4" y1="231.5" x2="223.3" y2="231.5" stroke="currentColor" stroke-width="1.1"></line>
+<circle cx="344.0" cy="197.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="202.8" font-size="17" font-style="italic">B</text>
+<circle cx="344.0" cy="281.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="286.8" font-size="17" font-style="italic">B</text>
+<line x1="340.4" y1="273.5" x2="349.3" y2="273.5" stroke="currentColor" stroke-width="1.1"></line>
+<rect x="446.1" y="16.0" width="47.7" height="26" fill="white" stroke="currentColor" stroke-width="1.1" />
+<text x="452.1" y="34.8" font-size="17" font-style="italic">A</text>
+<text x="463.4" y="34.8" font-size="17">∩</text>
+<text x="476.6" y="34.8" font-size="17" font-style="italic">B</text>
+<rect x="446.1" y="100.0" width="47.7" height="26" fill="white" stroke="currentColor" stroke-width="1.1" />
+<text x="452.1" y="118.8" font-size="17" font-style="italic">A</text>
+<text x="463.4" y="118.8" font-size="17">∩</text>
+<text x="476.6" y="118.8" font-size="17" font-style="italic">B</text>
+<line x1="478.7" y1="105.5" x2="487.5" y2="105.5" stroke="currentColor" stroke-width="1.1"></line>
+<rect x="446.1" y="184.0" width="47.7" height="26" fill="white" stroke="currentColor" stroke-width="1.1" />
+<text x="452.1" y="202.8" font-size="17" font-style="italic">A</text>
+<line x1="454.2" y1="189.5" x2="463.0" y2="189.5" stroke="currentColor" stroke-width="1.1"></line>
+<text x="463.4" y="202.8" font-size="17">∩</text>
+<text x="476.6" y="202.8" font-size="17" font-style="italic">B</text>
+<rect x="446.1" y="268.0" width="47.7" height="26" fill="white" stroke="currentColor" stroke-width="1.1" />
+<text x="452.1" y="286.8" font-size="17" font-style="italic">A</text>
+<line x1="454.2" y1="273.5" x2="463.0" y2="273.5" stroke="currentColor" stroke-width="1.1"></line>
+<text x="463.4" y="286.8" font-size="17">∩</text>
+<text x="476.6" y="286.8" font-size="17" font-style="italic">B</text>
+<line x1="478.7" y1="273.5" x2="487.5" y2="273.5" stroke="currentColor" stroke-width="1.1"></line>
+</svg></p>
+</figure>
+</div>
+</div>
+<div class="application">
+<p>Un fabricant de smartphones achète ses écrans chez deux fournisseurs :</p>
+<ul>
+<li>60 % des écrans proviennent du fournisseur A ;</li>
+<li>le fournisseur A a un taux d’écrans défectueux de 1 % ;</li>
+<li>le fournisseur B a un taux d’écrans défectueux de 2 %.</li>
+</ul>
+<p>On prélève au hasard un smartphone dans le stock du fabricant. On note :</p>
+<ul>
+<li><span class="math inline">A</span> : « L’écran provient du fournisseur A » ;</li>
+<li><span class="math inline">B</span> : « L’écran provient du fournisseur B » ;</li>
+<li><span class="math inline">D</span> : « L’écran est défectueux ».</li>
+</ul>
+<ol type="1">
+<li>Représenter la situation à l’aide d’un arbre pondéré.</li>
+<li>Donner la notation probabiliste ainsi que la valeur de la probabilité des événements suivants :
+<ol type="a">
+<li>« Le smartphone provient du fournisseur A et est défectueux » ;</li>
+<li>« Le smartphone provient du fournisseur B et n’est pas défectueux ».</li>
+</ol></li>
+</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -5271,36 +5427,122 @@ Solution
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">f</span> une fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont trois réels avec <span class="math inline">a\neq 0</span>.</p>
-<p><span class="math display">
-\begin{align*}
-f(x)&amp;=ax^2+bx+c \\
-&amp;= a\left(x^2+\dfrac{b}{a}x \right)+c \\
-&amp;= a\left( \left(x+\dfrac{b}{2a}\right)^2-\left(\dfrac{b}{2a} \right)^2  \right)+c \\
-&amp;=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2}{4a}+c \\
-&amp;=a \left(x+\dfrac{b}{2a} \right)^2-\dfrac{b^2-4ac}{4a}
-\end{align*}
-</span></p>
-<p>On pose <span class="math inline">\alpha=-\dfrac{b}{2a}</span> et <span class="math inline">\beta=-\dfrac{b^2-4ac}{4a}</span> et ainsi <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<p><strong>1.</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><svg id="svg_3ed104641c1a412ffa79" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Arbre pondéré : A (0,6) puis D (0,01) ou D barre (0,99) ; B (0,4) puis D (0,02) ou D barre (0,98)" viewBox="0 0 373 310" width="373" height="310" font-family="&#39;Times New Roman&#39;, &#39;DejaVu Serif&#39;, serif" color="#1e293b" fill="#1e293b" role="img">
+<title>Arbre pondéré : fournisseur de l&#39;écran puis écran défectueux ou non</title>
+<defs><marker id="svg_3ed104641c1a412ffa79_fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" /></marker></defs>
+<rect width="100%" height="100%" fill="white" />
+<line x1="42.7" y1="148.9" x2="203.4" y2="77.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="66.3" x2="328.8" y2="34.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="75.7" x2="328.8" y2="107.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="42.7" y1="161.1" x2="203.4" y2="232.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="234.3" x2="328.8" y2="202.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="243.7" x2="328.8" y2="275.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<rect x="107.3" y="101.0" width="32.4" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="112.3" y="118.8" font-size="17">0</text>
+<text x="121.1" y="118.8" font-size="17">,</text>
+<text x="125.9" y="118.8" font-size="17">6</text>
+<rect x="260.4" y="38.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="55.8" font-size="17">0</text>
+<text x="274.2" y="55.8" font-size="17">,</text>
+<text x="279.0" y="55.8" font-size="17">0</text>
+<text x="287.8" y="55.8" font-size="17">1</text>
+<rect x="260.4" y="80.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="97.8" font-size="17">0</text>
+<text x="274.2" y="97.8" font-size="17">,</text>
+<text x="279.0" y="97.8" font-size="17">9</text>
+<text x="287.8" y="97.8" font-size="17">9</text>
+<rect x="107.3" y="185.0" width="32.4" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="112.3" y="202.8" font-size="17">0</text>
+<text x="121.1" y="202.8" font-size="17">,</text>
+<text x="125.9" y="202.8" font-size="17">4</text>
+<rect x="260.4" y="206.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="223.8" font-size="17">0</text>
+<text x="274.2" y="223.8" font-size="17">,</text>
+<text x="279.0" y="223.8" font-size="17">0</text>
+<text x="287.8" y="223.8" font-size="17">2</text>
+<rect x="260.4" y="248.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="265.8" font-size="17">0</text>
+<text x="274.2" y="265.8" font-size="17">,</text>
+<text x="279.0" y="265.8" font-size="17">9</text>
+<text x="287.8" y="265.8" font-size="17">8</text>
+<circle cx="29.0" cy="155.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<circle cx="218.0" cy="71.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="76.8" font-size="17" font-style="italic">A</text>
+<circle cx="344.0" cy="29.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="34.8" font-size="17" font-style="italic">D</text>
+<circle cx="344.0" cy="113.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="118.8" font-size="17" font-style="italic">D</text>
+<line x1="340.4" y1="105.5" x2="349.3" y2="105.5" stroke="currentColor" stroke-width="1.1"></line>
+<circle cx="218.0" cy="239.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="244.8" font-size="17" font-style="italic">B</text>
+<circle cx="344.0" cy="197.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="202.8" font-size="17" font-style="italic">D</text>
+<circle cx="344.0" cy="281.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="286.8" font-size="17" font-style="italic">D</text>
+<line x1="340.4" y1="273.5" x2="349.3" y2="273.5" stroke="currentColor" stroke-width="1.1"></line>
+</svg></p>
+</figure>
+</div>
+<p><strong>2.</strong></p>
+<ol type="a">
+<li><p><span class="math inline">P(A\cap D)=0{,}6 \times 0{,}01=0{,}006</span>. La probabilité que l’écran provienne du fournisseur A et soit défectueux est <span class="math inline">0{,}006</span>.</p></li>
+<li><p><span class="math inline">P(B\cap \overline{D})=0{,}4 \times 0{,}98=0{,}392</span>. La probabilité que l’écran provienne du fournisseur B et ne soit pas défectueux est <span class="math inline">0{,}392</span>.</p></li>
+</ol>
 </div>
 </div>
+</div>
+</section>
+<section id="formule-des-probabilités-totales" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="formule-des-probabilités-totales"><span class="header-section-number">2.2</span> Formule des probabilités totales</h2>
+<div class="definition">
+<p>Une partition de l’univers est un ensemble d’événements deux à deux incompatibles et dont la réunion est l’univers.</p>
+</div>
+<div class="exemple">
+<p>On lance un dé à six faces. L’univers est <span class="math inline">\Omega=\{1;2;3;4;5;6\}</span>. On considère les événements :</p>
+<ul>
+<li><span class="math inline">A</span> : « le résultat est pair » ;</li>
+<li><span class="math inline">B</span> : « le résultat est impair ».</li>
+</ul>
+<p><span class="math inline">A</span> et <span class="math inline">B</span> forment une partition de <span class="math inline">\Omega</span>.</p>
 </div>
 <div class="vocabulaire">
-<p>Cette forme est appelée forme canonique de <span class="math inline">f</span>.</p>
-</div>
-<div class="vocabulaire">
-<p>Avec les mêmes notations, le réel <span class="math inline">b^2-4ac</span>, noté <span class="math inline">\Delta</span>, est appelé le discriminant de la fonction polynomiale <span class="math inline">f</span>.</p>
-<p><span class="math display"> \Delta=b^2-4ac</span></p>
+<p>On dit aussi que les événements de la partition forment un système complet d’événements.</p>
 </div>
 <div class="remarque">
-<p>Avec ces formules, il est parfois plus simple de déterminer la forme canonique qu’en la calculant directement : <span class="math inline">f(x)=a\left(x-\alpha \right)^2-\dfrac{\Delta}{4a}</span> avec <span class="math inline">\alpha=\dfrac{-b}{2a}</span> et <span class="math inline">\Delta=b^2-4ac</span>.</p>
+<ul>
+<li>Deux événements sont dits incompatibles si leur intersection est vide.</li>
+<li>Un événement <span class="math inline">A</span> et son événement contraire <span class="math inline">\overline{A}</span> forment une partition de l’univers.</li>
+</ul>
+</div>
+<div class="exemple">
+<p>Reprenons l’exemple précédent :</p>
+<ul>
+<li><span class="math inline">A=\{2;4;6\}</span></li>
+<li><span class="math inline">B=\{1;3;5\}</span></li>
+</ul>
+<p>D’une part <span class="math inline">A\cap B=\{2;4;6\}\cap\{1;3;5\}= \varnothing</span> et d’autre part <span class="math inline">A\cup B=\{2;4;6\}\cup\{1;3;5\}=\Omega</span>. <span class="math inline">A</span> et <span class="math inline">B</span> forment bien une partition de l’univers.</p>
+<p>D’autre part <span class="math inline">A \cap \overline{A}=\varnothing</span> et <span class="math inline">A\cup \overline{A}=\Omega</span>. De même, <span class="math inline">A</span> et <span class="math inline">\overline{A}</span> forment bien une partition de <span class="math inline">\Omega</span>.</p>
+</div>
+</section>
+<section id="cas-particulier-des-probabilités-totales" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="cas-particulier-des-probabilités-totales"><span class="header-section-number">2.3</span> Cas particulier des probabilités totales</h2>
+<div class="proposition">
+<p><strong>(admise)</strong></p>
+<p>Soit <span class="math inline">A</span> un événement tel que <span class="math inline">P(A)\neq 0</span> (et donc <span class="math inline">P(\overline{A})\neq 0</span>).</p>
+<p>La probabilité d’un événement <span class="math inline">B</span> est donnée par la formule :</p>
+<p><span class="math display">
+P(B)=P(A\cap B)+P(\overline{A}\cap B) = P(A)\times P_A(B)+P(\overline{A})\times P_{\overline{A}}(B)
+</span></p>
+</div>
+<div class="remarque">
+<p>Sur un arbre pondéré, la probabilité d’un événement <span class="math inline">B</span> s’obtient en additionnant les probabilités des chemins conduisant à la réalisation de <span class="math inline">B</span>.</p>
 </div>
 <div class="application">
-<p>En utilisant les formules précédentes, déterminer les formes canoniques des fonctions polynomiales suivantes :</p>
-<ol type="1">
-<li><span class="math inline">f(x)=3x^2+2x-1</span></li>
-<li><span class="math inline">g(x)=x^2+4x+10</span></li>
-</ol>
+<p>Reprenons l’application sur les écrans de smartphone.</p>
+<p>Calculer la probabilité qu’un écran soit défectueux.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -5314,30 +5556,52 @@ Solution
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math inline">f(x)=3x^2+2x-1</span></p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-2}{2\times 3}=-\dfrac{1}{3}</span> et <span class="math inline">\Delta=b^2-4ac=2^2-4 \times 3\times (-1)=16</span>.</p>
-<p>Ainsi <span class="math inline">f(x)=3 \left( x +\dfrac{1}{3}\right)^2-\dfrac{4}{3}</span>.</p>
-<p><strong>2.</strong> <span class="math inline">g(x)=x^2+4x+10</span></p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-4}{2\times 1}=-\dfrac{4}{2}=-2</span> et <span class="math inline">\Delta=b^2-4ac=4^2-4 \times 1\times 10=16-40=-24</span>.</p>
+<p>Les événements <span class="math inline">A</span> et <span class="math inline">B</span> forment une partition de l’univers, donc d’après la formule des probabilités totales :</p>
 <p><span class="math display">
-\begin{align*}
-g(x) &amp;= 1 \left( x -(-2)\right)^2-\dfrac{-24}{4\times 1} \\
-g(x) &amp;= 1 \left( x +2\right)^2-\dfrac{-24}{4} \\
-g(x) &amp;= 1 \left( x +2\right)^2+6
-\end{align*}
+P(D)=P(A\cap D)+P(B\cap D)=0{,}6\times 0{,}01 +0{,}4 \times 0{,}02 = 0{,}014
 </span></p>
 </div>
 </div>
 </div>
 </section>
-</section>
-<section id="étude-des-fonctions-polynomiales-du-second-degré" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="étude-des-fonctions-polynomiales-du-second-degré"><span class="header-section-number">1.3</span> Étude des fonctions polynomiales du second degré</h2>
-<div class="vocabulaire">
-<p>La courbe représentative d’une fonction polynomiale du second degré s’appelle une parabole.</p>
-</div>
+<section id="cas-général" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="cas-général"><span class="header-section-number">2.4</span> Cas général</h2>
 <div class="proposition">
-<p>La parabole représentative d’une fonction polynomiale du second degré <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> avec <span class="math inline">a</span>, <span class="math inline">\alpha</span> et <span class="math inline">\beta</span> trois réels et <span class="math inline">a\neq 0</span> admet la droite d’équation <span class="math inline">x=\alpha</span> pour axe de symétrie.</p>
+<p><strong>(admise)</strong></p>
+<p>Soit <span class="math inline">n \in \mathbb{N}^*</span>.</p>
+<p>On considère une expérience aléatoire d’univers <span class="math inline">\Omega</span>.</p>
+<p>Soit <span class="math inline">A_1</span>, <span class="math inline">A_2</span>, …, <span class="math inline">A_n</span> un système complet d’événements.</p>
+<p>Pour tout événement <span class="math inline">B</span> de <span class="math inline">\Omega</span>, on a :</p>
+<p><span class="math display">
+P(B)=P(A_1\cap B)+P(A_2\cap B)+\dots+P(A_n\cap B)
+</span></p>
+</div>
+<div class="remarque">
+<p>D’après la proposition précédente, on a donc :</p>
+<p><span class="math display">
+P(B)=P(A_1) \times P_{A_1}(B)+P(A_2) \times P_{A_2}(B)+ \dots+P(A_n) \times P_{A_n}(B)
+</span></p>
+</div>
+<div class="remarque">
+<p>Sur un arbre pondéré, la probabilité d’un événement correspondant à plusieurs chemins est égale à la somme des probabilités des chemins correspondant à cet événement.</p>
+</div>
+<div class="application">
+<p>Une entreprise fabrique des trottinettes électriques. Chacune d’entre elles est fabriquée sur l’un des trois sites A, B ou C de l’entreprise. Le site A assure 60 % de la production totale, le site B produit 15 % des trottinettes et le site C produit le reste.</p>
+<p>Une étude a montré que, parmi les trottinettes provenant du site A, 5 % sont défectueuses contre 2 % pour celles du site B et 6 % pour celles du site C.</p>
+<p>On choisit au hasard une trottinette dans l’ensemble de la production.</p>
+<p>On note <span class="math inline">A</span>, <span class="math inline">B</span>, <span class="math inline">C</span> et <span class="math inline">D</span> les événements :</p>
+<ul>
+<li><span class="math inline">A</span> : « la trottinette provient du site A » ;</li>
+<li><span class="math inline">B</span> : « la trottinette provient du site B » ;</li>
+<li><span class="math inline">C</span> : « la trottinette provient du site C » ;</li>
+<li><span class="math inline">D</span> : « la trottinette est défectueuse ».</li>
+</ul>
+<ol type="1">
+<li>Justifier que les événements <span class="math inline">A</span>, <span class="math inline">B</span> et <span class="math inline">C</span> forment une partition de l’univers.</li>
+<li>Construire un arbre pondéré décrivant la situation.</li>
+<li>Calculer la probabilité que la trottinette provienne du site A et soit défectueuse.</li>
+<li>Calculer la probabilité que la trottinette soit défectueuse.</li>
+</ol>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -5351,27 +5615,125 @@ Solution
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Avec les mêmes notations, soit <span class="math inline">h\in \mathbb{R}</span>.</p>
-<p>D’une part : <span class="math display">
-\begin{align*}
-f(\alpha + h) &amp;= a((\alpha + h) - \alpha)^2 + \beta \\
-&amp;= a(h)^2 + \beta \\
-&amp;= ah^2 + \beta
-\end{align*}
+<p><strong>1.</strong> Une trottinette ne peut avoir été fabriquée simultanément sur deux sites, donc les événements <span class="math inline">A</span>, <span class="math inline">B</span> et <span class="math inline">C</span> sont incompatibles deux à deux. De plus, les sites A, B et C constituent la totalité des sites de l’entreprise, donc <span class="math inline">A\cup B \cup C=\Omega</span>. Les événements <span class="math inline">A</span>, <span class="math inline">B</span> et <span class="math inline">C</span> forment donc une partition de l’univers.</p>
+<p><strong>2.</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><svg id="svg_7c1b9531816e4bbe61c1" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Arbre pondéré : A (0,6), B (0,15), C (0,25), puis D ou D barre avec 0,05/0,95, 0,02/0,98 et 0,06/0,94" viewBox="0 0 373 478" width="373" height="478" font-family="&#39;Times New Roman&#39;, &#39;DejaVu Serif&#39;, serif" color="#1e293b" fill="#1e293b" role="img">
+<title>Arbre pondéré : site de fabrication puis trottinette défectueuse ou non</title>
+<defs><marker id="svg_7c1b9531816e4bbe61c1_fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" /></marker></defs>
+<rect width="100%" height="100%" fill="white" />
+<line x1="40.2" y1="229.0" x2="206.0" y2="81.6" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="66.3" x2="328.8" y2="34.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="75.7" x2="328.8" y2="107.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="44.0" y1="239.0" x2="202.0" y2="239.0" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="234.3" x2="328.8" y2="202.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="243.7" x2="328.8" y2="275.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="40.2" y1="249.0" x2="206.0" y2="396.4" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="402.3" x2="328.8" y2="370.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="411.7" x2="328.8" y2="443.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<rect x="107.3" y="143.0" width="32.4" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="112.3" y="160.8" font-size="17">0</text>
+<text x="121.1" y="160.8" font-size="17">,</text>
+<text x="125.9" y="160.8" font-size="17">6</text>
+<rect x="260.4" y="38.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="55.8" font-size="17">0</text>
+<text x="274.2" y="55.8" font-size="17">,</text>
+<text x="279.0" y="55.8" font-size="17">0</text>
+<text x="287.8" y="55.8" font-size="17">5</text>
+<rect x="260.4" y="80.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="97.8" font-size="17">0</text>
+<text x="274.2" y="97.8" font-size="17">,</text>
+<text x="279.0" y="97.8" font-size="17">9</text>
+<text x="287.8" y="97.8" font-size="17">5</text>
+<rect x="102.9" y="227.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="107.9" y="244.8" font-size="17">0</text>
+<text x="116.7" y="244.8" font-size="17">,</text>
+<text x="121.5" y="244.8" font-size="17">1</text>
+<text x="130.3" y="244.8" font-size="17">5</text>
+<rect x="260.4" y="206.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="223.8" font-size="17">0</text>
+<text x="274.2" y="223.8" font-size="17">,</text>
+<text x="279.0" y="223.8" font-size="17">0</text>
+<text x="287.8" y="223.8" font-size="17">2</text>
+<rect x="260.4" y="248.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="265.8" font-size="17">0</text>
+<text x="274.2" y="265.8" font-size="17">,</text>
+<text x="279.0" y="265.8" font-size="17">9</text>
+<text x="287.8" y="265.8" font-size="17">8</text>
+<rect x="102.9" y="311.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="107.9" y="328.8" font-size="17">0</text>
+<text x="116.7" y="328.8" font-size="17">,</text>
+<text x="121.5" y="328.8" font-size="17">2</text>
+<text x="130.3" y="328.8" font-size="17">5</text>
+<rect x="260.4" y="374.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="391.8" font-size="17">0</text>
+<text x="274.2" y="391.8" font-size="17">,</text>
+<text x="279.0" y="391.8" font-size="17">0</text>
+<text x="287.8" y="391.8" font-size="17">6</text>
+<rect x="260.4" y="416.0" width="41.3" height="24" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="265.4" y="433.8" font-size="17">0</text>
+<text x="274.2" y="433.8" font-size="17">,</text>
+<text x="279.0" y="433.8" font-size="17">9</text>
+<text x="287.8" y="433.8" font-size="17">4</text>
+<circle cx="29.0" cy="239.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<circle cx="218.0" cy="71.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="76.8" font-size="17" font-style="italic">A</text>
+<circle cx="344.0" cy="29.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="34.8" font-size="17" font-style="italic">D</text>
+<circle cx="344.0" cy="113.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="118.8" font-size="17" font-style="italic">D</text>
+<line x1="340.4" y1="105.5" x2="349.3" y2="105.5" stroke="currentColor" stroke-width="1.1"></line>
+<circle cx="218.0" cy="239.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="244.8" font-size="17" font-style="italic">B</text>
+<circle cx="344.0" cy="197.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="202.8" font-size="17" font-style="italic">D</text>
+<circle cx="344.0" cy="281.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="286.8" font-size="17" font-style="italic">D</text>
+<line x1="340.4" y1="273.5" x2="349.3" y2="273.5" stroke="currentColor" stroke-width="1.1"></line>
+<circle cx="218.0" cy="407.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="212.4" y="412.8" font-size="17" font-style="italic">C</text>
+<circle cx="344.0" cy="365.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="370.8" font-size="17" font-style="italic">D</text>
+<circle cx="344.0" cy="449.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="338.4" y="454.8" font-size="17" font-style="italic">D</text>
+<line x1="340.4" y1="441.5" x2="349.3" y2="441.5" stroke="currentColor" stroke-width="1.1"></line>
+</svg></p>
+</figure>
+</div>
+<p><strong>3.</strong> <span class="math inline">P(A\cap D)=P(A)\times P_A(D)=0{,}6 \times 0{,}05=0{,}03</span></p>
+<p><strong>4.</strong> Les événements <span class="math inline">A</span>, <span class="math inline">B</span> et <span class="math inline">C</span> forment une partition de l’univers donc, d’après la formule des probabilités totales :</p>
+<p><span class="math display">
+P(D)=P(A\cap D)+P(B\cap D)+P(C\cap D)=0{,}6\times 0{,}05+0{,}15 \times 0{,}02+0{,}25 \times 0{,}06=0{,}048
 </span></p>
-<p>D’autre part : <span class="math display">
-\begin{align*}
-f(\alpha - h) &amp;= a((\alpha - h) - \alpha)^2 + \beta \\
-&amp;= a(-h)^2 + \beta \\
-&amp;= ah^2 + \beta
-\end{align*}
-</span></p>
-<p>Ainsi <span class="math inline">f(\alpha + h) = f(\alpha - h)</span>. Ceci prouve que la parabole est symétrique par rapport à la droite verticale d’équation <span class="math inline">x=\alpha</span>.</p>
 </div>
 </div>
+</div>
+</section>
+</section>
+<section id="notion-dindépendance" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Notion d’indépendance</h1>
+<p>Dans cette partie, on suppose que <span class="math inline">P(A)\neq 0</span> et <span class="math inline">P(B)\neq 0</span>.</p>
+<section id="événements-indépendants" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="événements-indépendants"><span class="header-section-number">3.1</span> Événements indépendants</h2>
+<div class="definition">
+<p>On dit que deux événements <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants lorsque</p>
+<p><span class="math display">
+P(B)=P_A(B)
+</span></p>
+</div>
+<div class="remarque">
+<ul>
+<li><p>L’égalité <span class="math inline">P(B)=P_A(B)</span> signifie que la réalisation de l’événement <span class="math inline">A</span> ne modifie pas la probabilité que l’événement <span class="math inline">B</span> se réalise.</p></li>
+<li><p>De manière symétrique, si <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants, on a également :</p>
+<p><span class="math display">
+P(A)=P_B(A)
+</span></p></li>
+<li><p>Il ne faut pas confondre événements indépendants et événements incompatibles.</p></li>
+</ul>
 </div>
 <div class="proposition">
-<p>Le point <span class="math inline">S(\alpha;\beta)</span> est le sommet de la parabole représentative d’une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<p><span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants si et seulement si <span class="math inline">P(A\cap B)=P(A) \times P(B)</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -5385,80 +5747,26 @@ Solution
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span>, avec <span class="math inline">a \neq 0</span>.</p>
-<p><span class="math inline">\forall x \in \mathbb{R},~(x-\alpha)^2 \ge 0</span>.</p>
-<p><strong>Cas 1 : <span class="math inline">a &gt; 0</span></strong></p>
-<p>Si <span class="math inline">a &gt; 0</span>, alors <span class="math inline">a(x-\alpha)^2 \ge 0</span>. Donc <span class="math inline">f(x) = a(x-\alpha)^2 + \beta \ge \beta</span>. La fonction <span class="math inline">f(x)</span> atteint un minimum égal à <span class="math inline">\beta</span>. Ce minimum est atteint quand <span class="math inline">(x-\alpha)^2 = 0</span>, soit <span class="math inline">x=\alpha</span>. Le point <span class="math inline">(\alpha; \beta)</span> est alors le minimum de la fonction.</p>
-<p><strong>Cas 2 : <span class="math inline">a &lt; 0</span></strong></p>
-<p>Si <span class="math inline">a &lt; 0</span>, alors <span class="math inline">a(x-\alpha)^2 \le 0</span>. Donc <span class="math inline">f(x) = a(x-\alpha)^2 + \beta \le \beta</span>. La fonction <span class="math inline">f(x)</span> atteint un maximum égal à <span class="math inline">\beta</span>. Ce maximum est atteint quand <span class="math inline">(x-\alpha)^2 = 0</span>, soit <span class="math inline">x=\alpha</span>. Le point <span class="math inline">(\alpha; \beta)</span> est alors le maximum de la fonction.</p>
-<p>Dans les deux cas, le point <span class="math inline">(\alpha; \beta)</span> correspond à l’extremum (minimum ou maximum) de la fonction. Par définition, ce point d’extremum est le sommet de la parabole. Ainsi, <span class="math inline">S(\alpha; \beta)</span> est le sommet de la parabole représentative de <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span>.</p>
+<ul>
+<li><p><span class="math inline">\Rightarrow</span> Supposons que <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants.</p>
+<p>D’après la proposition du paragraphe « Propriétés », <span class="math inline">P(A\cap B)=P(A) \times P_A(B)</span>.</p>
+<p>Or <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants donc <span class="math inline">P_A(B)=P(B)</span>.</p>
+<p>Donc <span class="math inline">P(A\cap B)=P(A) \times P(B)</span>.</p></li>
+<li><p><span class="math inline">\Leftarrow</span> Supposons que <span class="math inline">P(A\cap B)=P(A) \times P(B)</span>.</p>
+<p>D’après la proposition du paragraphe « Propriétés », <span class="math inline">P(A\cap B)=P(A) \times P_A(B)</span>.</p>
+<p>Donc <span class="math inline">P(A)\times P(B)=P(A) \times P_A(B)</span> et donc <span class="math inline">P(B)=P_A(B)</span>.</p>
+<p>Donc les événements <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants.</p></li>
+</ul>
 </div>
 </div>
 </div>
-<div class="proposition">
-<p>Soit <span class="math inline">f(x)=a(x-\alpha)^2+\beta</span> une fonction polynomiale du second degré définie sur <span class="math inline">\mathbb{R}</span>, avec <span class="math inline">a \neq 0</span>. Voici les deux tableaux de variations possibles :</p>
-<p><strong>Si <span class="math inline">a&gt;0</span> : la parabole est tournée vers le haut</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 16%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">\alpha</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↘</td>
-<td><span class="math inline">\beta</span></td>
-<td>↗</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Si <span class="math inline">a&lt;0</span> : la parabole est tournée vers le bas</strong></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 16%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 16%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">\alpha</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↗</td>
-<td><span class="math inline">\beta</span></td>
-<td>↘</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<div class="application">
+<p>On tire au hasard une carte dans un jeu de 32 cartes. On considère les événements :</p>
+<ul>
+<li><span class="math inline">A</span> : « la carte tirée est un as » ;</li>
+<li><span class="math inline">B</span> : « la carte tirée est un cœur ».</li>
+</ul>
+<p>Montrer que les événements <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
@@ -5472,460 +5780,101 @@ Solution
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Soit <span class="math inline">x \in \mathbb{R}</span>, <span class="math inline">f(x)=a(x-\alpha)^2+ \beta</span> avec <span class="math inline">\alpha=-\dfrac{b}{2a}</span>.</p>
-<p><strong>1er cas : <span class="math inline">a&gt;0</span></strong></p>
-<p><em>Variations sur <span class="math inline">]-\infty; \alpha]</span></em></p>
-<p>Soient <span class="math inline">x</span> et <span class="math inline">y</span> deux réels de <span class="math inline">]-\infty; \alpha]</span> tels que <span class="math inline">x&lt;y</span>. <span class="math display">
-\begin{align*}
-f(x)-f(y) &amp;= \left(a(x-\alpha)^2 + \beta\right) - \left(a(y-\alpha)^2 + \beta\right) \\
-&amp;= a(x-\alpha)^2 - a(y-\alpha)^2 \\
-&amp;= a\left[(x-\alpha)^2 - (y-\alpha)^2\right] \\
-&amp;= a\left[(x-\alpha - (y-\alpha))(x-\alpha + (y-\alpha))\right] \\
-&amp;= a(x-\alpha - y + \alpha)(x-\alpha + y - \alpha) \\
-&amp;= a(x-y)(x+y-2\alpha)
-\end{align*}
-</span></p>
-<p>Or :</p>
 <ul>
-<li><span class="math inline">a&gt;0</span></li>
-<li><span class="math inline">x&lt;y</span> donc <span class="math inline">x-y&lt;0</span></li>
-<li><span class="math inline">x&lt;\alpha</span> et <span class="math inline">y\leqslant\alpha</span> donc <span class="math inline">x+y&lt;2\alpha</span> donc <span class="math inline">x+y-2\alpha&lt;0</span></li>
+<li><p><span class="math inline">P(A)=\dfrac{4}{32}=\dfrac{1}{8}</span></p></li>
+<li><p><span class="math inline">P(B)=\dfrac{8}{32}=\dfrac{1}{4}</span></p></li>
+<li><p>L’événement <span class="math inline">A\cap B</span> est « la carte tirée est l’as de cœur ».</p>
+<p><span class="math inline">P(A\cap B)=\dfrac{1}{32}</span></p></li>
 </ul>
-<p>Donc <span class="math inline">f(x)-f(y)&gt;0</span> soit <span class="math inline">f(x)&gt;f(y)</span>. Donc <span class="math inline">f</span> est strictement décroissante sur <span class="math inline">]-\infty; \alpha]</span>.</p>
-<p><em>Variations sur <span class="math inline">[\alpha; +\infty[</span></em></p>
-<p>Soient <span class="math inline">x</span> et <span class="math inline">y</span> deux réels de <span class="math inline">[\alpha; +\infty[</span> tels que <span class="math inline">x&lt;y</span>. <span class="math display">
-f(x)-f(y)=a(x-y)(x+y-2\alpha)
-</span></p>
-<p>Or :</p>
-<ul>
-<li><span class="math inline">a&gt;0</span></li>
-<li><span class="math inline">x&lt;y</span> donc <span class="math inline">x-y&lt;0</span></li>
-<li><span class="math inline">x\geqslant\alpha</span> et <span class="math inline">y&gt;\alpha</span> donc <span class="math inline">x+y&gt;2\alpha</span> donc <span class="math inline">x+y-2\alpha&gt;0</span></li>
-</ul>
-<p>Donc <span class="math inline">f(x)-f(y)&lt;0</span> soit <span class="math inline">f(x)&lt;f(y)</span>. Donc <span class="math inline">f</span> est strictement croissante sur <span class="math inline">[\alpha; +\infty[</span>.</p>
-<p><strong>2ème cas : <span class="math inline">a&lt;0</span></strong></p>
-<p>On applique un raisonnement similaire.</p>
+<p>Ainsi <span class="math inline">P(A)\times P(B)=\dfrac{1}{8}\times\dfrac{1}{4}=\dfrac{1}{32}=P(A\cap B)</span> et donc les événements <span class="math inline">A</span> et <span class="math inline">B</span> sont indépendants.</p>
 </div>
 </div>
 </div>
-<div class="application">
-<p>Tracer le tableau de variations des deux fonctions suivantes :</p>
-<ol type="1">
-<li><span class="math inline">f</span> est définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=2x^2+4x+5</span>.</li>
-<li><span class="math inline">g</span> est définie sur <span class="math inline">[0;3]</span> par <span class="math inline">g(x)=-3x^2+6x-4</span>.</li>
-</ol>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>1.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>, <span class="math inline">f(x)=2x^2+4x+5</span>. <span class="math inline">\alpha=-\dfrac{b}{2a}=-1</span> et <span class="math inline">\beta=f(\alpha)=f(-1)=3</span>. Donc <span class="math inline">f(x)=2(x+1)^2+3</span>. Comme <span class="math inline">a&gt;0</span> on a :</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">-1</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td></td>
-<td>↘</td>
-<td><span class="math inline">3</span></td>
-<td>↗</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p><strong>2.</strong> Soit <span class="math inline">x \in [0;3]</span>, <span class="math inline">g(x)=-3x^2+6x-4</span>.</p>
-<p><span class="math inline">\alpha=\dfrac{-b}{2a}=\dfrac{-6}{2\times (-3)}=1</span> et <span class="math inline">\beta=g(\alpha)=g(1)=-1</span>. Donc <span class="math inline">g(x)=-3(x-1)^2-1</span>. Comme <span class="math inline">a&lt;0</span> on a :</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">0</span></th>
-<th></th>
-<th><span class="math inline">1</span></th>
-<th></th>
-<th><span class="math inline">3</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td><span class="math inline">-4</span></td>
-<td>↗</td>
-<td><span class="math inline">-1</span></td>
-<td>↘</td>
-<td><span class="math inline">-13</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<div class="proposition">
+<p><strong>(admise)</strong></p>
+<p>Si <span class="math inline">A</span> et <span class="math inline">B</span> sont deux événements indépendants, alors <span class="math inline">\overline{A}</span> et <span class="math inline">B</span>, <span class="math inline">A</span> et <span class="math inline">\overline{B}</span>, ainsi que <span class="math inline">\overline{A}</span> et <span class="math inline">\overline{B}</span> sont également indépendants.</p>
 </div>
 </section>
-</section>
-<section id="équation-du-second-degré" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Équation du second degré</h1>
-<section id="généralités" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="généralités"><span class="header-section-number">2.1</span> Généralités</h2>
+<section id="succession-de-deux-épreuves-indépendantes" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="succession-de-deux-épreuves-indépendantes"><span class="header-section-number">3.2</span> Succession de deux épreuves indépendantes</h2>
 <div class="definition">
-<p>On appelle équation du second degré toute équation pouvant se ramener à la forme <span class="math inline">ax^2+bx+c=0</span> où <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> sont des réels avec <span class="math inline">a\neq 0</span>.</p>
-</div>
-<div class="remarque">
-<p>Résoudre une équation consiste à trouver toutes les valeurs de <span class="math inline">x</span> qui vérifient l’équation.</p>
-<p>Dans le cas où l’équation a été ramenée à une équation de la forme <span class="math inline">ax^2+bx+c=0</span>, résoudre l’équation consiste à déterminer le/les antécédent(s) de <span class="math inline">0</span> par la fonction <span class="math inline">f:x\mapsto ax^2+bx+c</span>. On dit que l’on cherche les racines de la fonction.</p>
-<p>Graphiquement, cela revient à déterminer les abscisses des points d’intersection de la courbe représentative de la fonction <span class="math inline">f</span> avec l’axe des abscisses.</p>
-</div>
-</section>
-<section id="résolution-dune-équation-du-second-degré" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="résolution-dune-équation-du-second-degré"><span class="header-section-number">2.2</span> Résolution d’une équation du second degré</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span>. On considère l’équation <span class="math inline">ax^2+bx+c=0</span>.</p>
-<p>Soit <span class="math inline">\Delta=b^2-4ac</span> le discriminant du trinôme <span class="math inline">ax^2+bx+c</span>.</p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> n’admet pas de solution réelle.</li>
-<li>Si <span class="math inline">\Delta=0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> admet une unique solution réelle : <span class="math inline">x_0=-\dfrac{b}{2a}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span>, alors l’équation <span class="math inline">ax^2+bx+c=0</span> admet deux solutions réelles : <span class="math inline">x_1=\dfrac{-b-\sqrt{\Delta}}{2a}</span> et <span class="math inline">x_2=\dfrac{-b+\sqrt{\Delta}}{2a}</span>.</li>
-</ul>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Avec les mêmes notations et en utilisant la forme canonique explicitée dans la remarque précédente. Soit <span class="math inline">x \in \mathbb{R}</span> : <span class="math display">
-\begin{align*}
-ax^2+bx+c=0 &amp;\iff a\left(x+\dfrac{b}{2a} \right)^2-\dfrac{\Delta}{4a}=0 \\
-&amp;\iff a\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a} \\
-&amp;\iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}
-\end{align*}
-</span></p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span> : Alors <span class="math inline">\dfrac{\Delta}{4a^2}&lt;0</span>. Or <span class="math inline">\left(x+\dfrac{b}{2a} \right)^2\geqslant 0</span>. Donc l’équation n’admet pas de solution.</li>
-<li>Si <span class="math inline">\Delta=0</span> : <span class="math display">
-\begin{align*}
-\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &amp;\iff \left(x+\dfrac{b}{2a} \right)^2=0 \\
-&amp;\iff x+\dfrac{b}{2a} =0 \\
-&amp;\iff x=-\dfrac{b}{2a}
-\end{align*}
-</span> Ainsi <span class="math inline">S=\left\{ -\dfrac{b}{2a} \right\}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span> : <span class="math display">
-\begin{align*}
-\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2} &amp;\iff \left(x+\dfrac{b}{2a} \right)^2- \left(\dfrac{\sqrt{\Delta}}{2a} \right)^2=0 \\
-&amp;\iff \left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=0 \text{ équation produit nul} \\
-&amp;\iff x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a}=0 \text{  ou  } x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} =0 \\
-&amp;\iff x=-\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \text{ ou } x=-\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \\
-&amp;\iff x=\dfrac{-b+\sqrt{\Delta}}{2a} \text{ ou } x=\dfrac{-b-\sqrt{\Delta}}{2a}
-\end{align*}
-</span> Finalement : <span class="math inline">S=\left\{\dfrac{-b+\sqrt{\Delta}}{2a}; \dfrac{-b-\sqrt{\Delta}}{2a}  \right\}</span>.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="application">
-<p>Résoudre dans <span class="math inline">\mathbb{R}</span> les équations suivantes :</p>
-<ol type="1">
-<li><span class="math inline">15x^2-x-2=0</span></li>
-<li><span class="math inline">3x^2+6x+4=0</span></li>
-<li><span class="math inline">\dfrac{1}{5}x^2+2x+5=0</span></li>
-</ol>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>1.</strong> <span class="math inline">15x^2-x-2=0</span></p>
-<p><span class="math inline">\Delta=(-1)^2-4\times 15 \times (-2)=121</span>. Le discriminant du trinôme est strictement positif donc l’équation admet exactement deux solutions :</p>
-<p><span class="math inline">x_1=\dfrac{1 -\sqrt{121}}{30}=\dfrac{1-11}{30}=\dfrac{-1}{3}</span> et <span class="math inline">x_2=\dfrac{1+\sqrt{121}}{30}=\dfrac{1+11}{30}=\dfrac{12}{30}=\dfrac{2}{5}</span>.</p>
-<p>Finalement <span class="math inline">S=\left\{\dfrac{-1}{3}; \dfrac{2}{5} \right\}</span>.</p>
-<p><strong>2.</strong> <span class="math inline">3x^2+6x+4=0</span></p>
-<p><span class="math inline">\Delta=6^2-4\times3\times4=-12</span>. Le discriminant du trinôme est strictement négatif, donc l’équation n’admet pas de solution réelle.</p>
-<p><strong>3.</strong> <span class="math inline">\dfrac{1}{5}x^2+2x+5=0</span></p>
-<p><span class="math inline">\Delta=2^2-4\times \dfrac{1}{5}\times 5=0</span>. Le discriminant du trinôme est nul, donc l’équation admet une unique solution réelle : <span class="math inline">S=\{-5 \}</span>.</p>
-</div>
-</div>
-</div>
-<div class="remarque">
-<p>Lorsque le trinôme est « incomplet » (<span class="math inline">b=0</span> ou <span class="math inline">c=0</span>), il n’est pas nécessaire de calculer le discriminant pour résoudre l’équation.</p>
-</div>
-<div class="application">
-<p>Sans calculer le discriminant des trinômes, résoudre les équations suivantes :</p>
-<ol type="1">
-<li><span class="math inline">4x^2+3x-10=3x+6</span></li>
-<li><span class="math inline">x^2-5x+4=x+4</span></li>
-</ol>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>1.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math display">
-\begin{align*}
-4x^2+3x-10=3x+6 &amp;\iff  4x^2-16=0\\
-&amp;\iff (2x)^2-4^2=0 \\
-&amp;\iff (2x-4)(2x+4)=0 \\
-&amp;\iff 2x-4=0 \text{ ou }2x+4=0 \\
-&amp;\iff x=2 \text{ ou } x=-2
-\end{align*}
-</span> Finalement <span class="math inline">S=\{-2;2 \}</span>.</p>
-<p><strong>2.</strong> Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math display">
-\begin{align*}
-x^2-5x+4=x+4 &amp;\iff x^2-6x=0 \\
-&amp;\iff x(x-6)=0 \\
-&amp;\iff x=0 \text{ ou }x-6=0 \\
-&amp;\iff x=0 \text{ ou }x=6
-\end{align*}
-</span> Finalement <span class="math inline">S=\{0;6 \}</span>.</p>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="propriété-des-trinômes" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Propriété des trinômes</h1>
-<section id="somme-et-produit-des-racines" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="somme-et-produit-des-racines"><span class="header-section-number">3.1</span> Somme et produit des racines</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span> et <span class="math inline">f</span> une fonction polynomiale du second degré telle que <span class="math inline">\forall x \in \mathbb{R},~ f(x)=ax^2+bx+c</span> dont le discriminant <span class="math inline">\Delta</span> est strictement positif. On note <span class="math inline">x_1</span> et <span class="math inline">x_2</span> les deux racines de <span class="math inline">f</span>. Alors : <span class="math display"> x_1+x_2=-\dfrac{b}{a} \text{ et } x_1 \times x_2=\dfrac{c}{a}</span></p>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Avec les mêmes notations :</p>
-<ul>
-<li><span class="math inline">x_1+x_2=\dfrac{-b-\sqrt{\Delta}}{2a}+\dfrac{-b+\sqrt{\Delta}}{2a}=\dfrac{-2b}{2a}=\dfrac{-b}{a}</span></li>
-<li><span class="math inline">x_1 \times x_2=\dfrac{-b-\sqrt{\Delta}}{2a}\times\dfrac{-b+\sqrt{\Delta}}{2a}= \dfrac{(-b)^2-\sqrt{\Delta}^2}{4a^2}=\dfrac{b^2-\Delta}{4a^2}=\dfrac{b^2-b^2+4ac}{4a^2}=\dfrac{c}{a}</span></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="remarque">
-<p>Ces formules peuvent être utiles pour trouver la deuxième racine lorsqu’une des racines du trinôme est évidente. On peut également vérifier qu’aucune erreur de calcul ne s’est glissée lors de la résolution de l’équation.</p>
+<p>Lorsque deux expériences aléatoires se succèdent et que les résultats de la première expérience n’ont aucune influence sur les résultats de la seconde, on dit qu’il s’agit d’une succession de deux épreuves indépendantes.</p>
 </div>
 <div class="exemple">
-<p>Soit <span class="math inline">x\in \mathbb{R}</span>. Résolvons l’équation <span class="math inline">-2x^2+5x-3=0</span>. <span class="math inline">1</span> est une racine évidente. En effet, <span class="math inline">-2\times 1^2+5\times 1 -3=0</span>. On cherche la deuxième racine <span class="math inline">x_2</span> telle que <span class="math inline">1+x_2=\dfrac{5}{2}</span>. Ainsi <span class="math inline">x_2=\dfrac{3}{2}</span>.</p>
+<p>Une urne contient deux boules vertes et une boule rouge.</p>
+<p>On tire successivement et avec remise deux boules.</p>
+<p>Le résultat du second tirage n’est pas influencé par celui du premier tirage car il y a remise. C’est une succession de deux épreuves indépendantes.</p>
+<p>Soit <span class="math inline">i\in \{1;2\}</span>. On note :</p>
+<ul>
+<li><span class="math inline">R_i</span> : « La boule tirée est rouge au <span class="math inline">i</span>-ième tirage » ;</li>
+<li><span class="math inline">V_i</span> : « La boule tirée est verte au <span class="math inline">i</span>-ième tirage ».</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><svg id="svg_766594621bae64590399" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Arbre de deux tirages avec remise : R1 (1/3) ou V1 (2/3), puis R2 (1/3) ou V2 (2/3)" viewBox="0 0 373 310" width="373" height="310" font-family="&#39;Times New Roman&#39;, &#39;DejaVu Serif&#39;, serif" color="#1e293b" fill="#1e293b" role="img">
+<title>Arbre de deux tirages successifs avec remise dans une urne</title>
+<defs><marker id="svg_766594621bae64590399_fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" /></marker></defs>
+<rect width="100%" height="100%" fill="white" />
+<line x1="42.7" y1="148.9" x2="203.4" y2="77.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="66.3" x2="328.8" y2="34.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="75.7" x2="328.8" y2="107.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="42.7" y1="161.1" x2="203.4" y2="232.5" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="234.3" x2="328.8" y2="202.1" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<line x1="232.2" y1="243.7" x2="328.8" y2="275.9" stroke="currentColor" stroke-width="1.6" marker-end="url(#fl)"></line>
+<rect x="113.2" y="98.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="123.5" y="110.5" font-size="12" text-anchor="middle">1</text>
+<line x1="119.2" y1="113.0" x2="127.8" y2="113.0" stroke="currentColor" stroke-width="1"></line>
+<text x="123.5" y="124.0" font-size="12" text-anchor="middle">3</text>
+<rect x="270.7" y="35.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="281.0" y="47.5" font-size="12" text-anchor="middle">1</text>
+<line x1="276.7" y1="50.0" x2="285.3" y2="50.0" stroke="currentColor" stroke-width="1"></line>
+<text x="281.0" y="61.0" font-size="12" text-anchor="middle">3</text>
+<rect x="270.7" y="77.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="281.0" y="89.5" font-size="12" text-anchor="middle">2</text>
+<line x1="276.7" y1="92.0" x2="285.3" y2="92.0" stroke="currentColor" stroke-width="1"></line>
+<text x="281.0" y="103.0" font-size="12" text-anchor="middle">3</text>
+<rect x="113.2" y="182.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="123.5" y="194.5" font-size="12" text-anchor="middle">2</text>
+<line x1="119.2" y1="197.0" x2="127.8" y2="197.0" stroke="currentColor" stroke-width="1"></line>
+<text x="123.5" y="208.0" font-size="12" text-anchor="middle">3</text>
+<rect x="270.7" y="203.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="281.0" y="215.5" font-size="12" text-anchor="middle">1</text>
+<line x1="276.7" y1="218.0" x2="285.3" y2="218.0" stroke="currentColor" stroke-width="1"></line>
+<text x="281.0" y="229.0" font-size="12" text-anchor="middle">3</text>
+<rect x="270.7" y="245.0" width="20.6" height="30" fill="white" stroke="currentColor" stroke-width="1" />
+<text x="281.0" y="257.5" font-size="12" text-anchor="middle">2</text>
+<line x1="276.7" y1="260.0" x2="285.3" y2="260.0" stroke="currentColor" stroke-width="1"></line>
+<text x="281.0" y="271.0" font-size="12" text-anchor="middle">3</text>
+<circle cx="29.0" cy="155.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<circle cx="218.0" cy="71.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="208.8" y="76.8" font-size="17" font-style="italic">R</text>
+<text x="220.0" y="80.8" font-size="12">1</text>
+<circle cx="344.0" cy="29.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="334.8" y="34.8" font-size="17" font-style="italic">R</text>
+<text x="346.0" y="38.8" font-size="12">2</text>
+<circle cx="344.0" cy="113.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="334.8" y="118.8" font-size="17" font-style="italic">V</text>
+<text x="346.0" y="122.8" font-size="12">2</text>
+<circle cx="218.0" cy="239.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="208.8" y="244.8" font-size="17" font-style="italic">V</text>
+<text x="220.0" y="248.8" font-size="12">1</text>
+<circle cx="344.0" cy="197.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="334.8" y="202.8" font-size="17" font-style="italic">R</text>
+<text x="346.0" y="206.8" font-size="12">2</text>
+<circle cx="344.0" cy="281.0" r="15" fill="white" stroke="currentColor" stroke-width="1.3"></circle>
+<text x="334.8" y="286.8" font-size="17" font-style="italic">V</text>
+<text x="346.0" y="290.8" font-size="12">2</text>
+</svg></p>
+</figure>
 </div>
-</section>
-<section id="factorisation" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="factorisation"><span class="header-section-number">3.2</span> Factorisation</h2>
+<p>On remarque que la probabilité d’obtenir deux boules rouges est :</p>
+<p><span class="math display">
+P((R_1;R_2))=P(R_1)\times P(R_2)=\dfrac{1}{3}\times \dfrac{1}{3}=\dfrac{1}{9}
+</span></p>
+</div>
 <div class="proposition">
-<p>Soit <span class="math inline">a</span>, <span class="math inline">b</span> et <span class="math inline">c</span> trois réels avec <span class="math inline">a\neq0</span> et <span class="math inline">f</span> une fonction polynomiale du second degré telle que <span class="math inline">\forall x \in \mathbb{R},~ f(x)=ax^2+bx+c</span>.</p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span>, alors <span class="math inline">f</span> n’admet pas de forme factorisée.</li>
-<li>Si <span class="math inline">\Delta =0</span>, alors la forme factorisée de <span class="math inline">f</span> est <span class="math inline">f(x)=a(x-x_0)^2</span> où <span class="math inline">x_0</span> est la racine double de <span class="math inline">f</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span>, alors la forme factorisée de <span class="math inline">f</span> est <span class="math inline">f(x)=a(x-x_1)(x-x_2)</span> où <span class="math inline">x_1</span> et <span class="math inline">x_2</span> sont les deux racines de <span class="math inline">f</span>.</li>
-</ul>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>On a vu dans la démonstration de la proposition sur les racines les différentes factorisations de <span class="math inline">f</span> en fonction du signe de son discriminant <span class="math inline">\Delta</span> :</p>
-<p>Pour commencer <span class="math inline">ax^2+bx+c=0 \iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}</span>.</p>
-<p>Si <span class="math inline">\Delta=0</span>, alors <span class="math inline">\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}\iff \left(x+\dfrac{b}{2a} \right)^2=0 \iff (x-x_0)^2=0</span> avec <span class="math inline">x_0=\dfrac{-b}{2a}</span>, donc <span class="math inline">f(x)=a(x-x_0)^2</span>.</p>
-<p>Si <span class="math inline">\Delta&gt;0</span>, alors d’après la démonstration sur les racines, <span class="math inline">ax^2+bx+c=a\left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=a(x-x_2)(x-x_1)</span>.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="étude-de-signe" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="étude-de-signe"><span class="header-section-number">3.3</span> Étude de signe</h2>
-<div class="proposition">
-<p>Soit <span class="math inline">f</span> une fonction polynôme du second degré définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=ax^2+bx+c</span>.</p>
-<ul>
-<li>Si <span class="math inline">\Delta &lt;0</span>, alors :
-<ul>
-<li>Si <span class="math inline">a&lt;0</span> alors <span class="math inline">f</span> est strictement négative : <span class="math inline">\forall x \in \mathbb{R},~f(x)&lt;0</span></li>
-<li>Si <span class="math inline">a&gt;0</span> alors <span class="math inline">f</span> est strictement positive : <span class="math inline">\forall x \in \mathbb{R},~f(x)&gt;0</span></li>
-</ul></li>
-<li>Si <span class="math inline">\Delta=0</span> alors :
-<ul>
-<li>Si <span class="math inline">a&lt;0</span> alors <span class="math inline">f</span> est négative et <span class="math inline">f\left(-\dfrac{b}{2a}\right)=0</span>.</li>
-<li>Si <span class="math inline">a&gt;0</span> alors <span class="math inline">f</span> est positive et <span class="math inline">f\left(-\dfrac{b}{2a}\right)=0</span>.</li>
-</ul></li>
-<li>Si <span class="math inline">\Delta &gt;0</span>, alors on note <span class="math inline">x_1</span> et <span class="math inline">x_2</span> les deux racines de <span class="math inline">f</span>. Si on suppose que <span class="math inline">x_1&lt;x_2</span> alors le tableau de signes de <span class="math inline">f</span> est :</li>
-</ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 23%">
-<col style="width: 2%">
-<col style="width: 14%">
-<col style="width: 2%">
-<col style="width: 14%">
-<col style="width: 2%">
-<col style="width: 23%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">x_1</span></th>
-<th></th>
-<th><span class="math inline">x_2</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">f(x)</span></td>
-<td>signe de <span class="math inline">a</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td>signe opposé à <span class="math inline">a</span></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td>signe de <span class="math inline">a</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Solution
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Avec les mêmes notations :</p>
-<ul>
-<li>Si <span class="math inline">\Delta&lt;0</span> : Soit <span class="math inline">x\in \mathbb{R}</span>. <span class="math inline">f(x)=ax^2+bx+c=a \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a}=a\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]</span>. Or <span class="math inline">\left(x+\dfrac{b}{2a}\right)^2 \geq 0</span> et <span class="math inline">-\dfrac{\Delta}{4a^2}&gt;0</span> donc par somme <span class="math inline">\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]&gt;0</span>. Ainsi <span class="math inline">f</span> est bien du signe de <span class="math inline">a</span>.</li>
-<li>Si <span class="math inline">\Delta=0</span> alors <span class="math inline">f(x)=a(x-x_0)^2</span>. Ainsi <span class="math inline">f</span> est du signe de <span class="math inline">a</span> et la racine de <span class="math inline">f</span> est <span class="math inline">x_0=-\dfrac{b}{2a}</span>.</li>
-<li>Si <span class="math inline">\Delta&gt;0</span> : Soit <span class="math inline">x \in \mathbb{R}</span>. <span class="math inline">f(x)=ax^2+bx+c=a(x-x_1)(x-x_2)</span>. Supposons que <span class="math inline">x_1&lt;x_2</span>, alors on a :</li>
-</ul>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 31%">
-<col style="width: 19%">
-<col style="width: 1%">
-<col style="width: 12%">
-<col style="width: 1%">
-<col style="width: 12%">
-<col style="width: 1%">
-<col style="width: 19%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><span class="math inline">x</span></th>
-<th><span class="math inline">-\infty</span></th>
-<th></th>
-<th><span class="math inline">x_1</span></th>
-<th></th>
-<th><span class="math inline">x_2</span></th>
-<th></th>
-<th><span class="math inline">+\infty</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">x-x_1</span></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">x-x_2</span></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">-</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">(x-x_1)(x-x_2)</span></td>
-<td><span class="math inline">+</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">-</span> → <span class="math inline">0</span></td>
-<td></td>
-<td><span class="math inline">+</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">f(x)</span></td>
-<td>signe de <span class="math inline">a</span></td>
-<td></td>
-<td><span class="math inline">0</span></td>
-<td>signe opposé à <span class="math inline">a</span></td>
-<td><span class="math inline">0</span></td>
-<td></td>
-<td>signe de <span class="math inline">a</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div class="remarque">
-<p>Finalement, on peut retenir que <span class="math inline">f</span> est du signe de <span class="math inline">a</span> sauf entre ses racines.</p>
+<p><strong>(admise)</strong></p>
+<p>Lorsque deux épreuves sont indépendantes, la probabilité d’un couple de résultats est égale au produit des probabilités de chacun d’entre eux.</p>
 </div>
 
 
