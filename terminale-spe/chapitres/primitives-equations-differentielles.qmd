@@ -22,7 +22,7 @@ toc: false
         - [Cours : Primitives et équations différentielles](../cours/primitives-equations-differentielles/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-*Cours bientôt disponible.*
+- [Cours : Primitives et équations différentielles](../cours/primitives-equations-differentielles/primitives-equations-differentielles-terminale.qmd)
 
 ## Évaluations et DS
 

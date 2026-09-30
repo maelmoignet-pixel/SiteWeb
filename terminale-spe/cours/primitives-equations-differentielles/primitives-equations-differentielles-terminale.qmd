@@ -1,0 +1,450 @@
+---
+title: "Primitives et équations différentielles"
+lang: fr
+format:
+  html:
+    embed-resources: true
+    html-math-method: katex
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    include-in-header:
+      text: |
+        <meta name="google" content="notranslate">
+editor:
+  render-on-save: true
+---
+```css
+```
+```{=html}
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+```
+
+# Primitive d'une fonction continue
+
+## Définition et propriétés
+
+::: {.definition}
+Soient $f$ et $F$ deux fonctions définies sur un intervalle $I$ de $\mathbb{R}$. On dit que $F$ est une primitive de $f$ si $F$ est dérivable sur $I$ et si : $$\forall x \in I, \quad F'(x) = f(x)$$
+:::
+
+::: {.exemple}
+Soit $f$ la fonction définie sur $\mathbb{R}$ par $f(x)=4x-3$.\
+La fonction $F$ définie sur $\mathbb{R}$ par $F(x)=2x^2-3x+4$ est une primitive de $f$ sur $\mathbb{R}$. En effet, en dérivant $F$, on retrouve $f$.
+:::
+
+::: {.proposition}
+**Unicité à une constante près**
+
+Soient $F$ et $G$ deux primitives d'une fonction $f$ sur un intervalle $I$. Alors il existe une constante $c \in \mathbb{R}$ telle que : $$\forall x \in I, \quad F(x) = G(x) + c$$
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Soient $F$ et $G$ deux primitives de $f$ sur $I$. Alors $F'(x)=f(x)$ et $G'(x)=f(x)$, donc $F'(x)-G'(x)=0$, soit $(F-G)'(x)=0$. La fonction $F-G$ admet une dérivée nulle sur l'intervalle $I$, elle est donc constante sur $I$.
+:::
+
+::: {.proposition}
+**Unicité passant par un point**
+
+Soient $x_0 \in I$ et $y_0 \in \mathbb{R}$. Si $f$ admet des primitives sur $I$, alors il existe une unique primitive $F$ de $f$ vérifiant : $$F(x_0) = y_0$$
+:::
+
+::: {.theoreme}
+Toute fonction continue sur un intervalle $I$ admet des primitives sur $I$.
+:::
+
+::: {.remarque}
+Ce théorème garantit l'existence mais ne donne pas de formule explicite. Certaines fonctions continues, comme $x \mapsto \mathrm{e}^{-x^2}$, n'ont pas de primitives exprimables par des fonctions usuelles.
+:::
+
+## Calculs de primitives
+
+### Primitives des fonctions usuelles
+
+::: {.proposition}
+Dans le tableau suivant, $F$ désigne une primitive de $f$ sur l'intervalle $I$ ($C \in \mathbb{R}$) :
+
+| Fonction $f(x)$ | Intervalle $I$ | Primitive $F(x)$ |
+|:---:|:---:|:---:|
+| $\lambda$ (constante) | $\mathbb{R}$ | $\lambda x + C$ |
+| $x^n$ ($n \in \mathbb{N}^*$) | $\mathbb{R}$ | $\dfrac{x^{n+1}}{n+1} + C$ |
+| $\dfrac{1}{x}$ | $]0;+\infty[$ | $\ln(x) + C$ |
+| $\dfrac{1}{x^n}$ ($n \geqslant 2$) | $]0;+\infty[$ | $-\dfrac{1}{(n-1)x^{n-1}} + C$ |
+| $\dfrac{1}{\sqrt{x}}$ | $]0;+\infty[$ | $2\sqrt{x} + C$ |
+| $\mathrm{e}^x$ | $\mathbb{R}$ | $\mathrm{e}^x + C$ |
+| $\cos(x)$ | $\mathbb{R}$ | $\sin(x) + C$ |
+| $\sin(x)$ | $\mathbb{R}$ | $-\cos(x) + C$ |
+:::
+
+::: {.application}
+Déterminer la primitive $F$ de $f(x) = \frac{2}{x^3}$ sur $\mathbb{R}^{+*}$ telle que $F(1) = 4$.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+$f(x) = 2x^{-3}$. Une primitive est $F(x) = 2 \frac{x^{-2}}{-2} + c = -\frac{1}{x^2} + c$.\
+$F(1) = -1 + c = 4 \implies c = 5$. D'où $F(x) = -\frac{1}{x^2} + 5$.
+:::
+
+### Opérations sur les primitives
+
+::: {.proposition}
+Soient $f$ et $g$ deux fonctions admettant respectivement $F$ et $G$ comme primitives sur un intervalle $I$ et $\lambda$ un réel.\
+Alors $F+G$ est une primitive de $f+g$ sur $I$ et $\lambda F$ est une primitive de $\lambda f$ sur $I$.
+:::
+
+::: {.application}
+Soit $f$ la fonction définie sur $]0;+\infty[$ par $f(x)=x^2 - \dfrac{1}{x}$. Déterminer une primitive de $f$ sur $]0;+\infty[$.\
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Sur $]0;+\infty[$, une primitive de $x \mapsto x^2$ est $x\mapsto \dfrac{x^3}{3}$ et une primitive de $x \mapsto \dfrac{1}{x}$ est $x \mapsto \ln(x)$ donc $F:x\mapsto \dfrac{x^3}{3}-\ln(x)$ est une primitive de $f$.
+:::
+
+::: {.proposition}
+Soit $u$ une fonction dérivable sur un intervalle $I$ de $\mathbb{R}$.
+
+-   Une primitive de $u'u^n$ sur $I$ est $\dfrac{u^{n+1}}{n+1}$ ($n\in \mathbb{N}^*$).
+
+-   Une primitive de $\dfrac{u'}{u^2}$ sur $I$ est $-\dfrac{1}{u}$ (en supposant $\forall x \in I,~ u(x) \neq 0$).
+
+-   Une primitive de $\dfrac{u'}{u^n}$ sur $I$ est $-\dfrac{1}{(n-1)u^{n-1}}$ ($n \in \mathbb{N},~n \geqslant 2$) (en supposant $\forall x \in I,~ u(x)\neq 0$).
+
+-   Une primitive de $\dfrac{u'}{\sqrt{u}}$ sur $I$ est $2\sqrt{u}$ (en supposant $\forall x \in I,~u(x)>0$).
+
+-   Une primitive de $\dfrac{u'}{u}$ sur $I$ est $\ln(|u|)$ (en supposant $\forall x \in I,~ u(x)\neq 0$).
+
+-   Une primitive de $u'\mathrm{e}^u$ sur $I$ est $\mathrm{e}^u$.
+:::
+
+::: {.application}
+Soit $g$ la fonction définie sur $\mathbb{R}$ par $g(x)=\dfrac{2x}{(x^2+1)^3}$. Déterminer une primitive de $g$ sur $\mathbb{R}$.\
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+$g$ est de la forme $\dfrac{u'}{u^n}$ avec $u(x)=x^2+1$ et $n=3$ donc une primitive de $g$ sur $\mathbb{R}$ est la fonction $G$ définie sur $\mathbb{R}$ par $G(x)=-\dfrac{1}{2(x^2+1)^2}$.
+:::
+
+# Équations différentielles
+
+## Équation différentielle linéaire d'ordre $n$
+
+Une équation différentielle d'ordre $n$ est une équation fonctionnelle mettant en jeu la variable $t$, une fonction $y$, ainsi que ses dérivées successives jusqu'à l'ordre $n$.
+
+::: {.exemple}
+L'équation :
+
+$t^2y''-3ty'+4y=t^4$
+
+est une équation différentielle linéaire d'ordre 2.
+:::
+
+::: {.definition}
+On appelle équation différentielle linéaire d'ordre $n$ une équation différentielle d'ordre $n$ de la forme :
+
+$(E_n)$   $y^{(n)}+a_{n-1}(t)y^{(n-1)}+...+a_1(t)y'+a_0(t)y=b(t)$
+:::
+
+::: {.vocabulaire}
+-   les fonctions $a_k:I \to \mathbb{R}$ sont continues sur $I$. On les appelle les coefficients de l'équation différentielle.
+
+-   la fonction $b: I \to \mathbb{R}$ est continue sur $I$. On l'appelle le second membre.
+
+-   la fonction $y: I \to \mathbb{R}$ est $n$ fois dérivable sur $I$. On l'appelle la fonction inconnue.
+:::
+
+::: {.exemple}
+-   l'équation $y''-2y'+y=3$ est une équation différentielle linéaire d'ordre 2 à coefficients constants.
+
+-   l'équation $y'+2ty=2t\mathrm{e}^{-t^2}$ est une équation différentielle linéaire d'ordre 1 à coefficients continus.
+
+-   l'équation différentielle d'ordre 1 $ty'=y(y+1)+t^2$ n'est pas une équation différentielle linéaire.
+:::
+
+::: {.definition}
+Résoudre l'équation $(E_n)$ sur $I$ c'est déterminer l'ensemble des fonctions $f:I \to \mathbb{R}$, $n$ fois dérivables sur $I$ vérifiant
+
+pour tout $t \in I$,   $f^{(n)}(t)+a_{n-1}(t)f^{(n-1)}(t)+...+a_0(t)f(t)=b(t)$
+:::
+
+::: {.remarque}
+En terminale, on étudie les équations différentielles linéaires d'ordre 1 à coefficient constant dont le second membre est une constante.
+
+Autrement dit, nous apprendrons à résoudre des équations différentielles du type :
+
+$(E)~~y'+ay=b$
+
+où $y$ est une fonction dérivable, $a$ et $b$ sont des réels.
+:::
+
+::: {.exemple}
+À la fin de ce chapitre, nous saurons résoudre l'équation différentielle $y'+3y=4$.
+
+Nous savons déjà résoudre l'équation différentielle $y'=y$ : l'ensemble des solutions de cette équation est $S=\{\mathbb{R}\to \mathbb{R}, x \mapsto C\mathrm{e}^{x},~C\in \mathbb{R}\}$.
+:::
+
+## Équation différentielle homogène
+
+On considère l'équation différentielle $y'+ay=b$.
+
+::: {.definition}
+On appelle équation différentielle homogène associée à l'équation différentielle $y'+ay=b$ l'équation :
+
+$(H)~~y'+ay=0$
+:::
+
+::: {.remarque}
+En clair, $(E)$ et $(H)$ ont le même coefficient mais le second membre de $(H)$ est nul.
+:::
+
+::: {.exemple}
+L'équation homogène associée à l'équation $(E)~~y'+3y=4$ est $(H)~~y'+3y=0$.
+:::
+
+::: {.proposition}
+-   Soit $f:I \to \mathbb{R}$ une solution de $(H)$. Alors $\lambda \cdot f:I \to \mathbb{R}$ (où $\lambda \in \mathbb{R}$) est solution de $(H)$.
+
+-   Soient $f_1,f_2:I \to \mathbb{R}$ des solutions de $(H)$. Alors $f_1+f_2: I\to \mathbb{R}$ est solution de $(H)$.
+:::
+
+::: {.proposition}
+Les solutions sur $I$ de l'équation différentielle homogène $y'+ay=0$ sont les fonctions définies sur $I$ par :
+
+pour tout $t\in I$,  $\boxed{h(t)=C\mathrm{e}^{-at} \text{, où } C\in \mathbb{R}}$
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+On considère l'équation différentielle homogène $(H)~~y'+ay=0$
+
+-   Soit $C\in \mathbb{R}$. Soit $f$ la fonction définie sur $I$ par $f(t)=C\mathrm{e}^{-at}$. La fonction $f$ est dérivable sur $I$. Soit $t \in I$. $f'(t)=-aC\mathrm{e}^{-at}$.\
+    Ainsi $f'(t)+a f(t)=-aC\mathrm{e}^{-at}+aC\mathrm{e}^{-at}=0$. Donc $f$ est bien solution de $(H)$.
+
+-   Réciproquement, montrons que toutes les solutions de $(H)$ sont de cette forme. Soit $f:I \to \mathbb{R}$ une fonction dérivable dans $I$ solution de $(H)$. Définissons $\phi: I \to \mathbb{R}$ par $\phi(t)=f(t)\mathrm{e}^{at}$. Notons tout d'abord que $\phi$ est dérivable dans $I$ comme produit de telles fonctions. De plus, pour tout $t\in I$ :
+
+    -   $f(t)=\phi(t) \mathrm{e}^{-at}$
+
+    -   $f'(t)=[\phi'(t)-a\phi(t)]\mathrm{e}^{-at}$
+
+    Or $f$ est solution de $(H)$ donc pour tout $t \in I$, $f'(t)+af(t)=0$.\
+    Or $f'(t)+af(t)=[\phi'(t)-a\phi(t)]\mathrm{e}^{-at} +a\phi(t) \mathrm{e}^{-at}=\mathrm{e}^{-at}(\phi'(t)-a\phi(t)+a\phi(t))=\mathrm{e}^{-at}\phi'(t)$.\
+    Donc $\mathrm{e}^{-at}\phi'(t)=0$ et, comme $\mathrm{e}^{-at}\neq 0$, $\phi'(t)=0$ : la fonction $\phi$ est donc constante sur l'intervalle $I$. On pose : $\forall t \in I,~ \phi(t)=C$. Ainsi $\forall t \in I,~ f(t)=C\mathrm{e}^{-at}$.
+:::
+
+## Lien fondamental entre les solutions de $(E)$ et de $(H)$
+
+::: {.theoreme}
+Soit $f_0:I\to\mathbb{R}$ une fonction dérivable sur $I$. On suppose que $f_0$ est solution de $(E)$. Alors pour toute fonction $f:I\to\mathbb{R}$, dérivable sur $I$,
+
+$f$ est solution de $(E)$ si et seulement si $f-f_0$ est solution de $(H)$
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Soit $f_0$ une solution de $(E)$.
+
+-   Si $f$ est solution de $(E)$ alors pour tout $t\in I$,
+
+    -   $f'(t)+af(t)=b$
+
+    -   $f_0'(t)+af_0(t)=b$
+
+    En soustrayant membre à membre ces deux égalités fonctionnelles, il en résulte que $f-f_0$ est solution de $(H)$.
+
+-   Réciproquement, si $f-f_0$ est solution de $(H)$ alors :
+
+    -   $(f-f_0)'(t)+a(f-f_0)(t)=0$
+
+    -   $f_0'(t)+af_0(t)=b$
+
+    Il suffit d'ajouter membre à membre ces égalités pour obtenir que $f$ est solution de $(E)$.
+:::
+
+::: {.remarque}
+En pratique, on utilise la version suivante de ce théorème.
+:::
+
+::: {.proposition}
+Supposons connue une solution particulière $f_0$ de $(E)$.\
+Les solutions de $(E)$ sont les fonctions de la forme $f_0+h$ où $h:I\to \mathbb{R}$ est une solution de $(H)$.
+:::
+
+## Recherche d'une solution particulière
+
+### Équation $y'=b$
+
+Lorsque le coefficient $a$ de l'équation est nul, l'équation $(E)$ se ramène à déterminer une primitive de la constante $b$.
+
+::: {.proposition}
+Les solutions de l'équation $y'=b$ sont les fonctions de la forme $f(t)=bt+C$ où $C \in \mathbb{R}$.
+:::
+
+### Équation $y'+ay=b$
+
+Soit $(a,b)\in \mathbb{R}^* \times \mathbb{R}$. Une solution particulière de l'équation $y'+ay=b$ est la constante $\dfrac{b}{a}$. On en déduit :
+
+::: {.proposition}
+Soit $(a,b)\in \mathbb{R}^* \times \mathbb{R}$. La solution générale de l'équation $(E)~~ y'+ay=b$ est :
+
+$$\boxed{f(t)=\dfrac{b}{a}+C \mathrm{e}^{-at} \text{ où } C \in \mathbb{R}}$$
+:::
