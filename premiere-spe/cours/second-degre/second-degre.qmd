@@ -486,7 +486,7 @@ ax^2+bx+c=0 &\iff a\left(x+\dfrac{b}{2a} \right)^2-\dfrac{\Delta}{4a}=0 \\
 \end{align*}
 $$
 
-- Si $\Delta<0$ : Alors $\dfrac{\Delta}{4a^2}<0$. Or $\left(x+\dfrac{b}{2a} \right)^2>0$. Donc l'équation n'admet pas de solution.
+- Si $\Delta<0$ : Alors $\dfrac{\Delta}{4a^2}<0$. Or $\left(x+\dfrac{b}{2a} \right)^2\geqslant 0$. Donc l'équation n'admet pas de solution.
 - Si $\Delta=0$ :
 $$
 \begin{align*}
@@ -618,13 +618,15 @@ On a vu dans la démonstration de la proposition sur les racines les différente
 
 Pour commencer $ax^2+bx+c=0 \iff \left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}$.
 
-Si $\Delta=0$, alors $\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}\iff \left(x+\dfrac{b}{2a} \right)^2=0 \iff (x-x_0)^2=0$ avec $x_0=\dfrac{-b}{2a}$.
+Si $\Delta=0$, alors $\left(x+\dfrac{b}{2a} \right)^2=\dfrac{\Delta}{4a^2}\iff \left(x+\dfrac{b}{2a} \right)^2=0 \iff (x-x_0)^2=0$ avec $x_0=\dfrac{-b}{2a}$, donc $f(x)=a(x-x_0)^2$.
+
+Si $\Delta>0$, alors d'après la démonstration sur les racines, $ax^2+bx+c=a\left(x+\dfrac{b}{2a}-\dfrac{\sqrt{\Delta}}{2a} \right) \left(x+\dfrac{b}{2a}+\dfrac{\sqrt{\Delta}}{2a} \right)=a(x-x_2)(x-x_1)$.
 :::
 
 ## Étude de signe
 
 ::: {.proposition}
-Soit $f$ un polynôme du second degré définie sur $\R$ par $f(x)=ax^2+bx+c$.
+Soit $f$ une fonction polynôme du second degré définie sur $\R$ par $f(x)=ax^2+bx+c$.
 
 - Si $\Delta <0$, alors :
   - Si $a<0$ alors $f$ est strictement négative : $\forall x \in \R,~f(x)<0$
@@ -632,7 +634,7 @@ Soit $f$ un polynôme du second degré définie sur $\R$ par $f(x)=ax^2+bx+c$.
 - Si $\Delta=0$ alors :
   - Si $a<0$ alors $f$ est négative et $f\left(-\dfrac{b}{2a}\right)=0$.
   - Si $a>0$ alors $f$ est positive et $f\left(-\dfrac{b}{2a}\right)=0$.
-- Si $\Delta >0$, alors on note $x_1$ et $x_2$ les deux racines de $f$. Si on suppose que $x_1<x_2$ alors le tableau de signe de $f$ est :
+- Si $\Delta >0$, alors on note $x_1$ et $x_2$ les deux racines de $f$. Si on suppose que $x_1<x_2$ alors le tableau de signes de $f$ est :
 
 | $x$    | $-\infty$ | | $x_1$ | | $x_2$ | | $+\infty$ |
 |--------|-----------|-|-------|-|-------|-|-----------|
@@ -644,7 +646,7 @@ Soit $f$ un polynôme du second degré définie sur $\R$ par $f(x)=ax^2+bx+c$.
 
 Avec les mêmes notations :
 
-- Si $\Delta<0$ : Soit $x\in \R$. $f(x)=ax^2+bx+c=a \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a}=a\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]$. Or $\left(x+\dfrac{b}{2a}\right)^2 \geq 0$ et $-\dfrac{\Delta}{4a^2}>0$ donc par produit $\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]>0$. Ainsi $f$ est bien du signe de $a$.
+- Si $\Delta<0$ : Soit $x\in \R$. $f(x)=ax^2+bx+c=a \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a}=a\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]$. Or $\left(x+\dfrac{b}{2a}\right)^2 \geq 0$ et $-\dfrac{\Delta}{4a^2}>0$ donc par somme $\left[ \left(x+\dfrac{b}{2a}\right)^2-\dfrac{\Delta}{4a^2}\right]>0$. Ainsi $f$ est bien du signe de $a$.
 - Si $\Delta=0$ alors $f(x)=a(x-x_0)^2$. Ainsi $f$ est du signe de $a$ et la racine de $f$ est $x_0=-\dfrac{b}{2a}$.
 - Si $\Delta>0$ : Soit $x \in \R$. $f(x)=ax^2+bx+c=a(x-x_1)(x-x_2)$. Supposons que $x_1<x_2$, alors on a :
 
