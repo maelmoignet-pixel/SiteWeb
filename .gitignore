@@ -9,3 +9,5 @@ _offline_cache/
 *.zip
 *.ggb
 Overleaf*/
+# Mémoire locale du script publier.sh
+.derniere-publication
