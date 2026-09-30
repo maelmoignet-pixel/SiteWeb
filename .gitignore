@@ -3,3 +3,9 @@
 _site/
 _site_offline/
 _offline_cache/
+
+# Sources LaTeX et archives Overleaf : ne jamais les envoyer sur GitHub (dépôt public)
+*.tex
+*.zip
+*.ggb
+Overleaf*/
