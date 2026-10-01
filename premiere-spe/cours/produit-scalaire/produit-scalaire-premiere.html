@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mathématiques au Lycée - Produit scalaire dans le plan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="google" content="notranslate">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Mathématiques au Lycée</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../seconde/index.html"> 
+<span class="menu-text">Seconde</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../premiere-spe/index.html"> 
+<span class="menu-text">Spécialité 1re</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../terminale-spe/index.html"> 
+<span class="menu-text">Spécialité Tle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#rappels-angles-orientés-de-vecteurs" id="toc-rappels-angles-orientés-de-vecteurs" class="nav-link active" data-scroll-target="#rappels-angles-orientés-de-vecteurs"><span class="header-section-number">1</span> Rappels : angles orientés de vecteurs</a></li>
+  <li><a href="#définition-du-produit-scalaire" id="toc-définition-du-produit-scalaire" class="nav-link" data-scroll-target="#définition-du-produit-scalaire"><span class="header-section-number">2</span> Définition du produit scalaire</a></li>
+  <li><a href="#autres-expressions-du-produit-scalaire" id="toc-autres-expressions-du-produit-scalaire" class="nav-link" data-scroll-target="#autres-expressions-du-produit-scalaire"><span class="header-section-number">3</span> Autres expressions du produit scalaire</a>
+  <ul class="collapse">
+  <li><a href="#cas-des-vecteurs-colinéaires" id="toc-cas-des-vecteurs-colinéaires" class="nav-link" data-scroll-target="#cas-des-vecteurs-colinéaires"><span class="header-section-number">3.1</span> Cas des vecteurs colinéaires</a></li>
+  <li><a href="#avec-des-projetés-orthogonaux" id="toc-avec-des-projetés-orthogonaux" class="nav-link" data-scroll-target="#avec-des-projetés-orthogonaux"><span class="header-section-number">3.2</span> Avec des projetés orthogonaux</a></li>
+  <li><a href="#dans-un-repère" id="toc-dans-un-repère" class="nav-link" data-scroll-target="#dans-un-repère"><span class="header-section-number">3.3</span> Dans un repère</a></li>
+  </ul></li>
+  <li><a href="#règles-de-calcul" id="toc-règles-de-calcul" class="nav-link" data-scroll-target="#règles-de-calcul"><span class="header-section-number">4</span> Règles de calcul</a></li>
+  <li><a href="#orthogonalité" id="toc-orthogonalité" class="nav-link" data-scroll-target="#orthogonalité"><span class="header-section-number">5</span> Orthogonalité</a></li>
+  <li><a href="#relation-métrique-dans-le-triangle" id="toc-relation-métrique-dans-le-triangle" class="nav-link" data-scroll-target="#relation-métrique-dans-le-triangle"><span class="header-section-number">6</span> Relation métrique dans le triangle</a></li>
+  <li><a href="#ensemble-de-points" id="toc-ensemble-de-points" class="nav-link" data-scroll-target="#ensemble-de-points"><span class="header-section-number">7</span> Ensemble de points</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Produit scalaire dans le plan</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+<section id="rappels-angles-orientés-de-vecteurs" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Rappels : angles orientés de vecteurs</h1>
+<div class="definition">
+<p>Soient <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> deux vecteurs non nuls. On note <span class="math inline">\mathcal{C}</span> le cercle trigonométrique de centre <span class="math inline">O</span>.<br>
+On pose <span class="math inline">\overrightarrow{u}=\overrightarrow{OM}</span> et <span class="math inline">\overrightarrow{v}=\overrightarrow{ON}</span>.<br>
+Les demi-droites <span class="math inline">[OM)</span> et <span class="math inline">[ON)</span> coupent respectivement le cercle trigonométrique <span class="math inline">\mathcal{C}</span> en <span class="math inline">A</span> et <span class="math inline">B</span>.<br>
+Les vecteurs <span class="math inline">\overrightarrow{OA}</span> et <span class="math inline">\overrightarrow{OB}</span> sont unitaires et respectivement de même direction et de même sens que <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span>.<br>
+On appelle alors mesure de l’angle orienté <span class="math inline">(\overrightarrow{u},\overrightarrow{v})</span>, toute mesure de l’angle orienté <span class="math inline">(\overrightarrow{OA},\overrightarrow{OB})</span>.</p>
+</div>
+<div class="proposition">
+<ul>
+<li><p><span class="math inline">(\overrightarrow{u},\overrightarrow{u})=0[2 \pi]</span> et <span class="math inline">(\overrightarrow{u};-\overrightarrow{u})=\pi [2 \pi]</span>.</p></li>
+<li><p>Relation de Chasles: <span class="math inline">(\overrightarrow{u},\overrightarrow{v})+(\overrightarrow{v},\overrightarrow{w})=(\overrightarrow{u},\overrightarrow{w})[2\pi]</span>.</p></li>
+<li><p><span class="math inline">(\overrightarrow{v},\overrightarrow{u})=-(\overrightarrow{u},\overrightarrow{v})[2\pi]</span>.</p></li>
+<li><p><span class="math inline">(-\overrightarrow{u},-\overrightarrow{v})=(\overrightarrow{u},\overrightarrow{v})[2\pi]</span>.</p></li>
+<li><p><span class="math inline">(-\overrightarrow{u},\overrightarrow{v})=(\overrightarrow{u},-\overrightarrow{v})=(\overrightarrow{u},\overrightarrow{v})+\pi [2\pi]</span></p></li>
+</ul>
+</div>
+</section>
+<section id="définition-du-produit-scalaire" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Définition du produit scalaire</h1>
+<div class="definition">
+<p>On appelle produit scalaire de <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> le nombre réel, noté <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}</span> et défini par:</p>
+<p><span class="math display">\overrightarrow{u}\cdot\overrightarrow{v}=\left\{
+\begin{aligned}
+||\overrightarrow{u}|| \times ||\overrightarrow{v}|| \times \cos(\overrightarrow{u};\overrightarrow{v})~&amp;\text{si}~\overrightarrow{u}\neq\overrightarrow{0}~\text{et}~\overrightarrow{v}\neq\overrightarrow{0}  \\
+0~&amp;\text{si}~\overrightarrow{u}=\overrightarrow{0}~\text{ou}~\overrightarrow{v}=\overrightarrow{0}
+\end{aligned}
+\right.</span></p>
+<p>Le produit scalaire d’un vecteur <span class="math inline">\overrightarrow{u}</span> par lui-même <span class="math inline">(\overrightarrow{u}\cdot\overrightarrow{u})</span> est appelé carré scalaire de <span class="math inline">\overrightarrow{u}</span> et se note <span class="math inline">\overrightarrow{u}^2</span>.</p>
+</div>
+<div class="remarque">
+<p>Le produit scalaire est donc une nouvelle opération dont les arguments sont des vecteurs et le résultat est un réel.</p>
+</div>
+<div class="application">
+<p>On considère le triangle équilatéral <span class="math inline">ABC</span> ci-contre avec <span class="math inline">AB=2</span>. On note <span class="math inline">\overrightarrow{u}=\overrightarrow{CA}</span> et <span class="math inline">\overrightarrow{v}=\overrightarrow{CB}</span><br>
+Calculer <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On a donc <span class="math inline">||\overrightarrow{u}||=||\overrightarrow{v}||=2</span> et <span class="math inline">(\overrightarrow{u};\overrightarrow{v})=\dfrac{\pi}{3}</span>.<br>
+Ainsi <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=2\times 2 \times \cos(\overrightarrow{u};\overrightarrow{v})=2</span></p>
+</div>
+</div>
+</div>
+<section id="illustration" class="level4" data-number="2.0.0.1">
+<h4 data-number="2.0.0.1" class="anchored" data-anchor-id="illustration"><span class="header-section-number">2.0.0.1</span> Illustration:</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="autres-expressions-du-produit-scalaire" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Autres expressions du produit scalaire</h1>
+<section id="cas-des-vecteurs-colinéaires" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="cas-des-vecteurs-colinéaires"><span class="header-section-number">3.1</span> Cas des vecteurs colinéaires</h2>
+<div class="proposition">
+<ul>
+<li><p>Si <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont deux vecteurs colinéaires de même sens alors <span class="math display">\overrightarrow{u}\cdot\overrightarrow{v}=||\overrightarrow{u}||\times ||\overrightarrow{v}||</span></p></li>
+<li><p>Si <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont deux vecteurs colinéaires de sens contraire alors <span class="math display">\overrightarrow{u}\cdot\overrightarrow{v}=-||\overrightarrow{u}||\times ||\overrightarrow{v}||</span></p></li>
+</ul>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Si <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont deux vecteurs colinéaires de même sens alors <span class="math inline">(\overrightarrow{u},\overrightarrow{v})=0</span>, et donc <span class="math inline">\cos(\overrightarrow{u};\overrightarrow{v})=1</span>.<br>
+Ainsi <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=||\overrightarrow{u}||\times ||\overrightarrow{v}||</span></p></li>
+<li><p>Si <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont deux vecteurs colinéaires de sens contraire alors <span class="math inline">(\overrightarrow{u},\overrightarrow{v})=\pi</span>, et donc <span class="math inline">\cos(\overrightarrow{u};\overrightarrow{v})=-1</span>.<br>
+Ainsi <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=-||\overrightarrow{u}||\times ||\overrightarrow{v}||</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="remarque">
+<p>Pour tout vecteur <span class="math inline">\overrightarrow{u}</span>, <span class="math inline">\overrightarrow{u}^2=||\overrightarrow{u}||^2</span></p>
+</div>
+</section>
+<section id="avec-des-projetés-orthogonaux" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="avec-des-projetés-orthogonaux"><span class="header-section-number">3.2</span> Avec des projetés orthogonaux</h2>
+<div class="definition">
+<p>Soit <span class="math inline">(d)</span> une droite et soit <span class="math inline">M</span> un point n’appartenant pas à cette droite.<br>
+On dit que le point <span class="math inline">M'</span> de la droite <span class="math inline">(d)</span> est le projeté orthogonal de <span class="math inline">M</span> sur <span class="math inline">(d)</span> si les droites <span class="math inline">(MM')</span> et <span class="math inline">(d)</span> sont perpendiculaires.</p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+</div>
+<div class="proposition">
+<p>Soient <span class="math inline">A,B,C</span> et <span class="math inline">D</span> quatre points du plan.<br>
+Si <span class="math inline">C'</span> et <span class="math inline">D'</span> sont les projetés orthogonaux de <span class="math inline">C</span> et <span class="math inline">D</span> sur <span class="math inline">(AB)</span>, alors: <span class="math display">\overrightarrow{AB}\cdot\overrightarrow{CD}=\overrightarrow{AB}\cdot\overrightarrow{C'D'}</span></p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Soit <span class="math inline">E</span> le point tel que <span class="math inline">\overrightarrow{C'E}=\overrightarrow{CD}</span><br>
+On a alors <span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{CD}=\overrightarrow{AB}\cdot\overrightarrow{C'E}=AB\times C'E\times \cos(\overrightarrow{AB};\overrightarrow{C'E})</span></p>
+<ul>
+<li><p>Si l’angle <span class="math inline">(\overrightarrow{AB};\overrightarrow{C'E})</span> est droit, alors <span class="math inline">\cos(\overrightarrow{AB};\overrightarrow{C'E})=0</span> et donc <span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{CD}=\overrightarrow{AB}\cdot\overrightarrow{C'D'}=0</span></p></li>
+<li><p>Si l’angle <span class="math inline">(\overrightarrow{AB};\overrightarrow{C'E})</span> est aigu (inférieur à <span class="math inline">\dfrac{\pi}{2}</span>) alors <span class="math inline">\overrightarrow{AB}</span> et <span class="math inline">\overrightarrow{C'D'}</span> sont colinéaires et de même sens et dans ce cas <span class="math inline">\cos(\overrightarrow{AB};\overrightarrow{C'E})=\dfrac{C'D'}{C'E}</span><br>
+Ainsi:<br>
+<span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{CD}=AB \times C'E \times \dfrac{C'D'}{C'E}=AB\times C'D'=\overrightarrow{AB}\cdot\overrightarrow{C'D'}</span>.</p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration3-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+</div></li>
+<li><p>Si l’angle <span class="math inline">(\overrightarrow{AB};\overrightarrow{C'E})</span> est obtus (supérieur à <span class="math inline">\dfrac{\pi}{2}</span>) alors <span class="math inline">\overrightarrow{AB}</span> et <span class="math inline">\overrightarrow{C'D'}</span> sont colinéaires de sens contraire et dans ce cas <span class="math inline">\cos(\overrightarrow{AB};\overrightarrow{C'E})=-\dfrac{C'D'}{C'E}</span><br>
+Ainsi <span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{CD}=-AB \times C'E \times \dfrac{C'D'}{C'E}=-AB\times C'D'=\overrightarrow{AB}\cdot\overrightarrow{C'D'}</span>.</p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration3-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+</div></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="application">
+<p>Soit <span class="math inline">ABC</span> un triangle isocèle en <span class="math inline">A</span> tel que <span class="math inline">AB=3</span> et <span class="math inline">BC=4</span>. <span class="math inline">O</span> est le milieu du segment <span class="math inline">[BC]</span>.<br>
+Calculer <span class="math inline">\overrightarrow{BA}\cdot\overrightarrow{BC}</span> puis <span class="math inline">\overrightarrow{CA}\cdot\overrightarrow{BC}</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Comme <span class="math inline">ABC</span> est isocèle en <span class="math inline">A</span>, <span class="math inline">(AO)</span> est perpendiculaire à <span class="math inline">(BC)</span>, donc <span class="math inline">O</span> est le projeté orthogonal de <span class="math inline">A</span> sur <span class="math inline">(BC)</span>.<br>
+Ainsi <span class="math inline">\overrightarrow{BA}\cdot\overrightarrow{BC}=\overrightarrow{BO}\cdot\overrightarrow{BC}=BO\times BC=2\times 4=8</span>.<br>
+De même <span class="math inline">\overrightarrow{CA}\cdot\overrightarrow{BC}=\overrightarrow{CO}\cdot\overrightarrow{BC}=-CO\times BC=-2\times 4=-8</span></p>
+</div>
+</div>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illustration4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="dans-un-repère" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="dans-un-repère"><span class="header-section-number">3.3</span> Dans un repère</h2>
+<div class="proposition">
+<p>Soit <span class="math inline">(O;\overrightarrow{i},\overrightarrow{j})</span> un repère du plan.</p>
+<p>Si <span class="math inline">\overrightarrow{u}\begin{pmatrix} x \\ y \end{pmatrix}</span> et <span class="math inline">\overrightarrow{v}\begin{pmatrix} x' \\ y' \end{pmatrix}</span> alors <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=xx'+yy'</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Soient <span class="math inline">A</span> et <span class="math inline">B</span> deux points tels que <span class="math inline">\overrightarrow{OA}=\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{OB}=\overrightarrow{v}</span>.<br>
+Alors <span class="math inline">\overrightarrow{OA} \begin{pmatrix} x \\ y \end{pmatrix}</span> et <span class="math inline">\overrightarrow{OB} \begin{pmatrix} x' \\ y' \end{pmatrix}</span></p>
+<ul>
+<li><p>Commençons par étudier le cas où <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont colinéaires.<br>
+Dans ce cas il existe un réel <span class="math inline">k</span> tel que <span class="math inline">\overrightarrow{OB}=k\overrightarrow{OA}</span>. Ainsi <span class="math inline">\overrightarrow{OB}\begin{pmatrix} kx \\ ky \end{pmatrix}</span></p>
+<ul>
+<li><p>Si <span class="math inline">\overrightarrow{OA}</span> et <span class="math inline">\overrightarrow{OB}</span> sont colinéaires et de même sens, alors <span class="math inline">k&gt;0</span> et <span class="math inline">OB=kOA</span>.<br>
+On a alors <span class="math inline">\overrightarrow{OA}\cdot\overrightarrow{OB}=OA\times OB=k\times OA\times OA=kOA^2</span></p></li>
+<li><p>Si <span class="math inline">\overrightarrow{OA}</span> et <span class="math inline">\overrightarrow{OB}</span> sont colinéaires de sens contraire, alors <span class="math inline">k&lt;0</span> et <span class="math inline">OB=-kOA</span>.<br>
+On a alors <span class="math inline">\overrightarrow{OA}\cdot\overrightarrow{OB}=-OA\times OB=k\times OA\times OA=k OA^2</span></p></li>
+</ul>
+<p>Finalement, dans les deux cas <span class="math inline">\overrightarrow{OA}\cdot\overrightarrow{OB}=k OA^2=k(x^2+y^2)=kxx+kyy=xx'+yy'</span></p></li>
+<li><p>Attaquons maintenant le cas de deux vecteurs quelconques.<br>
+On considère le point <span class="math inline">H</span>, projeté orthogonal de <span class="math inline">B</span> sur <span class="math inline">(OA)</span>. D’après ce qui précède, <span class="math inline">\overrightarrow{OA}\cdot\overrightarrow{OB}=\overrightarrow{OA}\cdot\overrightarrow{OH}=xx_H+yy_H</span>.<br>
+Dans le triangle rectangle <span class="math inline">OBH</span>, d’après le théorème de Pythagore, on a: <span class="math inline">OB^2=OH^2+HB^2</span>.<br>
+Dans le triangle rectangle <span class="math inline">BHA</span>, d’après le théorème de Pythagore, on a: <span class="math inline">BA^2=HB^2+HA^2</span>.<br>
+Finalement, on a: <span class="math inline">HB^2=OB^2-OH^2=BA^2-HA^2</span>. Ainsi: <span class="math display">\begin{aligned}
+x'^2+y'^2-(x_H^2+y_H^2)&amp;=(x-x')^2+(y-y')^2-[(x-x_H)^2+(y-y_H)^2] \\
+x'^2+y'^2-(x_H^2+y_H^2)&amp;=x^2+x'^2-2xx'+y^2+y'^2-2yy'-[x^2+x_H^2-2xx_H+y^2+y_H^2-2yy_H] \\
+-x_H^2-y_H^2&amp;=x^2-2xx'+y^2-2yy'-x^2-x_H^2+2xx_H-y^2-y_H^2+2yy_H \\
+0&amp;= -2xx'-2yy'+2xx_H+2yy_H \\
+xx_H+yy_H&amp;=xx'+yy'
+\end{aligned}</span> D’où <span class="math inline">\overrightarrow{OA}\cdot\overrightarrow{OB}=xx'+yy'</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="règles-de-calcul" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Règles de calcul</h1>
+<div class="proposition">
+<ul>
+<li><p><strong>Symétrie</strong> : <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\overrightarrow{v}\cdot\overrightarrow{u}</span>.</p></li>
+<li><p><strong>Bilinéarité</strong> : <span class="math inline">\overrightarrow{u}\cdot(\overrightarrow{v}+\overrightarrow{w})=\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{u}\cdot\overrightarrow{w}</span>&nbsp;&nbsp;;&nbsp;&nbsp; <span class="math inline">(\overrightarrow{u}+\overrightarrow{v})\cdot\overrightarrow{w}=\overrightarrow{u}\cdot\overrightarrow{w}+\overrightarrow{v}\cdot\overrightarrow{w}</span>.</p></li>
+<li><p><strong>Homogénéité</strong> : <span class="math inline">\overrightarrow{u}\cdot(k\overrightarrow{v})=k\times (\overrightarrow{u}\cdot\overrightarrow{v})</span>&nbsp;&nbsp;;&nbsp;&nbsp; <span class="math inline">(k\overrightarrow{u})\cdot\overrightarrow{v}=k\times (\overrightarrow{u}\cdot\overrightarrow{v})</span>.</p></li>
+<li><p><strong>Identités remarquables</strong>:</p>
+<ul>
+<li><p><span class="math inline">(\overrightarrow{u}+\overrightarrow{v})^2=\overrightarrow{u}^2+2\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{v}^2</span></p></li>
+<li><p><span class="math inline">(\overrightarrow{u}-\overrightarrow{v})^2=\overrightarrow{u}^2-2\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{v}^2</span></p></li>
+<li><p><span class="math inline">(\overrightarrow{u}-\overrightarrow{v})\cdot(\overrightarrow{u}+\overrightarrow{v})=\overrightarrow{u}^2-\overrightarrow{v}^2</span></p></li>
+</ul></li>
+</ul>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Nous ne démontrerons ici que quelques-unes de ces propriétés. Le reste des démonstrations est laissé en exercice.<br>
+On note: <span class="math inline">\overrightarrow{u} \begin{pmatrix} x \\ y \end{pmatrix}</span>, <span class="math inline">\overrightarrow{v} \begin{pmatrix} x' \\ y' \end{pmatrix}</span> et <span class="math inline">\overrightarrow{w}\begin{pmatrix} x'' \\ y'' \end{pmatrix}</span></p>
+<ul>
+<li><p><span class="math inline">\overrightarrow{v}+\overrightarrow{w}\begin{pmatrix} x'+x'' \\ y'+y'' \end{pmatrix}</span>. Ainsi <span class="math inline">\overrightarrow{u}\cdot(\overrightarrow{v}+\overrightarrow{w})=x(x'+x'')+y(y'+y'')=xx'+yy'+xx''+yy''=\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{u}\cdot\overrightarrow{w}</span></p></li>
+<li><p><span class="math inline">(\overrightarrow{u}-\overrightarrow{v})^2=(\overrightarrow{u}-\overrightarrow{v})\cdot(\overrightarrow{u}-\overrightarrow{v})=(\overrightarrow{u}-\overrightarrow{v})\cdot\overrightarrow{u}-(\overrightarrow{u}-\overrightarrow{v})\cdot\overrightarrow{v}=\overrightarrow{u}^2-\overrightarrow{v}\cdot\overrightarrow{u}-\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{v}^2=\overrightarrow{u}^2-2\overrightarrow{u}\cdot\overrightarrow{v}+\overrightarrow{v}^2</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="remarque">
+<p>Ceci nous donne deux nouvelles expressions du produit scalaire :</p>
+</div>
+<div class="proposition">
+<ul>
+<li><p><span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\dfrac{1}{2}\left[ ||\overrightarrow{u}+\overrightarrow{v}||^2-||\overrightarrow{u}||^2-||\overrightarrow{v}||^2 \right]</span></p></li>
+<li><p><span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\dfrac{1}{2}\left[ ||\overrightarrow{u}||^2+||\overrightarrow{v}||^2-||\overrightarrow{u}-\overrightarrow{v}||^2\right]</span></p></li>
+</ul>
+</div>
+<div class="methode">
+<p>Il n’est pas forcément facile de retenir ces deux formules, il peut être plus simple d’apprendre à les retrouver à l’aide des identités remarquables.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><span class="math inline">(\overrightarrow{u}+\overrightarrow{v})^2= ||\overrightarrow{u}+\overrightarrow{v}||^2=\overrightarrow{u}^2+\overrightarrow{v}^2+2\overrightarrow{u}\cdot\overrightarrow{v}=||\overrightarrow{u}||^2+||\overrightarrow{v}||^2+2\overrightarrow{u}\cdot\overrightarrow{v}</span><br>
+D’où <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\dfrac{1}{2}\left[ ||\overrightarrow{u}+\overrightarrow{v}||^2-||\overrightarrow{u}||^2-||\overrightarrow{v}||^2 \right]</span></p></li>
+<li><p><span class="math inline">(\overrightarrow{u}-\overrightarrow{v})^2= ||\overrightarrow{u}-\overrightarrow{v}||^2=\overrightarrow{u}^2+\overrightarrow{v}^2-2\overrightarrow{u}\cdot\overrightarrow{v}=||\overrightarrow{u}||^2+||\overrightarrow{v}||^2-2\overrightarrow{u}\cdot\overrightarrow{v}</span><br>
+D’où <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\dfrac{1}{2}\left[ ||\overrightarrow{u}||^2+||\overrightarrow{v}||^2-||\overrightarrow{u}-\overrightarrow{v}||^2\right]</span></p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="remarque">
+<p>Dans un triangle <span class="math inline">ABC</span> dont on connaît les mesures des trois côtés, on peut écrire la formule<br>
+<span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=\dfrac{1}{2}\left[ ||\overrightarrow{u}||^2+||\overrightarrow{v}||^2-||\overrightarrow{u}-\overrightarrow{v}||^2\right]</span> sous la forme:</p>
+<p><span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{AC}=\dfrac{1}{2}\left( AB^2+AC^2-BC^2 \right)</span></p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/derniere-formule.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="application">
+<p>On considère un triangle <span class="math inline">ABC</span> tel que <span class="math inline">AB=2</span>, <span class="math inline">BC=3</span> et <span class="math inline">AC=4</span>. Déterminer <span class="math inline">\overrightarrow{AB}\cdot\overrightarrow{AC}</span>.</p>
+</div>
+</section>
+<section id="orthogonalité" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Orthogonalité</h1>
+<div class="definition">
+<p>On dit que deux vecteurs <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> sont orthogonaux si <span class="math inline">\overrightarrow{u}\cdot\overrightarrow{v}=0</span>.</p>
+</div>
+<div class="definition">
+<p>Un vecteur normal à une droite <span class="math inline">(d)</span> est un vecteur non nul orthogonal à un vecteur directeur de <span class="math inline">(d)</span>.</p>
+</div>
+</section>
+<section id="relation-métrique-dans-le-triangle" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Relation métrique dans le triangle</h1>
+<p>Dans toute cette partie, on considère le triangle ci-dessous:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/triangle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+<div class="theoreme">
+<p><strong>Al-Kashi</strong></p>
+<p>Soit <span class="math inline">ABC</span> un triangle quelconque.</p>
+<p><span class="math inline">BC^2=AB^2+AC^2-2AB\times AC\times \cos(\hat{A})</span></p>
+<p>De même on a: <span class="math inline">AB^2=AC^2+BC^2-2AC\times BC\times \cos(\hat{C})</span> et <span class="math inline">AC^2=AB^2+BC^2-2AB\times BC\times \cos(\hat{B})</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\overrightarrow{BC}=\overrightarrow{BA}+\overrightarrow{AC}=\overrightarrow{AC}-\overrightarrow{AB}</span><br>
+Ainsi, <span class="math inline">BC^2=(\overrightarrow{BC}^2)=(\overrightarrow{AC}-\overrightarrow{AB})^2=AC^2+AB^2-2\overrightarrow{AC}\cdot\overrightarrow{AB}=AC^2+AB^2-2AC\times AB\times \cos(\hat{A})</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="ensemble-de-points" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Ensemble de points</h1>
+<div class="proposition">
+<p>Soient <span class="math inline">A</span> et <span class="math inline">B</span> deux points et soit <span class="math inline">I</span> le milieu du segment <span class="math inline">[AB]</span>.</p>
+<p>Pour tout point <span class="math inline">M</span>:</p>
+<p><span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=MI^2-\dfrac{1}{4} AB^2</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pour tout point <span class="math inline">M</span>, d’après la relation de Chasles:</p>
+<p><span class="math inline">\overrightarrow{MA}=\overrightarrow{MI}+\overrightarrow{IA}</span> et <span class="math inline">\overrightarrow{MB}=\overrightarrow{MI}+\overrightarrow{IB}</span></p>
+<p>Comme <span class="math inline">I</span> est le milieu de <span class="math inline">[AB]</span>, <span class="math inline">\overrightarrow{IB}=-\overrightarrow{IA}</span> et donc <span class="math inline">\overrightarrow{MB}=\overrightarrow{MI}-\overrightarrow{IA}</span>.<br>
+Ainsi <span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=(\overrightarrow{MI}+\overrightarrow{IA})\cdot(\overrightarrow{MI}-\overrightarrow{IA})=\overrightarrow{MI}^2-\overrightarrow{IA}^2=MI^2-IA^2</span>.<br>
+Comme <span class="math inline">IA=\dfrac{1}{2}AB</span>, alors <span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}= MI^2-\left(\dfrac{1}{2}AB \right)^2=MI^2-\dfrac{1}{4}AB^2</span></p>
+</div>
+</div>
+</div>
+<div class="application">
+<p>Soient <span class="math inline">A</span> et <span class="math inline">B</span> deux points donnés tels que <span class="math inline">AB=6</span>. Déterminer l’ensemble des points <span class="math inline">M</span> qui vérifient <span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=5</span>.<br>
+</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On note <span class="math inline">I</span> le milieu de <span class="math inline">[AB]</span><br>
+<span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=MI^2-\dfrac{1}{4}AB^2=5</span> Ainsi <span class="math inline">MI^2=5+\dfrac{1}{4}AB^2=5+\dfrac{1}{4}\cdot 36=9</span>. Ainsi l’ensemble des points <span class="math inline">M</span> est le cercle de centre <span class="math inline">I</span> et de rayon 3.</p>
+</div>
+</div>
+</div>
+<div class="proposition">
+<p>Soient <span class="math inline">A</span> et <span class="math inline">B</span> deux points distincts.<br>
+L’ensemble des points <span class="math inline">M</span> tels que <span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=0</span> est le cercle de diamètre <span class="math inline">[AB]</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On note <span class="math inline">I</span> le milieu de <span class="math inline">[AB]</span>, alors d’après la proposition précédente, pour tout point <span class="math inline">M</span> du plan <span class="math inline">\overrightarrow{MA}\cdot\overrightarrow{MB}=0 \Leftrightarrow MI^2=\dfrac{1}{4}AB^2</span> c’est-à-dire <span class="math inline">MI=\dfrac{1}{2}AB</span> c’est-à-dire <span class="math inline">IM=IA</span>.<br>
+Ainsi l’ensemble cherché est le cercle de centre <span class="math inline">I</span> qui passe par <span class="math inline">A</span> c’est-à-dire le cercle de diamètre <span class="math inline">[AB]</span>.</p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maël Moignet</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

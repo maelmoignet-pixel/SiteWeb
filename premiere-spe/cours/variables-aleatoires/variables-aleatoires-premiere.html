@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mathématiques au Lycée - Variables aléatoires</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="google" content="notranslate">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Mathématiques au Lycée</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../seconde/index.html"> 
+<span class="menu-text">Seconde</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../premiere-spe/index.html"> 
+<span class="menu-text">Spécialité 1re</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../terminale-spe/index.html"> 
+<span class="menu-text">Spécialité Tle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#variables-aléatoires" id="toc-variables-aléatoires" class="nav-link active" data-scroll-target="#variables-aléatoires"><span class="header-section-number">1</span> Variables aléatoires</a>
+  <ul class="collapse">
+  <li><a href="#exemple" id="toc-exemple" class="nav-link" data-scroll-target="#exemple"><span class="header-section-number">1.1</span> Exemple</a></li>
+  <li><a href="#loi-de-probabilité" id="toc-loi-de-probabilité" class="nav-link" data-scroll-target="#loi-de-probabilité"><span class="header-section-number">1.2</span> Loi de probabilité</a></li>
+  </ul></li>
+  <li><a href="#espérance-variance-et-écart-type" id="toc-espérance-variance-et-écart-type" class="nav-link" data-scroll-target="#espérance-variance-et-écart-type"><span class="header-section-number">2</span> Espérance, variance et écart-type</a>
+  <ul class="collapse">
+  <li><a href="#espérance" id="toc-espérance" class="nav-link" data-scroll-target="#espérance"><span class="header-section-number">2.1</span> Espérance</a></li>
+  <li><a href="#variance-et-écart-type" id="toc-variance-et-écart-type" class="nav-link" data-scroll-target="#variance-et-écart-type"><span class="header-section-number">2.2</span> Variance et écart-type</a></li>
+  </ul></li>
+  <li><a href="#propriétés-des-indicateurs" id="toc-propriétés-des-indicateurs" class="nav-link" data-scroll-target="#propriétés-des-indicateurs"><span class="header-section-number">3</span> Propriétés des indicateurs</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Variables aléatoires</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+<section id="variables-aléatoires" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Variables aléatoires</h1>
+<section id="exemple" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="exemple"><span class="header-section-number">1.1</span> Exemple</h2>
+<div class="application">
+<p>On lance 2 fois de suite une pièce de monnaie supposée équilibrée. On appelle <span class="math inline">P</span> l’événement « on obtient pile » et <span class="math inline">F</span> l’événement « on obtient face ». Une éventualité se présente comme un couple de lettres éventuellement identiques. L’univers <span class="math inline">\Omega</span> de cette expérience est <span class="math inline">\Omega=\{PP,FF,PF,FP\}</span>. Toutes ces issues sont équiprobables.</p>
+<p>On décide que :</p>
+<ul>
+<li><p>si on obtient 2 fois pile, on gagne 2&nbsp;€ ;</p></li>
+<li><p>si on obtient 2 fois face, on perd 1&nbsp;€ ;</p></li>
+<li><p>dans tous les autres cas, on perd 0,50&nbsp;€.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/variable-aleatoire.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>La fonction <span class="math inline">X</span> qui, à chaque issue de <span class="math inline">\Omega</span> associe le gain du joueur, prend comme valeurs : <span class="math inline">x_1=2</span>, <span class="math inline">x_2=-1</span> et <span class="math inline">x_3=-0,5</span>.<br>
+L’événement « <span class="math inline">X</span> prend la valeur 2 » se note <span class="math inline">(X=2)</span>.<br>
+Sa probabilité <span class="math inline">p_1=P(X=2)=\frac{1}{4}</span>. De même, <span class="math inline">p_2=P(X=-1)=\frac{1}{4}</span> et <span class="math inline">p_3=P(X=-0,5)=\frac{1}{2}</span>.<br>
+On résume en général la loi de probabilité de X dans un tableau.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">2</span></th>
+<th style="text-align: center;"><span class="math inline">-1</span></th>
+<th style="text-align: center;"><span class="math inline">-0{,}5</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">p_i</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{2}</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="loi-de-probabilité" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="loi-de-probabilité"><span class="header-section-number">1.2</span> Loi de probabilité</h2>
+<div class="definition">
+<p>Soit <span class="math inline">\Omega</span> l’univers d’une expérience aléatoire.<br>
+Une variable aléatoire <span class="math inline">X</span> sur <span class="math inline">\Omega</span> est une fonction définie de <span class="math inline">\Omega</span> dans <span class="math inline">\mathbb{R}</span>.<br>
+Si <span class="math inline">x_i</span> désigne la valeur prise par <span class="math inline">X</span>, on note <span class="math inline">(X=x_i)</span> l’événement « <span class="math inline">X</span> prend la valeur <span class="math inline">x_i</span> »<br>
+La loi de probabilité de la variable <span class="math inline">X</span> associe à chaque valeur <span class="math inline">x_i</span> la probabilité de l’événement <span class="math inline">(X=x_i)</span>.</p>
+<p>On présente habituellement cette loi sous forme d’un tableau :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">x_1</span></th>
+<th style="text-align: center;"><span class="math inline">x_2</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">x_n</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{X=x_i\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="remarque">
+<p>Comme pour toute loi de probabilité, on a toujours : <span class="math inline">\displaystyle\sum_{i=1}^n p_i=1</span></p>
+</div>
+<div class="notation">
+<p>Soit <span class="math inline">a</span> un réel.<br>
+On note <span class="math inline">\{X \geqslant a\}</span> l’événement « la variable aléatoire <span class="math inline">X</span> prend une valeur supérieure ou égale à la valeur a ».<br>
+On peut définir de la même manière les événements <span class="math inline">\{X&gt;a\}</span>, <span class="math inline">\{X&lt;a\}</span> et <span class="math inline">\{X \leqslant a\}</span></p>
+</div>
+</section>
+</section>
+<section id="espérance-variance-et-écart-type" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Espérance, variance et écart-type</h1>
+<section id="espérance" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="espérance"><span class="header-section-number">2.1</span> Espérance</h2>
+<div class="definition">
+<p>Soit <span class="math inline">X</span> une variable aléatoire de loi de probabilité:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">x_1</span></th>
+<th style="text-align: center;"><span class="math inline">x_2</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">x_n</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{X=x_i\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+<p>On appelle espérance de <span class="math inline">X</span> le nombre réel, noté <span class="math inline">E(X)</span>, défini par :<br>
+<span class="math display">E(X)=\displaystyle\sum_{i=1}^n x_i \times P(X=x_i)</span></p>
+</div>
+<div class="remarque">
+<p><span class="math inline">E(X)</span> s’interprète comme la valeur moyenne des valeurs prises par <span class="math inline">X</span> lorsque l’expérience est répétée un grand nombre de fois.</p>
+</div>
+<div class="application">
+<p>Reprenons l’application 1:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">2</span></th>
+<th style="text-align: center;"><span class="math inline">-1</span></th>
+<th style="text-align: center;"><span class="math inline">-0{,}5</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">p_i</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{2}</span></td>
+</tr>
+</tbody>
+</table>
+<p>Calculer l’espérance de <span class="math inline">X</span> et interpréter le résultat.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">E(X)=2 \times \frac{1}{4}+(-1)\times \frac{1}{4}+(-0,5)\times\frac{1}{2}=0</span>.<br>
+Sur un grand nombre de parties, le joueur gagne en moyenne 0&nbsp;€ par partie : le jeu est équitable.</p>
+</div>
+</div>
+</div>
+<div class="vocabulaire">
+<ul>
+<li><p>Si l’espérance est nulle, on dit que le jeu est équitable.</p></li>
+<li><p>Si l’espérance est positive, on dit que le jeu est favorable au joueur.</p></li>
+<li><p>Si l’espérance est négative, on dit que le jeu est défavorable au joueur.</p></li>
+</ul>
+</div>
+</section>
+<section id="variance-et-écart-type" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="variance-et-écart-type"><span class="header-section-number">2.2</span> Variance et écart-type</h2>
+<div class="definition">
+<p>Soit <span class="math inline">X</span> une variable aléatoire dont la loi de probabilité est:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">x_1</span></th>
+<th style="text-align: center;"><span class="math inline">x_2</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">x_n</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{X=x_i\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+<p>On appelle variance de <span class="math inline">X</span> le nombre réel positif, noté <span class="math inline">V(X)</span>, défini par : <span class="math display">V(X)=\displaystyle\sum_{i=1}^n[x_i-E(X)]^2\times P(X=x_i)</span></p>
+</div>
+<div class="proposition">
+<p>Formule de König-Huygens<br>
+<span class="math display">V(X)=\displaystyle\sum_{i=1}^n x_i^2 \times P(X=x_i)-[E(X)]^2</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Si la variable aléatoire <span class="math inline">X</span> prend respectivement les valeurs <span class="math inline">x_1,x_2,...,x_n</span> avec les probabilités <span class="math inline">p_1,p_2,...,p_n</span>, alors la variable aléatoire <span class="math inline">X^2</span> prend respectivement les valeurs <span class="math inline">x_1^2,...,x_n^2</span> avec les probabilités <span class="math inline">p_1,...,p_n</span>. Ainsi: <span class="math display">\begin{aligned}
+V(X)&amp;= \sum \limits_{{i=1}}^{n}[x_i-E(X)]^2\times p_i \\
+&amp;= \sum \limits_{{i=1}}^{n} (x_i^2-2\times E(X)\times x_i+E(X)^2)p_i \\
+&amp;= \sum \limits_{{i=1}}^{n} \left(x_i^2p_i-2\times E(X)\times x_ip_i+E(X)^2p_i\right) \\
+&amp;= \sum \limits_{{i=1}}^{n} x_i^2p_i + \sum \limits_{{i=1}}^{n} -2\times E(X)\times x_ip_i + \sum \limits_{{i=1}}^{n} E(X)^2p_i \\
+&amp;= E(X^2)-2 E(X)\times \sum \limits_{{i=1}}^{n} x_ip_i + E(X)^2 \times \sum \limits_{{i=1}}^{n} p_i \\
+&amp;= E(X^2)-2 E(X)\times E(X) + E(X)^2 \\
+&amp;= E(X^2)-E(X)^2
+\end{aligned}</span></p>
+</div>
+</div>
+</div>
+<div class="application">
+<p>Reprenons l’application 1:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">2</span></th>
+<th style="text-align: center;"><span class="math inline">-1</span></th>
+<th style="text-align: center;"><span class="math inline">-0{,}5</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">p_i</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{4}</span></td>
+<td style="text-align: center;"><span class="math inline">\frac{1}{2}</span></td>
+</tr>
+</tbody>
+</table>
+<p>Calculer la variance de <span class="math inline">X</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">V(X)=2^2\times \frac{1}{4}+(-1)^2\times \frac{1}{4}+(-0,5)^2 \times \frac{1}{2}-0^2=1,375</span>.</p>
+</div>
+</div>
+</div>
+<div class="definition">
+<p>Soit <span class="math inline">X</span> une variable aléatoire dont la loi de probabilité est:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">x_1</span></th>
+<th style="text-align: center;"><span class="math inline">x_2</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">x_n</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{X=x_i\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+<p>On appelle écart-type de X le nombre réel positif, noté <span class="math inline">\sigma(X)</span>, défini par :<br>
+<span class="math display">\sigma(X)=\sqrt{V(X)}</span></p>
+</div>
+<div class="remarque">
+<p>Comme en statistiques, l’écart-type permet de se donner une idée de la dispersion des valeurs prises par une variable autour de son espérance en tenant compte des probabilités.<br>
+Plus l’écart-type est « grand », plus les valeurs prises par la variable aléatoire sont « éloignées » de l’espérance. Dans le cas d’un gain, plus il est grand, plus le jeu est risqué.</p>
+</div>
+</section>
+</section>
+<section id="propriétés-des-indicateurs" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Propriétés des indicateurs</h1>
+<div class="definition">
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> deux réels.<br>
+On définit une nouvelle variable aléatoire en associant à chaque issue donnant la valeur <span class="math inline">x_i</span>, le nombre <span class="math inline">ax_i+b</span>.<br>
+Cette nouvelle variable se note <span class="math inline">aX+b</span>.</p>
+</div>
+<div class="exemple">
+<p>Reprenons l’application 1. On change les règles du jeu : on multiplie les gains par 10 et on instaure une mise de 5 euros.<br>
+On note <span class="math inline">Y</span> la nouvelle variable aléatoire représentant le gain du joueur. On a donc <span class="math inline">Y=10X-5</span>.<br>
+Les valeurs prises par <span class="math inline">Y</span> sont <span class="math inline">15, -15</span> et <span class="math inline">-10</span>.</p>
+</div>
+<div class="proposition">
+<p>Linéarité de l’espérance<br>
+Soit <span class="math inline">X</span> une variable aléatoire et <span class="math inline">a</span> et <span class="math inline">b</span> deux réels.<br>
+<span class="math display">E(aX+b)=aE(X)+b</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Soit <span class="math inline">X</span> une variable aléatoire dont la loi de probabilité est:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">x_i</span></th>
+<th style="text-align: center;"><span class="math inline">x_1</span></th>
+<th style="text-align: center;"><span class="math inline">x_2</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">x_n</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{X=x_i\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> deux réels. La variable aléatoire <span class="math inline">aX+b</span> suit la loi de probabilité:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"><span class="math inline">a x_i +b</span></th>
+<th style="text-align: center;"><span class="math inline">ax_1+b</span></th>
+<th style="text-align: center;"><span class="math inline">ax_2+b</span></th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;"><span class="math inline">ax_n+b</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">P(\{aX+b= ax_i+b\})</span></td>
+<td style="text-align: center;"><span class="math inline">p_1</span></td>
+<td style="text-align: center;"><span class="math inline">p_2</span></td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;"><span class="math inline">p_n</span></td>
+</tr>
+</tbody>
+</table>
+On peut remarquer que seules les valeurs de la variable aléatoire changent, pas les probabilités correspondantes.<br>
+Par définition de l’espérance on a: $$
+<span class="math display">\begin{aligned}
+        E(aX+b)&amp;=\displaystyle\sum_{i=1}^n (ax_i+b) \times P(X=x_i)\\
+        &amp;=\displaystyle\sum_{i=1}^n [ ax_i \times P(X=x_i)+b \times P(X=x_i)]\\
+        &amp;=a\displaystyle\sum_{i=1}^n  x_i \times P(X=x_i)+b\displaystyle\sum_{i=1}^n  P(X=x_i)\\
+        &amp;=aE(X)+b
+
+\end{aligned}</span>
+<p>$$</p>
+</div>
+</div>
+</div>
+<div class="proposition">
+<p>Soit <span class="math inline">X</span> une variable aléatoire et <span class="math inline">a</span> et <span class="math inline">b</span> deux réels.</p>
+<p><span class="math inline">V(aX+b)=a^2V(X)</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Avec les mêmes notations: <span class="math display">\begin{aligned}
+V(aX+b)&amp;= E((aX+b)^2)-[E(aX+b)]^2 \\
+&amp;= E(a^2X^2+2abX+b^2)-[aE(X)+b]^2 \\
+&amp;= a^2E(X^2) + 2abE(X)+b^2-[a^2E(X)^2+2abE(X)+b^2] \\
+&amp;= a^2E(X^2)+2abE(X)+b^2-a^2E(X)^2-2abE(X)-b^2 \\
+&amp;= a^2E(X^2) -a^2E(X)^2 \\
+&amp;= a^2(E(X^2)-E(X)^2) \\
+&amp;=a^2V(X)
+\end{aligned}</span></p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maël Moignet</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mathématiques au Lycée - Trigonométrie</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="google" content="notranslate">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Mathématiques au Lycée</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../seconde/index.html"> 
+<span class="menu-text">Seconde</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../premiere-spe/index.html"> 
+<span class="menu-text">Spécialité 1re</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../terminale-spe/index.html"> 
+<span class="menu-text">Spécialité Tle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#angles-orientés-de-vecteurs" id="toc-angles-orientés-de-vecteurs" class="nav-link active" data-scroll-target="#angles-orientés-de-vecteurs"><span class="header-section-number">1</span> Angles orientés de vecteurs</a>
+  <ul class="collapse">
+  <li><a href="#cercle-trigonométrique-mesures-darcs-orientés" id="toc-cercle-trigonométrique-mesures-darcs-orientés" class="nav-link" data-scroll-target="#cercle-trigonométrique-mesures-darcs-orientés"><span class="header-section-number">1.1</span> Cercle trigonométrique, mesures d’arcs orientés</a></li>
+  <li><a href="#angles-orientés-de-vecteurs-1" id="toc-angles-orientés-de-vecteurs-1" class="nav-link" data-scroll-target="#angles-orientés-de-vecteurs-1"><span class="header-section-number">1.2</span> Angles orientés de vecteurs</a></li>
+  </ul></li>
+  <li><a href="#trigonométrie" id="toc-trigonométrie" class="nav-link" data-scroll-target="#trigonométrie"><span class="header-section-number">2</span> Trigonométrie</a>
+  <ul class="collapse">
+  <li><a href="#cosinus-et-sinus" id="toc-cosinus-et-sinus" class="nav-link" data-scroll-target="#cosinus-et-sinus"><span class="header-section-number">2.1</span> Cosinus et sinus</a></li>
+  <li><a href="#résultats-à-retenir" id="toc-résultats-à-retenir" class="nav-link" data-scroll-target="#résultats-à-retenir"><span class="header-section-number">2.2</span> Résultats à retenir</a></li>
+  <li><a href="#angles-associés" id="toc-angles-associés" class="nav-link" data-scroll-target="#angles-associés"><span class="header-section-number">2.3</span> Angles associés</a>
+  <ul class="collapse">
+  <li><a href="#cosinus-et-sinus-de--x" id="toc-cosinus-et-sinus-de--x" class="nav-link" data-scroll-target="#cosinus-et-sinus-de--x"><span class="header-section-number">2.3.1</span> Cosinus et sinus de <span class="math inline">-x</span></a></li>
+  <li><a href="#cosinus-et-sinus-de-pi-x" id="toc-cosinus-et-sinus-de-pi-x" class="nav-link" data-scroll-target="#cosinus-et-sinus-de-pi-x"><span class="header-section-number">2.3.2</span> Cosinus et sinus de <span class="math inline">\pi-x</span></a></li>
+  <li><a href="#cosinus-et-sinus-de-pix" id="toc-cosinus-et-sinus-de-pix" class="nav-link" data-scroll-target="#cosinus-et-sinus-de-pix"><span class="header-section-number">2.3.3</span> Cosinus et sinus de <span class="math inline">\pi+x</span></a></li>
+  <li><a href="#cosinus-et-sinus-de-dfracpi2-x" id="toc-cosinus-et-sinus-de-dfracpi2-x" class="nav-link" data-scroll-target="#cosinus-et-sinus-de-dfracpi2-x"><span class="header-section-number">2.3.4</span> Cosinus et sinus de <span class="math inline">\dfrac{\pi}{2}-x</span></a></li>
+  <li><a href="#cosinus-et-sinus-de-dfracpi2x" id="toc-cosinus-et-sinus-de-dfracpi2x" class="nav-link" data-scroll-target="#cosinus-et-sinus-de-dfracpi2x"><span class="header-section-number">2.3.5</span> Cosinus et sinus de <span class="math inline">\dfrac{\pi}{2}+x</span></a></li>
+  <li><a href="#exemples" id="toc-exemples" class="nav-link" data-scroll-target="#exemples"><span class="header-section-number">2.3.6</span> Exemples</a></li>
+  </ul></li>
+  <li><a href="#formules-daddition-et-de-duplication-des-cosinus-et-sinus" id="toc-formules-daddition-et-de-duplication-des-cosinus-et-sinus" class="nav-link" data-scroll-target="#formules-daddition-et-de-duplication-des-cosinus-et-sinus"><span class="header-section-number">2.4</span> Formules d’addition et de duplication des cosinus et sinus</a></li>
+  <li><a href="#résolution-déquations-trigonométriques" id="toc-résolution-déquations-trigonométriques" class="nav-link" data-scroll-target="#résolution-déquations-trigonométriques"><span class="header-section-number">2.5</span> Résolution d’équations trigonométriques</a></li>
+  </ul></li>
+  <li><a href="#fonctions-trigonométriques" id="toc-fonctions-trigonométriques" class="nav-link" data-scroll-target="#fonctions-trigonométriques"><span class="header-section-number">3</span> Fonctions trigonométriques</a>
+  <ul class="collapse">
+  <li><a href="#parité-et-périodicité-dune-fonction" id="toc-parité-et-périodicité-dune-fonction" class="nav-link" data-scroll-target="#parité-et-périodicité-dune-fonction"><span class="header-section-number">3.1</span> Parité et périodicité d’une fonction</a></li>
+  <li><a href="#la-fonction-sinus" id="toc-la-fonction-sinus" class="nav-link" data-scroll-target="#la-fonction-sinus"><span class="header-section-number">3.2</span> La fonction sinus</a></li>
+  <li><a href="#la-fonction-cosinus" id="toc-la-fonction-cosinus" class="nav-link" data-scroll-target="#la-fonction-cosinus"><span class="header-section-number">3.3</span> La fonction cosinus</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Trigonométrie</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+<section id="angles-orientés-de-vecteurs" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Angles orientés de vecteurs</h1>
+<section id="cercle-trigonométrique-mesures-darcs-orientés" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="cercle-trigonométrique-mesures-darcs-orientés"><span class="header-section-number">1.1</span> Cercle trigonométrique, mesures d’arcs orientés</h2>
+<div class="definition">
+<p>On appelle cercle trigonométrique un cercle de centre <span class="math inline">O</span> de rayon 1, orienté dans le sens direct.</p>
+</div>
+<div class="remarque">
+<p>Par convention, le sens direct (noté +), est le sens inverse de celui des aiguilles d’une montre.</p>
+</div>
+<section id="enroulement-de-la-droite-des-réels" class="level4" data-number="1.1.0.1">
+<h4 data-number="1.1.0.1" class="anchored" data-anchor-id="enroulement-de-la-droite-des-réels"><span class="header-section-number">1.1.0.1</span> Enroulement de la droite des réels:</h4>
+<p>Dans le plan muni d’un repère orthonormal <span class="math inline">(O,A,B)</span>, on considère le cercle trigonométrique <span class="math inline">C</span>.<br>
+Soit <span class="math inline">P</span> le point tel que <span class="math inline">\overrightarrow{AP}=\overrightarrow{OB}</span> et soit <span class="math inline">d</span> la droite orientée, perpendiculaire à l’axe des abscisses, qui passe par <span class="math inline">A</span>, munie du repère <span class="math inline">(A,P)</span>.<br>
+En enroulant cette droite <span class="math inline">d</span> autour du cercle <span class="math inline">C</span>, on obtient une correspondance entre un point <span class="math inline">N</span> de la droite et un point <span class="math inline">M</span> du cercle.</p>
+<div class="definition">
+<p>Soit <span class="math inline">C</span> le cercle trigonométrique et <span class="math inline">M</span> un point de ce cercle.<br>
+La mesure en radian de l’angle <span class="math inline">\widehat{AOM}</span> est la longueur de l’arc <span class="math inline">\overset{\frown}{AM}</span> intercepté par cet angle.<br>
+Le symbole associé à cette mesure est rad.</p>
+</div>
+<div class="exemple">
+<p>Sur le schéma ci-contre, le point <span class="math inline">N</span> de coordonnée 3 sur la droite <span class="math inline">d</span>, se retrouve après enroulement de <span class="math inline">d</span> sur <span class="math inline">C</span> en <span class="math inline">M</span> tel que la longueur de l’arc <span class="math inline">\overset{\frown}{AM}</span> est égale à <span class="math inline">AN</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/ex-enroul.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+<div class="remarque">
+<ul>
+<li><p>Comme le cercle trigonométrique est de rayon 1, son périmètre est de longueur <span class="math inline">2\pi</span>.</p></li>
+<li><p>Le point de <span class="math inline">d</span> de coordonnée <span class="math inline">2\pi</span> se retrouve ainsi en <span class="math inline">A</span>.<br>
+Cela correspond à un tour complet, soit un angle de 360°.</p></li>
+</ul>
+<p>Par proportionnalité entre angle et arc intercepté, on obtient les correspondances suivantes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Coordonnées de <span class="math inline">N</span> sur <span class="math inline">d</span></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Mesure de l’angle <span class="math inline">\widehat{AOM}</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Coordonnées de <span class="math inline">N</span> sur <span class="math inline">d</span></th>
+<th style="text-align: center;"><span class="math inline">-\dfrac{\pi}{2}</span></th>
+<th style="text-align: center;">0</th>
+<th style="text-align: center;"><span class="math inline">\dfrac{\pi}{2}</span></th>
+<th style="text-align: center;"><span class="math inline">\pi</span></th>
+<th style="text-align: center;"><span class="math inline">2\pi</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Mesure de l’angle <span class="math inline">\widehat{AOM}</span></td>
+<td style="text-align: center;"><span class="math inline">-90^{\circ}</span></td>
+<td style="text-align: center;"><span class="math inline">0^{\circ}</span></td>
+<td style="text-align: center;"><span class="math inline">90^{\circ}</span></td>
+<td style="text-align: center;"><span class="math inline">180^{\circ}</span></td>
+<td style="text-align: center;"><span class="math inline">360^{\circ}</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="remarque">
+<p>Plusieurs points de la droite <span class="math inline">d</span> correspondent à un même point du cercle <span class="math inline">C</span> car la droite peut s’enrouler plusieurs fois.</p>
+<p>Par exemple:</p>
+<ul>
+<li><p>Les points de <span class="math inline">d</span> de coordonnée <span class="math inline">\dfrac{\pi}{3}</span> et <span class="math inline">\dfrac{7\pi}{3}</span> correspondent tous les deux à un même point sur <span class="math inline">C</span>.</p></li>
+<li><p>Les points de <span class="math inline">d</span> de coordonnée <span class="math inline">-\dfrac{\pi}{2}</span> et <span class="math inline">\dfrac{3\pi}{2}</span> correspondent tous les deux à un même point sur <span class="math inline">C</span>.</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/enroul2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="proposition">
+<p>Soient <span class="math inline">A</span> et <span class="math inline">M</span> deux points du cercle trigonométrique.<br>
+Si <span class="math inline">l</span> est une mesure de l’arc orienté <span class="math inline">\overset{\frown}{AM}</span>, alors toutes les mesures de cet arc sont de la forme <span class="math inline">l+2k \pi</span>, où <span class="math inline">k\in \mathbb{Z}</span>.<br>
+On note alors <span class="math inline">\overset{\frown}{AM}=l+2k\pi</span> <span class="math inline">(k\in \mathbb{Z})</span> ou <span class="math inline">\overset{\frown}{AM}=l[2 \pi]</span>.<br>
+La deuxième notation se lit “<span class="math inline">l</span> modulo <span class="math inline">2\pi</span>”.</p>
+</div>
+<div class="exemple">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illu2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p><span class="math inline">\overset{\frown}{AE}=\dfrac{\pi}{3}[2\pi]</span>;</p></li>
+<li><p><span class="math inline">\overset{\frown}{AF}=\dfrac{\pi}{4}[2\pi]</span>;</p></li>
+<li><p><span class="math inline">\overset{\frown}{AG}=-\dfrac{\pi}{6}[2\pi]</span>;</p></li>
+<li><p><span class="math inline">\overset{\frown}{AH}=\dfrac{5\pi}{6}[2\pi]</span>;</p></li>
+<li><p><span class="math inline">\overset{\frown}{AK}=-\dfrac{\pi}{3}[2\pi]</span>;</p></li>
+<li><p><span class="math inline">\overset{\frown}{AL}=-\dfrac{3\pi}{4}[2\pi]</span>;</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="angles-orientés-de-vecteurs-1" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="angles-orientés-de-vecteurs-1"><span class="header-section-number">1.2</span> Angles orientés de vecteurs</h2>
+<div class="definition">
+<p>Soient <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> deux vecteurs unitaires (<span class="math inline">||\overrightarrow{u}||=||\overrightarrow{v}||=1</span>).<br>
+Il existe deux points <span class="math inline">M</span> et <span class="math inline">N</span> du cercle trigonométrique tels que <span class="math inline">\overrightarrow{OM}=\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{ON}=\overrightarrow{v}</span>.<br>
+On appelle mesure de l’angle orienté de vecteurs <span class="math inline">(\overrightarrow{u};\overrightarrow{v})</span> toute mesure de l’arc orienté <span class="math inline">\overset{\frown}{MN}</span>.</p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illu.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="definition">
+<p>Soient <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span> deux vecteurs non nuls. On note <span class="math inline">C</span> le cercle trigonométrique de centre <span class="math inline">O</span>.<br>
+On pose <span class="math inline">\overrightarrow{u}=\overrightarrow{OM}</span> et <span class="math inline">\overrightarrow{v}=\overrightarrow{ON}</span>.<br>
+Les demi-droites <span class="math inline">[OM)</span> et <span class="math inline">[ON)</span> coupent respectivement le cercle trigonométrique <span class="math inline">C</span> en <span class="math inline">A</span> et <span class="math inline">B</span>.<br>
+Les vecteurs <span class="math inline">\overrightarrow{OA}</span> et <span class="math inline">\overrightarrow{OB}</span> sont unitaires et respectivement de même direction et de même sens que <span class="math inline">\overrightarrow{u}</span> et <span class="math inline">\overrightarrow{v}</span>.<br>
+On appelle alors mesure de l’angle orienté <span class="math inline">(\overrightarrow{u},\overrightarrow{v})</span>, toute mesure de l’angle orienté <span class="math inline">(\overrightarrow{OA},\overrightarrow{OB})</span>.</p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illu3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="definition">
+<p>Une seule mesure de l’angle orienté <span class="math inline">(\overrightarrow{u},\overrightarrow{v})</span> appartient à l’intervalle <span class="math inline">]-\pi;\pi]</span>. Cette mesure est appelée mesure principale de l’angle <span class="math inline">(\overrightarrow{u},\overrightarrow{v})</span>.</p>
+</div>
+<div class="application">
+<p>Trouver la mesure principale de l’angle <span class="math inline">\dfrac{17\pi}{3}</span></p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Deux méthodes pour déterminer la mesure principale d’un angle:</p>
+<p>On sait que la mesure principale est de la forme <span class="math inline">\dfrac{17\pi}{3} +2k\pi</span> et qu’elle doit être dans l’intervalle <span class="math inline">]-\pi;\pi]</span>. On a donc:</p>
+<p><span class="math display">\begin{aligned}
+-\pi &amp;&lt; \dfrac{17\pi}{3} +2k\pi \leqslant\pi \\
+-1 &amp;&lt; \dfrac{17}{3}+2k \leqslant 1 \\
+-1-\dfrac{17}{3} &amp;&lt; 2k \leqslant 1-\dfrac{17}{3} \\
+-\dfrac{20}{3} &amp;&lt; 2k \leqslant-\dfrac{14}{3} \\
+-\dfrac{10}{3} &amp;&lt; k \leqslant-\dfrac{7}{3}
+\end{aligned}</span> Or on sait que <span class="math inline">k\in \mathbb{Z}</span> et que <span class="math inline">-\dfrac{10}{3} \approx -3{,}3</span> et <span class="math inline">-\dfrac{7}{3} \approx -2{,}3</span> donc nécessairement <span class="math inline">k=-3</span>.<br>
+La mesure principale de l’angle est donc <span class="math inline">\dfrac{17\pi}{3}+2\times (-3)\pi=\dfrac{17\pi}{3} -6 \pi=\dfrac{17\pi - 18 \pi}{3}=-\dfrac{\pi}{3}</span></p>
+<p>On décompose <span class="math inline">\dfrac{17\pi}{3}</span> afin de faire apparaître le nombre de tours « en trop »:</p>
+<p><span class="math display">\begin{aligned}
+    \dfrac{17\pi}{3}&amp;=\dfrac{(3\times 6 -1)\pi}{3} \\
+    &amp;=\dfrac{3\times 6}{3} \pi -\dfrac{1}{3}\pi \\
+    &amp;= 6\pi - \dfrac{1}{3} \pi \\
+    &amp;= 3\times 2\pi - \dfrac{\pi}{3}
+\end{aligned}</span> Ainsi <span class="math inline">\dfrac{17\pi}{3}=-\dfrac{\pi}{3} [2\pi]</span>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="trigonométrie" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Trigonométrie</h1>
+<section id="cosinus-et-sinus" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="cosinus-et-sinus"><span class="header-section-number">2.1</span> Cosinus et sinus</h2>
+<div class="definition">
+<p>On dit qu’un repère <span class="math inline">(O;\overrightarrow{i},\overrightarrow{j})</span> du plan orienté est orthonormal direct si:</p>
+<p><span class="math inline">||\overrightarrow{i}||=||\overrightarrow{j}||=1</span> et <span class="math inline">(\overrightarrow{i},\overrightarrow{j})=+\dfrac{\pi}{2}[2\pi]</span></p>
+</div>
+<div class="definition">
+<p>Soient <span class="math inline">C</span> le cercle trigonométrique de centre <span class="math inline">O</span> et <span class="math inline">A</span> et <span class="math inline">B</span> deux points du cercle <span class="math inline">C</span> tels que le repère <span class="math inline">(O;\overrightarrow{OA},\overrightarrow{OB})</span> soit orthonormal direct.<br>
+Soit <span class="math inline">x</span> un réel.<br>
+Il existe un unique point <span class="math inline">M</span> du cercle trigonométrique <span class="math inline">C</span> tel que <span class="math inline">(\overrightarrow{OA};\overrightarrow{OM})=x[2\pi]</span>.<br>
+On appelle cosinus et sinus de <span class="math inline">x</span> (notés <span class="math inline">\cos(x)</span> et <span class="math inline">\sin(x)</span>) les coordonnées du point <span class="math inline">M</span> dans le repère <span class="math inline">(O;\overrightarrow{OA},\overrightarrow{OB})</span>.</p>
+<ul>
+<li><p><span class="math inline">\cos(x)</span>: abscisse du point <span class="math inline">M</span>.</p></li>
+<li><p><span class="math inline">\sin(x)</span>: ordonnée du point <span class="math inline">M</span>.</p></li>
+</ul>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/illu4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="résultats-à-retenir" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="résultats-à-retenir"><span class="header-section-number">2.2</span> Résultats à retenir</h2>
+<div class="proposition">
+<p>Pour tout <span class="math inline">x\in \mathbb{R}</span> et pour tout <span class="math inline">k\in\mathbb{Z}</span>:</p>
+<ul>
+<li><p><span class="math inline">\cos(x+2k\pi)=\cos(x)</span></p></li>
+<li><p><span class="math inline">\sin(x+2k\pi)=\sin(x)</span></p></li>
+<li><p><span class="math inline">\cos^2(x)+\sin^2(x)=1</span></p></li>
+<li><p><span class="math inline">-1 \leqslant\cos(x) \leqslant 1</span></p></li>
+<li><p><span class="math inline">-1 \leqslant\sin(x) \leqslant 1</span></p></li>
+</ul>
+<p>On rappelle que si <span class="math inline">\cos(x)\neq0</span>, alors <span class="math inline">\tan(x)=\dfrac{\sin(x)}{\cos(x)}</span></p>
+<p>Quelques valeurs de cosinus, sinus et tangente sont à retenir:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/tab-imp.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="remarque">
+<p>Pour retenir tous les résultats de ce tableau, on peut s’aider du cercle trigonométrique :</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle-trigo2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<div class="application">
+<p>Calculer <span class="math inline">\sin(\alpha)</span> et <span class="math inline">\cos(\beta)</span> sachant que:</p>
+<ul>
+<li><p><span class="math inline">\cos(\alpha)=0{,}6</span> et <span class="math inline">-\frac{\pi}{2}&lt;\alpha&lt;0</span></p></li>
+<li><p><span class="math inline">\sin(\beta)=0{,}8</span> et <span class="math inline">\frac{\pi}{2}&lt;\beta&lt;\pi</span></p></li>
+</ul>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\begin{aligned}
+\cos^2(\alpha)+\sin^2(\alpha)=1 \\
+0{,}6^2+\sin^2(\alpha)=1 \\
+\sin^2(\alpha)=1-0{,}6^2\\
+  \sin^2(\alpha)=0{,}64 \\
+  \sin(\alpha)=-0{,}8 \text{ car } \sin(\alpha)&lt;0 \text{ sur } \left]-\tfrac{\pi}{2};0\right[
+\end{aligned}</span></p>
+<p><span class="math display">\begin{aligned}
+  \cos^2(\beta)+\sin^2(\beta)=1 \\
+  \cos^2(\beta)+0{,}8^2=1 \\
+  \cos^2(\beta)=1-0{,}64\\
+  \cos^2(\beta)=0{,}36 \\
+  \cos(\beta)=-0{,}6 \text{ car } \cos(\beta)&lt;0 \text{ sur } \left]\tfrac{\pi}{2};\pi\right[
+\end{aligned}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="angles-associés" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="angles-associés"><span class="header-section-number">2.3</span> Angles associés</h2>
+<p>Dans toute cette partie, <span class="math inline">x</span> désigne un réel et <span class="math inline">M</span> le point associé au réel <span class="math inline">x</span> sur le cercle trigonométrique.</p>
+<section id="cosinus-et-sinus-de--x" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="cosinus-et-sinus-de--x"><span class="header-section-number">2.3.1</span> Cosinus et sinus de <span class="math inline">-x</span></h3>
+<div class="proposition">
+<p><span class="math inline">\cos(-x)=\cos(x)</span><br>
+<span class="math inline">\sin(-x)=-\sin(x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="cosinus-et-sinus-de-pi-x" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="cosinus-et-sinus-de-pi-x"><span class="header-section-number">2.3.2</span> Cosinus et sinus de <span class="math inline">\pi-x</span></h3>
+<div class="proposition">
+<p><span class="math inline">\cos(\pi-x)=-\cos(x)</span><br>
+<span class="math inline">\sin(\pi-x)=\sin(x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="cosinus-et-sinus-de-pix" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="cosinus-et-sinus-de-pix"><span class="header-section-number">2.3.3</span> Cosinus et sinus de <span class="math inline">\pi+x</span></h3>
+<div class="proposition">
+<p><span class="math inline">\cos(\pi+x)=-\cos(x)</span><br>
+<span class="math inline">\sin(\pi+x)=-\sin(x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="cosinus-et-sinus-de-dfracpi2-x" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="cosinus-et-sinus-de-dfracpi2-x"><span class="header-section-number">2.3.4</span> Cosinus et sinus de <span class="math inline">\dfrac{\pi}{2}-x</span></h3>
+<div class="proposition">
+<p><span class="math inline">\cos \left(\dfrac{\pi}{2}-x\right)=\sin(x)</span><br>
+<span class="math inline">\sin \left(\dfrac{\pi}{2}-x\right)=\cos(x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="cosinus-et-sinus-de-dfracpi2x" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="cosinus-et-sinus-de-dfracpi2x"><span class="header-section-number">2.3.5</span> Cosinus et sinus de <span class="math inline">\dfrac{\pi}{2}+x</span></h3>
+<div class="proposition">
+<p><span class="math inline">\cos\left(\dfrac{\pi}{2}+x\right)=-\sin(x)</span><br>
+<span class="math inline">\sin\left(\dfrac{\pi}{2}+x\right)=\cos(x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cercle.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+<section id="exemples" class="level3" data-number="2.3.6">
+<h3 data-number="2.3.6" class="anchored" data-anchor-id="exemples"><span class="header-section-number">2.3.6</span> Exemples</h3>
+<ul>
+<li><p><span class="math inline">\cos\left(\dfrac{2\pi}{3} \right)=\cos\left(\pi-\dfrac{\pi}{3} \right)=-\cos\left(\dfrac{\pi}{3} \right)=-\dfrac{1}{2}</span></p></li>
+<li><p><span class="math inline">\cos\left(\dfrac{7\pi}{6} \right)=\cos\left(\pi+\dfrac{\pi}{6} \right)=-\cos\left(\dfrac{\pi}{6} \right)=-\dfrac{\sqrt{3}}{2}</span></p></li>
+<li><p><span class="math inline">\sin \left( -\dfrac{\pi}{4} \right)=-\sin \left( \dfrac{\pi}{4} \right) = -\dfrac{\sqrt{2}}{2}</span></p></li>
+</ul>
+</section>
+</section>
+<section id="formules-daddition-et-de-duplication-des-cosinus-et-sinus" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="formules-daddition-et-de-duplication-des-cosinus-et-sinus"><span class="header-section-number">2.4</span> Formules d’addition et de duplication des cosinus et sinus</h2>
+<div class="proposition">
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> des réels.</p>
+<ul>
+<li><p><span class="math inline">\cos (a-b) = \cos(a) \cos(b) + \sin(a) \sin(b)</span><br>
+</p></li>
+<li><p><span class="math inline">\cos (a+b) = \cos(a) \cos(b) - \sin(a) \sin(b)</span><br>
+</p></li>
+<li><p><span class="math inline">\sin (a+b) = \sin(a) \cos(b) + \sin(b) \cos(a)</span><br>
+</p></li>
+<li><p><span class="math inline">\sin (a-b) = \sin(a) \cos(b) - \sin(b) \cos(a)</span><br>
+</p></li>
+</ul>
+</div>
+<div class="proposition">
+<p>Pour tout réel <span class="math inline">x</span>,<br>
+</p>
+<ul>
+<li><p><span class="math inline">\cos(2x)=\cos^2(x) - \sin^2(x)=2\cos^2(x)-1</span><br>
+</p></li>
+<li><p><span class="math inline">\sin(2x)=2\sin(x)\cos(x)</span></p></li>
+</ul>
+</div>
+<div class="application">
+<p>Déterminer la valeur exacte de <span class="math inline">A=\cos \left(\dfrac{13\pi}{2}\right) + \sin \left(\dfrac{19\pi}{3}\right)</span></p>
+</div>
+</section>
+<section id="résolution-déquations-trigonométriques" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="résolution-déquations-trigonométriques"><span class="header-section-number">2.5</span> Résolution d’équations trigonométriques</h2>
+<div class="proposition">
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> des réels.</p>
+<p><span class="math inline">\cos (a) = \cos (b) \Longleftrightarrow \left\lbrace \begin{array}{l}
+b= a + 2k\pi, \quad k \in \mathbb{Z}\\ \qquad \text{ou} \\ b = -a + 2k\pi, \quad k \in \mathbb{Z}
+\end{array} \right.</span></p>
+<p><span class="math inline">\sin (a) = \sin (b) \Longleftrightarrow \left\lbrace \begin{array}{l}
+b= a + 2k\pi, \quad k \in \mathbb{Z}\\ \qquad \text{ou} \\ b = \pi-a + 2k\pi, \quad k \in \mathbb{Z}
+\end{array} \right.</span></p>
+</div>
+<div class="application">
+<p>Résoudre dans <span class="math inline">\mathbb{R}</span> l’équation <span class="math inline">\cos(2x)=\cos\left(x-\dfrac{\pi}{3}\right)</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\begin{aligned}
+\cos(2x)=\cos\left(x-\dfrac{\pi}{3}\right) &amp;\Leftrightarrow 2x=x-\dfrac{\pi}{3}+2k\pi (k \in \mathbb{Z}) \text{ ou } 2x=-\left(x-\dfrac{\pi}{3}\right)+2k\pi (k \in \mathbb{Z}) \\
+&amp;\Leftrightarrow  x=-\dfrac{\pi}{3}+2k\pi (k\in \mathbb{Z}) \text{ ou } 3x = \dfrac{\pi}{3}+2k\pi (k \in \mathbb{Z}) \\
+&amp;\Leftrightarrow  x=-\dfrac{\pi}{3}+2k\pi (k\in \mathbb{Z}) \text{ ou } x= \dfrac{\pi}{9}+\dfrac{2k\pi}{3} (k \in \mathbb{Z})
+\end{aligned}</span> <span class="math inline">S=\left\{ -\dfrac{\pi}{3}+2k\pi ; \dfrac{\pi}{9}+\dfrac{2k\pi}{3} | k \in \mathbb{Z}\right\}</span></p>
+</div>
+</div>
+</div>
+<div class="application">
+<p>Résoudre dans <span class="math inline">\mathbb{R}</span> l’équation <span class="math inline">\sin(3x)=\sin\left(2x-\dfrac{\pi}{4} \right)</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\begin{aligned}
+\sin(3x)=\sin\left(2x-\dfrac{\pi}{4} \right) &amp;\Leftrightarrow 3x=2x-\dfrac{\pi}{4}+2k\pi (k\in \mathbb{Z}) \text{ ou } 3x=\pi-\left(2x-\dfrac{\pi}{4}\right)+2k\pi (k \in \mathbb{Z}) \\
+&amp;\Leftrightarrow x=-\dfrac{\pi}{4} +2k\pi (k\in \mathbb{Z}) \text{ ou } 5x= \dfrac{5\pi}{4} +2k\pi (k\in \mathbb{Z}) \\
+&amp;\Leftrightarrow x=-\dfrac{\pi}{4} +2k\pi (k\in \mathbb{Z}) \text{ ou } x=\dfrac{\pi}{4}+\dfrac{2k\pi}{5} (k \in \mathbb{Z})
+\end{aligned}</span> <span class="math inline">S= \left\{ -\dfrac{\pi}{4} +2k\pi ; \dfrac{\pi}{4}+\dfrac{2k\pi}{5} | k \in \mathbb{Z}\right\}</span></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="fonctions-trigonométriques" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Fonctions trigonométriques</h1>
+<section id="parité-et-périodicité-dune-fonction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="parité-et-périodicité-dune-fonction"><span class="header-section-number">3.1</span> Parité et périodicité d’une fonction</h2>
+<div class="definition">
+<p>Soit <span class="math inline">f</span> une fonction définie sur un intervalle <span class="math inline">I</span> de <span class="math inline">\mathbb{R}</span> et <span class="math inline">\mathcal{C}</span> sa courbe représentative dans un repère orthogonal <span class="math inline">(O,I,J)</span> du plan.<br>
+La fonction <span class="math inline">f</span> est:</p>
+<ul>
+<li><p><strong>paire</strong> si pour tout <span class="math inline">x</span> de <span class="math inline">I</span>, <span class="math inline">-x</span> appartient à <span class="math inline">I</span> et <span class="math inline">f(-x)=f(x)</span>.<br>
+Sa courbe représentative <span class="math inline">\mathcal{C}</span> est alors symétrique par rapport à l’axe des ordonnées.</p></li>
+<li><p><strong>impaire</strong> si pour tout <span class="math inline">x</span> de <span class="math inline">I</span>, <span class="math inline">-x</span> appartient à <span class="math inline">I</span> et <span class="math inline">f(-x)= - f(x)</span>.<br>
+Sa courbe représentative <span class="math inline">\mathcal{C}</span> est alors symétrique par rapport à l’origine <span class="math inline">O</span> du repère.</p></li>
+<li><p><strong>périodique</strong> de période <span class="math inline">T</span> (<span class="math inline">T</span> réel non nul), si pour tout <span class="math inline">x</span> de <span class="math inline">I</span>, <span class="math inline">x+T</span> et <span class="math inline">x-T</span> appartiennent à <span class="math inline">I</span> et <span class="math inline">f(x+T)=f(x)</span>.<br>
+Sa courbe représentative <span class="math inline">\mathcal{C}</span> est alors invariante par translation de vecteur <span class="math inline">T\overrightarrow{i}</span> ou <span class="math inline">- T\overrightarrow{i}</span>.</p></li>
+</ul>
+</div>
+<div class="application">
+<p>On a représenté ci-dessous, dans un repère orthogonal, la fonction <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math display">f(x)= \sin ^{2}(x) + \cos (2x)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/ex-periodicite.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+<ol type="1">
+<li><p>Conjecturer graphiquement la parité de <span class="math inline">f</span> et une période de <span class="math inline">f</span>.</p></li>
+<li><p>Démontrer ces conjectures par le calcul.</p></li>
+</ol>
+</div>
+<div class="application">
+<p>Soit <span class="math inline">f</span> la fonction définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=\cos (4x)-\sin ^{2}(x)</span>.</p>
+<ol type="1">
+<li><p>Étudier la parité de <span class="math inline">f</span>. Interpréter graphiquement le résultat.</p></li>
+<li><p>Conjecturer graphiquement la période de <span class="math inline">f</span> et démontrer cette conjecture par le calcul.</p></li>
+</ol>
+</div>
+</section>
+<section id="la-fonction-sinus" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="la-fonction-sinus"><span class="header-section-number">3.2</span> La fonction sinus</h2>
+<div class="definition">
+<p>La fonction sinus, notée <span class="math inline">\sin</span>, est la fonction définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">x \mapsto \sin (x)</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction sinus est impaire. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">\sin (-x) =-\sin (x)</span>.</p>
+</div>
+<div class="definition">
+<p>La courbe représentative de la fonction sinus est une sinusoïde. Elle est symétrique par rapport à l’origine du repère.</p>
+</div>
+<div class="proposition">
+<p>La fonction sinus est bornée. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">-1 \le \sin (x) \le 1</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction sinus est <span class="math inline">2\pi</span>-périodique. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">\sin (x + 2\pi) = \sin (x)</span>.<br>
+Sa courbe représentative est donc invariante par translation de vecteur <span class="math inline">2\pi \overrightarrow{i}</span> ou <span class="math inline">-2\pi \overrightarrow{i}</span></p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/sinus.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<section id="étude-des-variations-de-la-fonction-sinus" class="level4" data-number="3.2.0.1">
+<h4 data-number="3.2.0.1" class="anchored" data-anchor-id="étude-des-variations-de-la-fonction-sinus"><span class="header-section-number">3.2.0.1</span> Étude des variations de la fonction sinus:</h4>
+<p>La fonction sinus est <span class="math inline">2\pi</span>-périodique. On peut donc restreindre l’étude à un intervalle de <span class="math inline">\mathbb{R}</span> d’amplitude <span class="math inline">2\pi</span>. On en déduit ensuite les variations sur <span class="math inline">\mathbb{R}</span>.<br>
+De plus la fonction sinus est impaire. On peut donc restreindre l’étude à l’intervalle <span class="math inline">[0;\pi]</span> d’amplitude <span class="math inline">\pi</span>.<br>
+On déduit ensuite les variations sur <span class="math inline">[-\pi;\pi]</span> par symétrie.<br>
+On étudie donc la fonction sinus sur <span class="math inline">[0;\pi]</span>: On peut conjecturer à l’aide de la courbe représentative de la fonction sinus que celle-ci est croissante sur <span class="math inline">\left[0;\dfrac{\pi}{2}\right]</span> et décroissante sur <span class="math inline">\left[\dfrac{\pi}{2};\pi\right]</span></p>
+<ul>
+<li><p>Soient <span class="math inline">x</span> et <span class="math inline">x_1</span> deux réels de <span class="math inline">\left[0;\dfrac{\pi}{2}\right]</span> tels que <span class="math inline">x&lt;x_1</span>. On appelle <span class="math inline">M</span> et <span class="math inline">M_1</span> les points du cercle trigonométrique respectivement associés à ces réels. Ces points sont sur le quart de cercle en haut à droite:</p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/variation-sinus1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+<p>On remarque ainsi que le point <span class="math inline">M_1</span> est “plus haut” que le point <span class="math inline">M</span>. L’ordonnée de ce premier est donc supérieure à celle de ce dernier. Autrement dit, <span class="math inline">\sin(x_1) &gt; \sin(x)</span>. Ainsi la fonction sinus est croissante sur <span class="math inline">\left[0;\dfrac{\pi}{2}\right]</span></p></li>
+<li><p>Soient <span class="math inline">x</span> et <span class="math inline">x_1</span> deux réels de <span class="math inline">\left[\dfrac{\pi}{2};\pi\right]</span> tels que <span class="math inline">x&lt;x_1</span>. On appelle <span class="math inline">M</span> et <span class="math inline">M_1</span> les points du cercle trigonométrique respectivement associés à ces réels. Ces points sont sur le quart de cercle en haut à gauche :</p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/variation-sinus2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+</div>
+<p>On remarque ainsi que le point <span class="math inline">M_1</span> est “plus bas” que le point <span class="math inline">M</span>. L’ordonnée de ce premier est donc inférieure à celle de ce dernier. Autrement dit, <span class="math inline">\sin(x_1) &lt; \sin(x)</span>. Ainsi la fonction sinus est décroissante sur <span class="math inline">\left[\dfrac{\pi}{2};\pi\right]</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="la-fonction-cosinus" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="la-fonction-cosinus"><span class="header-section-number">3.3</span> La fonction cosinus</h2>
+<div class="definition">
+<p>La fonction cosinus, notée <span class="math inline">\cos</span>, est la fonction définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">x \mapsto \cos (x)</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction cosinus est paire. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">\cos (-x) =\cos (x)</span>.</p>
+</div>
+<div class="definition">
+<p>La courbe représentative de la fonction cosinus est une sinusoïde. Elle est symétrique par rapport à l’axe des ordonnées.</p>
+</div>
+<div class="proposition">
+<p>La fonction cosinus est bornée. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">-1 \le \cos (x) \le 1</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction cosinus est <span class="math inline">2\pi</span>-périodique. En effet, pour tout réel <span class="math inline">x</span>, <span class="math inline">\cos (x + 2\pi) = \cos (x)</span>.<br>
+Sa courbe représentative est donc invariante par translation de vecteur <span class="math inline">2\pi \overrightarrow{i}</span> ou <span class="math inline">-2\pi \overrightarrow{i}</span>.</p>
+</div>
+<div class="illustration">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/cosinus.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</div>
+<section id="étude-des-variations-de-la-fonction-cosinus" class="level4" data-number="3.3.0.1">
+<h4 data-number="3.3.0.1" class="anchored" data-anchor-id="étude-des-variations-de-la-fonction-cosinus"><span class="header-section-number">3.3.0.1</span> Étude des variations de la fonction cosinus:</h4>
+<p>La fonction cosinus est <span class="math inline">2\pi</span>-périodique. On peut donc restreindre l’étude à un intervalle de <span class="math inline">\mathbb{R}</span> d’amplitude <span class="math inline">2\pi</span>. On en déduit ensuite les variations sur <span class="math inline">\mathbb{R}</span><br>
+De plus la fonction cosinus est paire. On peut donc restreindre l’étude à l’intervalle <span class="math inline">[0;\pi]</span> d’amplitude <span class="math inline">\pi</span>.<br>
+On déduit ensuite les variations sur <span class="math inline">[-\pi;\pi]</span> par symétrie.<br>
+On étudie donc la fonction cosinus sur <span class="math inline">[0;\pi]</span>: On peut conjecturer à l’aide de la courbe représentative de la fonction cosinus que celle-ci est décroissante sur l’intervalle <span class="math inline">[0;\pi]</span>.<br>
+Soient <span class="math inline">x</span> et <span class="math inline">x_1</span> deux réels de <span class="math inline">[0;\pi]</span> tels que <span class="math inline">x&lt;x_1</span>. On appelle <span class="math inline">M</span> et <span class="math inline">M_1</span> les points du cercle trigonométrique associés à ces deux réels. Trois cas sont possibles:</p>
+<ul>
+<li><p><span class="math inline">x</span> et <span class="math inline">x_1</span> font partie de <span class="math inline">\left[0;\dfrac{\pi}{2}\right]</span></p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/premierCas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div></li>
+<li><p><span class="math inline">x</span> fait partie de <span class="math inline">\left[0;\dfrac{\pi}{2}\right]</span> et <span class="math inline">x_1</span> de <span class="math inline">\left[\dfrac{\pi}{2};\pi \right]</span></p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/deuxiemeCas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div></li>
+<li><p><span class="math inline">x</span> et <span class="math inline">x_1</span> font partie de <span class="math inline">\left[\dfrac{\pi}{2};\pi \right]</span></p>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/troisiemeCas.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+</div></li>
+</ul>
+<p>Dans tous les cas, on remarque que l’abscisse du point <span class="math inline">M</span> est supérieure à celle de <span class="math inline">M_1</span>. Autrement dit, <span class="math inline">\cos(x)&gt;\cos(x_1)</span>.<br>
+En résumé, sur <span class="math inline">[0;\pi]</span>, la fonction cosinus est décroissante.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maël Moignet</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

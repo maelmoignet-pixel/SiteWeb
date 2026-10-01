@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Mathématiques au Lycée - Fonctions de référence</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<meta name="google" content="notranslate">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Mathématiques au Lycée</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../seconde/index.html"> 
+<span class="menu-text">Seconde</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../premiere-spe/index.html"> 
+<span class="menu-text">Spécialité 1re</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../terminale-spe/index.html"> 
+<span class="menu-text">Spécialité Tle</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#fonctions-affines-et-fonctions-linéaires" id="toc-fonctions-affines-et-fonctions-linéaires" class="nav-link active" data-scroll-target="#fonctions-affines-et-fonctions-linéaires"><span class="header-section-number">1</span> Fonctions affines et fonctions linéaires</a>
+  <ul class="collapse">
+  <li><a href="#définition" id="toc-définition" class="nav-link" data-scroll-target="#définition"><span class="header-section-number">1.1</span> Définition</a></li>
+  <li><a href="#représentation-graphique" id="toc-représentation-graphique" class="nav-link" data-scroll-target="#représentation-graphique"><span class="header-section-number">1.2</span> Représentation graphique</a></li>
+  <li><a href="#variations-des-fonctions-affines" id="toc-variations-des-fonctions-affines" class="nav-link" data-scroll-target="#variations-des-fonctions-affines"><span class="header-section-number">1.3</span> Variations des fonctions affines</a></li>
+  <li><a href="#signe-dune-fonction-affine" id="toc-signe-dune-fonction-affine" class="nav-link" data-scroll-target="#signe-dune-fonction-affine"><span class="header-section-number">1.4</span> Signe d’une fonction affine</a></li>
+  </ul></li>
+  <li><a href="#la-fonction-carré" id="toc-la-fonction-carré" class="nav-link" data-scroll-target="#la-fonction-carré"><span class="header-section-number">2</span> La fonction carré</a>
+  <ul class="collapse">
+  <li><a href="#généralités" id="toc-généralités" class="nav-link" data-scroll-target="#généralités"><span class="header-section-number">2.1</span> Généralités</a></li>
+  <li><a href="#courbe-représentative" id="toc-courbe-représentative" class="nav-link" data-scroll-target="#courbe-représentative"><span class="header-section-number">2.2</span> Courbe représentative</a></li>
+  <li><a href="#propriétés-algébriques" id="toc-propriétés-algébriques" class="nav-link" data-scroll-target="#propriétés-algébriques"><span class="header-section-number">2.3</span> Propriétés algébriques</a></li>
+  </ul></li>
+  <li><a href="#la-fonction-inverse-xmapsto-dfrac1x" id="toc-la-fonction-inverse-xmapsto-dfrac1x" class="nav-link" data-scroll-target="#la-fonction-inverse-xmapsto-dfrac1x"><span class="header-section-number">3</span> La fonction inverse: <span class="math inline">x\mapsto \dfrac{1}{x}</span></a>
+  <ul class="collapse">
+  <li><a href="#généralités-1" id="toc-généralités-1" class="nav-link" data-scroll-target="#généralités-1"><span class="header-section-number">3.1</span> Généralités</a></li>
+  <li><a href="#courbe-représentative-1" id="toc-courbe-représentative-1" class="nav-link" data-scroll-target="#courbe-représentative-1"><span class="header-section-number">3.2</span> Courbe représentative</a></li>
+  <li><a href="#propriété-algébrique" id="toc-propriété-algébrique" class="nav-link" data-scroll-target="#propriété-algébrique"><span class="header-section-number">3.3</span> Propriété algébrique</a></li>
+  </ul></li>
+  <li><a href="#la-fonction-racine-carrée-xmapsto-sqrtx" id="toc-la-fonction-racine-carrée-xmapsto-sqrtx" class="nav-link" data-scroll-target="#la-fonction-racine-carrée-xmapsto-sqrtx"><span class="header-section-number">4</span> La fonction racine carrée: <span class="math inline">x\mapsto \sqrt{x}</span></a>
+  <ul class="collapse">
+  <li><a href="#généralités-2" id="toc-généralités-2" class="nav-link" data-scroll-target="#généralités-2"><span class="header-section-number">4.1</span> Généralités</a></li>
+  <li><a href="#courbe-représentative-2" id="toc-courbe-représentative-2" class="nav-link" data-scroll-target="#courbe-représentative-2"><span class="header-section-number">4.2</span> Courbe représentative</a></li>
+  </ul></li>
+  <li><a href="#la-fonction-cube-xmapsto-x3" id="toc-la-fonction-cube-xmapsto-x3" class="nav-link" data-scroll-target="#la-fonction-cube-xmapsto-x3"><span class="header-section-number">5</span> La fonction cube: <span class="math inline">x\mapsto x^3</span></a>
+  <ul class="collapse">
+  <li><a href="#généralités-3" id="toc-généralités-3" class="nav-link" data-scroll-target="#généralités-3"><span class="header-section-number">5.1</span> Généralités</a></li>
+  <li><a href="#courbe-représentative-3" id="toc-courbe-représentative-3" class="nav-link" data-scroll-target="#courbe-représentative-3"><span class="header-section-number">5.2</span> Courbe représentative</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fonctions de référence</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode css code-with-copy"><code class="sourceCode css"></code><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+<section id="fonctions-affines-et-fonctions-linéaires" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Fonctions affines et fonctions linéaires</h1>
+<section id="définition" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="définition"><span class="header-section-number">1.1</span> Définition</h2>
+<div class="definition">
+<p>On appelle <strong>fonction affine</strong> une fonction <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=mx+p</span>, où <span class="math inline">m</span> et <span class="math inline">p</span> sont deux nombres réels.</p>
+<p>En particulier, lorsque <span class="math inline">p=0</span>, la fonction <span class="math inline">f</span> définie par <span class="math inline">f(x)=mx</span> est une <strong>fonction linéaire</strong>.</p>
+</div>
+<div class="exemple">
+<ol type="1">
+<li><p>La fonction <span class="math inline">g</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">g(x)=-2x+3</span> est affine.</p></li>
+<li><p>La fonction <span class="math inline">h</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">h(x)=\dfrac{1}{3}x</span> est linéaire.</p></li>
+</ol>
+</div>
+</section>
+<section id="représentation-graphique" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="représentation-graphique"><span class="header-section-number">1.2</span> Représentation graphique</h2>
+<div class="theoreme">
+<p>Dans un repère, la représentation graphique d’une fonction affine est une droite non parallèle à l’axe des ordonnées.</p>
+<p>Réciproquement, toute droite non parallèle à l’axe des ordonnées est la représentation graphique d’une fonction affine.</p>
+</div>
+<div class="remarque">
+<p>Pour tracer la représentation graphique d’une fonction affine, il suffit de connaître les coordonnées de deux points se trouvant sur la droite. On se donne deux valeurs de <span class="math inline">x</span>, et on calcule les deux images.</p>
+</div>
+<div class="application">
+<p>On considère la fonction affine <span class="math inline">f</span> définie par <span class="math inline">f(x)=3x-1</span>. Tracer sa courbe représentative.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On commence par remplir un tableau de valeurs:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;">0</th>
+<th style="text-align: left;">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">f(x)</span></td>
+<td style="text-align: left;"><span class="math inline">-1</span></td>
+<td style="text-align: left;">2</td>
+</tr>
+</tbody>
+</table>
+<p>On place les deux points de coordonnées <span class="math inline">(0;-1)</span> et <span class="math inline">(1;2)</span>. La courbe représentative de <span class="math inline">f</span> est la droite passant par ces deux points.</p>
+</div>
+</div>
+</div>
+<div class="vocabulaire">
+<p>Soit <span class="math inline">f</span> une fonction affine définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=mx+p</span>.</p>
+<p><span class="math inline">m</span> est le coefficient directeur et <span class="math inline">p</span> est l’ordonnée à l’origine (c’est l’ordonnée du point d’abscisse 0) de la droite représentative de <span class="math inline">f</span>.</p>
+</div>
+</section>
+<section id="variations-des-fonctions-affines" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="variations-des-fonctions-affines"><span class="header-section-number">1.3</span> Variations des fonctions affines</h2>
+<div class="proposition">
+<p>Soit <span class="math inline">f</span> une fonction affine définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=mx+p</span>.</p>
+<ol type="1">
+<li><p>Si <span class="math inline">m&gt;0</span>, alors <span class="math inline">f</span> est croissante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+<li><p>Si <span class="math inline">m=0</span>, alors <span class="math inline">f</span> est constante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+<li><p>Si <span class="math inline">m&lt;0</span>, alors <span class="math inline">f</span> est décroissante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+</ol>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Soit <span class="math inline">f</span> une fonction affine définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=mx+p</span>.</p>
+<p>Soient <span class="math inline">x_1</span> et <span class="math inline">x_2</span> deux nombres réels quelconques tels que <span class="math inline">x_1&lt;x_2</span>.</p>
+<p><span class="math inline">f(x_2)-f(x_1)=(mx_2+p)-(mx_1+p)=mx_2+p-mx_1-p=m(x_2-x_1)</span>.</p>
+<p>Comme par hypothèse <span class="math inline">x_2-x_1&gt;0</span>, le signe de <span class="math inline">f(x_2)-f(x_1)</span> est le même que le signe de <span class="math inline">m</span>.</p>
+<p>On a donc les trois cas suivants:</p>
+<ol type="1">
+<li><p>Si <span class="math inline">m&gt;0</span> alors <span class="math inline">f(x_2)-f(x_1)&gt;0</span> ou encore <span class="math inline">f(x_1)&lt;f(x_2)</span>. Donc <span class="math inline">f</span> est croissante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+<li><p>Si <span class="math inline">m&lt;0</span> alors <span class="math inline">f(x_2)-f(x_1)&lt;0</span> ou encore <span class="math inline">f(x_1)&gt;f(x_2)</span>. Donc <span class="math inline">f</span> est décroissante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+<li><p>Si <span class="math inline">m=0</span> alors pour tout <span class="math inline">x</span> de <span class="math inline">\mathbb{R}</span>, <span class="math inline">f(x)=p</span>. Donc <span class="math inline">f</span> est constante sur <span class="math inline">\mathbb{R}</span>.</p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="signe-dune-fonction-affine" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="signe-dune-fonction-affine"><span class="header-section-number">1.4</span> Signe d’une fonction affine</h2>
+<div class="proposition">
+<p>Soit <span class="math inline">f</span> une fonction affine définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=mx+p</span>, avec <span class="math inline">m\neq0</span>.</p>
+<p><span class="math inline">f</span> est du signe de <span class="math inline">m</span> pour les valeurs supérieures à <span class="math inline">x_0=\dfrac{-p}{m}</span>, et du signe contraire pour les valeurs inférieures.</p>
+<p>Tableau de signes de <span class="math inline">f(x)</span> en fonction de <span class="math inline">x</span>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fonction-2-references-figure-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+</section>
+</section>
+<section id="la-fonction-carré" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> La fonction carré</h1>
+<section id="généralités" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="généralités"><span class="header-section-number">2.1</span> Généralités</h2>
+<div class="definition">
+<p>La fonction carré est la fonction <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}</span> par <span class="math inline">f(x)=x^2</span>.</p>
+</div>
+<div class="proposition">
+<p>Variation de la fonction carré.</p>
+<p>La fonction carré est décroissante sur <span class="math inline">]-\infty;0]</span> et croissante sur <span class="math inline">[0;+\infty[</span>.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Montrons que la fonction carré <span class="math inline">f</span> est décroissante sur <span class="math inline">]-\infty;0]</span>:</p>
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> deux nombres réels quelconques négatifs tels que <span class="math inline">a \leqslant b</span>.</p>
+<p>Alors <span class="math inline">f(a)-f(b)=a^2-b^2=(a-b)(a+b)</span></p>
+<p>Il est clair que <span class="math inline">a+b \leqslant 0</span>.</p>
+<p>De plus <span class="math inline">a \leqslant b \Leftrightarrow a-b \leqslant 0</span>. Donc <span class="math inline">f(a)-f(b)=(a-b)(a+b) \geqslant 0</span>.</p>
+<p>Finalement <span class="math inline">f(a)-f(b)\geqslant 0 \Leftrightarrow f(a) \geqslant f(b)</span> Donc <span class="math inline">f</span> est bien décroissante sur <span class="math inline">]-\infty;0]</span></p></li>
+<li><p>Montrons que la fonction carré <span class="math inline">f</span> est croissante sur <span class="math inline">[0;+\infty[</span>:</p>
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> deux nombres réels quelconques positifs tels que <span class="math inline">a \leqslant b</span>.</p>
+<p>Alors <span class="math inline">f(a)-f(b)=a^2-b^2=(a-b)(a+b)</span></p>
+<p>Il est clair que <span class="math inline">a+b \geqslant 0</span>.</p>
+<p>De plus <span class="math inline">a \leqslant b \Leftrightarrow a-b \leqslant 0</span>. Donc <span class="math inline">f(a)-f(b)=(a-b)(a+b) \leqslant 0</span>.</p>
+<p>Finalement <span class="math inline">f(a)-f(b)\leqslant 0 \Leftrightarrow f(a) \leqslant f(b)</span> Donc <span class="math inline">f</span> est bien croissante sur <span class="math inline">[0;+\infty[</span></p></li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="courbe-représentative" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="courbe-représentative"><span class="header-section-number">2.2</span> Courbe représentative</h2>
+<div class="vocabulaire">
+<p>La courbe de la fonction carré s’appelle une parabole.</p>
+</div>
+<p><strong>Tableau de valeurs:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;"><span class="math inline">-3</span></th>
+<th style="text-align: left;"><span class="math inline">-2</span></th>
+<th style="text-align: left;"><span class="math inline">-1</span></th>
+<th style="text-align: left;">0</th>
+<th style="text-align: left;">1</th>
+<th style="text-align: left;">2</th>
+<th style="text-align: left;">3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">f(x)</span></td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">9</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fct-carree.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+<div class="vocabulaire">
+<p>Dans un repère <span class="math inline">(O,I,J)</span>, la courbe de la fonction carré est une parabole de sommet <span class="math inline">O</span>, l’origine du repère.</p>
+</div>
+<div class="proposition">
+<p>Symétrie de la courbe</p>
+<p>Dans un repère orthogonal <span class="math inline">(O,I,J)</span>, la courbe de la fonction carré est symétrique par rapport à l’axe des ordonnées.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pour tout nombre réel <span class="math inline">a</span>, montrons que les points de la courbe d’abscisses <span class="math inline">a</span> et <span class="math inline">-a</span> sont symétriques par rapport à l’axe des ordonnées.</p>
+<p><span class="math inline">f(-a)=(-a)^2=a^2=f(a)</span>. Les deux points de coordonnées <span class="math inline">(a;f(a))</span> et <span class="math inline">(-a;f(-a))</span> sont donc symétriques par rapport à l’axe des ordonnées.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="propriétés-algébriques" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="propriétés-algébriques"><span class="header-section-number">2.3</span> Propriétés algébriques</h2>
+<div class="proposition">
+<ul>
+<li><p>Si <span class="math inline">a</span> et <span class="math inline">b</span> sont deux réels positifs tels que <span class="math inline">0\leqslant a \leqslant b</span> alors <span class="math inline">0\leqslant a^2 \leqslant b^2</span></p></li>
+<li><p>Si <span class="math inline">a</span> et <span class="math inline">b</span> sont deux réels négatifs tels que <span class="math inline">a \leqslant b \leqslant 0</span> alors <span class="math inline">a^2 \geqslant b^2 \geqslant 0</span></p></li>
+</ul>
+</div>
+<div class="proposition">
+<p>La fonction carré est paire.</p>
+</div>
+</section>
+</section>
+<section id="la-fonction-inverse-xmapsto-dfrac1x" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> La fonction inverse: <span class="math inline">x\mapsto \dfrac{1}{x}</span></h1>
+<section id="généralités-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="généralités-1"><span class="header-section-number">3.1</span> Généralités</h2>
+<div class="definition">
+<p>La fonction inverse est la fonction <span class="math inline">f</span> définie sur <span class="math inline">\mathbb{R}^*</span> par <span class="math inline">f(x)=\dfrac{1}{x}</span>.</p>
+<p>À tout réel non nul, elle associe son inverse.</p>
+</div>
+<div class="proposition">
+<p>La fonction inverse est décroissante sur <span class="math inline">]-\infty;0[</span> et sur <span class="math inline">]0;+\infty[</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fonction-2-references-figure-2.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Montrons que la fonction inverse est décroissante sur <span class="math inline">]-\infty;0[</span>.</p>
+<p>Soit <span class="math inline">f</span> la fonction inverse définie sur <span class="math inline">\mathbb{R}^*</span> par <span class="math inline">f(x)=\dfrac{1}{x}</span>.</p>
+<p>Soient <span class="math inline">a</span> et <span class="math inline">b</span> deux réels négatifs non nuls tels que <span class="math inline">a&lt;b&lt;0</span>.</p>
+<p>Alors <span class="math inline">f(a)-f(b)=\dfrac{1}{a}-\dfrac{1}{b}=\dfrac{b-a}{ab}</span>. Comme <span class="math inline">a&lt;b</span>, <span class="math inline">b-a&gt;0</span>. De plus <span class="math inline">ab&gt;0</span>. Donc <span class="math inline">\dfrac{b-a}{ab}&gt;0</span> c’est-à-dire <span class="math inline">\dfrac{1}{a}-\dfrac{1}{b}&gt;0</span> c’est-à-dire <span class="math inline">\dfrac{1}{a}&gt;\dfrac{1}{b}</span>. Finalement <span class="math inline">f(a)&gt;f(b)</span>. Ainsi <span class="math inline">f</span> est décroissante sur <span class="math inline">\mathbb{R}^{-*}</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="courbe-représentative-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="courbe-représentative-1"><span class="header-section-number">3.2</span> Courbe représentative</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 5%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;"><span class="math inline">-4</span></th>
+<th style="text-align: left;"><span class="math inline">-2</span></th>
+<th style="text-align: left;"><span class="math inline">-1</span></th>
+<th style="text-align: left;"><span class="math inline">-0{,}5</span></th>
+<th style="text-align: left;"><span class="math inline">-0{,}25</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{x}</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{-4}=-0{,}25</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{-2}=-0{,}5</span></td>
+<td style="text-align: left;"><span class="math inline">-1</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{-0{,}5}=-2</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{-0{,}25}=-4</span></td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 18%">
+<col style="width: 17%">
+<col style="width: 3%">
+<col style="width: 17%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;">0</th>
+<th style="text-align: left;">0,25</th>
+<th style="text-align: left;">0,5</th>
+<th style="text-align: left;">1</th>
+<th style="text-align: left;">2</th>
+<th style="text-align: left;">4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{x}</span></td>
+<td style="text-align: left;"><span class="math inline">\blacksquare</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{0{,}25}=4</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{0{,}5}=2</span></td>
+<td style="text-align: left;"><span class="math inline">1</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{2}=0{,}5</span></td>
+<td style="text-align: left;"><span class="math inline">\dfrac{1}{4}=0{,}25</span></td>
+</tr>
+</tbody>
+</table>
+<div class="vocabulaire">
+<p>La courbe de la fonction inverse s’appelle une hyperbole.</p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/inverse.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+<div class="proposition">
+<p>Dans un repère orthogonal <span class="math inline">(O,I,J)</span>, la courbe de la fonction inverse est symétrique par rapport à l’origine du repère.</p>
+</div>
+</section>
+<section id="propriété-algébrique" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="propriété-algébrique"><span class="header-section-number">3.3</span> Propriété algébrique</h2>
+<div class="proposition">
+<p>Si <span class="math inline">a</span> et <span class="math inline">b</span> sont deux réels non nuls tels que</p>
+<ul>
+<li><p><span class="math inline">0 &lt; a \leqslant b</span> alors <span class="math inline">\dfrac{1}{a} \geqslant\dfrac{1}{b} &gt; 0</span></p></li>
+<li><p><span class="math inline">a \leqslant b &lt;0</span> alors <span class="math inline">0 &gt;\dfrac{1}{a} \geqslant\dfrac{1}{b}</span></p></li>
+</ul>
+</div>
+<div class="proposition">
+<p>La fonction inverse est impaire.</p>
+</div>
+<div class="application">
+<p>Comparer sans calculatrice:</p>
+<ol type="1">
+<li><p><span class="math inline">\dfrac{1}{8}</span> et <span class="math inline">\dfrac{1}{6}</span></p></li>
+<li><p><span class="math inline">\dfrac{1}{5}</span> et <span class="math inline">\dfrac{1}{20}</span></p></li>
+<li><p><span class="math inline">\dfrac{1}{9}</span> et <span class="math inline">\dfrac{1}{9{,}1}</span></p></li>
+</ol>
+</div>
+<div class="application">
+<p>Que peut-on dire de <span class="math inline">\dfrac{1}{x}</span> lorsque :</p>
+<ol type="1">
+<li><p><span class="math inline">x\geqslant 3</span></p></li>
+<li><p><span class="math inline">x\leqslant-2</span></p></li>
+<li><p><span class="math inline">x &lt; -5</span></p></li>
+<li><p><span class="math inline">x \geqslant\dfrac{2}{3}</span></p></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="la-fonction-racine-carrée-xmapsto-sqrtx" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> La fonction racine carrée: <span class="math inline">x\mapsto \sqrt{x}</span></h1>
+<section id="généralités-2" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="généralités-2"><span class="header-section-number">4.1</span> Généralités</h2>
+<div class="remarque">
+<p>Soit <span class="math inline">x</span> un réel positif. (<span class="math inline">x\in \mathbb{R}^+</span>)</p>
+<p>La racine carrée de <span class="math inline">x</span> est le nombre positif, noté <span class="math inline">\sqrt{x}</span>, dont le carré est <span class="math inline">x</span>.</p>
+<p>Par conséquent, pour tout réel <span class="math inline">x\geqslant 0</span>, <span class="math inline">\sqrt{x}\geqslant 0</span> et <span class="math inline">(\sqrt{x})^2=x</span>.</p>
+</div>
+<div class="definition">
+<p>La fonction racine carrée est la fonction définie sur l’intervalle <span class="math inline">[0;+\infty[</span>, qui à tout nombre réel <span class="math inline">x</span> positif ou nul associe sa racine carrée <span class="math inline">\sqrt{x}</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction racine carrée est croissante sur l’intervalle <span class="math inline">[0;+\infty[</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fonction-2-references-figure-3.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Soient <span class="math inline">u</span> et <span class="math inline">v</span> deux réels positifs tels que <span class="math inline">0&lt;u\leqslant v</span>.</p>
+<p><span class="math inline">\sqrt{u}-\sqrt{v}=\dfrac{(\sqrt{u}-\sqrt{v})(\sqrt{u}+\sqrt{v})}{\sqrt{u}+\sqrt{v}}=\dfrac{u-v}{\sqrt{u}+\sqrt{v}}</span>. Or <span class="math inline">u-v\leqslant 0</span> et <span class="math inline">\sqrt{u}+\sqrt{v} &gt;0</span>. Donc <span class="math inline">\sqrt{u}-\sqrt{v}\leqslant 0</span>. Donc la fonction racine est croissante sur <span class="math inline">[0;+\infty[</span>.</p>
+<p>Rappel: Soit <span class="math inline">f</span> une fonction définie sur un intervalle <span class="math inline">I</span>. On dit que <span class="math inline">f</span> est croissante sur <span class="math inline">I</span> si: Pour tout <span class="math inline">x</span> et <span class="math inline">y</span>, <span class="math inline">x\leqslant y</span>, de <span class="math inline">I</span>, <span class="math inline">f(x)\leqslant f(y)</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="courbe-représentative-2" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="courbe-représentative-2"><span class="header-section-number">4.2</span> Courbe représentative</h2>
+<p>Tableau de quelques valeurs de la fonction racine carrée.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;">0</th>
+<th style="text-align: left;">0,25</th>
+<th style="text-align: left;">1</th>
+<th style="text-align: left;">2</th>
+<th style="text-align: left;">3</th>
+<th style="text-align: left;">4</th>
+<th style="text-align: left;">5</th>
+<th style="text-align: left;">9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\sqrt{x}</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0,5</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;"><span class="math inline">\sqrt{2}</span></td>
+<td style="text-align: left;"><span class="math inline">\sqrt{3}</span></td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;"><span class="math inline">\sqrt{5}</span></td>
+<td style="text-align: left;">3</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/racine-carre.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="la-fonction-cube-xmapsto-x3" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> La fonction cube: <span class="math inline">x\mapsto x^3</span></h1>
+<section id="généralités-3" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="généralités-3"><span class="header-section-number">5.1</span> Généralités</h2>
+<div class="definition">
+<p>La fonction cube est la fonction définie sur <span class="math inline">\mathbb{R}</span> qui à tout réel <span class="math inline">x</span> associe son cube <span class="math inline">x^3</span>.</p>
+</div>
+<div class="proposition">
+<p>La fonction cube est croissante sur <span class="math inline">\mathbb{R}</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fonction-2-references-figure-4.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On commencera par montrer que la fonction cube est croissante sur l’intervalle <span class="math inline">]-\infty;0]</span>, puis sur <span class="math inline">[0;+\infty[</span>.</p>
+<p><strong>&nbsp;Sur <span class="math inline">]-\infty;0]</span>:</strong></p>
+<p>Vérifions que <span class="math inline">u^3-v^3=(u-v)(u^2+uv+v^2)</span></p>
+<p>Soient <span class="math inline">u</span> et <span class="math inline">v</span> deux réels de <span class="math inline">]-\infty;0]</span> tels que <span class="math inline">u\leqslant v</span>&nbsp;&nbsp;&nbsp;(1) La fonction carré est décroissante sur <span class="math inline">]-\infty;0]</span>, donc <span class="math inline">u^2\geqslant v^2</span>(2).</p>
+<p>En multipliant chaque membre de (1) par <span class="math inline">v^2</span> qui est positif, on obtient <span class="math inline">\boxed{v^2.u\leqslant v^3}</span></p>
+<p>En multipliant chaque membre de (2) par <span class="math inline">u</span> qui est négatif, on obtient <span class="math inline">u^3\leqslant v^2.u</span> c’est-à-dire <span class="math inline">\boxed{v^2.u\geqslant u^3}</span></p>
+<p>Finalement, <span class="math inline">u^3 \leqslant v^2.u \leqslant v^3</span>. Donc on a bien: <span class="math inline">\boxed{u^3\leqslant v^3}</span></p>
+<p>Donc la fonction cube est bien croissante sur <span class="math inline">]-\infty;0]</span>.</p>
+<p><strong>&nbsp;Sur <span class="math inline">[0;+\infty[</span></strong></p>
+<p>Soient <span class="math inline">u</span> et <span class="math inline">v</span> deux réels de <span class="math inline">[0;+\infty[</span> tels que <span class="math inline">u\leqslant v</span> (1).</p>
+<p>La fonction carré est croissante sur <span class="math inline">[0;+\infty[</span> donc <span class="math inline">u^2 \leqslant v^2</span> (3).</p>
+<p>En multipliant chaque membre de (1) par <span class="math inline">u^2</span> qui est positif on obtient: <span class="math inline">\boxed{ u^3 \leqslant u^2.v}</span></p>
+<p>En multipliant chaque membre de (3) par <span class="math inline">v</span> qui est positif on obtient: <span class="math inline">\boxed{ u^2.v\leqslant v^3}</span></p>
+<p>Finalement <span class="math inline">u^3 \leqslant u^2.v\leqslant v^3</span> c’est-à-dire <span class="math inline">u^3\leqslant v^3</span>.</p>
+<p>Donc la fonction cube est bien croissante sur <span class="math inline">[0;+\infty[</span></p>
+<p>Ainsi, la fonction cube est bien croissante sur <span class="math inline">\mathbb{R}</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="courbe-représentative-3" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="courbe-représentative-3"><span class="header-section-number">5.2</span> Courbe représentative</h2>
+<p>Tableau de quelques valeurs de la fonction cube.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">x</span></th>
+<th style="text-align: left;"><span class="math inline">-2</span></th>
+<th style="text-align: left;"><span class="math inline">-1</span></th>
+<th style="text-align: left;">0</th>
+<th style="text-align: left;">1</th>
+<th style="text-align: left;">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">x^3</span></td>
+<td style="text-align: left;"><span class="math inline">-8</span></td>
+<td style="text-align: left;"><span class="math inline">-1</span></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">8</td>
+</tr>
+</tbody>
+</table>
+<div class="proposition">
+<p>La fonction cube est impaire.</p>
+</div>
+<p>Courbe représentative de la fonction cube.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images-cours/fonction-cube.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copié");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copié");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Maël Moignet</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
