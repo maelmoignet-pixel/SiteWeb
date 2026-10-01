@@ -3,9 +3,7 @@ title: "Vecteurs (1re partie)"
 lang: fr
 format:
   html:
-    embed-resources: true
     html-math-method: katex
-    self-contained: true
     toc: true
     toc-depth: 3
     number-sections: true
