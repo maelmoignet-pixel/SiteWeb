@@ -22,7 +22,7 @@ toc: false
         - [Cours : Géométrie : vecteurs 1](../cours/geometrie-vecteurs-1/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-*Cours bientôt disponible.*
+- [Cours : Vecteurs (1re partie)](../cours/geometrie-vecteurs-1/geometrie-vecteurs-1.qmd)
 
 ## Évaluations et DS
 

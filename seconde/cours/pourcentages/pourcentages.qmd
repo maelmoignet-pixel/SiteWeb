@@ -1,0 +1,375 @@
+---
+title: "Pourcentages"
+lang: fr
+format:
+  html:
+    embed-resources: true
+    html-math-method: katex
+    self-contained: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    include-in-header:
+      text: |
+        <meta name="google" content="notranslate">
+editor:
+  render-on-save: true
+---
+```css
+```
+```{=html}
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+```
+
+# Proportion et pourcentage
+
+## Proportion d'une sous-population
+
+::: {.exemple}
+Sur les $480$ élèves inscrits en classe de Seconde d'un lycée, $108$ d'entre eux ont choisi l'espagnol pour LV2.
+
+-   La population totale des élèves de Seconde, notée $N$, est égale à $480$. C'est la population de référence.
+
+-   La sous-population des élèves ayant choisi l'espagnol, notée $n$, est égale à $108$.
+
+-   La proportion d'élèves ayant choisi l'espagnol parmi tous les élèves de Seconde, notée $p$, est : $$p=\frac{n}{N}=\frac{108}{480}=\frac{9}{40}=0{,}225$$
+
+Cette proportion peut s'exprimer en pourcentage : $p=22{,}5\%$.
+:::
+
+## Pourcentage d'un nombre
+
+::: {.exemple}
+Reprenons l'exemple précédent. On sait de plus que parmi les $480$ élèves de Seconde, $45\%$ sont des garçons. Il y a $216$ garçons en Seconde. $45\%$ de $480$ sont des garçons, soit : $$45\%\times480=\frac{45}{100}\times480=216$$
+:::
+
+::: {.application}
+Une société de $75$ employés compte $12\%$ de cadres et le reste d'ouvriers. $35$ employés de cette société sont des femmes et $5$ d'entre elles sont cadres.
+
+1.  Calculer l'effectif des cadres.
+
+    ::: solution
+    $12\%$ de $75$ : $\frac{12}{100}\times75=9$. Cette société compte $9$ cadres.
+    :::
+
+2.  Calculer la proportion de femmes dans cette société.
+
+    ::: solution
+    $n=35$ et $N=75$. La proportion de femmes est donc égale à : $$p=\frac{35}{75}\approx0{,}47$$ Il y a environ $47\%$ de femmes dans cette société.
+    :::
+
+3.  Calculer la proportion, en $\%$, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?
+
+    ::: solution
+    $n=5$ femmes cadres et $N=35$ femmes. (Attention, la population de référence n'est plus la même). La proportion de cadres parmi les femmes est donc égale à $p=\frac{5}{35}\approx0{,}14$, soit environ $14\%$. $14\% > 12\%$ donc les femmes cadres sont surreprésentées dans cette société.
+    :::
+:::
+
+# Proportion de proportion
+
+::: {.exemple}
+Dans un car, il y a $40\%$ de scolaires ($S$). Parmi les scolaires, $60\%$ sont des filles ($F$).
+
+-   L'ensemble $F$ est inclus dans l'ensemble $S$ et on a: $p_{F}=60\%$ de $S$.
+
+-   L'ensemble $S$ est inclus dans l'ensemble $\text{CAR}$ et on a $p_{S}=40\%$ de $\text{CAR}$.
+
+-   La proportion de filles dans le $\text{CAR}$ est donc égale à : $$60\% \text{ de } 40\% = 60\% \times 40\% = 0{,}6 \times 0{,}4 = 0{,}24 = 24\%$$
+
+Il y a donc $24\%$ de scolaires filles dans le car.
+:::
+
+::: {.proposition}
+Proportion de proportion\
+Soient $A$, $B$ et $C$ trois ensembles tels que $A\subset B\subset C$. On note $p_1$ la proportion de $A$ dans $B$ et $p_2$ la proportion de $B$ dans $C$. La proportion de $A$ dans $C$ est: $$p=p_{1}\times p_{2}$$
+:::
+
+::: {.application}
+Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de travailler ($15-64$ ans). La population active représente $70\%$ de la population en âge de travailler.
+
+1.  Calculer la proportion de population active par rapport à la population totale.
+
+    ::: solution
+    On note $F$ la population française, $T$ la population en âge de travailler et $A$ la population active.
+
+    -   La proportion de $A$ dans $T$ est $70\%$.
+
+    -   La proportion de $T$ dans $F$ est $66\%$.
+
+    La proportion de $A$ dans $F$ est donc égale à: $$p = p_1 \times p_2 = 70\% \times 66\% = 0{,}70 \times 0{,}66 = 0{,}462 = 46{,}2\%$$ Ainsi, $46{,}2\%$ des Français sont actifs.
+    :::
+
+2.  Combien de Français compte la population active ?
+
+    ::: solution
+    $$0{,}462\times67 \text{ millions} \approx 30{,}954 \text{ millions}$$ La France compte environ $31$ millions d'actifs.
+    :::
+:::
+
+# Lien entre évolution et pourcentages
+
+## Évolution exprimée en pourcentage
+
+::: {.proposition}
+Dire qu'il y a eu une évolution de $t\%$ entre une valeur initiale $V_{0}$ non nulle et une valeur finale $V_{1}$ signifie que $V_{1}=V_{0}+V_{0}\times\frac{t}{100}$, c'est-à-dire : $$V_{1}=V_{0}\left(1+\frac{t}{100}\right)$$
+:::
+
+Le **coefficient multiplicateur** de $V_{0}$ à $V_{1}$, noté $\text{CM}$, est le rapport $$\text{CM}=\frac{V_{1}}{V_{0}}=1+\frac{t}{100}$$
+
+::: {.remarque}
+$t$ est un nombre positif s'il s'agit d'une augmentation, et négatif s'il s'agit d'une diminution.
+:::
+
+## Coefficient multiplicateur, augmentation et diminution
+
+::: {.proposition}
+-   Si $\text{CM}>1$, alors l'évolution est une augmentation.
+
+-   Si $\text{CM}<1$, alors l'évolution est une diminution.
+:::
+
+::: {.remarque}
+Le coefficient multiplicateur permet de passer de la valeur initiale à la valeur finale d'une évolution.
+:::
+
+::: {.remarque}
+Soit $V_{0}$ la valeur initiale et $V_{1}$ la valeur finale d'une évolution. $$V_{0} \xrightarrow{\times\left(1+\frac{t}{100}\right)} V_{1} \quad \text{Augmentation de } t\%$$ $$V_{0} \xrightarrow{\times\left(1-\frac{t}{100}\right)} V_{1} \quad \text{Diminution de } t\%$$
+:::
+
+::: {.exemple}
+Lors d'une vente aux enchères, le prix initial d'un tableau est de $1200$ euros. Il augmente de $20\%$ au cours des enchères. Quel est son nouveau prix ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+$$V_{1}=V_{0}\left(1+\frac{t}{100}\right)=1200\times1{,}20=1440$$ Son prix final est donc de $1440$ euros.
+:::
+
+::: {.application}
+En 2009, un village comptait $3000$ habitants. En 2015, on constate que sa population a diminué de $15\%$. Combien y a-t-il d'habitants dans ce village en 2015 ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+$$V_{1}=V_{0}\left(1-\frac{15}{100}\right)=3000\times0{,}85=2550$$
+:::
+
+## Expression d'une évolution en pourcentage
+
+::: {.definition}
+La **variation absolue** d'une valeur initiale $V_{0}$ à une valeur finale $V_{1}$ est $V_{1}-V_{0}$.
+:::
+
+::: {.definition}
+Le **taux d'évolution** (appelé également variation relative) d'une valeur initiale $V_{0}$ non nulle à une valeur finale $V_{1}$ est $\frac{V_{1}-V_{0}}{V_{0}}$. En pourcentage, le taux d'évolution se note $t\%$ avec $t=100\times\frac{V_{1}-V_{0}}{V_{0}}.$
+:::
+
+::: {.application}
+Le prix d'un article est passé de $150$ euros à $180$ euros. Quel est le taux d'évolution ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Le taux d'évolution est de $$\frac{180-150}{150}=\frac{30}{150}=0{,}2.$$ Le prix a donc subi une augmentation de $20\%$.
+:::
+
+::: {.application}
+Le cours d'une action est passé de $80$ euros le lundi à $32$ euros le vendredi. Quel est le taux d'évolution ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Le taux d'évolution est de $$\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.$$ Le prix a donc subi une baisse de $60\%$.
+:::
+
+# Évolutions successives, évolution réciproque
+
+## Évolutions successives
+
+::: {.application}
+Entre janvier 2012 et juillet 2012, le salaire minimum en France a augmenté de $2\%$. Ensuite, entre juillet 2012 et janvier 2013, il a augmenté de $0{,}3\%$. Quel a été le taux d'évolution global $t\%$ du SMIC entre janvier 2012 et janvier 2013 ? Justifier.
+:::
+
+::: {.proposition}
+Si le taux d'évolution d'une valeur $V_{0}$ non nulle à une valeur $V_{1}$ est $t_{1}\%$, et le taux d'évolution de la valeur $V_{1}$ à une valeur $V_{2}$ est $t_{2}\%$ alors le taux d'évolution global $t\%$ de $V_0$ à $V_{2}$ est tel que: $$1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)$$
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+On a $V_{1}=V_{0}(1+\frac{t_{1}}{100})$ et $V_{2}=V_{1}(1+\frac{t_{2}}{100})$. Ainsi $$V_{2}=V_{0}\left(1+\frac{t_{1}}{100}\right)\times\left(1+\frac{t_{2}}{100}\right)$$ D'autre part, par définition du taux global, $V_{2}=V_{0}(1+\frac{t}{100})$. Par identification de ces deux relations, on obtient : $$1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)$$
+:::
+
+## Évolution réciproque
+
+::: {.definition}
+Le taux d'évolution d'une valeur $V_{0}$ non nulle à une valeur $V_{1}$ est $t\%$. Le **taux d'évolution réciproque** de ce taux de $t\%$ est celui qui fait passer de la valeur $V_{1}$ à la valeur $V_{0}$.
+:::
+
+::: {.application}
+D'avril 2014 à septembre 2014, le prix du gaz a diminué de $4{,}2\%$. Quel est le taux d'évolution réciproque $t'\%$ ? Justifier.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+On note $V_{0}$ le prix du gaz en avril 2014 et $V_{1}$ celui de septembre 2014. Le coefficient multiplicateur pour passer de $V_0$ à $V_1$ est : $$\text{CM} = 1 - \frac{4{,}2}{100} = 0{,}958$$ On a donc $V_{1}=V_{0}\times0{,}958$. Le taux réciproque $t'\%$ est celui qui fait passer de $V_1$ à $V_0$. Son coefficient multiplicateur $\text{CM}'$ est tel que $V_0 = V_1 \times \text{CM}'$. $$\text{CM}' = \frac{V_0}{V_1} = \frac{1}{0{,}958} \approx 1{,}0438$$ On a $\text{CM}' = 1+\frac{t'}{100}$. $$\frac{t^{\prime}}{100}\approx 1{,}0438 - 1 = 0{,}0438$$ $$\mathbf{t' \approx 4{,}38}$$ Cela signifie que pour revenir à sa valeur d'avril 2014, le prix du gaz devrait, à partir de septembre 2014, augmenter d'environ $4{,}38\%$.
+:::
+
+::: {.proposition}
+Le taux d'évolution réciproque $t'\%$ d'un taux de $t\%$ est tel que: $$1+\frac{t^{\prime}}{100}=\frac{1}{1+\frac{t}{100}}$$
+:::

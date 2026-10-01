@@ -22,7 +22,7 @@ toc: false
         - [Cours : Fonctions 1 : généralités](../cours/fonction-1-generalite/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-*Cours bientôt disponible.*
+- [Cours : Généralités sur les fonctions](../cours/fonction-1-generalite/fonction-1-generalite.qmd)
 
 ## Évaluations et DS
 

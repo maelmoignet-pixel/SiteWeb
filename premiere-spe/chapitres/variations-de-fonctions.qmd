@@ -22,7 +22,7 @@ toc: false
         - [Cours : Variations de fonctions](../cours/variations-de-fonctions/nom-du-cours.qmd)
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
-*Cours bientôt disponible.*
+- [Cours : Variations de fonctions](../cours/variations-de-fonctions/variations-de-fonctions-premiere.qmd)
 
 ## Évaluations et DS
 
