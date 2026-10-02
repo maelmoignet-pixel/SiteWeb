@@ -1,0 +1,37 @@
+---
+title: "TP informatique"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « TP informatique » (Seconde)
+     Ce fichier est : seconde/chapitres/tp-informatique.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../tp-informatique/... désigne
+     seconde/tp-informatique/...
+
+     ⚠️ Ne JAMAIS mettre le fichier corrigé dans ce dossier : tout ce qui
+     est dans SiteWeb est publié (et le dépôt GitHub est public).
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+Les TP se font avec **Spyder**. Téléchargez le fichier Python (`.py`), puis ouvrez-le dans Spyder ; le PDF reproduit le même sujet, pour le lire ou l'imprimer.
+
+<!-- ➕ AJOUTER UN TP :
+     1. Crée un dossier  seconde/tp-informatique/tp2/  et mets-y le PDF et le .py
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens.
+        Le {download=""} sur le lien du .py force le téléchargement du fichier
+        (sinon le navigateur l'affiche comme du texte). -->
+
+:::: {.evals}
+
+::: {.eval}
+[TP 1 – Nature d'un quadrilatère]{.eval-titre}
+
+[Sujet (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf){.eval-btn .sujet} [Fichier Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction download="tp1-quadrilateres-seconde.py"}
+:::
+
+::::

@@ -12,6 +12,8 @@ project:
   # Force la copie de TOUS les PDF dans le site publié
   resources:
     - "**/*.pdf"
+    # Fichiers Python des TP (à télécharger par les élèves)
+    - "seconde/tp-informatique/**/*.py"
 
 lang: fr
 

@@ -32,6 +32,7 @@ toc: false
 - [Probabilités](chapitres/probabilites.qmd)
 - [Géométrie : équations de droites](chapitres/geometrie-equations-de-droites.qmd)
 - [Statistiques 2](chapitres/statistiques-2.qmd)
+- [TP informatique](chapitres/tp-informatique.qmd)
 
 :::
 
