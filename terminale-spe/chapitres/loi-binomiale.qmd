@@ -20,10 +20,9 @@ toc: false
      Si tu renommes le fichier, modifie le nom ci-dessous. -->
 
 - [Cours : Loi binomiale](../cours/loi-binomiale/loi-binomiale.qmd)
-
 - [TD](../cours/loi-binomiale/loi-binomiale-terminale-TD.pdf)
-
-- Probabilités au bac : [Sujet](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-sujet.pdf) · [Correction](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-correction.pdf)
+- [Types bac: sujets](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-sujet.pdf)
+- [Types bac: corrections](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-correction.pdf)
 
 ## Évaluations et DS
 
