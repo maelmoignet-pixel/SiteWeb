@@ -23,6 +23,8 @@ toc: false
 
 - [TD](../cours/loi-binomiale/loi-binomiale-terminale-TD.pdf)
 
+- Probabilités au bac : [Sujet](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-sujet.pdf) · [Correction](../cours/loi-binomiale/loi-binomiale-terminale-probas-au-bac-correction.pdf)
+
 ## Évaluations et DS
 
 ::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
