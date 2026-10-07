@@ -841,6 +841,253 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 </script>
+<!-- =====================================================================
+     tableau.html : zones d'écriture au stylet sous les exemples, applications
+     et solutions d'un cours Quarto (pour l'écran tactile de la classe).
+     Les traits sont enregistrés dans le navigateur (localStorage), par cours.
+     ===================================================================== -->
+<style>
+:root { --encre-fond: #ffffff; --encre-trait: #d6dbe5; --encre-accent: #2d4db0; --encre-texte: #1b2232; }
+.encre-ouvrir { display: flex; justify-content: flex-end; margin: -0.6em 0 1.2em; }
+.encre-ouvrir button, .encre-barre button, .encre-menu button {
+  font: 600 15px/1 system-ui, sans-serif; border: 1px solid var(--encre-trait); background: #fff; color: var(--encre-texte);
+  border-radius: 10px; min-height: 44px; min-width: 44px; padding: 0 14px; cursor: pointer; touch-action: manipulation; }
+.encre-ouvrir button.ecrit { border-color: var(--encre-accent); color: var(--encre-accent); }
+.encre-ouvrir button.ecrit::after { content: " ●"; }
+.encre-zone { border: 2px solid var(--encre-accent); border-radius: 14px; margin: -0.4em 0 1.6em; background: var(--encre-fond); overflow: hidden; }
+.encre-zone.plein { position: fixed; inset: 0; z-index: 2000; margin: 0; border-radius: 0; display: flex; flex-direction: column; }
+.encre-barre { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px; background: #f3f5f9; border-bottom: 1px solid var(--encre-trait); position: sticky; top: 0; }
+.encre-barre .sep { width: 1px; align-self: stretch; background: var(--encre-trait); margin: 0 4px; }
+.encre-barre .coul { width: 44px; padding: 0; }
+.encre-barre .coul i { display: block; width: 22px; height: 22px; border-radius: 50%; margin: auto; }
+.encre-barre button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+.encre-barre .ep i { display: block; margin: auto; background: var(--encre-texte); border-radius: 4px; width: 22px; }
+.encre-barre .droite { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.encre-barre .danger { color: #b3261e; }
+.encre-defile { height: 62vh; overflow-y: auto; overscroll-behavior: contain; position: relative; }
+.encre-zone.plein .encre-defile { height: auto; flex: 1; }
+.encre-defile canvas { display: block; width: 100%; position: sticky; top: 0; touch-action: none; }
+.encre-defile .cale { width: 1px; }
+.encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
+.encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
+@media print { .encre-ouvrir, .encre-zone, .encre-menu { display: none !important; } }
+</style>
+<script>
+(() => {
+  /* Mode tableau : réservé au professeur. Sur le site, il s'active en ajoutant ?tableau à l'adresse
+     (l'appareil s'en souvient) et se désactive avec ?eleve ou le bouton « Quitter le mode tableau ».
+     Un fichier ouvert depuis une clé USB (file://) est toujours en mode tableau. */
+  const params = new URLSearchParams(location.search);
+  try { if (params.has("tableau")) localStorage.setItem("encre-mode-tableau", "1");
+        if (params.has("eleve")) localStorage.removeItem("encre-mode-tableau"); } catch (e) {}
+  let actif = location.protocol === "file:"; try { actif = actif || localStorage.getItem("encre-mode-tableau") === "1"; } catch (e) {}
+  if (!actif) return;
+  const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
+  const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
+  const COULEURS = ["#1b2232", "#2d4db0", "#c0262d", "#11845b"];
+  const EPAISSEURS = [3, 6, 12];
+  let reglages = { coul: COULEURS[0], ep: EPAISSEURS[1], doigt: "defile" };
+  try { Object.assign(reglages, JSON.parse(localStorage.getItem("encre-reglages") || "{}")); } catch (e) {}
+  const garderReglages = () => { try { localStorage.setItem("encre-reglages", JSON.stringify(reglages)); } catch (e) {} };
+
+  Zone.toutes = [];
+  /* Les blocs qui reçoivent une zone d'écriture */
+  const blocs = [...document.querySelectorAll("main .exemple, main .application, main .exercice, main .callout-caution")];
+  const vus = {};
+  blocs.forEach(bloc => {
+    const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
+    const debut = (bloc.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60);
+    let cle = type + ":" + debut;                         // stable tant que le texte du bloc ne change pas
+    vus[cle] = (vus[cle] || 0) + 1; if (vus[cle] > 1) cle += "#" + vus[cle];
+    new Zone(bloc, PAGE + "|" + cle, type);
+  });
+
+  function Zone(bloc, cle, type) {
+    const z = this;
+    let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+    let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
+    const barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
+    const bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
+    bloc.after(barreOuv);
+    let zone = null, canvas, ctx, defile, echelle = 1;
+    const libelle = () => { bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire" + (type === "solution" ? " la solution" : "");
+                            bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
+    libelle();
+    bOuv.onclick = () => { if (zone) fermer(); else ouvrir(); };
+
+    function ouvrir() {
+      zone = document.createElement("div"); zone.className = "encre-zone";
+      zone.innerHTML = `<div class="encre-barre">
+        ${COULEURS.map(c => `<button class="coul" data-c="${c}" aria-label="Couleur"><i style="background:${c}"></i></button>`).join("")}
+        <span class="sep"></span>
+        ${EPAISSEURS.map(e => `<button class="ep" data-e="${e}" aria-label="Épaisseur ${e}"><i style="height:${Math.max(2, e / 2)}px"></i></button>`).join("")}
+        <button data-a="gomme">Gomme</button>
+        <span class="sep"></span>
+        <button data-a="annuler" aria-label="Annuler">↶</button><button data-a="retablir" aria-label="Rétablir">↷</button>
+        <button data-a="doigt"></button>
+        <span class="sep"></span>
+        <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
+        <span class="droite"><button data-a="plein">Plein écran</button><button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">Réduire</button></span>
+        </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
+      barreOuv.after(zone);
+      canvas = zone.querySelector("canvas"); ctx = canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
+      zone.querySelector(".encre-barre").addEventListener("click", clicBarre);
+      defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
+      brancherCrayon();
+      etatBarre(); dimensionner(); libelle();
+      new ResizeObserver(dimensionner).observe(defile);
+      zone.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); barreOuv.scrollIntoView({ block: "nearest" }); }
+    let confirmeEff = false;
+    function clicBarre(e) {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.c) { reglages.coul = b.dataset.c; reglages.gomme = false; }
+      else if (b.dataset.e) { reglages.ep = +b.dataset.e; reglages.gomme = false; }
+      else switch (b.dataset.a) {
+        case "gomme": reglages.gomme = !reglages.gomme; break;
+        case "annuler": { const a = traits.pop(); if (a) { annules.push(a); sauver(); } break; }
+        case "retablir": { const a = annules.pop(); if (a) { traits.push(a); sauver(); } break; }
+        case "haut": defile.scrollBy({ top: -defile.clientHeight * 0.8, behavior: "smooth" }); return;
+        case "bas": allonger((defile.scrollTop || 0) + defile.clientHeight * 1.8); defile.scrollBy({ top: defile.clientHeight * 0.8, behavior: "smooth" }); return;
+        case "doigt": reglages.doigt = reglages.doigt === "defile" ? "ecrit" : "defile"; break;
+        case "plein": zone.classList.toggle("plein"); b.textContent = zone.classList.contains("plein") ? "Quitter le plein écran" : "Plein écran"; setTimeout(dimensionner, 0); break;
+        case "effacer":
+          if (!confirmeEff) { confirmeEff = true; b.textContent = "Toucher encore pour effacer"; setTimeout(() => { confirmeEff = false; b.textContent = "Tout effacer"; }, 3000); return; }
+          confirmeEff = false; annules = traits; traits = []; b.textContent = "Tout effacer"; sauver(); break;
+        case "reduire": return fermer();
+      }
+      garderReglages(); etatBarre(); dessiner();
+    }
+    function etatBarre() {
+      zone.querySelectorAll(".coul").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && b.dataset.c === reglages.coul));
+      zone.querySelectorAll(".ep").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && +b.dataset.e === reglages.ep));
+      zone.querySelector('[data-a="gomme"]').setAttribute("aria-pressed", !!reglages.gomme);
+      zone.querySelector('[data-a="doigt"]').textContent = reglages.doigt === "defile" ? "Doigt : défiler" : "Doigt : écrire";
+    }
+    let cale;
+    function dimensionner() {
+      if (!zone) return;
+      cale = cale || zone.querySelector(".cale");
+      const l = defile.clientWidth, vh = defile.clientHeight, dpr = window.devicePixelRatio || 1;
+      echelle = l / LARGEUR;
+      canvas.style.height = vh + "px";
+      canvas.width = Math.round(l * dpr); canvas.height = Math.round(vh * dpr);
+      allonger((defile.scrollTop || 0) + vh * 1.5);
+      dessiner();
+    }
+    /* La zone a toujours au moins une page vide sous la partie visible : on peut descendre autant qu'on veut */
+    function allonger(basVisible) {
+      const voulu = basVisible / echelle + PAS;
+      if (voulu > hauteur) hauteur = Math.ceil(voulu / PAS) * PAS;
+      if (cale) cale.style.height = Math.max(0, hauteur * echelle - defile.clientHeight) + "px";
+    }
+    function dessiner() {
+      if (!zone) return;
+      const dpr = window.devicePixelRatio || 1, haut = (defile.scrollTop || 0) / echelle, vh = defile.clientHeight / echelle;
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
+      ctx.strokeStyle = "#d6dbe5"; ctx.lineWidth = 1.5; ctx.beginPath();               // lignes de cahier
+      for (let y = Math.ceil(haut / 60) * 60; y < haut + vh; y += 60) { ctx.moveTo(0, y); ctx.lineTo(LARGEUR, y); }
+      ctx.stroke();
+      traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
+    }
+    function tracer(t, depuis = 0) {
+      const p = t.p; if (p.length < 2) return;
+      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.beginPath();
+      if (p.length === 2) { ctx.arc(p[0], p[1], t.w / 2, 0, 7); ctx.fillStyle = t.c; ctx.fill(); return; }
+      ctx.moveTo(p[0], p[1]);
+      for (let i = 2; i < p.length - 2; i += 2) ctx.quadraticCurveTo(p[i], p[i + 1], (p[i] + p[i + 2]) / 2, (p[i + 1] + p[i + 3]) / 2);
+      ctx.lineTo(p[p.length - 2], p[p.length - 1]);
+      ctx.stroke();
+    }
+    function sauver() {
+      try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle); } catch (e) {}
+      majInfo();
+    }
+    function brancherCrayon() {
+      let courant = null, gomme = false;
+      const doigts = new Map(); let defilement = null;
+      const pos = e => { const r = defile.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / echelle), Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle)]; };
+      canvas.addEventListener("pointerdown", e => {
+        if (e.pointerType === "touch") {
+          doigts.set(e.pointerId, e.clientY);
+          if (doigts.size >= 2 || reglages.doigt === "defile") {            // deux doigts (ou réglage) : faire défiler
+            if (courant) { traits.pop(); courant = null; dessiner(); }
+            defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); return;
+          }
+        }
+        if (e.button > 0 && e.pointerType === "mouse") return;
+        canvas.setPointerCapture(e.pointerId);
+        gomme = !!reglages.gomme || e.button === 5 || (e.buttons & 32) > 0;      // bouton gomme du stylet
+        if (gomme) { effacerA(pos(e)); return; }
+        courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant);
+        traits.push(courant); annules = [];
+        tracer(courant);
+      });
+      canvas.addEventListener("pointermove", e => {
+        if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
+        if (gomme && e.buttons) { effacerA(pos(e)); return; }
+        if (!courant) return;
+        const evts = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+        for (const ev of evts) { const [x, y] = pos(ev); const n = courant.p.length;
+          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 2) courant.p.push(x, y); }
+        bornes(courant);
+        dessiner();
+        allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
+      });
+      const fin = e => {
+        doigts.delete(e.pointerId);
+        if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
+        if (courant) { courant = null; sauver(); libelle(); }
+        if (gomme) { gomme = false; sauver(); }
+      };
+      canvas.addEventListener("pointerup", fin); canvas.addEventListener("pointercancel", fin);
+    }
+    function effacerA([x, y]) {
+      const r = 14 / Math.max(echelle, 0.3);
+      const avant = traits.length;
+      traits = traits.filter(t => { for (let i = 0; i < t.p.length; i += 2) if (Math.hypot(t.p[i] - x, t.p[i + 1] - y) < r + t.w) return false; return true; });
+      if (traits.length !== avant) dessiner();
+    }
+    z.exporter = () => traits;
+    z.cle = cle;
+    Zone.toutes.push(z);
+  }
+  const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
+  function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
+  function maxY(t) { let m = 0; for (let i = 1; i < t.p.length; i += 2) m = Math.max(m, t.p[i]); return m; }
+
+  /* Petit menu : nombre de zones écrites, sauvegarde dans un fichier et rechargement */
+  if (!blocs.length) return;
+  const menu = document.createElement("div"); menu.className = "encre-menu";
+  menu.innerHTML = `<span class="info"></span><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button>${location.protocol === "file:" ? "" : '<button data-m="quitter">Quitter le mode tableau</button>'}<input type="file" accept=".json" hidden>`;
+  document.body.appendChild(menu);
+  function majInfo() {
+    let n = 0; Zone.toutes.forEach(z => { try { if (localStorage.getItem(z.cle)) n++; } catch (e) {} });
+    menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
+  }
+  majInfo();
+  const fichier = menu.querySelector("input");
+  menu.addEventListener("click", e => {
+    const m = e.target.dataset.m;
+    if (m === "exp") {
+      const donnees = {}; Zone.toutes.forEach(z => { try { const v = localStorage.getItem(z.cle); if (v) donnees[z.cle] = JSON.parse(v); } catch (x) {} });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(donnees)], { type: "application/json" }));
+      a.download = "notes-" + (document.title || "cours").replace(/[^\wÀ-ÿ-]+/g, "-") + ".json"; a.click();
+    }
+    if (m === "imp") fichier.click();
+    if (m === "quitter") { try { localStorage.removeItem("encre-mode-tableau"); } catch (x) {} location.href = location.pathname; }
+  });
+  fichier.addEventListener("change", async () => {
+    const f = fichier.files[0]; if (!f) return;
+    try { const d = JSON.parse(await f.text()); Object.entries(d).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v))); location.reload(); }
+    catch (e) { menu.querySelector(".info").textContent = "Fichier de notes illisible"; }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -922,7 +1169,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/maelmoignet-pixel\.github\.io\/SiteWeb\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
