@@ -43,7 +43,7 @@ format:
     theme: cosmo        # thème de base (d'autres : flatly, journal, litera...)
     css: styles.css     # notre fichier d'apparence
     toc: true           # sommaire à droite des pages (désactivé sur l'accueil)
-    # Ouvre les PDF, fichiers .py, cours et sites extérieurs dans un nouvel onglet
+    # Ouvre les PDF dans un nouvel onglet
     include-after-body:
       - _nouvel-onglet.html
       # Mode tableau (écran tactile) : zones d'écriture au stylet sous les exemples, applications et démonstrations.
