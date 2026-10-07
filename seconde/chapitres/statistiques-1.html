@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <!-- =====================================================================
      tableau.html : zones d'écriture au stylet sous les exemples, applications
-     et solutions d'un cours Quarto (pour l'écran tactile de la classe).
+     et démonstrations d'un cours Quarto (pour l'écran tactile de la classe).
      Les traits sont enregistrés dans le navigateur (localStorage), par cours.
      ===================================================================== -->
 <style>
@@ -260,14 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </style>
 <script>
 (() => {
-  /* Mode tableau : réservé au professeur. Sur le site, il s'active en ajoutant ?tableau à l'adresse
-     (l'appareil s'en souvient) et se désactive avec ?eleve ou le bouton « Quitter le mode tableau ».
-     Un fichier ouvert depuis une clé USB (file://) est toujours en mode tableau. */
-  const params = new URLSearchParams(location.search);
-  try { if (params.has("tableau")) localStorage.setItem("encre-mode-tableau", "1");
-        if (params.has("eleve")) localStorage.removeItem("encre-mode-tableau"); } catch (e) {}
-  let actif = location.protocol === "file:"; try { actif = actif || localStorage.getItem("encre-mode-tableau") === "1"; } catch (e) {}
-  if (!actif) return;
   const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const COULEURS = ["#1b2232", "#2d4db0", "#c0262d", "#11845b"];
@@ -278,7 +270,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   Zone.toutes = [];
   /* Les blocs qui reçoivent une zone d'écriture */
-  const blocs = [...document.querySelectorAll("main .exemple, main .application, main .exercice, main .callout-caution")];
+  const AVEC_ZONE = ["exemple", "application", "exercice"];
+  const estBloc = el => el && AVEC_ZONE.some(c => el.classList.contains(c));
+  // Une solution qui suit directement une application ou un exemple partage sa zone : pas de seconde zone.
+  const blocs = [...document.querySelectorAll("main .exemple, main .application, main .exercice, main .callout-caution")]
+    .filter(b => !(b.classList.contains("callout-caution") && estBloc(b.previousElementSibling)));
   const vus = {};
   blocs.forEach(bloc => {
     const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
@@ -294,9 +290,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
     const barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
     const bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
-    bloc.after(barreOuv);
+    if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
     let zone = null, canvas, ctx, defile, echelle = 1;
-    const libelle = () => { bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire" + (type === "solution" ? " la solution" : "");
+    const libelle = () => { bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire";
                             bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
     libelle();
     bOuv.onclick = () => { if (zone) fermer(); else ouvrir(); };
@@ -448,7 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Petit menu : nombre de zones écrites, sauvegarde dans un fichier et rechargement */
   if (!blocs.length) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button>${location.protocol === "file:" ? "" : '<button data-m="quitter">Quitter le mode tableau</button>'}<input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   function majInfo() {
     let n = 0; Zone.toutes.forEach(z => { try { if (localStorage.getItem(z.cle)) n++; } catch (e) {} });
@@ -465,7 +461,6 @@ document.addEventListener("DOMContentLoaded", function () {
       a.download = "notes-" + (document.title || "cours").replace(/[^\wÀ-ÿ-]+/g, "-") + ".json"; a.click();
     }
     if (m === "imp") fichier.click();
-    if (m === "quitter") { try { localStorage.removeItem("encre-mode-tableau"); } catch (x) {} location.href = location.pathname; }
   });
   fichier.addEventListener("change", async () => {
     const f = fichier.files[0]; if (!f) return;
