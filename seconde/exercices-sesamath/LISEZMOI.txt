@@ -1,0 +1,4 @@
+Exercices extraits du manuel **Sésamath Seconde (édition 2019)**, sous licence
+Creative Commons BY-SA (https://creativecommons.org/licenses/by-sa/4.0/deed.fr).
+Source : https://manuel.sesamath.net/  — Découpage automatique, un fichier par exercice
+(p<page>-n<numéro>.png). Utilisés par la feuille d'exercices du mode tableau.

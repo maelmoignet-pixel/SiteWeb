@@ -280,6 +280,9 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-defile .cale { width: 1px; }
 .encre-exos { position: fixed; left: 14px; bottom: 14px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #fff; background: var(--encre-accent);
   border: 0; border-radius: 999px; min-height: 52px; padding: 0 22px; box-shadow: 0 4px 14px rgba(27, 34, 50, .25); cursor: pointer; touch-action: manipulation; }
+.encre-manuel { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.encre-manuel input { width: 4.2em; min-height: 44px; font: 600 16px system-ui, sans-serif; text-align: center; border: 1px solid var(--encre-trait); border-radius: 10px; }
+.encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
@@ -299,13 +302,28 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
   const IMAGES = {};
   function chargerImage(src) {
-    if (!IMAGES[src]) IMAGES[src] = new Promise((ok, ko) => { const im = new Image(); im.onload = () => ok(im); im.onerror = ko; im.src = src; });
+    if (!IMAGES[src]) IMAGES[src] = new Promise((ok, ko) => { const im = new Image(); if (/^https?:/.test(src)) im.crossOrigin = "anonymous";
+      im.onload = () => ok(im); im.onerror = ko; im.src = src; });
     return IMAGES[src];
   }
   function boiteFond(im) {
     const nw = im.naturalWidth || 1280, nh = im.naturalHeight || 800;
     let w = LARGEUR * 0.8, h = w * nh / nw; if (h > 1400) { h = 1400; w = h * nw / nh; }
     return [(LARGEUR - w) / 2, 30, w, h];
+  }
+  /* Manuel du niveau : exercices découpés, publiés avec le site (seconde : Sésamath, licence CC BY-SA) */
+  const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)" } };
+  const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|terminale-spe)\//) || [])[1];
+  const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
+  if (MANUEL) {
+    const lib = document.querySelector('script[src*="site_libs/"]');
+    MANUEL.base = lib ? lib.getAttribute("src").split("site_libs/")[0] + MANUEL.dossier
+                      : "https://maelmoignet-pixel.github.io/SiteWeb/" + MANUEL.dossier;   // fichier sur clé USB : depuis le site
+  }
+  let indexManuel = null;
+  function trouverExercice(n, p) {
+    indexManuel = indexManuel || fetch(MANUEL.base + "index.json").then(r => r.json());
+    return indexManuel.then(idx => { const f = idx[n + "@" + p]; if (!f) throw new Error("absent"); return MANUEL.base + f; });
   }
   Zone.toutes = [];
   /* Les blocs qui reçoivent une zone d'écriture */
@@ -357,6 +375,25 @@ document.addEventListener("DOMContentLoaded", function () {
     let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
     let fondImg = null;
+    let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
+    const imgExos = new Map();
+    const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
+    if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
+    const sauverExos = () => { try { if (exos.length) localStorage.setItem(opts.cleExos, JSON.stringify(exos)); else localStorage.removeItem(opts.cleExos);
+                                     localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
+    const basContenu = () => Math.max(opts.entete ? 190 : 0, ...traits.map(t => maxY(t) + t.w), ...exos.map(e => e.y + e.h + 50));
+    async function insererExercice(n, p, msg) {
+      msg.textContent = "Recherche…";
+      try {
+        const src = await trouverExercice(n, p), im = await chargerImage(src);
+        const w = Math.min(1150, LARGEUR - 60), h = w * im.naturalHeight / im.naturalWidth;
+        const y = basContenu() + 30;
+        exos.push({ n, p, src, x: 30, y, w, h }); imgExos.set(src, im); sauverExos();
+        hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
+        defile.scrollTop = Math.max(0, (y - 20) * echelle);
+        msg.textContent = "";
+      } catch (e) { msg.textContent = "Exercice n°" + n + " p." + p + " introuvable"; }
+    }
     if (opts.fond) chargerImage(opts.fond).then(im => { fondImg = im; const b = boiteFond(im); hauteur = Math.max(hauteur, b[1] + b[3] + PAS); if (zone) dimensionner(); }, () => {});
     let barreOuv = null, bOuv = null;
     if (!opts.flottant) {
@@ -383,7 +420,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <span class="sep"></span>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
-          : '<button data-a="plein">Plein écran</button>'}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
+          : '<button data-a="plein">Plein écran</button>'}
+          ${opts.flottant && MANUEL ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
+            <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
+            <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
         </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
       if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
       else barreOuv.after(zone);
@@ -415,6 +455,12 @@ document.addEventListener("DOMContentLoaded", function () {
           if (!confirmeEff) { confirmeEff = true; b.textContent = "Toucher encore pour effacer"; setTimeout(() => { confirmeEff = false; b.textContent = "Tout effacer"; }, 3000); return; }
           confirmeEff = false; annules = traits; traits = []; b.textContent = "Tout effacer"; sauver(); break;
         case "reduire": return fermer();
+        case "manuel": {
+          const n = zone.querySelector(".m-num").value.replace(/\D/g, ""), p = zone.querySelector(".m-page").value.replace(/\D/g, "");
+          if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
+          return;
+        }
+        case "retirer-exo": if (exos.length) { exos.pop(); sauverExos(); dessiner(); } return;
       }
       garderReglages(); etatBarre(); dessiner();
     }
@@ -455,6 +501,10 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillStyle = "#1b2232"; ctx.font = "600 40px system-ui, sans-serif"; ctx.fillText(opts.entete[1], 30, 134);
         ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(30, 160); ctx.lineTo(LARGEUR - 30, 160); ctx.stroke();
       }
+      exos.forEach(e => { const im = imgExos.get(e.src); if (!im || e.y + e.h + 40 < haut || e.y > haut + vh) return;
+        ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
+        ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
+        ctx.fillText("Exercice n°" + e.n + " p." + e.p + " — " + MANUEL.nom, e.x, e.y + e.h + 30); });
       if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
@@ -541,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
-    z.cle = cle; z.titre = opts.titre; z.fond = opts.fond;
+    z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
@@ -565,10 +615,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function ouvrirExos(iso) {
     const auj = isoJour(new Date());
     const dates = new Set([auj]);
-    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS)) dates.add(k.slice(PREFIXE_EXOS.length)); } } catch (e) {}
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS)) dates.add(k.slice(PREFIXE_EXOS.length));
+                                                           if (k && k.startsWith(PAGE + "#exos-img:")) dates.add(k.slice((PAGE + "#exos-img:").length)); } } catch (e) {}
     const liste = [...dates].sort().reverse().map(d => [d, d === auj ? "Aujourd'hui" : dateLongue(d)]);
     bExos.hidden = true; menu.hidden = true;
-    const z = new Zone(null, PREFIXE_EXOS + iso, "exos", { flottant: true, entete: [dateLongue(iso), chapitre], date: iso, dates: liste,
+    const z = new Zone(null, PREFIXE_EXOS + iso, "exos", { flottant: true, entete: [dateLongue(iso), chapitre], date: iso, dates: liste, cleExos: PAGE + "#exos-img:" + iso,
       changerDate: d => ouvrirExos(d), onFermer: () => { bExos.hidden = false; menu.hidden = false; majInfo(); } });
     z.ouvrir();
   }
@@ -602,7 +653,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (l) lignes.push(l); return lignes;
   }
   /* Une image : bandeau de titre (texte du bloc ou date + chapitre) puis les traits, hauteur ajustée au contenu */
-  function image(traits, titre, sousTitre, enteteExos, fond) {
+  function image(traits, titre, sousTitre, enteteExos, fond, insertions = []) {
     const K = 0.75, W = LARGEUR;
     const mesure = document.createElement("canvas").getContext("2d");
     mesure.font = "400 30px system-ui, sans-serif";
@@ -610,6 +661,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
     let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
     const bf = fond ? boiteFond(fond) : null; if (bf) bas = Math.max(bas, bf[1] + bf[3] + 20);
+    insertions.forEach(e => { bas = Math.max(bas, e.y + e.h + 50); });
     const H = bandeau + bas + 40;
     const cv = document.createElement("canvas"); cv.width = Math.round(W * K); cv.height = Math.round(H * K);
     const c2 = cv.getContext("2d"); c2.scale(K, K);
@@ -625,6 +677,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     c2.translate(0, bandeau);
     if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
+    insertions.forEach(e => { if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
+      c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText("Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : ""), e.x, e.y + e.h + 30); });
     traits.forEach(t => traceTrait(c2, t));
     return cv;
   }
@@ -659,14 +713,22 @@ document.addEventListener("DOMContentLoaded", function () {
       const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
       const notes = Zone.toutes.filter(z => z.titre && lire(z.cle).length);
       const feuilles = [];
-      try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k); } } catch (e) {}
+      try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i);
+        if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k);
+        if (k && k.startsWith(PAGE + "#exos-img:") && lire(k).length && !feuilles.includes(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length))) feuilles.push(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length)); } } catch (e) {}
+      feuilles.splice(0, feuilles.length, ...new Set(feuilles));
       feuilles.sort();
       if (!notes.length && !feuilles.length) { info.textContent = "Aucune note à mettre en PDF"; return; }
       if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); for (const z of notes) { const f = z.fond ? await chargerImage(z.fond).catch(() => null) : null; placer(image(lire(z.cle), z.titre[0], z.titre[1], null, f)); } }
       if (feuilles.length) {
         if (!vide) { doc.addPage(); y = M; vide = true; }
         placer(titrePartie("Exercices — " + chapitre));
-        feuilles.forEach((k, i) => { if (i > 0) { doc.addPage(); y = M; } placer(image(lire(k), "", "", [dateLongue(k.slice(PREFIXE_EXOS.length)), chapitre])); });
+        for (const [i, k] of feuilles.entries()) {
+          if (i > 0) { doc.addPage(); y = M; }
+          const iso = k.slice(PREFIXE_EXOS.length), ins = lire(PAGE + "#exos-img:" + iso);
+          for (const e of ins) e.im = await chargerImage(e.src).catch(() => null);
+          placer(image(lire(k), "", "", [dateLongue(iso), chapitre], null, ins));
+        }
       }
       doc.save(nom);
       majInfo();
@@ -676,7 +738,7 @@ document.addEventListener("DOMContentLoaded", function () {
   menu.addEventListener("click", e => {
     const m = e.target.dataset.m;
     if (m === "exp") {
-      const donnees = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) donnees[k] = JSON.parse(localStorage.getItem(k)); } } catch (x) {}
+      const donnees = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(PAGE + "|") || k.startsWith(PAGE + "#exos-img:"))) donnees[k] = JSON.parse(localStorage.getItem(k)); } } catch (x) {}
       let quand = new Date(); try { const t = +localStorage.getItem(PAGE + "#modifie"); if (t) quand = new Date(t); } catch (x) {}
       const base = "notes-" + chapitre.replace(/[^\wÀ-ÿ-]+/g, "-") + "-" + isoJour(quand);
       const a = document.createElement("a");
