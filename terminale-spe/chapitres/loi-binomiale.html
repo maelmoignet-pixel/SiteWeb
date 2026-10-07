@@ -217,21 +217,16 @@ ul.task-list li input[type="checkbox"] {
 
 </main> <!-- /main -->
 <!-- =====================================================================
-     _nouvel-onglet.html : ouvre les RESSOURCES dans un nouvel onglet
-     (PDF, fichiers Python, pages de cours, sites extérieurs).
-     Les liens de navigation (menu, chapitres, « Retour ») restent dans
-     le même onglet. Ce fichier est ajouté à toutes les pages par _quarto.yml.
+     _nouvel-onglet.html : ouvre les PDF dans un nouvel onglet.
+     Tous les autres liens (cours, chapitres, sites extérieurs…) restent
+     dans le même onglet. Ce fichier est ajouté à toutes les pages par _quarto.yml.
      ===================================================================== -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("main a[href], #quarto-content a[href]").forEach(function (a) {
     var href = a.getAttribute("href");
     if (!href || href.startsWith("#") || href.startsWith("mailto:")) return;
-    var ressource =
-      /\.(pdf|py)(\?|#|$)/i.test(href) ||          // documents
-      /(^|\/)cours\/[^#]*\.html/i.test(href) ||    // pages de cours
-      /^https?:\/\//i.test(href);                  // sites extérieurs
-    if (ressource) {
+    if (/\.pdf(\?|#|$)/i.test(href)) {           // seulement les PDF
       a.setAttribute("target", "_blank");
       a.setAttribute("rel", "noopener");
     }
