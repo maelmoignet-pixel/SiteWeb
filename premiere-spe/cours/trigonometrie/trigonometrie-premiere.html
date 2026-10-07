@@ -1081,9 +1081,11 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Les blocs qui reçoivent une zone d'écriture */
   const AVEC_ZONE = ["exemple", "application", "exercice"];
   const estBloc = el => el && AVEC_ZONE.some(c => el.classList.contains(c));
-  // Une solution qui suit directement une application ou un exemple partage sa zone : pas de seconde zone.
+  // Une solution qui suit une application, un exemple ou une autre solution partage la zone déjà placée :
+  // une seule zone « Écrire » par exercice, même s'il a plusieurs solutions à la suite.
   const blocs = [...document.querySelectorAll("main .exemple, main .application, main .exercice, main .callout-caution")]
-    .filter(b => !(b.classList.contains("callout-caution") && estBloc(b.previousElementSibling)));
+    .filter(b => { if (!b.classList.contains("callout-caution")) return true;
+                   const p = b.previousElementSibling; return !(estBloc(p) || (p && p.classList.contains("callout"))); });
   const vus = {};
   blocs.forEach(bloc => {
     const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
