@@ -82,6 +82,7 @@
   }
   /* Manuel du niveau : exercices découpés, publiés avec le site (seconde : Sésamath, licence CC BY-SA) */
   const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
+                    "premiere-spe": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
                     "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire" } };
   const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|terminale-spe)\//) || [])[1];
   const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
