@@ -272,6 +272,16 @@ document.addEventListener("DOMContentLoaded", function () {
   border: 0; border-radius: 999px; min-height: 52px; padding: 0 22px; box-shadow: 0 4px 14px rgba(27, 34, 50, .25); cursor: pointer; touch-action: manipulation; }
 .encre-manuel { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .encre-manuel input { width: 4.2em; min-height: 44px; font: 600 16px system-ui, sans-serif; text-align: center; border: 1px solid var(--encre-trait); border-radius: 10px; }
+.encre-manuel .m-lien { font: 600 15px system-ui, sans-serif; color: #fff; background: var(--encre-accent); border-radius: 10px; padding: 0 14px; min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
+.encre-recadrage { position: fixed; inset: 0; z-index: 2600; background: rgba(27, 34, 50, .82); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 16px; box-sizing: border-box; }
+.encre-recadrage .cadre { position: relative; max-width: 100%; max-height: calc(100% - 90px); touch-action: none; user-select: none; -webkit-user-select: none; }
+.encre-recadrage img { display: block; max-width: 100%; max-height: calc(100vh - 140px); }
+.encre-recadrage .sel { position: absolute; border: 3px solid #ffcc00; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .45); pointer-events: none; }
+.encre-recadrage .conseil { background: #ffcc00; color: #1b2232; padding: 6px 12px; border-radius: 8px; font-weight: 600; }
+.encre-recadrage p { color: #fff; font: 15px system-ui, sans-serif; margin: 0; }
+.encre-recadrage .boutons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.encre-recadrage button { font: 600 15px system-ui, sans-serif; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0; cursor: pointer; }
+.encre-recadrage .ok { background: #ffcc00; }
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
@@ -291,7 +301,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
   const IMAGES = {};
+  let baseIdb = null;
+  function idb() {
+    baseIdb = baseIdb || new Promise((ok, ko) => { const r = indexedDB.open("encre-captures", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("captures"); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); });
+    return baseIdb;
+  }
+  const idbPut = (id, v) => idb().then(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); }));
+  const idbGet = id => idb().then(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
   function chargerImage(src) {
+    if (src.startsWith("idb:")) {                                       // capture enregistrée sur l'appareil
+      if (!IMAGES[src]) IMAGES[src] = idbGet(src.slice(4)).then(d => { if (!d) throw new Error("capture absente"); return chargerImage(d); });
+      return IMAGES[src];
+    }
     if (!IMAGES[src]) IMAGES[src] = new Promise((ok, ko) => { const im = new Image(); if (/^https?:/.test(src)) im.crossOrigin = "anonymous";
       im.onload = () => ok(im); im.onerror = ko; im.src = src; });
     return IMAGES[src];
@@ -302,10 +324,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return [(LARGEUR - w) / 2, 30, w, h];
   }
   /* Manuel du niveau : exercices découpés, publiés avec le site (seconde : Sésamath, licence CC BY-SA) */
-  const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)" } };
+  const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
+                    "premiere-spe": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
+                    "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire" } };
   const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|terminale-spe)\//) || [])[1];
   const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
-  if (MANUEL) {
+  if (MANUEL && MANUEL.dossier) {
     const lib = document.querySelector('script[src*="site_libs/"]');
     MANUEL.base = lib ? lib.getAttribute("src").split("site_libs/")[0] + MANUEL.dossier
                       : "https://maelmoignet-pixel.github.io/SiteWeb/" + MANUEL.dossier;   // fichier sur clé USB : depuis le site
@@ -367,23 +391,31 @@ document.addEventListener("DOMContentLoaded", function () {
     let fondImg = null;
     let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
     const imgExos = new Map();
+    let ajuster = false, selImg = null;            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
     const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
     if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
     const sauverExos = () => { try { if (exos.length) localStorage.setItem(opts.cleExos, JSON.stringify(exos)); else localStorage.removeItem(opts.cleExos);
                                      localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
     const basContenu = () => Math.max(opts.entete ? 190 : 0, ...traits.map(t => maxY(t) + t.w), ...exos.map(e => e.y + e.h + 50));
+    function placerImage(src, im, infos) {
+      const w = Math.min(1150, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
+      const y = basContenu() + 30;
+      exos.push(Object.assign({ src, x: 30, y, w, h }, infos)); imgExos.set(src, im); sauverExos();
+      hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
+      defile.scrollTop = Math.max(0, (y - 20) * echelle);
+    }
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
-      try {
-        const src = await trouverExercice(n, p), im = await chargerImage(src);
-        const w = Math.min(1150, LARGEUR - 60), h = w * im.naturalHeight / im.naturalWidth;
-        const y = basContenu() + 30;
-        exos.push({ n, p, src, x: 30, y, w, h }); imgExos.set(src, im); sauverExos();
-        hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
-        defile.scrollTop = Math.max(0, (y - 20) * echelle);
-        msg.textContent = "";
-      } catch (e) { msg.textContent = "Exercice n°" + n + " p." + p + " introuvable"; }
+      try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
+      catch (e) { msg.textContent = "Exercice n°" + n + " p." + p + " introuvable"; }
     }
+    async function insererCapture(dataUrl) {                            // capture recadrée : enregistrée sur l'appareil
+      const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
+      await idbPut(id, dataUrl);
+      const src = "idb:" + id; IMAGES[src] = chargerImage(dataUrl);
+      placerImage(src, await IMAGES[src], { capture: true });
+    }
+    z.insererCapture = insererCapture;
     if (opts.fond) chargerImage(opts.fond).then(im => { fondImg = im; const b = boiteFond(im); hauteur = Math.max(hauteur, b[1] + b[3] + PAS); if (zone) dimensionner(); }, () => {});
     let barreOuv = null, bOuv = null;
     if (!opts.flottant) {
@@ -411,7 +443,13 @@ document.addEventListener("DOMContentLoaded", function () {
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
           : '<button data-a="plein">Plein écran</button>'}
-          ${opts.flottant && MANUEL ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
+          ${opts.flottant ? `<span class="encre-manuel">
+            ${MANUEL && MANUEL.lien ? `<a class="m-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Ouvrir le manuel</a>` : ""}
+            ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
+            <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
+            <button data-a="ajuster" aria-pressed="false">Ajuster les images</button><input type="file" accept="image/*" class="m-fichier" hidden>
+            ${MANUEL && MANUEL.dossier ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
+          ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
             <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
         </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
@@ -427,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
       else zone.querySelector('[data-a="date"]').addEventListener("change", e => { fermer(); opts.changerDate(e.target.value); });
     }
     function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
-    z.ouvrir = ouvrir; z.fermer = fermer;
+    z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
     let confirmeEff = false;
     function clicBarre(e) {
       const b = e.target.closest("button"); if (!b) return;
@@ -450,7 +488,13 @@ document.addEventListener("DOMContentLoaded", function () {
           if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
           return;
         }
-        case "retirer-exo": if (exos.length) { exos.pop(); sauverExos(); dessiner(); } return;
+        case "retirer-exo": if (exos.length) { if (selImg && exos.includes(selImg)) exos.splice(exos.indexOf(selImg), 1); else exos.pop();
+          selImg = null; sauverExos(); dessiner(); } return;
+        case "ajuster": ajuster = !ajuster; selImg = null; b.setAttribute("aria-pressed", ajuster);
+          b.textContent = ajuster ? "Terminer l'ajustement" : "Ajuster les images"; dessiner(); return;
+        case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
+        case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
+        case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
       }
       garderReglages(); etatBarre(); dessiner();
     }
@@ -494,7 +538,12 @@ document.addEventListener("DOMContentLoaded", function () {
       exos.forEach(e => { const im = imgExos.get(e.src); if (!im || e.y + e.h + 40 < haut || e.y > haut + vh) return;
         ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
         ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
-        ctx.fillText("Exercice n°" + e.n + " p." + e.p + " — " + MANUEL.nom, e.x, e.y + e.h + 30); });
+        ctx.fillText(legende(e), e.x, e.y + e.h + 30);
+        if (e === selImg) {                                              // cadre de sélection et poignée de redimensionnement
+          ctx.save(); ctx.setLineDash([14, 10]); ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 4; ctx.strokeRect(e.x - 6, e.y - 6, e.w + 12, e.h + 12); ctx.restore();
+          ctx.fillStyle = "#2d4db0"; ctx.fillRect(e.x + e.w - 22, e.y + e.h - 22, 44, 44);
+          ctx.fillStyle = "#fff"; ctx.font = "700 30px system-ui, sans-serif"; ctx.fillText("⤡", e.x + e.w - 15, e.y + e.h + 11);
+        } });
       if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
@@ -537,7 +586,19 @@ document.addEventListener("DOMContentLoaded", function () {
       canvas.addEventListener("contextmenu", bloquer);
       const doigts = new Map(); let defilement = null;
       const pos = e => { const r = defile.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / echelle), Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle)]; };
+      let manip = null;
       canvas.addEventListener("pointerdown", e => {
+        if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
+          if (e.pointerType === "touch") doigts.set(e.pointerId, e.clientY);
+          if (e.cancelable) e.preventDefault();
+          const [x, y] = pos(e);
+          const poignee = selImg && Math.abs(x - (selImg.x + selImg.w)) < 50 && Math.abs(y - (selImg.y + selImg.h)) < 50;
+          const touche = poignee ? selImg : [...exos].reverse().find(i => x >= i.x && x <= i.x + i.w && y >= i.y && y <= i.y + i.h);
+          selImg = touche || null;
+          if (selImg) { canvas.setPointerCapture(e.pointerId);
+            manip = { id: e.pointerId, mode: poignee ? "taille" : "deplacer", x0: x, y0: y, ix: selImg.x, iy: selImg.y, iw: selImg.w, ratio: selImg.h / selImg.w }; }
+          dessiner(); return;
+        }
         if (e.pointerType === "touch") {
           doigts.set(e.pointerId, e.clientY);
           if (doigts.size >= 2 || reglages.doigt === "defile") {            // deux doigts (ou réglage) : faire défiler
@@ -555,6 +616,12 @@ document.addEventListener("DOMContentLoaded", function () {
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
+        if (manip && e.pointerId === manip.id) {
+          const [x, y] = pos(e), i = selImg;
+          if (manip.mode === "taille") { i.w = Math.max(150, Math.min(LARGEUR - i.x - 10, manip.iw + (x - manip.x0))); i.h = i.w * manip.ratio; }
+          else { i.x = Math.max(0, Math.min(LARGEUR - i.w, manip.ix + x - manip.x0)); i.y = Math.max(opts.entete ? 170 : 0, manip.iy + y - manip.y0); }
+          dessiner(); return;
+        }
         if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
         if (gomme && e.buttons) { effacerA(pos(e)); return; }
         if (!courant) return;
@@ -568,6 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       const fin = e => {
         doigts.delete(e.pointerId);
+        if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
         if (courant) { finirTrait(courant); courant = null; dessines = 0; sauver(); libelle(); }
         if (gomme) { gomme = false; sauver(); }
@@ -584,6 +652,7 @@ document.addEventListener("DOMContentLoaded", function () {
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
+  const legende = e => e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
   function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
   function maxY(t) { let m = 0; for (let i = 1; i < t.p.length; i += 2) m = Math.max(m, t.p[i]); return m; }
@@ -620,6 +689,63 @@ document.addEventListener("DOMContentLoaded", function () {
     menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
   }
   majInfo();
+
+  /* ---------- Captures : capture d'écran (PC), coller (presse-papiers), importer (fichier), puis recadrage ---------- */
+  const lireFichier = f => new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = ko; r.readAsDataURL(f); });
+  async function capturerEcran(suite, msg) {
+    try {
+      const flux = await navigator.mediaDevices.getDisplayMedia({ audio: false,
+        video: { width: { ideal: 3840 }, height: { ideal: 2160 }, frameRate: { ideal: 5 } } });          // la meilleure résolution possible
+      const v = document.createElement("video"); v.srcObject = flux; v.muted = true; await v.play();
+      await new Promise(r => setTimeout(r, 300));                       // laisser s'afficher l'onglet choisi
+      const cv = document.createElement("canvas"); cv.width = v.videoWidth; cv.height = v.videoHeight;
+      cv.getContext("2d").drawImage(v, 0, 0); flux.getTracks().forEach(t => t.stop());
+      recadrer(cv.toDataURL("image/png"), suite);
+    } catch (e) { if (msg) msg.textContent = "Capture annulée"; }
+  }
+  async function collerImage(suite, msg) {
+    try {
+      const objets = await navigator.clipboard.read();
+      for (const o of objets) { const t = o.types.find(x => x.startsWith("image/")); if (t) return recadrer(await lireFichier(await o.getType(t)), suite); }
+      if (msg) msg.textContent = "Pas d'image dans le presse-papiers";
+    } catch (e) { if (msg) msg.textContent = "Faites Ctrl+V (ou Coller) pour coller l'image"; }
+  }
+  document.addEventListener("paste", e => {                            // Ctrl+V pendant que la feuille est ouverte
+    const z = Zone.toutes.find(x => x.insererCapture && x.ouverte && x.ouverte());
+    const f = [...(e.clipboardData ? e.clipboardData.files : [])].find(x => x.type.startsWith("image/"));
+    if (z && f) { e.preventDefault(); lireFichier(f).then(d => recadrer(d, z.insererCapture)); }
+  });
+  function recadrer(dataUrl, suite) {
+    const fond = document.createElement("div"); fond.className = "encre-recadrage";
+    fond.innerHTML = `<p>Encadrez la partie à garder (glisser avec le stylet, le doigt ou la souris).</p>
+      <p class="conseil" hidden>Sélection petite : l'image sera floue. Annulez, agrandissez l'exercice dans le manuel (Ctrl et +) pour qu'il remplisse l'écran, puis capturez de nouveau.</p>
+      <div class="cadre"><img alt="Capture"><div class="sel" hidden></div></div>
+      <div class="boutons"><button class="ok" data-r="ok">Insérer la sélection</button><button data-r="tout">Insérer toute l'image</button><button data-r="non">Annuler</button></div>`;
+    document.body.appendChild(fond);
+    const img = fond.querySelector("img"), sel = fond.querySelector(".sel"), cadre = fond.querySelector(".cadre");
+    img.src = dataUrl;
+    let r = null, depart = null;
+    cadre.addEventListener("pointerdown", e => { cadre.setPointerCapture(e.pointerId); const b = img.getBoundingClientRect();
+      depart = [e.clientX - b.left, e.clientY - b.top]; r = [...depart, 0, 0]; e.preventDefault(); });
+    cadre.addEventListener("pointermove", e => { if (!depart) return; const b = img.getBoundingClientRect();
+      const x = Math.max(0, Math.min(b.width, e.clientX - b.left)), y = Math.max(0, Math.min(b.height, e.clientY - b.top));
+      r = [Math.min(x, depart[0]), Math.min(y, depart[1]), Math.abs(x - depart[0]), Math.abs(y - depart[1])];
+      Object.assign(sel.style, { left: r[0] + "px", top: r[1] + "px", width: r[2] + "px", height: r[3] + "px" }); sel.hidden = false; });
+    cadre.addEventListener("pointerup", () => { depart = null;
+      const k = img.naturalWidth / img.getBoundingClientRect().width;
+      fond.querySelector(".conseil").hidden = !(r && r[2] > 10 && r[2] * k < 700); });
+    fond.addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.r === "non") return fond.remove();
+      const k = img.naturalWidth / img.getBoundingClientRect().width;
+      const [x, y, w, h] = b.dataset.r === "tout" || !r || r[2] < 10 || r[3] < 10 ? [0, 0, img.naturalWidth, img.naturalHeight] : r.map(v => Math.round(v * k));
+      const echelleMax = Math.min(1, 1400 / w), cv = document.createElement("canvas");
+      cv.width = Math.round(w * echelleMax); cv.height = Math.round(h * echelleMax);
+      const c2 = cv.getContext("2d"); c2.fillStyle = "#fff"; c2.fillRect(0, 0, cv.width, cv.height);
+      c2.drawImage(img, x, y, w, h, 0, 0, cv.width, cv.height);
+      fond.remove(); suite(cv.toDataURL("image/jpeg", 0.88));
+    });
+  }
 
   /* ---------- PDF : notes de cours, puis feuilles d'exercices (une par séance) ---------- */
   function chargerJsPdf() {
@@ -668,7 +794,7 @@ document.addEventListener("DOMContentLoaded", function () {
     c2.translate(0, bandeau);
     if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
     insertions.forEach(e => { if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
-      c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText("Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : ""), e.x, e.y + e.h + 30); });
+      c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText(legende(e), e.x, e.y + e.h + 30); });
     traits.forEach(t => traceTrait(c2, t));
     return cv;
   }
