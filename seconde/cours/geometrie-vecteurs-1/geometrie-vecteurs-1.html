@@ -622,9 +622,12 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-zone.plein .encre-defile { height: auto; flex: 1; }
 .encre-defile canvas { display: block; width: 100%; position: sticky; top: 0; touch-action: none; }
 .encre-defile .cale { width: 1px; }
+.encre-exos { position: fixed; left: 14px; bottom: 14px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #fff; background: var(--encre-accent);
+  border: 0; border-radius: 999px; min-height: 52px; padding: 0 22px; box-shadow: 0 4px 14px rgba(27, 34, 50, .25); cursor: pointer; touch-action: manipulation; }
+.encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
-@media print { .encre-ouvrir, .encre-zone, .encre-menu { display: none !important; } }
+@media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos { display: none !important; } }
 </style>
 <script>
 (() => {
@@ -654,18 +657,22 @@ document.addEventListener("DOMContentLoaded", function () {
     new Zone(bloc, PAGE + "|" + cle, type);
   });
 
-  function Zone(bloc, cle, type) {
+  /* opts.flottant : zone « Exercices » ouverte par le bouton fixe (pas de bouton dans le cours, toujours plein écran) */
+  function Zone(bloc, cle, type, opts = {}) {
     const z = this;
     let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
-    const barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
-    const bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
-    if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
+    let barreOuv = null, bOuv = null;
+    if (!opts.flottant) {
+      barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
+      bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
+      if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
+    }
     let zone = null, canvas, ctx, defile, echelle = 1;
-    const libelle = () => { bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire";
+    const libelle = () => { if (!bOuv) return; bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire";
                             bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
     libelle();
-    bOuv.onclick = () => { if (zone) fermer(); else ouvrir(); };
+    if (bOuv) bOuv.onclick = () => { if (zone) fermer(); else ouvrir(); };
 
     function ouvrir() {
       zone = document.createElement("div"); zone.className = "encre-zone";
@@ -679,18 +686,22 @@ document.addEventListener("DOMContentLoaded", function () {
         <button data-a="doigt"></button>
         <span class="sep"></span>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
-        <span class="droite"><button data-a="plein">Plein écran</button><button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">Réduire</button></span>
+        <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
+          : '<button data-a="plein">Plein écran</button>'}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
         </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
-      barreOuv.after(zone);
+      if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
+      else barreOuv.after(zone);
       canvas = zone.querySelector("canvas"); ctx = canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
       zone.querySelector(".encre-barre").addEventListener("click", clicBarre);
       defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
       brancherCrayon();
       etatBarre(); dimensionner(); libelle();
       new ResizeObserver(dimensionner).observe(defile);
-      zone.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      if (!opts.flottant) zone.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      else zone.querySelector('[data-a="date"]').addEventListener("change", e => { fermer(); opts.changerDate(e.target.value); });
     }
-    function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); barreOuv.scrollIntoView({ block: "nearest" }); }
+    function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
+    z.ouvrir = ouvrir; z.fermer = fermer;
     let confirmeEff = false;
     function clicBarre(e) {
       const b = e.target.closest("button"); if (!b) return;
@@ -740,8 +751,14 @@ document.addEventListener("DOMContentLoaded", function () {
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
       ctx.strokeStyle = "#d6dbe5"; ctx.lineWidth = 1.5; ctx.beginPath();               // lignes de cahier
-      for (let y = Math.ceil(haut / 60) * 60; y < haut + vh; y += 60) { ctx.moveTo(0, y); ctx.lineTo(LARGEUR, y); }
+      const debutLignes = opts.entete ? 180 : 0;
+      for (let y = Math.max(debutLignes, Math.ceil(haut / 60) * 60); y < haut + vh; y += 60) { ctx.moveTo(0, y); ctx.lineTo(LARGEUR, y); }
       ctx.stroke();
+      if (opts.entete && haut < 180) {
+        ctx.fillStyle = "#2d4db0"; ctx.font = "700 52px system-ui, sans-serif"; ctx.fillText(opts.entete[0], 30, 72);
+        ctx.fillStyle = "#1b2232"; ctx.font = "600 40px system-ui, sans-serif"; ctx.fillText(opts.entete[1], 30, 134);
+        ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(30, 160); ctx.lineTo(LARGEUR - 30, 160); ctx.stroke();
+      }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
     function tracer(t, depuis = 0) {
@@ -816,8 +833,29 @@ document.addEventListener("DOMContentLoaded", function () {
   const menu = document.createElement("div"); menu.className = "encre-menu";
   menu.innerHTML = `<span class="info"></span><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
+  /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
+  const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+  const MOIS = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+  const isoJour = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  const dateLongue = iso => { const [a, m, j] = iso.split("-").map(Number); const d = new Date(a, m - 1, j); const t = JOURS[d.getDay()] + " " + j + " " + MOIS[m - 1] + " " + a; return t[0].toUpperCase() + t.slice(1); };
+  const chapitre = ((document.querySelector("h1.title") || {}).textContent || document.title.split(" – ")[0]).trim();
+  const PREFIXE_EXOS = PAGE + "|exos:";
+  const bExos = document.createElement("button"); bExos.className = "encre-exos"; bExos.textContent = "✎ Exercices";
+  document.body.appendChild(bExos);
+  function ouvrirExos(iso) {
+    const auj = isoJour(new Date());
+    const dates = new Set([auj]);
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS)) dates.add(k.slice(PREFIXE_EXOS.length)); } } catch (e) {}
+    const liste = [...dates].sort().reverse().map(d => [d, d === auj ? "Aujourd'hui" : dateLongue(d)]);
+    bExos.hidden = true; menu.hidden = true;
+    const z = new Zone(null, PREFIXE_EXOS + iso, "exos", { flottant: true, entete: [dateLongue(iso), chapitre], date: iso, dates: liste,
+      changerDate: d => ouvrirExos(d), onFermer: () => { bExos.hidden = false; menu.hidden = false; majInfo(); } });
+    z.ouvrir();
+  }
+  bExos.onclick = () => ouvrirExos(isoJour(new Date()));
+
   function majInfo() {
-    let n = 0; Zone.toutes.forEach(z => { try { if (localStorage.getItem(z.cle)) n++; } catch (e) {} });
+    let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) n++; } } catch (e) {}
     menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
   }
   majInfo();
@@ -825,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function () {
   menu.addEventListener("click", e => {
     const m = e.target.dataset.m;
     if (m === "exp") {
-      const donnees = {}; Zone.toutes.forEach(z => { try { const v = localStorage.getItem(z.cle); if (v) donnees[z.cle] = JSON.parse(v); } catch (x) {} });
+      const donnees = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) donnees[k] = JSON.parse(localStorage.getItem(k)); } } catch (x) {}
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(donnees)], { type: "application/json" }));
       a.download = "notes-" + (document.title || "cours").replace(/[^\wÀ-ÿ-]+/g, "-") + ".json"; a.click();
