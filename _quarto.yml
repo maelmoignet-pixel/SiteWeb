@@ -46,6 +46,6 @@ format:
     # Ouvre les PDF, fichiers .py, cours et sites extérieurs dans un nouvel onglet
     include-after-body:
       - _nouvel-onglet.html
-      # Mode tableau (écran tactile) : zones d'écriture au stylet, visibles seulement avec ?tableau dans l'adresse.
+      # Mode tableau (écran tactile) : zones d'écriture au stylet sous les exemples, applications et démonstrations.
       # Pour revenir en arrière : supprimer la ligne ci-dessous.
       - _tableau.html
