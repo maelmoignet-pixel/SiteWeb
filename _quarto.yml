@@ -16,6 +16,8 @@ project:
     - "seconde/tp-informatique/**/*.py"
     # Bibliothèque PDF du mode tableau (export des notes manuscrites)
     - "ressources/*.js"
+    # Exercices du manuel Sésamath Seconde (CC BY-SA), affichés dans la feuille d'exercices
+    - "seconde/exercices-sesamath/*"
 
 lang: fr
 
