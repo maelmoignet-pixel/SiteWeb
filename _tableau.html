@@ -148,6 +148,7 @@
     let fondImg = null;
     let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
     const imgExos = new Map();
+    let ajuster = false, selImg = null;            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
     const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
     if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
     const sauverExos = () => { try { if (exos.length) localStorage.setItem(opts.cleExos, JSON.stringify(exos)); else localStorage.removeItem(opts.cleExos);
@@ -203,7 +204,7 @@
             ${MANUEL && MANUEL.lien ? `<a class="m-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Ouvrir le manuel</a>` : ""}
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
-            <button data-a="img-moins" aria-label="Réduire la dernière image">−</button><button data-a="img-plus" aria-label="Agrandir la dernière image">+</button><input type="file" accept="image/*" class="m-fichier" hidden>
+            <button data-a="ajuster" aria-pressed="false">Ajuster les images</button><input type="file" accept="image/*" class="m-fichier" hidden>
             ${MANUEL && MANUEL.dossier ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
           ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
@@ -244,12 +245,10 @@
           if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
           return;
         }
-        case "retirer-exo": if (exos.length) { exos.pop(); sauverExos(); dessiner(); } return;
-        case "img-moins": case "img-plus": {
-          const e = exos[exos.length - 1]; if (!e) return;
-          const f = b.dataset.a === "img-plus" ? 1.2 : 1 / 1.2, w = Math.max(200, Math.min(LARGEUR - 60, e.w * f));
-          e.h = e.h * w / e.w; e.w = w; sauverExos(); hauteur = Math.max(hauteur, e.y + e.h + PAS); dimensionner(); return;
-        }
+        case "retirer-exo": if (exos.length) { if (selImg && exos.includes(selImg)) exos.splice(exos.indexOf(selImg), 1); else exos.pop();
+          selImg = null; sauverExos(); dessiner(); } return;
+        case "ajuster": ajuster = !ajuster; selImg = null; b.setAttribute("aria-pressed", ajuster);
+          b.textContent = ajuster ? "Terminer l'ajustement" : "Ajuster les images"; dessiner(); return;
         case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
@@ -296,7 +295,12 @@
       exos.forEach(e => { const im = imgExos.get(e.src); if (!im || e.y + e.h + 40 < haut || e.y > haut + vh) return;
         ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
         ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
-        ctx.fillText(legende(e), e.x, e.y + e.h + 30); });
+        ctx.fillText(legende(e), e.x, e.y + e.h + 30);
+        if (e === selImg) {                                              // cadre de sélection et poignée de redimensionnement
+          ctx.save(); ctx.setLineDash([14, 10]); ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 4; ctx.strokeRect(e.x - 6, e.y - 6, e.w + 12, e.h + 12); ctx.restore();
+          ctx.fillStyle = "#2d4db0"; ctx.fillRect(e.x + e.w - 22, e.y + e.h - 22, 44, 44);
+          ctx.fillStyle = "#fff"; ctx.font = "700 30px system-ui, sans-serif"; ctx.fillText("⤡", e.x + e.w - 15, e.y + e.h + 11);
+        } });
       if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
@@ -339,7 +343,19 @@
       canvas.addEventListener("contextmenu", bloquer);
       const doigts = new Map(); let defilement = null;
       const pos = e => { const r = defile.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / echelle), Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle)]; };
+      let manip = null;
       canvas.addEventListener("pointerdown", e => {
+        if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
+          if (e.pointerType === "touch") doigts.set(e.pointerId, e.clientY);
+          if (e.cancelable) e.preventDefault();
+          const [x, y] = pos(e);
+          const poignee = selImg && Math.abs(x - (selImg.x + selImg.w)) < 50 && Math.abs(y - (selImg.y + selImg.h)) < 50;
+          const touche = poignee ? selImg : [...exos].reverse().find(i => x >= i.x && x <= i.x + i.w && y >= i.y && y <= i.y + i.h);
+          selImg = touche || null;
+          if (selImg) { canvas.setPointerCapture(e.pointerId);
+            manip = { id: e.pointerId, mode: poignee ? "taille" : "deplacer", x0: x, y0: y, ix: selImg.x, iy: selImg.y, iw: selImg.w, ratio: selImg.h / selImg.w }; }
+          dessiner(); return;
+        }
         if (e.pointerType === "touch") {
           doigts.set(e.pointerId, e.clientY);
           if (doigts.size >= 2 || reglages.doigt === "defile") {            // deux doigts (ou réglage) : faire défiler
@@ -357,6 +373,12 @@
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
+        if (manip && e.pointerId === manip.id) {
+          const [x, y] = pos(e), i = selImg;
+          if (manip.mode === "taille") { i.w = Math.max(150, Math.min(LARGEUR - i.x - 10, manip.iw + (x - manip.x0))); i.h = i.w * manip.ratio; }
+          else { i.x = Math.max(0, Math.min(LARGEUR - i.w, manip.ix + x - manip.x0)); i.y = Math.max(opts.entete ? 170 : 0, manip.iy + y - manip.y0); }
+          dessiner(); return;
+        }
         if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
         if (gomme && e.buttons) { effacerA(pos(e)); return; }
         if (!courant) return;
@@ -370,6 +392,7 @@
       });
       const fin = e => {
         doigts.delete(e.pointerId);
+        if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
         if (courant) { finirTrait(courant); courant = null; dessines = 0; sauver(); libelle(); }
         if (gomme) { gomme = false; sauver(); }
