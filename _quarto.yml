@@ -44,4 +44,8 @@ format:
     css: styles.css     # notre fichier d'apparence
     toc: true           # sommaire à droite des pages (désactivé sur l'accueil)
     # Ouvre les PDF, fichiers .py, cours et sites extérieurs dans un nouvel onglet
-    include-after-body: _nouvel-onglet.html
+    include-after-body:
+      - _nouvel-onglet.html
+      # Mode tableau (écran tactile) : zones d'écriture au stylet, visibles seulement avec ?tableau dans l'adresse.
+      # Pour revenir en arrière : supprimer la ligne ci-dessous.
+      - _tableau.html
