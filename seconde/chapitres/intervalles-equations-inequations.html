@@ -295,13 +295,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const blocs = [...document.querySelectorAll("main .exemple, main .application, main .exercice, main .callout-caution")]
     .filter(b => { if (!b.classList.contains("callout-caution")) return true;
                    const p = b.previousElementSibling; return !(estBloc(p) || (p && p.classList.contains("callout"))); });
-  const vus = {};
+  const vus = {}, numeros = {};
+  const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration" };
+  function texteLisible(el) {                 // texte du bloc avec les formules en LaTeX (sans le doublon de KaTeX)
+    const c = el.cloneNode(true);
+    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" " + (a ? a.textContent : k.textContent) + " "); });
+    c.querySelectorAll(".callout-title, .callout-header").forEach(x => x.remove());
+    return (c.textContent || "").replace(/\s+/g, " ").trim();
+  }
+  function titreBloc(bloc, type) {
+    numeros[type] = (numeros[type] || 0) + 1;
+    const sec = bloc.closest("section"), h = sec && sec.querySelector("h1, h2, h3, h4");
+    const section = h ? h.textContent.replace(/^[\d.\s]+/, "").trim() : "";
+    let extrait = texteLisible(bloc); if (extrait.length > 140) extrait = extrait.slice(0, 137) + "…";
+    return [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), extrait];
+  }
   blocs.forEach(bloc => {
     const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
     const debut = (bloc.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60);
     let cle = type + ":" + debut;                         // stable tant que le texte du bloc ne change pas
     vus[cle] = (vus[cle] || 0) + 1; if (vus[cle] > 1) cle += "#" + vus[cle];
-    new Zone(bloc, PAGE + "|" + cle, type);
+    new Zone(bloc, PAGE + "|" + cle, type, { titre: titreBloc(bloc, type) });
   });
 
   /* opts.flottant : zone « Exercices » ouverte par le bouton fixe (pas de bouton dans le cours, toujours plein écran) */
@@ -434,7 +448,8 @@ document.addEventListener("DOMContentLoaded", function () {
       style(t); ctx.beginPath(); ctx.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctx.lineTo(p[2 * n - 2], p[2 * n - 1]); ctx.stroke();
     }
     function sauver() {
-      try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle); } catch (e) {}
+      try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
+            localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {}
       majInfo();
     }
     function brancherCrayon() {
@@ -490,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
-    z.cle = cle;
+    z.cle = cle; z.titre = opts.titre;
     Zone.toutes.push(z);
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
@@ -528,14 +543,107 @@ document.addEventListener("DOMContentLoaded", function () {
     menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
   }
   majInfo();
+
+  /* ---------- PDF : notes de cours, puis feuilles d'exercices (une par séance) ---------- */
+  function chargerJsPdf() {
+    if (window.jspdf) return Promise.resolve(window.jspdf);
+    const lib = document.querySelector('script[src*="site_libs/"]');
+    const racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
+    return new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = racine + "ressources/jspdf.umd.min.js";
+      sc.onload = () => ok(window.jspdf); sc.onerror = ko; document.head.appendChild(sc); });
+  }
+  function traceTrait(c2, t) {
+    const p = t.p, n = p.length / 2; if (!n) return;
+    c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
+    if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
+    c2.beginPath(); c2.moveTo(p[0], p[1]); c2.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
+    for (let k = 2; k < n; k++) c2.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
+    c2.lineTo(p[2 * n - 2], p[2 * n - 1]); c2.stroke();
+  }
+  function lignesTexte(c2, texte, largeur) {  // découpe un texte en lignes qui tiennent dans la largeur
+    const mots = texte.split(" "), lignes = []; let l = "";
+    for (const m of mots) { const essai = l ? l + " " + m : m; if (c2.measureText(essai).width > largeur && l) { lignes.push(l); l = m; } else l = essai; }
+    if (l) lignes.push(l); return lignes;
+  }
+  /* Une image : bandeau de titre (texte du bloc ou date + chapitre) puis les traits, hauteur ajustée au contenu */
+  function image(traits, titre, sousTitre, enteteExos) {
+    const K = 0.75, W = LARGEUR;
+    const mesure = document.createElement("canvas").getContext("2d");
+    mesure.font = "400 30px system-ui, sans-serif";
+    const lignes = sousTitre ? lignesTexte(mesure, sousTitre, W - 60) : [];
+    const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
+    let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
+    const H = bandeau + bas + 40;
+    const cv = document.createElement("canvas"); cv.width = Math.round(W * K); cv.height = Math.round(H * K);
+    const c2 = cv.getContext("2d"); c2.scale(K, K);
+    c2.fillStyle = "#fff"; c2.fillRect(0, 0, W, H);
+    if (!enteteExos) {
+      c2.fillStyle = "#eef1f8"; c2.fillRect(0, 0, W, bandeau - 10);
+      c2.fillStyle = "#2d4db0"; c2.font = "700 38px system-ui, sans-serif"; c2.fillText(titre, 30, 52);
+      c2.fillStyle = "#3a4256"; c2.font = "400 30px system-ui, sans-serif"; lignes.forEach((l, i) => c2.fillText(l, 30, 98 + i * 40));
+    } else {
+      c2.fillStyle = "#2d4db0"; c2.font = "700 52px system-ui, sans-serif"; c2.fillText(enteteExos[0], 30, 72);
+      c2.fillStyle = "#1b2232"; c2.font = "600 40px system-ui, sans-serif"; c2.fillText(enteteExos[1], 30, 134);
+      c2.strokeStyle = "#2d4db0"; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(30, 160); c2.lineTo(W - 30, 160); c2.stroke();
+    }
+    c2.translate(0, bandeau); traits.forEach(t => traceTrait(c2, t));
+    return cv;
+  }
+  function titrePartie(texte) {
+    const cv = document.createElement("canvas"); cv.width = 1200; cv.height = 90;
+    const c2 = cv.getContext("2d"); c2.fillStyle = "#fff"; c2.fillRect(0, 0, 1200, 90);
+    c2.fillStyle = "#1b2232"; c2.font = "700 44px system-ui, sans-serif"; c2.fillText(texte, 10, 58);
+    c2.fillStyle = "#2d4db0"; c2.fillRect(10, 76, 1180, 4);
+    return cv;
+  }
+  async function creerPdf(nom) {
+    const info = menu.querySelector(".info"); info.textContent = "Création du PDF…";
+    try {
+      const { jsPDF } = await chargerJsPdf();
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      const M = 12, L = 210 - 2 * M, HP = 297 - 2 * M;
+      let y = M, vide = true;
+      const placer = cv => {                    // place une image, sur plusieurs pages si elle est trop haute
+        const ech = L / cv.width; let h = cv.height * ech;
+        if (!vide && h > 297 - M - y && h <= HP) { doc.addPage(); y = M; }
+        let depuis = 0;
+        while (depuis < cv.height) {
+          const reste = (297 - M - y) / ech;
+          if (reste < 40) { doc.addPage(); y = M; continue; }
+          const morceau = Math.min(cv.height - depuis, reste);
+          const part = document.createElement("canvas"); part.width = cv.width; part.height = Math.ceil(morceau);
+          part.getContext("2d").drawImage(cv, 0, depuis, cv.width, morceau, 0, 0, cv.width, morceau);
+          doc.addImage(part.toDataURL("image/jpeg", 0.85), "JPEG", M, y, L, morceau * ech);
+          y += morceau * ech + 5; depuis += morceau; vide = false;
+        }
+      };
+      const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
+      const notes = Zone.toutes.filter(z => z.titre && lire(z.cle).length);
+      const feuilles = [];
+      try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k); } } catch (e) {}
+      feuilles.sort();
+      if (!notes.length && !feuilles.length) { info.textContent = "Aucune note à mettre en PDF"; return; }
+      if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); notes.forEach(z => placer(image(lire(z.cle), z.titre[0], z.titre[1]))); }
+      if (feuilles.length) {
+        if (!vide) { doc.addPage(); y = M; vide = true; }
+        placer(titrePartie("Exercices — " + chapitre));
+        feuilles.forEach((k, i) => { if (i > 0) { doc.addPage(); y = M; } placer(image(lire(k), "", "", [dateLongue(k.slice(PREFIXE_EXOS.length)), chapitre])); });
+      }
+      doc.save(nom);
+      majInfo();
+    } catch (e) { info.textContent = "PDF impossible (" + (e && e.message ? e.message : "bibliothèque introuvable") + ")"; }
+  }
   const fichier = menu.querySelector("input");
   menu.addEventListener("click", e => {
     const m = e.target.dataset.m;
     if (m === "exp") {
       const donnees = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) donnees[k] = JSON.parse(localStorage.getItem(k)); } } catch (x) {}
+      let quand = new Date(); try { const t = +localStorage.getItem(PAGE + "#modifie"); if (t) quand = new Date(t); } catch (x) {}
+      const base = "notes-" + chapitre.replace(/[^\wÀ-ÿ-]+/g, "-") + "-" + isoJour(quand);
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(donnees)], { type: "application/json" }));
-      a.download = "notes-" + (document.title || "cours").replace(/[^\wÀ-ÿ-]+/g, "-") + ".json"; a.click();
+      a.download = base + ".json"; a.click();
+      creerPdf(base + ".pdf");
     }
     if (m === "imp") fichier.click();
   });
