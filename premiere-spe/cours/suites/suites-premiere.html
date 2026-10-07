@@ -1283,6 +1283,17 @@ document.addEventListener("DOMContentLoaded", function () {
   try { Object.assign(reglages, JSON.parse(localStorage.getItem("encre-reglages") || "{}")); } catch (e) {}
   const garderReglages = () => { try { localStorage.setItem("encre-reglages", JSON.stringify(reglages)); } catch (e) {} };
 
+  /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
+  const IMAGES = {};
+  function chargerImage(src) {
+    if (!IMAGES[src]) IMAGES[src] = new Promise((ok, ko) => { const im = new Image(); im.onload = () => ok(im); im.onerror = ko; im.src = src; });
+    return IMAGES[src];
+  }
+  function boiteFond(im) {
+    const nw = im.naturalWidth || 1280, nh = im.naturalHeight || 800;
+    let w = LARGEUR * 0.8, h = w * nh / nw; if (h > 1400) { h = 1400; w = h * nw / nh; }
+    return [(LARGEUR - w) / 2, 30, w, h];
+  }
   Zone.toutes = [];
   /* Les blocs qui reçoivent une zone d'écriture */
   const AVEC_ZONE = ["exemple", "application", "exercice"];
@@ -1293,7 +1304,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .filter(b => { if (!b.classList.contains("callout-caution")) return true;
                    const p = b.previousElementSibling; return !(estBloc(p) || (p && p.classList.contains("callout"))); });
   const vus = {}, numeros = {};
-  const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration" };
+  const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration", figure: "Figure" };
   function texteLisible(el) {                 // texte du bloc avec les formules en LaTeX (sans le doublon de KaTeX)
     const c = el.cloneNode(true);
     c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" " + (a ? a.textContent : k.textContent) + " "); });
@@ -1314,12 +1325,26 @@ document.addEventListener("DOMContentLoaded", function () {
     vus[cle] = (vus[cle] || 0) + 1; if (vus[cle] > 1) cle += "#" + vus[cle];
     new Zone(bloc, PAGE + "|" + cle, type, { titre: titreBloc(bloc, type) });
   });
+  /* Figures du cours : zone d'écriture avec la figure en fond (on écrit dessus et autour) */
+  let nFig = 0;
+  [...document.querySelectorAll("main div.quarto-figure")].forEach(fig => {
+    const img = fig.querySelector("img, svg"); if (!img || fig.closest(".encre-zone")) return;
+    nFig++;
+    // figure intégrée en SVG (version clé USB) : on la transforme en image
+    const src = img.tagName.toLowerCase() === "svg" ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(img)) : (img.getAttribute("src") || "");
+    let cle = "figure:" + (src.startsWith("data:") ? "n" + nFig : src.split("/").pop());
+    vus[cle] = (vus[cle] || 0) + 1; if (vus[cle] > 1) cle += "#" + vus[cle];
+    const t = titreBloc(fig, "figure"); t[1] = (img.getAttribute && img.getAttribute("alt")) || "";
+    new Zone(fig, PAGE + "|" + cle, "figure", { titre: t, fond: src });
+  });
 
   /* opts.flottant : zone « Exercices » ouverte par le bouton fixe (pas de bouton dans le cours, toujours plein écran) */
   function Zone(bloc, cle, type, opts = {}) {
     const z = this;
     let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
+    let fondImg = null;
+    if (opts.fond) chargerImage(opts.fond).then(im => { fondImg = im; const b = boiteFond(im); hauteur = Math.max(hauteur, b[1] + b[3] + PAS); if (zone) dimensionner(); }, () => {});
     let barreOuv = null, bOuv = null;
     if (!opts.flottant) {
       barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
@@ -1327,7 +1352,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
     }
     let zone = null, canvas, ctx, defile, echelle = 1;
-    const libelle = () => { if (!bOuv) return; bOuv.textContent = zone ? "Réduire la zone d'écriture" : "✎ Écrire";
+    const libelle = () => { if (!bOuv) return; bOuv.textContent = zone ? "Réduire la zone d'écriture" : (type === "figure" ? "✎ Annoter la figure" : "✎ Écrire");
                             bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
     libelle();
     if (bOuv) bOuv.onclick = () => { if (zone) fermer(); else ouvrir(); };
@@ -1417,6 +1442,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillStyle = "#1b2232"; ctx.font = "600 40px system-ui, sans-serif"; ctx.fillText(opts.entete[1], 30, 134);
         ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(30, 160); ctx.lineTo(LARGEUR - 30, 160); ctx.stroke();
       }
+      if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
     function style(t) { ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
@@ -1502,7 +1528,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
-    z.cle = cle; z.titre = opts.titre;
+    z.cle = cle; z.titre = opts.titre; z.fond = opts.fond;
     Zone.toutes.push(z);
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
@@ -1563,13 +1589,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (l) lignes.push(l); return lignes;
   }
   /* Une image : bandeau de titre (texte du bloc ou date + chapitre) puis les traits, hauteur ajustée au contenu */
-  function image(traits, titre, sousTitre, enteteExos) {
+  function image(traits, titre, sousTitre, enteteExos, fond) {
     const K = 0.75, W = LARGEUR;
     const mesure = document.createElement("canvas").getContext("2d");
     mesure.font = "400 30px system-ui, sans-serif";
     const lignes = sousTitre ? lignesTexte(mesure, sousTitre, W - 60) : [];
     const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
     let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
+    const bf = fond ? boiteFond(fond) : null; if (bf) bas = Math.max(bas, bf[1] + bf[3] + 20);
     const H = bandeau + bas + 40;
     const cv = document.createElement("canvas"); cv.width = Math.round(W * K); cv.height = Math.round(H * K);
     const c2 = cv.getContext("2d"); c2.scale(K, K);
@@ -1583,7 +1610,9 @@ document.addEventListener("DOMContentLoaded", function () {
       c2.fillStyle = "#1b2232"; c2.font = "600 40px system-ui, sans-serif"; c2.fillText(enteteExos[1], 30, 134);
       c2.strokeStyle = "#2d4db0"; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(30, 160); c2.lineTo(W - 30, 160); c2.stroke();
     }
-    c2.translate(0, bandeau); traits.forEach(t => traceTrait(c2, t));
+    c2.translate(0, bandeau);
+    if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
+    traits.forEach(t => traceTrait(c2, t));
     return cv;
   }
   function titrePartie(texte) {
@@ -1620,7 +1649,7 @@ document.addEventListener("DOMContentLoaded", function () {
       try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k); } } catch (e) {}
       feuilles.sort();
       if (!notes.length && !feuilles.length) { info.textContent = "Aucune note à mettre en PDF"; return; }
-      if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); notes.forEach(z => placer(image(lire(z.cle), z.titre[0], z.titre[1]))); }
+      if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); for (const z of notes) { const f = z.fond ? await chargerImage(z.fond).catch(() => null) : null; placer(image(lire(z.cle), z.titre[0], z.titre[1], null, f)); } }
       if (feuilles.length) {
         if (!vide) { doc.addPage(); y = M; vide = true; }
         placer(titrePartie("Exercices — " + chapitre));
