@@ -34,6 +34,7 @@
 .encre-recadrage .cadre { position: relative; max-width: 100%; max-height: calc(100% - 90px); touch-action: none; user-select: none; -webkit-user-select: none; }
 .encre-recadrage img { display: block; max-width: 100%; max-height: calc(100vh - 140px); }
 .encre-recadrage .sel { position: absolute; border: 3px solid #ffcc00; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .45); pointer-events: none; }
+.encre-recadrage .conseil { background: #ffcc00; color: #1b2232; padding: 6px 12px; border-radius: 8px; font-weight: 600; }
 .encre-recadrage p { color: #fff; font: 15px system-ui, sans-serif; margin: 0; }
 .encre-recadrage .boutons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .encre-recadrage button { font: 600 15px system-ui, sans-serif; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0; cursor: pointer; }
@@ -200,7 +201,8 @@
           ${opts.flottant ? `<span class="encre-manuel">
             ${MANUEL && MANUEL.lien ? `<a class="m-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Ouvrir le manuel</a>` : ""}
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
-            <button data-a="coller">Coller</button><button data-a="importer">Importer</button><input type="file" accept="image/*" class="m-fichier" hidden>
+            <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
+            <button data-a="img-moins" aria-label="Réduire la dernière image">−</button><button data-a="img-plus" aria-label="Agrandir la dernière image">+</button><input type="file" accept="image/*" class="m-fichier" hidden>
             ${MANUEL && MANUEL.dossier ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
           ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
@@ -242,6 +244,11 @@
           return;
         }
         case "retirer-exo": if (exos.length) { exos.pop(); sauverExos(); dessiner(); } return;
+        case "img-moins": case "img-plus": {
+          const e = exos[exos.length - 1]; if (!e) return;
+          const f = b.dataset.a === "img-plus" ? 1.2 : 1 / 1.2, w = Math.max(200, Math.min(LARGEUR - 60, e.w * f));
+          e.h = e.h * w / e.w; e.w = w; sauverExos(); hauteur = Math.max(hauteur, e.y + e.h + PAS); dimensionner(); return;
+        }
         case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
@@ -420,7 +427,8 @@
   const lireFichier = f => new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = ko; r.readAsDataURL(f); });
   async function capturerEcran(suite, msg) {
     try {
-      const flux = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+      const flux = await navigator.mediaDevices.getDisplayMedia({ audio: false,
+        video: { width: { ideal: 3840 }, height: { ideal: 2160 }, frameRate: { ideal: 5 } } });          // la meilleure résolution possible
       const v = document.createElement("video"); v.srcObject = flux; v.muted = true; await v.play();
       await new Promise(r => setTimeout(r, 300));                       // laisser s'afficher l'onglet choisi
       const cv = document.createElement("canvas"); cv.width = v.videoWidth; cv.height = v.videoHeight;
@@ -443,6 +451,7 @@
   function recadrer(dataUrl, suite) {
     const fond = document.createElement("div"); fond.className = "encre-recadrage";
     fond.innerHTML = `<p>Encadrez la partie à garder (glisser avec le stylet, le doigt ou la souris).</p>
+      <p class="conseil" hidden>Sélection petite : l'image sera floue. Annulez, agrandissez l'exercice dans le manuel (Ctrl et +) pour qu'il remplisse l'écran, puis capturez de nouveau.</p>
       <div class="cadre"><img alt="Capture"><div class="sel" hidden></div></div>
       <div class="boutons"><button class="ok" data-r="ok">Insérer la sélection</button><button data-r="tout">Insérer toute l'image</button><button data-r="non">Annuler</button></div>`;
     document.body.appendChild(fond);
@@ -455,7 +464,9 @@
       const x = Math.max(0, Math.min(b.width, e.clientX - b.left)), y = Math.max(0, Math.min(b.height, e.clientY - b.top));
       r = [Math.min(x, depart[0]), Math.min(y, depart[1]), Math.abs(x - depart[0]), Math.abs(y - depart[1])];
       Object.assign(sel.style, { left: r[0] + "px", top: r[1] + "px", width: r[2] + "px", height: r[3] + "px" }); sel.hidden = false; });
-    cadre.addEventListener("pointerup", () => { depart = null; });
+    cadre.addEventListener("pointerup", () => { depart = null;
+      const k = img.naturalWidth / img.getBoundingClientRect().width;
+      fond.querySelector(".conseil").hidden = !(r && r[2] > 10 && r[2] * k < 700); });
     fond.addEventListener("click", e => {
       const b = e.target.closest("button"); if (!b) return;
       if (b.dataset.r === "non") return fond.remove();
