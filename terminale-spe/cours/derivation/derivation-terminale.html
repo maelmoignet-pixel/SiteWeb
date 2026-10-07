@@ -1101,6 +1101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
+.encre-zone, .encre-barre, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 @media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos { display: none !important; } }
 </style>
 <script>
@@ -1165,7 +1166,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
       if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
       else barreOuv.after(zone);
-      canvas = zone.querySelector("canvas"); ctx = canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
+      canvas = zone.querySelector("canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
       zone.querySelector(".encre-barre").addEventListener("click", clicBarre);
       defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
       brancherCrayon();
@@ -1235,22 +1236,42 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
-    function tracer(t, depuis = 0) {
-      const p = t.p; if (p.length < 2) return;
-      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round";
-      ctx.beginPath();
-      if (p.length === 2) { ctx.arc(p[0], p[1], t.w / 2, 0, 7); ctx.fillStyle = t.c; ctx.fill(); return; }
-      ctx.moveTo(p[0], p[1]);
-      for (let i = 2; i < p.length - 2; i += 2) ctx.quadraticCurveTo(p[i], p[i + 1], (p[i] + p[i + 2]) / 2, (p[i + 1] + p[i + 3]) / 2);
-      ctx.lineTo(p[p.length - 2], p[p.length - 1]);
+    function style(t) { ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
+    function tracer(t) {                       // trait complet
+      const p = t.p, n = p.length / 2; if (n < 1) return;
+      style(t);
+      if (n === 1) { ctx.beginPath(); ctx.arc(p[0], p[1], t.w / 2, 0, 7); ctx.fillStyle = t.c; ctx.fill(); return; }
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
+      for (let k = 2; k < n; k++) ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
+      ctx.lineTo(p[2 * n - 2], p[2 * n - 1]);
       ctx.stroke();
+    }
+    function tracerSuite(t, depuis) {          // seulement les morceaux ajoutés depuis le dernier dessin (réactivité)
+      const p = t.p, n = p.length / 2; if (n < 2 || depuis >= n) return depuis;
+      style(t); ctx.beginPath();
+      for (let k = Math.max(depuis, 1); k < n; k++) {
+        if (k === 1) { ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2); continue; }
+        ctx.moveTo((p[2 * k - 4] + p[2 * k - 2]) / 2, (p[2 * k - 3] + p[2 * k - 1]) / 2);
+        ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
+      }
+      ctx.stroke();
+      return n;
+    }
+    function finirTrait(t) {                   // dernier petit morceau jusqu'au point final
+      const p = t.p, n = p.length / 2; if (n < 2) return;
+      style(t); ctx.beginPath(); ctx.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctx.lineTo(p[2 * n - 2], p[2 * n - 1]); ctx.stroke();
     }
     function sauver() {
       try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle); } catch (e) {}
       majInfo();
     }
     function brancherCrayon() {
-      let courant = null, gomme = false;
+      let courant = null, gomme = false, dessines = 0;
+      // iPad : empêcher la sélection de texte, la loupe et le geste « Griffonner » pendant l'écriture
+      const bloquer = e => { if (e.cancelable) e.preventDefault(); };
+      canvas.addEventListener("touchstart", bloquer, { passive: false });
+      canvas.addEventListener("touchmove", bloquer, { passive: false });
+      canvas.addEventListener("contextmenu", bloquer);
       const doigts = new Map(); let defilement = null;
       const pos = e => { const r = defile.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / echelle), Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle)]; };
       canvas.addEventListener("pointerdown", e => {
@@ -1262,11 +1283,12 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }
         if (e.button > 0 && e.pointerType === "mouse") return;
+        if (e.cancelable) e.preventDefault();
         canvas.setPointerCapture(e.pointerId);
         gomme = !!reglages.gomme || e.button === 5 || (e.buttons & 32) > 0;      // bouton gomme du stylet
         if (gomme) { effacerA(pos(e)); return; }
         courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant);
-        traits.push(courant); annules = [];
+        traits.push(courant); annules = []; dessines = 1;
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
@@ -1275,15 +1297,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!courant) return;
         const evts = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
         for (const ev of evts) { const [x, y] = pos(ev); const n = courant.p.length;
-          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 2) courant.p.push(x, y); }
+          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 1.5) courant.p.push(x, y); }
         bornes(courant);
-        dessiner();
+        if (dessines === 1 && courant.p.length > 2) { dessiner(); dessines = courant.p.length / 2; }   // efface le point de départ, puis on n'ajoute que la suite
+        else dessines = tracerSuite(courant, dessines);
         allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
       });
       const fin = e => {
         doigts.delete(e.pointerId);
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
-        if (courant) { courant = null; sauver(); libelle(); }
+        if (courant) { finirTrait(courant); courant = null; dessines = 0; sauver(); libelle(); }
         if (gomme) { gomme = false; sauver(); }
       };
       canvas.addEventListener("pointerup", fin); canvas.addEventListener("pointercancel", fin);
