@@ -23,7 +23,10 @@
 .encre-barre .danger { color: #b3261e; }
 .encre-defile { height: 62vh; overflow-y: auto; overscroll-behavior: contain; position: relative; }
 .encre-zone.plein .encre-defile { height: auto; flex: 1; }
-.encre-defile canvas { display: block; width: 100%; position: sticky; top: 0; touch-action: none; }
+.encre-defile .vue { position: sticky; top: 0; width: 100%; touch-action: none; }
+.encre-defile .vue canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
+.encre-defile .vue canvas.trace { pointer-events: none; }
+.encre-diag { font: 12px ui-monospace, monospace; color: #5d6679; }
 .encre-defile .cale { width: 1px; }
 .encre-exos { position: fixed; left: 14px; bottom: 14px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #fff; background: var(--encre-accent);
   border: 0; border-radius: 999px; min-height: 52px; padding: 0 22px; box-shadow: 0 4px 14px rgba(27, 34, 50, .25); cursor: pointer; touch-action: manipulation; }
@@ -54,6 +57,7 @@
   const EPAISSEURS = [3, 6, 12];
   let reglages = { coul: COULEURS[0], ep: EPAISSEURS[1], doigt: "defile" };
   try { Object.assign(reglages, JSON.parse(localStorage.getItem("encre-reglages") || "{}")); } catch (e) {}
+  let STYLET_VU = false; try { STYLET_VU = localStorage.getItem("encre-stylet-vu") === "1"; } catch (e) {}
   const garderReglages = () => { try { localStorage.setItem("encre-reglages", JSON.stringify(reglages)); } catch (e) {} };
 
   /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
@@ -180,7 +184,7 @@
       bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
       if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
     }
-    let zone = null, canvas, ctx, defile, echelle = 1;
+    let zone = null, canvas, ctx, calque, ctxT, defile, echelle = 1;
     const libelle = () => { if (!bOuv) return; bOuv.textContent = zone ? "Réduire la zone d'écriture" : (type === "figure" ? "✎ Annoter la figure" : "✎ Écrire");
                             bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
     libelle();
@@ -195,7 +199,7 @@
         <button data-a="gomme">Gomme</button>
         <span class="sep"></span>
         <button data-a="annuler" aria-label="Annuler">↶</button><button data-a="retablir" aria-label="Rétablir">↷</button>
-        <button data-a="doigt"></button>
+        <button data-a="doigt"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
@@ -209,10 +213,11 @@
           ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
             <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
-        </div><div class="encre-defile"><canvas></canvas><div class="cale"></div></div>`;
+        </div><div class="encre-defile"><div class="vue"><canvas></canvas><canvas class="trace"></canvas></div><div class="cale"></div></div>`;
       if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
       else barreOuv.after(zone);
-      canvas = zone.querySelector("canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
+      canvas = zone.querySelector(".vue canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
+      calque = zone.querySelector(".vue canvas.trace"); ctxT = calque.getContext("2d", { desynchronized: true }) || calque.getContext("2d");
       zone.querySelector(".encre-barre").addEventListener("click", clicBarre);
       defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
       brancherCrayon();
@@ -267,8 +272,8 @@
       cale = cale || zone.querySelector(".cale");
       const l = defile.clientWidth, vh = defile.clientHeight, dpr = window.devicePixelRatio || 1;
       echelle = l / LARGEUR;
-      canvas.style.height = vh + "px";
-      canvas.width = Math.round(l * dpr); canvas.height = Math.round(vh * dpr);
+      zone.querySelector(".vue").style.height = vh + "px";
+      canvas.width = calque.width = Math.round(l * dpr); canvas.height = calque.height = Math.round(vh * dpr);
       allonger((defile.scrollTop || 0) + vh * 1.5);
       dessiner();
     }
@@ -325,6 +330,14 @@
       ctx.stroke();
       return n;
     }
+    function effacerBout() { ctxT.setTransform(1, 0, 0, 1, 0, 0); ctxT.clearRect(0, 0, calque.width, calque.height); }
+    function tracerBout(t) {                   // du dernier point lissé jusqu'à la pointe du stylet
+      const p = t.p, n = p.length / 2; effacerBout(); if (n < 2) return;
+      const dpr = window.devicePixelRatio || 1;
+      ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
+      ctxT.strokeStyle = t.c; ctxT.lineWidth = t.w; ctxT.lineCap = "round"; ctxT.lineJoin = "round";
+      ctxT.beginPath(); ctxT.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctxT.lineTo(p[2 * n - 2], p[2 * n - 1]); ctxT.stroke();
+    }
     function finirTrait(t) {                   // dernier petit morceau jusqu'au point final
       const p = t.p, n = p.length / 2; if (n < 2) return;
       style(t); ctx.beginPath(); ctx.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctx.lineTo(p[2 * n - 2], p[2 * n - 1]); ctx.stroke();
@@ -334,15 +347,28 @@
             localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {}
       majInfo();
     }
+    /* Nature d'un contact. Certains écrans (Firefox sous Windows, cadres infrarouges) signalent le stylet comme un doigt :
+       on le reconnaît alors à la petite taille du contact ; une paume (très grand contact) est ignorée. */
+    function natureContact(e) {
+      if (e.pointerType === "pen") { if (!STYLET_VU) { STYLET_VU = true; try { localStorage.setItem("encre-stylet-vu", "1"); } catch (x) {} } return "stylet"; }
+      if (e.pointerType !== "touch") return "souris";
+      const t = Math.max(e.width || 0, e.height || 0);                // taille du contact (pixels CSS), 0 ou 1 si inconnue
+      if (t > 45) return "paume";
+      if (reglages.doigt === "ecrit") return "stylet";
+      if (t > 1) return t <= 14 ? "stylet" : "doigt";
+      return STYLET_VU ? "doigt" : "stylet";                          // taille inconnue : écrit, sauf si un vrai stylet existe
+    }
     function brancherCrayon() {
-      let courant = null, gomme = false, dessines = 0;
+      let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null;
       // iPad : empêcher la sélection de texte, la loupe et le geste « Griffonner » pendant l'écriture
       const bloquer = e => { if (e.cancelable) e.preventDefault(); };
       canvas.addEventListener("touchstart", bloquer, { passive: false });
       canvas.addEventListener("touchmove", bloquer, { passive: false });
       canvas.addEventListener("contextmenu", bloquer);
       const doigts = new Map(); let defilement = null;
-      const pos = e => { const r = defile.getBoundingClientRect(); return [Math.round((e.clientX - r.left) / echelle), Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle)]; };
+      const pos = e => { const r = defile.getBoundingClientRect();                          // au dixième d'unité : pas de cassures
+        return [Math.round((e.clientX - r.left) / echelle * 10) / 10, Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle * 10) / 10]; };
+      const diag = zone.querySelector(".encre-diag");
       let manip = null;
       canvas.addEventListener("pointerdown", e => {
         if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
@@ -356,19 +382,25 @@
             manip = { id: e.pointerId, mode: poignee ? "taille" : "deplacer", x0: x, y0: y, ix: selImg.x, iy: selImg.y, iw: selImg.w, ratio: selImg.h / selImg.w }; }
           dessiner(); return;
         }
-        if (e.pointerType === "touch") {
+        const nature = natureContact(e);
+        if (diag) diag.textContent = `${e.pointerType} ${Math.round(e.width || 0)}×${Math.round(e.height || 0)} pression ${(e.pressure || 0).toFixed(2)} → ${nature}`;
+        if (nature === "paume") return;                                   // main posée : ignorée
+        if (nature === "doigt") {
           doigts.set(e.pointerId, e.clientY);
-          if (doigts.size >= 2 || reglages.doigt === "defile") {            // deux doigts (ou réglage) : faire défiler
-            if (courant) { traits.pop(); courant = null; dessiner(); }
-            defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); return;
-          }
+          if (!courant) { defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); }
+          return;                                                          // un doigt fait défiler, sans jamais couper un trait en cours
         }
+        if (courant && reglages.doigt === "ecrit" && typeTrait === "touch" && e.pointerType === "touch") {   // mode Doigt : deux doigts = défiler
+          traits.pop(); courant = null; idTrait = null; effacerBout(); dessiner();
+          doigts.set(e.pointerId, e.clientY); defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); return;
+        }
+        if (courant) return;                                               // un seul trait à la fois (une main posée ne le coupe pas)
         if (e.button > 0 && e.pointerType === "mouse") return;
         if (e.cancelable) e.preventDefault();
         canvas.setPointerCapture(e.pointerId);
         gomme = !!reglages.gomme || e.button === 5 || (e.buttons & 32) > 0;      // bouton gomme du stylet
         if (gomme) { effacerA(pos(e)); return; }
-        courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant);
+        courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant); idTrait = e.pointerId; typeTrait = e.pointerType;
         traits.push(courant); annules = []; dessines = 1;
         tracer(courant);
       });
@@ -381,20 +413,22 @@
         }
         if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
         if (gomme && e.buttons) { effacerA(pos(e)); return; }
-        if (!courant) return;
-        const evts = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+        if (!courant || e.pointerId !== idTrait) return;
+        const evts = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];   // tous les points intermédiaires
         for (const ev of evts) { const [x, y] = pos(ev); const n = courant.p.length;
-          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 1.5) courant.p.push(x, y); }
+          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 0.8) courant.p.push(x, y); }
         bornes(courant);
         if (dessines === 1 && courant.p.length > 2) { dessiner(); dessines = courant.p.length / 2; }   // efface le point de départ, puis on n'ajoute que la suite
         else dessines = tracerSuite(courant, dessines);
+        tracerBout(courant);                                               // jusqu'à la pointe, immédiatement
         allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
       });
       const fin = e => {
         doigts.delete(e.pointerId);
         if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
-        if (courant) { finirTrait(courant); courant = null; dessines = 0; sauver(); libelle(); }
+        if (courant && e.pointerId !== idTrait) return;                    // fin d'un autre contact : le trait continue
+        if (courant) { effacerBout(); finirTrait(courant); courant = null; idTrait = null; dessines = 0; sauver(); libelle(); }
         if (gomme) { gomme = false; sauver(); }
       };
       canvas.addEventListener("pointerup", fin); canvas.addEventListener("pointercancel", fin);
