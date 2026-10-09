@@ -641,7 +641,17 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-outils { display: flex; flex-direction: column; gap: 6px; padding: 8px 6px; background: #f3f5f9; border-right: 1px solid var(--encre-trait); }
 .encre-outils button { font: 600 22px/1 system-ui, sans-serif; border: 1px solid var(--encre-trait); background: #fff; color: var(--encre-texte); border-radius: 10px; width: 52px; height: 52px; cursor: pointer; touch-action: manipulation; }
 .encre-outils button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; background: #e2e8f8; }
-.m-lien.calc { background: #ffb300; color: #1b2232; }
+.bouton-lien { font: 600 15px/1 system-ui, sans-serif; border: 1px solid var(--encre-trait); background: #fff; color: var(--encre-texte); border-radius: 10px;
+  min-height: 44px; padding: 0 14px; display: inline-flex; align-items: center; text-decoration: none; touch-action: manipulation; }
+.encre-outils { overflow-y: auto; }
+.encre-repere { position: absolute; z-index: 30; left: 70px; top: 70px; background: #fff; border: 1px solid var(--encre-trait); border-radius: 12px; padding: 12px;
+  box-shadow: 0 8px 24px rgba(27, 34, 50, .2); display: grid; gap: 8px; font: 15px system-ui, sans-serif; color: var(--encre-texte); max-width: 340px; }
+.encre-repere h4 { margin: 0; font-size: 15px; }
+.encre-repere .lignes { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.encre-repere button { font: 600 14px system-ui, sans-serif; min-height: 40px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
+.encre-repere button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+.encre-repere input { width: 3.6em; min-height: 38px; text-align: center; font: 600 15px system-ui, sans-serif; border: 1px solid var(--encre-trait); border-radius: 8px; }
+.encre-zone { position: relative; }
 .encre-barre .sep { width: 1px; align-self: stretch; background: var(--encre-trait); margin: 0 4px; }
 .encre-barre .coul { width: 44px; padding: 0; }
 .encre-barre .coul i { display: block; width: 22px; height: 22px; border-radius: 50%; margin: auto; }
@@ -683,7 +693,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
   // outils de tracé : main levée, et formes « à la règle » (enregistrées comme des traits, comme le reste)
-  const OUTILS = [["stylo", "✎", "Main levée"], ["seg", "╱", "Segment (règle)"], ["fleche", "→", "Flèche, vecteur"], ["cercle", "◯", "Cercle"], ["rect", "▭", "Rectangle"]];
+  const OUTILS = [["stylo", "✎", "Main levée"], ["seg", "╱", "Segment (règle)"], ["fleche", "→", "Flèche, vecteur"], ["cercle", "◯", "Cercle"], ["rect", "▭", "Rectangle"],
+                  ["repere", "⊞", "Repère orthonormé"], ["point", "•", "Point (s'aimante au quadrillage)"], ["droite", "⟷", "Droite"], ["deplacer", "✥", "Déplacer"]];
+  const REPERES = [
+    { nom: "Classique (−5 à 5)", r: { xmin: -5, xmax: 5, ymin: -5, ymax: 5, px: "1", py: "1" } },
+    { nom: "Grand (−10 à 10)", r: { xmin: -10, xmax: 10, ymin: -10, ymax: 10, px: "2", py: "2" } },
+    { nom: "Premier quadrant (0 à 10)", r: { xmin: 0, xmax: 10, ymin: 0, ymax: 10, px: "1", py: "1" } },
+    { nom: "Trigonométrie (−2π à 2π)", r: { xmin: -2, xmax: 2, ymin: -2, ymax: 2, px: "pi/2", py: "1" } }];
   const COULEURS = ["#1b2232", "#2d4db0", "#c0262d", "#11845b"];
   const EPAISSEURS = [3, 6, 12];
   let reglages = { coul: COULEURS[0], ep: EPAISSEURS[1], doigt: "defile" };
@@ -828,8 +844,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
         <button data-a="doigt"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
-        ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="m-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Ouvrir le manuel</a>` : ""}
-        <a class="m-lien calc" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice NumWorks</a>
+        ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
+        <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
         ${opts.flottant ? `<span class="encre-manuel">
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
@@ -867,7 +883,17 @@ document.addEventListener("DOMContentLoaded", function () {
     let confirmeEff = false;
     function clicBarre(e) {
       const b = e.target.closest("button"); if (!b) return;
-      if (b.dataset.o) { reglages.outil = b.dataset.o; reglages.gomme = false; }
+      if (b.dataset.o) { reglages.outil = b.dataset.o; reglages.gomme = false; if (b.dataset.o === "repere") ouvrirReglagesRepere(); else fermerReglagesRepere(); }
+      else if (b.dataset.rp !== undefined) { reglages.repere = Object.assign({}, REPERES[+b.dataset.rp].r); garderReglages(); return fermerReglagesRepere(); }
+      else if (b.dataset.rpo) { const champ = b.closest(".encre-repere"); champ.querySelectorAll(`[data-rpo="${b.dataset.rpo}"]`).forEach(x => x.setAttribute("aria-pressed", x === b));
+        champ.querySelector(".pi").hidden = !enPi(champ.querySelector('[data-rpo="px"][aria-pressed="true"]').dataset.v); return; }
+      else if (b.dataset.a === "rp-valider") {
+        const champ = b.closest(".encre-repere"), v = n => parseFloat(String(champ.querySelector("." + n).value).replace(",", "."));
+        const r = { xmin: v("xmin"), xmax: v("xmax"), ymin: v("ymin"), ymax: v("ymax"),
+                    px: champ.querySelector('[data-rpo="px"][aria-pressed="true"]').dataset.v, py: champ.querySelector('[data-rpo="py"][aria-pressed="true"]').dataset.v };
+        if ([r.xmin, r.xmax, r.ymin, r.ymax].some(isNaN) || r.xmin >= r.xmax || r.ymin >= r.ymax) { champ.querySelector(".err").textContent = "Vérifiez les bornes (min < max)."; return; }
+        reglages.repere = r; garderReglages(); return fermerReglagesRepere();
+      }
       else if (b.dataset.c) { reglages.coul = b.dataset.c; reglages.gomme = false; }
       else if (b.dataset.e) { reglages.ep = +b.dataset.e; reglages.gomme = false; }
       else switch (b.dataset.a) {
@@ -896,6 +922,21 @@ document.addEventListener("DOMContentLoaded", function () {
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
       }
       garderReglages(); etatBarre(); dessiner();
+    }
+    function fermerReglagesRepere() { const p = zone.querySelector(".encre-repere"); if (p) p.remove(); }
+    function ouvrirReglagesRepere() {
+      fermerReglagesRepere();
+      const r = reglages.repere || REPERES[0].r, choix = (nom, vals, cur) => vals.map(([v, t]) => `<button data-rpo="${nom}" data-v="${v}" aria-pressed="${v === cur}">${t}</button>`).join("");
+      const p = document.createElement("div"); p.className = "encre-repere";
+      p.innerHTML = `<h4>Repère : choisissez un modèle, puis tracez son cadre sur la feuille</h4>
+        <div class="lignes">${REPERES.map((m, i) => `<button data-rp="${i}">${m.nom}</button>`).join("")}</div>
+        <h4>Personnalisé</h4>
+        <div class="lignes">x de <input class="xmin" inputmode="decimal" value="${r.xmin}"> à <input class="xmax" inputmode="decimal" value="${r.xmax}"><span class="pi" ${enPi(r.px) ? "" : "hidden"}>(× π)</span></div>
+        <div class="lignes">pas en x : ${choix("px", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"], ["pi/2", "π/2"], ["pi", "π"]], r.px)}</div>
+        <div class="lignes">y de <input class="ymin" inputmode="decimal" value="${r.ymin}"> à <input class="ymax" inputmode="decimal" value="${r.ymax}"></div>
+        <div class="lignes">pas en y : ${choix("py", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"]], r.py)}</div>
+        <div class="lignes"><button data-a="rp-valider">Valider</button><span class="err" style="color:#b3261e"></span></div>`;
+      zone.appendChild(p);
     }
     function etatBarre() {
       zone.querySelectorAll(".coul").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && b.dataset.c === reglages.coul));
@@ -945,41 +986,38 @@ document.addEventListener("DOMContentLoaded", function () {
           ctx.fillStyle = "#fff"; ctx.font = "700 30px system-ui, sans-serif"; ctx.fillText("⤡", e.x + e.w - 15, e.y + e.h + 11);
         } });
       if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
-      traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
+      const visible = t => { const [a, b] = BORNES.get(t) || bornes(t); return b + (t.w || 0) + 40 >= haut && a - (t.w || 0) - 40 <= haut + vh; };
+      traits.forEach(t => { if (t.f === "repere" && visible(t)) tracer(t); });                 // les repères d'abord (en dessous)
+      traits.forEach(t => { if (t.f !== "repere" && (t.f === "droite" || visible(t))) tracer(t); });   // puis le reste, visible seulement
     }
     function style(t) { ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
+    let enCours = null;                        // trait en train d'être écrit : son dernier morceau est sur le calque
     function tracer(t) {                       // trait complet
-      if (t.f) return traceForme(ctx, t);
-      const p = t.p, n = p.length / 2; if (n < 1) return;
-      style(t);
-      if (n === 1) { ctx.beginPath(); ctx.arc(p[0], p[1], t.w / 2, 0, 7); ctx.fillStyle = t.c; ctx.fill(); return; }
-      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
-      for (let k = 2; k < n; k++) ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-      ctx.lineTo(p[2 * n - 2], p[2 * n - 1]);
-      ctx.stroke();
+      if (t.f) return traceForme(ctx, t, traits);
+      traceCourbe(ctx, t, t === enCours ? t.p.length / 2 - 2 : undefined);
     }
-    function tracerSuite(t, depuis) {          // seulement les morceaux ajoutés depuis le dernier dessin (réactivité)
-      const p = t.p, n = p.length / 2; if (n < 2 || depuis >= n) return depuis;
-      style(t); ctx.beginPath();
-      for (let k = Math.max(depuis, 1); k < n; k++) {
-        if (k === 1) { ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2); continue; }
-        ctx.moveTo((p[2 * k - 4] + p[2 * k - 2]) / 2, (p[2 * k - 3] + p[2 * k - 1]) / 2);
-        ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-      }
+    function tracerSuite(t, depuis) {          // seulement les morceaux devenus définitifs (le point suivant est connu)
+      const p = t.p, n = p.length / 2, fin = n - 2; if (fin <= depuis) return depuis;
+      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = ctx.lineJoin = "round";
+      ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]);
+      for (let k = depuis; k < fin; k++) morceau(ctx, p, k, n);
       ctx.stroke();
-      return n;
+      return fin;
     }
     function effacerBout() { ctxT.setTransform(1, 0, 0, 1, 0, 0); ctxT.clearRect(0, 0, calque.width, calque.height); }
-    function tracerBout(t) {                   // du dernier point lissé jusqu'à la pointe du stylet
+    function tracerBout(t, xp, yp) {           // dernier morceau provisoire + jusqu'à la pointe du stylet, sans attendre
       const p = t.p, n = p.length / 2; effacerBout(); if (n < 2) return;
       const dpr = window.devicePixelRatio || 1;
       ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
       ctxT.strokeStyle = t.c; ctxT.lineWidth = t.w; ctxT.lineCap = "round"; ctxT.lineJoin = "round";
-      ctxT.beginPath(); ctxT.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctxT.lineTo(p[2 * n - 2], p[2 * n - 1]); ctxT.stroke();
+      ctxT.beginPath(); ctxT.moveTo(p[2 * n - 4], p[2 * n - 3]); morceau(ctxT, p, n - 2, n);
+      if (xp !== undefined) ctxT.lineTo(xp, yp);
+      ctxT.stroke();
     }
-    function finirTrait(t) {                   // dernier petit morceau jusqu'au point final
-      const p = t.p, n = p.length / 2; if (n < 2) return;
-      style(t); ctx.beginPath(); ctx.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctx.lineTo(p[2 * n - 2], p[2 * n - 1]); ctx.stroke();
+    function finirTrait(t, depuis) {           // les derniers morceaux, jusqu'au point final
+      const p = t.p, n = p.length / 2; if (n < 2 || depuis >= n - 1) return;
+      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = ctx.lineJoin = "round";
+      ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]); for (let k = depuis; k < n - 1; k++) morceau(ctx, p, k, n); ctx.stroke();
     }
     function sauver() {
       try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
@@ -992,13 +1030,22 @@ document.addEventListener("DOMContentLoaded", function () {
       if (e.pointerType === "pen") { if (!STYLET_VU) { STYLET_VU = true; try { localStorage.setItem("encre-stylet-vu", "1"); } catch (x) {} } return "stylet"; }
       if (e.pointerType !== "touch") return "souris";
       const t = Math.max(e.width || 0, e.height || 0);                // taille du contact (pixels CSS), 0 ou 1 si inconnue
-      if (t > 45) return "paume";
-      if (reglages.doigt === "ecrit") return "stylet";
+      if (reglages.doigt === "ecrit") return t > 140 ? "paume" : "stylet";   // mode Doigt : seul un contact énorme est ignoré
+      if (t > 90) return "paume";
       if (t > 1) return t <= 14 ? "stylet" : "doigt";
       return STYLET_VU ? "doigt" : "stylet";                          // taille inconnue : écrit, sauf si un vrai stylet existe
     }
     function brancherCrayon() {
-      let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null, forme = null;
+      let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null, forme = null, brut = null, bouge = null;
+      // l'objet sous le doigt : un point, puis un trait ou une forme, puis l'intérieur d'un repère
+      function objetSous(x, y) {
+        const tol = 22 / Math.max(echelle, 0.3);
+        const d = (ax, ay, bx, by) => { const dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy, u = l ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l)) : 0; return Math.hypot(ax + u * dx - x, ay + u * dy - y); };
+        for (let i = traits.length - 1; i >= 0; i--) { const t = traits[i]; if (t.f === "point" && Math.hypot(t.p[0] - x, t.p[1] - y) < tol + 8) return t; }
+        for (let i = traits.length - 1; i >= 0; i--) { const t = traits[i], p = t.p; if (t.f === "repere" || t.f === "point") continue;
+          if (p.length === 2 ? Math.hypot(p[0] - x, p[1] - y) < tol + t.w : p.some((_, j) => j % 2 === 0 && j + 3 < p.length && d(p[j], p[j + 1], p[j + 2], p[j + 3]) < tol + t.w)) return t; }
+        return repereSous(traits, x, y);
+      }
       // iPad : empêcher la sélection de texte, la loupe et le geste « Griffonner » pendant l'écriture
       const bloquer = e => { if (e.cancelable) e.preventDefault(); };
       canvas.addEventListener("touchstart", bloquer, { passive: false });
@@ -1030,7 +1077,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return;                                                          // un doigt fait défiler, sans jamais couper un trait en cours
         }
         if (courant && reglages.doigt === "ecrit" && typeTrait === "touch" && e.pointerType === "touch") {   // mode Doigt : deux doigts = défiler
-          traits.pop(); courant = null; idTrait = null; effacerBout(); dessiner();
+          traits.pop(); courant = null; idTrait = null; enCours = null; effacerBout(); dessiner();
           doigts.set(e.pointerId, e.clientY); defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); return;
         }
         if (courant || forme) return;                                      // un seul trait à la fois (une main posée ne le coupe pas)
@@ -1039,11 +1086,25 @@ document.addEventListener("DOMContentLoaded", function () {
         canvas.setPointerCapture(e.pointerId);
         gomme = !!reglages.gomme || e.button === 5 || (e.buttons & 32) > 0;      // bouton gomme du stylet
         if (gomme) { effacerA(pos(e)); return; }
-        if (reglages.outil && reglages.outil !== "stylo") {                // forme à la règle
-          const [x0, y0] = pos(e); forme = { f: reglages.outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId }; return;
+        const outil = reglages.outil || "stylo";
+        if (outil === "deplacer") {                                        // toucher un objet puis le faire glisser
+          const [x, y] = pos(e), obj = objetSous(x, y);
+          if (obj) { canvas.setPointerCapture(e.pointerId); bouge = { t: obj, id: e.pointerId, x, y, x0: x, y0: y, p0: obj.p.slice() }; }
+          return;
+        }
+        if (outil === "point") {
+          const [x, y] = pos(e), rp = repereSous(traits, x, y), [ax, ay] = aimanter(rp, x, y);
+          const n = traits.filter(o => o.f === "point" && o.rep === (rp ? rp.id : null)).length;
+          const t = { f: "point", c: reglages.coul, w: 3, p: [ax, ay], rep: rp ? rp.id : null, nom: String.fromCharCode(65 + n % 26) + (n >= 26 ? Math.floor(n / 26) : "") };
+          traits.push(t); annules = []; bornes(t); dessiner(); sauver(); libelle(); return;
+        }
+        if (outil !== "stylo") {                                           // forme à la règle, droite ou repère : aperçu pendant le geste
+          let [x0, y0] = pos(e); const rp = outil === "droite" ? repereSous(traits, x0, y0) : null;
+          if (rp) [x0, y0] = aimanter(rp, x0, y0);
+          forme = { f: outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId, rep: rp ? rp.id : null }; return;
         }
         courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant); idTrait = e.pointerId; typeTrait = e.pointerType;
-        traits.push(courant); annules = []; dessines = 1;
+        traits.push(courant); annules = []; dessines = 0; enCours = courant; brut = courant.p.slice();
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
@@ -1055,35 +1116,66 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
         if (gomme && e.buttons) { effacerA(pos(e)); return; }
+        if (bouge && e.pointerId === bouge.id) {
+          let [x, y] = pos(e), dx = x - bouge.x0, dy = y - bouge.y0;
+          if (bouge.t.f === "point" && bouge.t.rep) {                       // un point déplacé s'aimante aussi au quadrillage
+            const rp = traits.find(o => o.id === bouge.t.rep); const [ax, ay] = aimanter(rp, bouge.p0[0] + dx, bouge.p0[1] + dy); dx = ax - bouge.p0[0]; dy = ay - bouge.p0[1];
+          }
+          deplacerObjet(traits, bouge.t, dx - (bouge.x - bouge.x0), dy - (bouge.y - bouge.y0)); bouge.x = bouge.x0 + dx; bouge.y = bouge.y0 + dy;
+          dessiner(); return;
+        }
         if (forme && e.pointerId === forme.id) {
-          const [x, y] = pos(e); forme.p = pointsForme(forme.f, forme.x0, forme.y0, x, y); forme.taille = Math.hypot(x - forme.x0, y - forme.y0);
+          let [x, y] = pos(e); forme.taille = Math.hypot(x - forme.x0, y - forme.y0);
+          if (forme.f === "droite") { const rp = traits.find(o => o.id === forme.rep); [x, y] = aimanter(rp, x, y); forme.p = [forme.x0, forme.y0, x, y]; }
+          else if (forme.f === "repere") forme.p = pointsForme("rect", forme.x0, forme.y0, x, y);
+          else forme.p = pointsForme(forme.f, forme.x0, forme.y0, x, y);
           effacerBout(); const dpr = window.devicePixelRatio || 1;
-          ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr); traceForme(ctxT, forme); return;
+          ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
+          if (forme.f === "repere") { ctxT.save(); ctxT.setLineDash([12, 10]); traceForme(ctxT, { f: "rect", c: "#2d4db0", w: 3, p: forme.p }); ctxT.restore(); }
+          else traceForme(ctxT, forme, traits);
+          return;
         }
         if (!courant || e.pointerId !== idTrait) return;
         const evts = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];   // tous les points intermédiaires
-        for (const ev of evts) { const [x, y] = pos(ev); const n = courant.p.length;
-          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 0.8) courant.p.push(x, y); }
+        const avant = courant.p.length;
+        for (const ev of evts) {
+          brut = pos(ev); const n = courant.p.length, lx = courant.p[n - 2], ly = courant.p[n - 1];
+          const d = Math.hypot(brut[0] - lx, brut[1] - ly), a = Math.min(1, 0.45 + d / 30);   // lent : on lisse les tremblements ; rapide : on suit
+          const x = Math.round((lx + a * (brut[0] - lx)) * 10) / 10, y = Math.round((ly + a * (brut[1] - ly)) * 10) / 10;
+          if (Math.hypot(x - lx, y - ly) >= 0.8) courant.p.push(x, y);
+        }
         bornes(courant);
-        if (dessines === 1 && courant.p.length > 2) { dessiner(); dessines = courant.p.length / 2; }   // efface le point de départ, puis on n'ajoute que la suite
-        else dessines = tracerSuite(courant, dessines);
-        tracerBout(courant);                                               // jusqu'à la pointe, immédiatement
+        if (avant === 2 && courant.p.length > 2) { dessiner(); dessines = Math.max(0, courant.p.length / 2 - 2); }   // efface le point de départ
+        dessines = tracerSuite(courant, dessines);
+        tracerBout(courant, brut[0], brut[1]);                             // jusqu'à la pointe, immédiatement
         allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
       });
       const fin = e => {
         doigts.delete(e.pointerId);
         if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
+        if (bouge && e.pointerId === bouge.id) {
+          bouge = null; hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS)); dimensionner(); sauver(); return;
+        }
         if (forme && e.pointerId === forme.id) {
           effacerBout();
-          if (forme.p && forme.taille > 4) {                               // un simple appui ne crée pas de forme
-            const t = { c: forme.c, w: forme.w, f: forme.f, p: forme.p }; traits.push(t); annules = []; bornes(t); tracer(t);
+          let t = null;
+          if (forme.f === "repere") { const [x, y] = forme.p ? [forme.p[4], forme.p[5]] : [forme.x0, forme.y0]; t = creerRepere(reglages.repere || REPERES[0].r, forme.x0, forme.y0, x, y); }
+          else if (forme.p && forme.taille > 4) { t = { c: forme.c, w: forme.w, f: forme.f, p: forme.p }; if (forme.f === "droite") t.rep = forme.rep; }   // un simple appui ne crée pas de forme
+          if (t) {
+            traits.push(t); annules = []; bornes(t); dessiner();
             hauteur = Math.max(hauteur, maxY(t) + PAS); allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); sauver(); libelle();
           }
           forme = null; return;
         }
         if (courant && e.pointerId !== idTrait) return;                    // fin d'un autre contact : le trait continue
-        if (courant) { effacerBout(); finirTrait(courant); courant = null; idTrait = null; dessines = 0; sauver(); libelle(); }
+        if (courant) {
+          const n = courant.p.length;                                      // le trait se termine exactement sous la pointe
+          if (brut && Math.hypot(brut[0] - courant.p[n - 2], brut[1] - courant.p[n - 1]) >= 0.8) courant.p.push(brut[0], brut[1]);
+          effacerBout(); enCours = null; bornes(courant);
+          if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
+          courant = null; idTrait = null; dessines = 0; sauver(); libelle();
+        }
         if (gomme) { gomme = false; sauver(); }
       };
       canvas.addEventListener("pointerup", fin); canvas.addEventListener("pointercancel", fin);
@@ -1095,6 +1187,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return Math.hypot(ax + u * dx - x, ay + u * dy - y); };
       traits = traits.filter(t => { const p = t.p; if (p.length === 2) return Math.hypot(p[0] - x, p[1] - y) >= r + t.w;
         for (let i = 0; i + 3 < p.length; i += 2) if (dist(p[i], p[i + 1], p[i + 2], p[i + 3]) < r + t.w) return false; return true; });
+      const ids = new Set(traits.filter(t => t.f === "repere").map(t => t.id));
+      traits = traits.filter(t => !t.rep || ids.has(t.rep));             // un repère effacé emporte ses points et droites
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
@@ -1103,7 +1197,62 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const legende = e => e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   /* Formes à la règle : la liste p contient déjà les points (segment, contour du rectangle, cercle échantillonné) */
-  function traceForme(c2, t) {
+  /* ---------- Repère orthonormé : r = { x0, y0 (coin haut-gauche), u (unité), xmin, xmax, ymin, ymax, px, py (pas) } ---------- */
+  const PAS_VAL = v => v === "pi" ? Math.PI : v === "pi/2" ? Math.PI / 2 : +v;
+  const enPi = v => v === "pi" || v === "pi/2";
+  function libelleGrad(v, pi) {
+    if (Math.abs(v) < 1e-9) return "0";
+    if (pi) { const n = Math.round(v / (Math.PI / 2)), s = n < 0 ? "−" : "", a = Math.abs(n);
+      return a % 2 === 0 ? s + (a === 2 ? "" : a / 2) + "π" : s + (a === 1 ? "" : a) + "π/2"; }
+    const r = Math.round(v * 100) / 100; return (r < 0 ? "−" : "") + String(Math.abs(r)).replace(".", ",");
+  }
+  const versEcran = (r, mx, my) => [r.x0 + (mx - r.xmin) * r.u, r.y0 + (r.ymax - my) * r.u];
+  const versMaths = (r, x, y) => [r.xmin + (x - r.x0) / r.u, r.ymax - (y - r.y0) / r.u];
+  function traceRepere(c2, t) {
+    const r = t.r, W = (r.xmax - r.xmin) * r.u, H = (r.ymax - r.ymin) * r.u, sx = PAS_VAL(r.px), sy = PAS_VAL(r.py);
+    c2.save(); c2.fillStyle = "#fff"; c2.fillRect(r.x0, r.y0, W, H);
+    c2.strokeStyle = "#c9d1e3"; c2.lineWidth = 1.5; c2.beginPath();       // quadrillage
+    for (let v = Math.ceil(r.xmin / sx - 1e-9) * sx; v <= r.xmax + 1e-9; v += sx) { const [x] = versEcran(r, v, 0); c2.moveTo(x, r.y0); c2.lineTo(x, r.y0 + H); }
+    for (let v = Math.ceil(r.ymin / sy - 1e-9) * sy; v <= r.ymax + 1e-9; v += sy) { const [, y] = versEcran(r, 0, v); c2.moveTo(r.x0, y); c2.lineTo(r.x0 + W, y); }
+    c2.stroke();
+    const ax = r.ymin <= 0 && r.ymax >= 0 ? 0 : r.ymin, ay = r.xmin <= 0 && r.xmax >= 0 ? 0 : r.xmin;   // position des axes
+    const [, yAxe] = versEcran(r, 0, ax), [xAxe] = versEcran(r, ay, 0);
+    c2.strokeStyle = c2.fillStyle = "#1b2232"; c2.lineWidth = 3; c2.beginPath();
+    c2.moveTo(r.x0, yAxe); c2.lineTo(r.x0 + W + 18, yAxe); c2.moveTo(xAxe, r.y0 + H); c2.lineTo(xAxe, r.y0 - 18); c2.stroke();
+    c2.beginPath(); c2.moveTo(r.x0 + W + 26, yAxe); c2.lineTo(r.x0 + W + 10, yAxe - 8); c2.lineTo(r.x0 + W + 10, yAxe + 8); c2.closePath();
+    c2.moveTo(xAxe, r.y0 - 26); c2.lineTo(xAxe - 8, r.y0 - 10); c2.lineTo(xAxe + 8, r.y0 - 10); c2.closePath(); c2.fill();
+    c2.font = "500 22px system-ui, sans-serif"; c2.lineWidth = 2;        // graduations
+    c2.textAlign = "center"; c2.textBaseline = "top";
+    for (let v = Math.ceil(r.xmin / sx - 1e-9) * sx; v <= r.xmax + 1e-9; v += sx) {
+      if (Math.abs(v - ay) < 1e-9 && ay === 0) continue; const [x] = versEcran(r, v, 0);
+      c2.beginPath(); c2.moveTo(x, yAxe - 6); c2.lineTo(x, yAxe + 6); c2.stroke(); c2.fillText(libelleGrad(v, enPi(r.px)), x, yAxe + 9);
+    }
+    c2.textAlign = "right"; c2.textBaseline = "middle";
+    for (let v = Math.ceil(r.ymin / sy - 1e-9) * sy; v <= r.ymax + 1e-9; v += sy) {
+      if (Math.abs(v - ax) < 1e-9 && ax === 0) continue; const [, y] = versEcran(r, 0, v);
+      c2.beginPath(); c2.moveTo(xAxe - 6, y); c2.lineTo(xAxe + 6, y); c2.stroke(); c2.fillText(libelleGrad(v, enPi(r.py)), xAxe - 10, y);
+    }
+    if (ax === 0 && ay === 0) { c2.textAlign = "right"; c2.textBaseline = "top"; c2.fillText("O", xAxe - 8, yAxe + 8); }
+    c2.restore();
+  }
+  function traceForme(c2, t, liste) {
+    if (t.f === "repere") return traceRepere(c2, t);
+    if (t.f === "point") {
+      c2.fillStyle = c2.strokeStyle = t.c; c2.lineWidth = 3;
+      c2.beginPath(); c2.moveTo(t.p[0] - 9, t.p[1] - 9); c2.lineTo(t.p[0] + 9, t.p[1] + 9); c2.moveTo(t.p[0] + 9, t.p[1] - 9); c2.lineTo(t.p[0] - 9, t.p[1] + 9); c2.stroke();
+      if (t.nom) { c2.font = "600 28px system-ui, sans-serif"; c2.textAlign = "left"; c2.textBaseline = "bottom"; c2.fillText(t.nom, t.p[0] + 10, t.p[1] - 8); }
+      return;
+    }
+    if (t.f === "droite") {                                              // prolongée jusqu'aux bords du repère (ou de la feuille)
+      const [x1, y1, x2, y2] = t.p, rp = t.rep && liste ? liste.find(o => o.f === "repere" && o.id === t.rep) : null;
+      const bx0 = rp ? rp.r.x0 : 0, by0 = rp ? rp.r.y0 : -1e5, bx1 = rp ? rp.r.x0 + (rp.r.xmax - rp.r.xmin) * rp.r.u : LARGEUR, by1 = rp ? rp.r.y0 + (rp.r.ymax - rp.r.ymin) * rp.r.u : 1e6;
+      const dx = x2 - x1, dy = y2 - y1; let a = -1e9, b = 1e9;
+      const borne = (p, q, lo, hi) => { if (Math.abs(q) < 1e-9) { if (p < lo || p > hi) { a = 1; b = 0; } return; }
+        let u1 = (lo - p) / q, u2 = (hi - p) / q; if (u1 > u2) [u1, u2] = [u2, u1]; a = Math.max(a, u1); b = Math.min(b, u2); };
+      borne(x1, dx, bx0, bx1); borne(y1, dy, by0, by1); if (a > b) return;
+      c2.strokeStyle = t.c; c2.lineWidth = t.w; c2.lineCap = "round";
+      c2.beginPath(); c2.moveTo(x1 + a * dx, y1 + a * dy); c2.lineTo(x1 + b * dx, y1 + b * dy); c2.stroke(); return;
+    }
     const p = t.p; if (p.length < 4) return;
     c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
     c2.beginPath(); c2.moveTo(p[0], p[1]); for (let i = 2; i < p.length; i += 2) c2.lineTo(p[i], p[i + 1]); c2.stroke();
@@ -1112,6 +1261,33 @@ document.addEventListener("DOMContentLoaded", function () {
       c2.beginPath(); c2.moveTo(x, y); c2.lineTo(x - L * Math.cos(a - 0.45), y - L * Math.sin(a - 0.45));
       c2.lineTo(x - L * Math.cos(a + 0.45), y - L * Math.sin(a + 0.45)); c2.closePath(); c2.fill();
     }
+  }
+  /* Le repère sous un point, et l'aimantage aux intersections du quadrillage */
+  function repereSous(liste, x, y) {
+    for (let i = liste.length - 1; i >= 0; i--) { const t = liste[i]; if (t.f !== "repere") continue; const r = t.r;
+      if (x >= r.x0 - 20 && x <= r.x0 + (r.xmax - r.xmin) * r.u + 20 && y >= r.y0 - 20 && y <= r.y0 + (r.ymax - r.ymin) * r.u + 20) return t; }
+    return null;
+  }
+  function aimanter(rp, x, y) {
+    if (!rp) return [x, y];
+    const r = rp.r, [mx, my] = versMaths(r, x, y), sx = PAS_VAL(r.px), sy = PAS_VAL(r.py);
+    const gx = Math.round(mx / sx) * sx, gy = Math.round(my / sy) * sy, [ex, ey] = versEcran(r, gx, gy);
+    const seuil = Math.min(28, 0.3 * r.u * Math.min(sx, sy));
+    return Math.hypot(ex - x, ey - y) < seuil ? [ex, ey] : [x, y];
+  }
+  function creerRepere(reg, x0, y0, x1, y1) {
+    let X0 = Math.min(x0, x1), Y0 = Math.min(y0, y1), W = Math.abs(x1 - x0), H = Math.abs(y1 - y0);
+    if (W < 120 || H < 120) { W = 900; H = 640; X0 = Math.max(40, Math.min(x0, LARGEUR - W - 60)); Y0 = y0; }   // simple appui : taille par défaut
+    const k = enPi(reg.px) ? Math.PI : 1, r = { xmin: reg.xmin * k, xmax: reg.xmax * k, ymin: reg.ymin, ymax: reg.ymax, px: reg.px, py: reg.py };
+    r.u = Math.min((W - 60) / (r.xmax - r.xmin), (H - 50) / (r.ymax - r.ymin));         // orthonormé : même unité sur les deux axes
+    r.x0 = X0 + 40 + ((W - 60) - (r.xmax - r.xmin) * r.u) / 2; r.y0 = Y0 + 30 + ((H - 50) - (r.ymax - r.ymin) * r.u) / 2;
+    const L = (r.xmax - r.xmin) * r.u, Hh = (r.ymax - r.ymin) * r.u;
+    return { f: "repere", id: "r" + Date.now().toString(36), c: "#1b2232", w: 2, r, p: [r.x0, r.y0, r.x0 + L, r.y0, r.x0 + L, r.y0 + Hh, r.x0, r.y0 + Hh, r.x0, r.y0] };
+  }
+  function deplacerObjet(liste, t, dx, dy) {
+    for (let i = 0; i < t.p.length; i += 2) { t.p[i] += dx; t.p[i + 1] += dy; }
+    BORNES.delete(t);
+    if (t.f === "repere") { t.r.x0 += dx; t.r.y0 += dy; liste.forEach(o => { if (o.rep === t.id) deplacerObjet(liste, o, dx, dy); }); }
   }
   function pointsForme(f, x0, y0, x1, y1) {
     if (f === "seg" || f === "fleche") {                                // presque horizontal ou vertical : on aligne (axes, tableaux)
@@ -1123,6 +1299,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const r = Math.hypot(x1 - x0, y1 - y0), p = [];                     // cercle : centre (x0, y0), passant par (x1, y1)
     for (let k = 0; k <= 96; k++) { const a = k / 96 * 2 * Math.PI; p.push(Math.round((x0 + r * Math.cos(a)) * 10) / 10, Math.round((y0 + r * Math.sin(a)) * 10) / 10); }
     return p;
+  }
+  /* Morceau de courbe du point k au point k+1 (spline de Catmull-Rom convertie en courbe de Bézier) */
+  function morceau(c2, p, k, n) {
+    const i0 = Math.max(0, k - 1), i3 = Math.min(n - 1, k + 2);
+    const x0 = p[2 * i0], y0 = p[2 * i0 + 1], x1 = p[2 * k], y1 = p[2 * k + 1], x2 = p[2 * k + 2], y2 = p[2 * k + 3], x3 = p[2 * i3], y3 = p[2 * i3 + 1];
+    c2.bezierCurveTo(x1 + (x2 - x0) / 6, y1 + (y2 - y0) / 6, x2 - (x3 - x1) / 6, y2 - (y3 - y1) / 6, x2, y2);
+  }
+  function traceCourbe(c2, t, nbMorceaux) {    // trait complet (ou seulement ses premiers morceaux)
+    const p = t.p, n = p.length / 2; if (!n) return;
+    c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
+    if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
+    const m = Math.min(n - 1, nbMorceaux === undefined ? n - 1 : nbMorceaux); if (m < 1) return;
+    c2.beginPath(); c2.moveTo(p[0], p[1]); for (let k = 0; k < m; k++) morceau(c2, p, k, n); c2.stroke();
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
   function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
@@ -1226,15 +1415,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = racine + "ressources/jspdf.umd.min.js";
       sc.onload = () => ok(window.jspdf); sc.onerror = ko; document.head.appendChild(sc); });
   }
-  function traceTrait(c2, t) {
-    if (t.f) return traceForme(c2, t);
-    const p = t.p, n = p.length / 2; if (!n) return;
-    c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
-    if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
-    c2.beginPath(); c2.moveTo(p[0], p[1]); c2.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
-    for (let k = 2; k < n; k++) c2.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-    c2.lineTo(p[2 * n - 2], p[2 * n - 1]); c2.stroke();
-  }
+  function traceTrait(c2, t, liste) { if (t.f) return traceForme(c2, t, liste); traceCourbe(c2, t); }
   function lignesTexte(c2, texte, largeur) {  // découpe un texte en lignes qui tiennent dans la largeur
     const mots = texte.split(" "), lignes = []; let l = "";
     for (const m of mots) { const essai = l ? l + " " + m : m; if (c2.measureText(essai).width > largeur && l) { lignes.push(l); l = m; } else l = essai; }
@@ -1267,7 +1448,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
     insertions.forEach(e => { if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
       c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText(legende(e), e.x, e.y + e.h + 30); });
-    traits.forEach(t => traceTrait(c2, t));
+    traits.forEach(t => traceTrait(c2, t, traits));
     return cv;
   }
   function titrePartie(texte) {
