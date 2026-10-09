@@ -328,38 +328,33 @@
       traits.forEach(t => { const [a, b] = BORNES.get(t) || bornes(t); if (b + t.w >= haut && a - t.w <= haut + vh) tracer(t); });   // seulement les traits visibles
     }
     function style(t) { ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
+    let enCours = null;                        // trait en train d'être écrit : son dernier morceau est sur le calque
     function tracer(t) {                       // trait complet
       if (t.f) return traceForme(ctx, t);
-      const p = t.p, n = p.length / 2; if (n < 1) return;
-      style(t);
-      if (n === 1) { ctx.beginPath(); ctx.arc(p[0], p[1], t.w / 2, 0, 7); ctx.fillStyle = t.c; ctx.fill(); return; }
-      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
-      for (let k = 2; k < n; k++) ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-      ctx.lineTo(p[2 * n - 2], p[2 * n - 1]);
-      ctx.stroke();
+      traceCourbe(ctx, t, t === enCours ? t.p.length / 2 - 2 : undefined);
     }
-    function tracerSuite(t, depuis) {          // seulement les morceaux ajoutés depuis le dernier dessin (réactivité)
-      const p = t.p, n = p.length / 2; if (n < 2 || depuis >= n) return depuis;
-      style(t); ctx.beginPath();
-      for (let k = Math.max(depuis, 1); k < n; k++) {
-        if (k === 1) { ctx.moveTo(p[0], p[1]); ctx.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2); continue; }
-        ctx.moveTo((p[2 * k - 4] + p[2 * k - 2]) / 2, (p[2 * k - 3] + p[2 * k - 1]) / 2);
-        ctx.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-      }
+    function tracerSuite(t, depuis) {          // seulement les morceaux devenus définitifs (le point suivant est connu)
+      const p = t.p, n = p.length / 2, fin = n - 2; if (fin <= depuis) return depuis;
+      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = ctx.lineJoin = "round";
+      ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]);
+      for (let k = depuis; k < fin; k++) morceau(ctx, p, k, n);
       ctx.stroke();
-      return n;
+      return fin;
     }
     function effacerBout() { ctxT.setTransform(1, 0, 0, 1, 0, 0); ctxT.clearRect(0, 0, calque.width, calque.height); }
-    function tracerBout(t) {                   // du dernier point lissé jusqu'à la pointe du stylet
+    function tracerBout(t, xp, yp) {           // dernier morceau provisoire + jusqu'à la pointe du stylet, sans attendre
       const p = t.p, n = p.length / 2; effacerBout(); if (n < 2) return;
       const dpr = window.devicePixelRatio || 1;
       ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
       ctxT.strokeStyle = t.c; ctxT.lineWidth = t.w; ctxT.lineCap = "round"; ctxT.lineJoin = "round";
-      ctxT.beginPath(); ctxT.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctxT.lineTo(p[2 * n - 2], p[2 * n - 1]); ctxT.stroke();
+      ctxT.beginPath(); ctxT.moveTo(p[2 * n - 4], p[2 * n - 3]); morceau(ctxT, p, n - 2, n);
+      if (xp !== undefined) ctxT.lineTo(xp, yp);
+      ctxT.stroke();
     }
-    function finirTrait(t) {                   // dernier petit morceau jusqu'au point final
-      const p = t.p, n = p.length / 2; if (n < 2) return;
-      style(t); ctx.beginPath(); ctx.moveTo((p[2 * n - 4] + p[2 * n - 2]) / 2, (p[2 * n - 3] + p[2 * n - 1]) / 2); ctx.lineTo(p[2 * n - 2], p[2 * n - 1]); ctx.stroke();
+    function finirTrait(t, depuis) {           // les derniers morceaux, jusqu'au point final
+      const p = t.p, n = p.length / 2; if (n < 2 || depuis >= n - 1) return;
+      ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = ctx.lineJoin = "round";
+      ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]); for (let k = depuis; k < n - 1; k++) morceau(ctx, p, k, n); ctx.stroke();
     }
     function sauver() {
       try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
@@ -372,13 +367,13 @@
       if (e.pointerType === "pen") { if (!STYLET_VU) { STYLET_VU = true; try { localStorage.setItem("encre-stylet-vu", "1"); } catch (x) {} } return "stylet"; }
       if (e.pointerType !== "touch") return "souris";
       const t = Math.max(e.width || 0, e.height || 0);                // taille du contact (pixels CSS), 0 ou 1 si inconnue
-      if (t > 45) return "paume";
-      if (reglages.doigt === "ecrit") return "stylet";
+      if (reglages.doigt === "ecrit") return t > 140 ? "paume" : "stylet";   // mode Doigt : seul un contact énorme est ignoré
+      if (t > 90) return "paume";
       if (t > 1) return t <= 14 ? "stylet" : "doigt";
       return STYLET_VU ? "doigt" : "stylet";                          // taille inconnue : écrit, sauf si un vrai stylet existe
     }
     function brancherCrayon() {
-      let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null, forme = null;
+      let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null, forme = null, brut = null;
       // iPad : empêcher la sélection de texte, la loupe et le geste « Griffonner » pendant l'écriture
       const bloquer = e => { if (e.cancelable) e.preventDefault(); };
       canvas.addEventListener("touchstart", bloquer, { passive: false });
@@ -410,7 +405,7 @@
           return;                                                          // un doigt fait défiler, sans jamais couper un trait en cours
         }
         if (courant && reglages.doigt === "ecrit" && typeTrait === "touch" && e.pointerType === "touch") {   // mode Doigt : deux doigts = défiler
-          traits.pop(); courant = null; idTrait = null; effacerBout(); dessiner();
+          traits.pop(); courant = null; idTrait = null; enCours = null; effacerBout(); dessiner();
           doigts.set(e.pointerId, e.clientY); defilement = { y: e.clientY, haut: (defile.scrollTop || 0), id: e.pointerId }; canvas.setPointerCapture(e.pointerId); return;
         }
         if (courant || forme) return;                                      // un seul trait à la fois (une main posée ne le coupe pas)
@@ -423,7 +418,7 @@
           const [x0, y0] = pos(e); forme = { f: reglages.outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId }; return;
         }
         courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant); idTrait = e.pointerId; typeTrait = e.pointerType;
-        traits.push(courant); annules = []; dessines = 1;
+        traits.push(courant); annules = []; dessines = 0; enCours = courant; brut = courant.p.slice();
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
@@ -442,12 +437,17 @@
         }
         if (!courant || e.pointerId !== idTrait) return;
         const evts = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];   // tous les points intermédiaires
-        for (const ev of evts) { const [x, y] = pos(ev); const n = courant.p.length;
-          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 0.8) courant.p.push(x, y); }
+        const avant = courant.p.length;
+        for (const ev of evts) {
+          brut = pos(ev); const n = courant.p.length, lx = courant.p[n - 2], ly = courant.p[n - 1];
+          const d = Math.hypot(brut[0] - lx, brut[1] - ly), a = Math.min(1, 0.45 + d / 30);   // lent : on lisse les tremblements ; rapide : on suit
+          const x = Math.round((lx + a * (brut[0] - lx)) * 10) / 10, y = Math.round((ly + a * (brut[1] - ly)) * 10) / 10;
+          if (Math.hypot(x - lx, y - ly) >= 0.8) courant.p.push(x, y);
+        }
         bornes(courant);
-        if (dessines === 1 && courant.p.length > 2) { dessiner(); dessines = courant.p.length / 2; }   // efface le point de départ, puis on n'ajoute que la suite
-        else dessines = tracerSuite(courant, dessines);
-        tracerBout(courant);                                               // jusqu'à la pointe, immédiatement
+        if (avant === 2 && courant.p.length > 2) { dessiner(); dessines = Math.max(0, courant.p.length / 2 - 2); }   // efface le point de départ
+        dessines = tracerSuite(courant, dessines);
+        tracerBout(courant, brut[0], brut[1]);                             // jusqu'à la pointe, immédiatement
         allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
       });
       const fin = e => {
@@ -463,7 +463,13 @@
           forme = null; return;
         }
         if (courant && e.pointerId !== idTrait) return;                    // fin d'un autre contact : le trait continue
-        if (courant) { effacerBout(); finirTrait(courant); courant = null; idTrait = null; dessines = 0; sauver(); libelle(); }
+        if (courant) {
+          const n = courant.p.length;                                      // le trait se termine exactement sous la pointe
+          if (brut && Math.hypot(brut[0] - courant.p[n - 2], brut[1] - courant.p[n - 1]) >= 0.8) courant.p.push(brut[0], brut[1]);
+          effacerBout(); enCours = null; bornes(courant);
+          if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
+          courant = null; idTrait = null; dessines = 0; sauver(); libelle();
+        }
         if (gomme) { gomme = false; sauver(); }
       };
       canvas.addEventListener("pointerup", fin); canvas.addEventListener("pointercancel", fin);
@@ -503,6 +509,19 @@
     const r = Math.hypot(x1 - x0, y1 - y0), p = [];                     // cercle : centre (x0, y0), passant par (x1, y1)
     for (let k = 0; k <= 96; k++) { const a = k / 96 * 2 * Math.PI; p.push(Math.round((x0 + r * Math.cos(a)) * 10) / 10, Math.round((y0 + r * Math.sin(a)) * 10) / 10); }
     return p;
+  }
+  /* Morceau de courbe du point k au point k+1 (spline de Catmull-Rom convertie en courbe de Bézier) */
+  function morceau(c2, p, k, n) {
+    const i0 = Math.max(0, k - 1), i3 = Math.min(n - 1, k + 2);
+    const x0 = p[2 * i0], y0 = p[2 * i0 + 1], x1 = p[2 * k], y1 = p[2 * k + 1], x2 = p[2 * k + 2], y2 = p[2 * k + 3], x3 = p[2 * i3], y3 = p[2 * i3 + 1];
+    c2.bezierCurveTo(x1 + (x2 - x0) / 6, y1 + (y2 - y0) / 6, x2 - (x3 - x1) / 6, y2 - (y3 - y1) / 6, x2, y2);
+  }
+  function traceCourbe(c2, t, nbMorceaux) {    // trait complet (ou seulement ses premiers morceaux)
+    const p = t.p, n = p.length / 2; if (!n) return;
+    c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
+    if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
+    const m = Math.min(n - 1, nbMorceaux === undefined ? n - 1 : nbMorceaux); if (m < 1) return;
+    c2.beginPath(); c2.moveTo(p[0], p[1]); for (let k = 0; k < m; k++) morceau(c2, p, k, n); c2.stroke();
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
   function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
@@ -606,15 +625,7 @@
     return new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = racine + "ressources/jspdf.umd.min.js";
       sc.onload = () => ok(window.jspdf); sc.onerror = ko; document.head.appendChild(sc); });
   }
-  function traceTrait(c2, t) {
-    if (t.f) return traceForme(c2, t);
-    const p = t.p, n = p.length / 2; if (!n) return;
-    c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
-    if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
-    c2.beginPath(); c2.moveTo(p[0], p[1]); c2.lineTo((p[0] + p[2]) / 2, (p[1] + p[3]) / 2);
-    for (let k = 2; k < n; k++) c2.quadraticCurveTo(p[2 * k - 2], p[2 * k - 1], (p[2 * k - 2] + p[2 * k]) / 2, (p[2 * k - 1] + p[2 * k + 1]) / 2);
-    c2.lineTo(p[2 * n - 2], p[2 * n - 1]); c2.stroke();
-  }
+  function traceTrait(c2, t) { if (t.f) return traceForme(c2, t); traceCourbe(c2, t); }
   function lignesTexte(c2, texte, largeur) {  // découpe un texte en lignes qui tiennent dans la largeur
     const mots = texte.split(" "), lignes = []; let l = "";
     for (const m of mots) { const essai = l ? l + " " + m : m; if (c2.measureText(essai).width > largeur && l) { lignes.push(l); l = m; } else l = essai; }
