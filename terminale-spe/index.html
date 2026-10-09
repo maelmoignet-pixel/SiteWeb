@@ -1668,6 +1668,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const versId = k => encodeURIComponent(k).replace(/\./g, "%2E"), deId = id => decodeURIComponent(id);
   const MORCEAU = 800000;                                               // un document Firestore : 1 Mo au plus
   function etatSync(t) { SYNC.etat = t; bSync.textContent = t; }
+  const delai = (pr, ms = 20000) => Promise.race([pr, new Promise((_, ko) => setTimeout(() => ko(new Error("délai dépassé")), ms))]);   // réseau filtré : on n'attend pas indéfiniment
   function chargerScript(f) {
     const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
     return new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = racine + "ressources/" + f; sc.onload = ok; sc.onerror = ko; document.head.appendChild(sc); });
@@ -1675,7 +1676,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let firebasePret = null;
   function chargerFirebase() {
     firebasePret = firebasePret || chargerScript("firebase-app-compat.js").then(() => Promise.all([chargerScript("firebase-auth-compat.js"), chargerScript("firebase-firestore-compat.js")]))
-      .then(() => { if (!firebase.apps.length) firebase.initializeApp(FIREBASE);
+      .then(() => { if (!firebase.apps.length) { firebase.initializeApp(FIREBASE);
+          try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {} }   // proxys qui coupent les connexions longues
         firebase.auth().onAuthStateChanged(u => { if (u) demarrer(u); else { SYNC.actif = false; etatSync("☁ Se connecter"); } }); });
     return firebasePret;
   }
@@ -1689,7 +1691,7 @@ document.addEventListener("DOMContentLoaded", function () {
   async function recevoir() {
     if (!SYNC.actif) return;
     const ts = firebase.firestore.Timestamp.fromMillis(SYNC.maj);
-    const q = await SYNC.base.collection("tableau").where("maj", ">", ts).get();
+    const q = await delai(SYNC.base.collection("tableau").where("maj", ">", ts).get());
     const docs = {}, parts = {}; let max = SYNC.maj;
     q.forEach(d => { const v = d.data(); if (v.maj) max = Math.max(max, v.maj.toMillis());
       const i = d.id.indexOf("~"); if (i >= 0) (parts[d.id.slice(0, i)] = parts[d.id.slice(0, i)] || [])[+d.id.slice(i + 1)] = v.p; else docs[d.id] = v; });
@@ -1712,23 +1714,27 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
   let envoiEnCours = false;
-  async function envoyer() {
+  let balayageComplet = false, dernierModifie = null;
+  async function envoyer(force) {
     if (!SYNC.actif || envoiEnCours) return;
-    const maintenant = Date.now(), cles = clesNotes(), aEnvoyer = [];
+    // léger pendant le cours : après un premier passage complet, seulement les notes de cette page, et seulement si elles ont changé
+    const modifie = localStorage.getItem(PAGE + "#modifie");
+    if (balayageComplet && !force && modifie === dernierModifie && !Object.keys(enLigne).some(k => localStorage.getItem(k) === null)) return;
+    const maintenant = Date.now(), toutes = clesNotes(), cles = balayageComplet && !force ? toutes.filter(k => k.startsWith(PAGE)) : toutes, aEnvoyer = [];
     for (const k of cles) {
       const v = localStorage.getItem(k), e = empreinte(v);
       if (dernierVu[k] !== undefined && dernierVu[k] !== e) heures[k] = maintenant;          // modifiée pendant cette visite
       dernierVu[k] = e;
       if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +localStorage.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
     }
-    const supprimees = Object.keys(enLigne).filter(k => !cles.includes(k));
-    if (!aEnvoyer.length && !supprimees.length) return envoyerCaptures();
+    const supprimees = Object.keys(enLigne).filter(k => !toutes.includes(k));
+    if (!aEnvoyer.length && !supprimees.length) { balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
     envoiEnCours = true; etatSync("☁ Envoi…");
     try {
       const col = SYNC.base.collection("tableau"), maj = firebase.firestore.FieldValue.serverTimestamp();
       let lot = firebase.firestore().batch(), n = 0, octets = 0;               // envois groupés : au plus 400 documents ou 4 Mo à la fois
       const ecrire = async (ref, d) => { lot.set(ref, d); octets += (d.v || d.p || "").length;
-        if (++n >= 400 || octets > 4e6) { await lot.commit(); lot = firebase.firestore().batch(); n = 0; octets = 0; } };
+        if (++n >= 400 || octets > 4e6) { await delai(lot.commit()); lot = firebase.firestore().batch(); n = 0; octets = 0; } };
       for (const [k, v] of aEnvoyer) {
         const id = versId(k);
         if (v.length <= MORCEAU) await ecrire(col.doc(id), { v, t: heures[k], maj });
@@ -1737,7 +1743,8 @@ document.addEventListener("DOMContentLoaded", function () {
           await ecrire(col.doc(id), { n: m, t: heures[k], maj }); }
       }
       for (const k of supprimees) await ecrire(col.doc(versId(k)), { del: true, t: maintenant, maj });
-      if (n) await lot.commit();
+      if (n) await delai(lot.commit());
+      balayageComplet = true; dernierModifie = modifie;
       aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; }); supprimees.forEach(k => { delete enLigne[k]; });
       lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
       etatSync("☁ À jour");
@@ -1767,8 +1774,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   setInterval(() => { if (SYNC.actif) envoyer(); }, 4000);
   setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
-  document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(); else recevoir().then(envoyer).catch(() => {}); });
-  addEventListener("pagehide", () => { if (SYNC.actif) envoyer(); });
+  document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(true); else recevoir().then(envoyer).catch(() => {}); });
+  addEventListener("pagehide", () => { if (SYNC.actif) envoyer(true); });
   // --- connexion ---
   function fenetreConnexion() {
     const f = document.createElement("div"); f.className = "encre-connexion";
