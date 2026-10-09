@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.innerHTML = `<div class="encre-barre haut">
         <button data-a="annuler" aria-label="Annuler">↶</button><button data-a="retablir" aria-label="Rétablir">↷</button>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
-        <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
+        <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button><button data-a="soigne" title="Écriture lissée et tracée comme à la plume (elle reste manuscrite)"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
         ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
         <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
@@ -565,6 +565,7 @@ document.addEventListener("DOMContentLoaded", function () {
         case "haut": defile.scrollBy({ top: -defile.clientHeight * 0.8, behavior: "smooth" }); return;
         case "bas": allonger((defile.scrollTop || 0) + defile.clientHeight * 1.8); defile.scrollBy({ top: defile.clientHeight * 0.8, behavior: "smooth" }); return;
         case "formes": reglages.formesAuto = reglages.formesAuto === false; break;
+        case "soigne": reglages.soigne = !reglages.soigne; break;
         case "doigt": reglages.doigt = reglages.doigt === "defile" ? "ecrit" : "defile"; break;
         case "plein": zone.classList.toggle("plein"); b.textContent = zone.classList.contains("plein") ? "Quitter le plein écran" : "Plein écran"; setTimeout(dimensionner, 0); break;
         case "effacer":
@@ -615,6 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.querySelectorAll(".ep").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && +b.dataset.e === reglages.ep));
       zone.querySelector('[data-a="gomme"]').setAttribute("aria-pressed", !!reglages.gomme);
       zone.querySelectorAll("[data-o]").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && b.dataset.o === (reglages.outil || "stylo")));
+      zone.querySelector('[data-a="soigne"]').textContent = reglages.soigne ? "Écriture soignée : oui" : "Écriture soignée : non";
       zone.querySelector('[data-a="formes"]').textContent = reglages.formesAuto === false ? "Formes auto : non" : "Formes auto : oui";
       zone.querySelector('[data-a="doigt"]').textContent = reglages.doigt === "defile" ? "Doigt : défiler" : "Doigt : écrire";
     }
@@ -866,6 +868,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
           const f = reglages.formesAuto === false ? null : reconnaitre(courant, traits);    // trait droit -> segment, boucle ronde -> cercle
           if (f) { traits[traits.indexOf(courant)] = f; BORNES.delete(courant); courant = f; bornes(f); dessiner(); }
+          else if (reglages.soigne && embellir(courant)) { BORNES.delete(courant); bornes(courant); dessiner(); }   // écriture soignée
           rattacher(courant);
           courant = null; idTrait = null; dessines = 0; sauver(); libelle();
         }
@@ -1111,8 +1114,50 @@ document.addEventListener("DOMContentLoaded", function () {
     const x0 = p[2 * i0], y0 = p[2 * i0 + 1], x1 = p[2 * k], y1 = p[2 * k + 1], x2 = p[2 * k + 2], y2 = p[2 * k + 3], x3 = p[2 * i3], y3 = p[2 * i3 + 1];
     c2.bezierCurveTo(x1 + (x2 - x0) / 6, y1 + (y2 - y0) / 6, x2 - (x3 - x1) / 6, y2 - (y3 - y1) / 6, x2, y2);
   }
+  /* Écriture soignée : on retire le tremblement du trait (sans arrondir les angles des lettres), puis il est tracé « à la plume » */
+  function embellir(t) {
+    const p = t.p, n = p.length / 2; if (n < 3) return false;
+    const R = [[p[0], p[1]]], PAS_E = 3;                                  // rééchantillonnage tous les 3 points-unités
+    let reste = 0;
+    for (let k = 1; k < n; k++) {
+      const ax = p[2 * k - 2], ay = p[2 * k - 1], bx = p[2 * k], by = p[2 * k + 1], l = Math.hypot(bx - ax, by - ay);
+      let s = PAS_E - reste;
+      while (s <= l) { R.push([ax + (bx - ax) * s / l, ay + (by - ay) * s / l]); s += PAS_E; }
+      reste = l - (s - PAS_E);
+    }
+    R.push([p[2 * n - 2], p[2 * n - 1]]);
+    if (R.length < 5) return false;
+    const angle = i => { const a = R[Math.max(0, i - 3)], b = R[i], c = R[Math.min(R.length - 1, i + 3)];
+      let d = Math.abs(Math.atan2(c[1] - b[1], c[0] - b[0]) - Math.atan2(b[1] - a[1], b[0] - a[0])); return d > Math.PI ? 2 * Math.PI - d : d; };
+    const coin = R.map((q, i) => i > 0 && i < R.length - 1 && angle(i) > 1.05 && angle(i) >= angle(i - 1) && angle(i) >= angle(i + 1));
+    const L = R.map((q, i) => { if (i === 0 || i === R.length - 1 || coin[i]) return q;   // les bouts et les angles restent en place
+      let sx = R[i][0], sy = R[i][1], sw = 1;
+      for (const sens of [-1, 1]) for (let j = 1; j <= 4; j++) {            // de chaque côté, sans dépasser un angle
+        const k = i + sens * j; if (k < 0 || k >= R.length) break;
+        const w = Math.exp(-j * j / 5); sx += R[k][0] * w; sy += R[k][1] * w; sw += w; if (coin[k]) break; }
+      return [sx / sw, sy / sw]; });
+    t.p = L.flatMap(q => [Math.round(q[0] * 10) / 10, Math.round(q[1] * 10) / 10]); t.s = "plume";
+    return true;
+  }
+  function tracePlume(c2, t) {                 // contour plein : épaisseur un peu variable selon la direction, bouts affinés
+    const p = t.p, n = p.length / 2, G = [], D = [];
+    let tot = 0; const cum = [0]; for (let k = 1; k < n; k++) { tot += Math.hypot(p[2 * k] - p[2 * k - 2], p[2 * k + 1] - p[2 * k - 1]); cum.push(tot); }
+    const fin = Math.min(14, tot / 3);
+    for (let k = 0; k < n; k++) {
+      const a = Math.max(0, k - 1), b = Math.min(n - 1, k + 1), dx = p[2 * b] - p[2 * a], dy = p[2 * b + 1] - p[2 * a + 1], l = Math.hypot(dx, dy) || 1;
+      const th = Math.atan2(dy, dx), bout = Math.min(1, 0.45 + 0.55 * Math.min(cum[k], tot - cum[k]) / (fin || 1));
+      const hw = t.w / 2 * (0.82 + 0.3 * Math.abs(Math.sin(th - 0.7))) * bout;
+      G.push([p[2 * k] - dy / l * hw, p[2 * k + 1] + dx / l * hw]); D.push([p[2 * k] + dy / l * hw, p[2 * k + 1] - dx / l * hw]);
+    }
+    c2.fillStyle = t.c; c2.beginPath(); c2.moveTo(G[0][0], G[0][1]);
+    for (let k = 1; k < n; k++) c2.lineTo(G[k][0], G[k][1]);
+    for (let k = n - 1; k >= 0; k--) c2.lineTo(D[k][0], D[k][1]);
+    c2.closePath(); c2.fill();
+    const r0 = t.w * 0.22; [0, n - 1].forEach(k => { c2.beginPath(); c2.arc(p[2 * k], p[2 * k + 1], r0, 0, 7); c2.fill(); });
+  }
   function traceCourbe(c2, t, nbMorceaux) {    // trait complet (ou seulement ses premiers morceaux)
     const p = t.p, n = p.length / 2; if (!n) return;
+    if (t.s === "plume" && n > 2 && nbMorceaux === undefined) return tracePlume(c2, t);
     c2.strokeStyle = c2.fillStyle = t.c; c2.lineWidth = t.w; c2.lineCap = c2.lineJoin = "round";
     if (n === 1) { c2.beginPath(); c2.arc(p[0], p[1], t.w / 2, 0, 7); c2.fill(); return; }
     const m = Math.min(n - 1, nbMorceaux === undefined ? n - 1 : nbMorceaux); if (m < 1) return;
