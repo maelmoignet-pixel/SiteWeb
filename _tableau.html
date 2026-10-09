@@ -530,8 +530,7 @@
         }
         if (outil === "point") {
           const [x, y] = pos(e), rp = repereSous(traits, x, y), [ax, ay] = aimanter(rp, x, y);
-          const n = traits.filter(o => o.f === "point" && o.rep === (rp ? rp.id : null)).length;
-          const t = { f: "point", c: reglages.coul, w: 3, p: [ax, ay], rep: rp ? rp.id : null, nom: String.fromCharCode(65 + n % 26) + (n >= 26 ? Math.floor(n / 26) : "") };
+          const t = { f: "point", c: reglages.coul, w: 3, p: [ax, ay], rep: rp ? rp.id : null };
           if (!t.rep) rattacher(t);
           traits.push(t); annules = []; bornes(t); dessiner(); sauver(); libelle(); return;
         }
@@ -686,7 +685,6 @@
     if (t.f === "point") {
       c2.fillStyle = c2.strokeStyle = t.c; c2.lineWidth = 3;
       c2.beginPath(); c2.moveTo(t.p[0] - 9, t.p[1] - 9); c2.lineTo(t.p[0] + 9, t.p[1] + 9); c2.moveTo(t.p[0] + 9, t.p[1] - 9); c2.lineTo(t.p[0] - 9, t.p[1] + 9); c2.stroke();
-      if (t.nom) { c2.font = "600 28px system-ui, sans-serif"; c2.textAlign = "left"; c2.textBaseline = "bottom"; c2.fillText(t.nom, t.p[0] + 10, t.p[1] - 8); }
       return;
     }
     if (t.f === "droite") {                                              // prolongée jusqu'aux bords du repère (ou de la feuille)
