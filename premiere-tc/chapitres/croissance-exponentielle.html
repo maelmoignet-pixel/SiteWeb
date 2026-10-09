@@ -810,7 +810,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const pos = e => { const r = defile.getBoundingClientRect();                          // au dixième d'unité : pas de cassures
         return [Math.round((e.clientX - r.left) / echelle * 10) / 10, Math.round((e.clientY - r.top + (defile.scrollTop || 0)) / echelle * 10) / 10]; };
       const diag = zone.querySelector(".encre-diag");
-      let manip = null, laser = null, lassoId = null, glisse = null;
+      let manip = null, laser = null, lassoId = null, glisse = null, presentateur = null;
+      try { if (navigator.ink && navigator.ink.requestPresenter) navigator.ink.requestPresenter({ presentationArea: canvas }).then(p => { presentateur = p; }, () => {}); } catch (x) {}
       canvas.addEventListener("pointerdown", e => {
         if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
           if (e.pointerType === "touch") doigts.set(e.pointerId, e.clientY);
@@ -880,7 +881,7 @@ document.addEventListener("DOMContentLoaded", function () {
         courant = outil === "surligneur" ? { c: reglages.coul === COULEURS[0] ? "#ffd21f" : reglages.coul, w: 14 + 2.5 * reglages.ep, p: pos(e), h: 1 }   // noir -> jaune fluo
                                          : { c: reglages.coul, w: reglages.ep, p: pos(e) };
         bornes(courant); idTrait = e.pointerId; typeTrait = e.pointerType;
-        traits.push(courant); annules = []; dessines = 0; enCours = courant.h ? null : courant; brut = courant.p.slice();
+        traits.push(courant); annules = []; dessines = 0; enCours = null; brut = null;
         tracer(courant);
       });
       canvas.addEventListener("pointermove", e => {
@@ -936,17 +937,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!courant || e.pointerId !== idTrait) return;
         const evts = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];   // tous les points intermédiaires
         const avant = courant.p.length;
-        for (const ev of evts) {
-          brut = pos(ev); const n = courant.p.length, lx = courant.p[n - 2], ly = courant.p[n - 1];
-          const d = Math.hypot(brut[0] - lx, brut[1] - ly), a = Math.min(1, 0.45 + d / 30);   // lent : on lisse les tremblements ; rapide : on suit
-          const x = Math.round((lx + a * (brut[0] - lx)) * 10) / 10, y = Math.round((ly + a * (brut[1] - ly)) * 10) / 10;
-          if (Math.hypot(x - lx, y - ly) >= 0.8) courant.p.push(x, y);
+        if (!courant.h) { ctx.strokeStyle = courant.c; ctx.lineWidth = courant.w; ctx.lineCap = ctx.lineJoin = "round"; ctx.beginPath(); ctx.moveTo(courant.p[avant - 2], courant.p[avant - 1]); }
+        for (const ev of evts) {                                           // l'encre suit exactement la pointe : le lissage se fera au lever du stylet
+          const [x, y] = pos(ev), n = courant.p.length;
+          if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 0.8) { courant.p.push(x, y); if (!courant.h) ctx.lineTo(x, y); }
         }
-        bornes(courant);
-        if (courant.h) { dessiner(); allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); return; }   // surligneur : redessiné d'un bloc (transparence uniforme)
-        if (avant === 2 && courant.p.length > 2) { dessiner(); dessines = Math.max(0, courant.p.length / 2 - 2); }   // efface le point de départ
-        dessines = tracerSuite(courant, dessines);
-        tracerBout(courant, brut[0], brut[1]);                             // jusqu'à la pointe, immédiatement
+        if (!courant.h && courant.p.length > avant) ctx.stroke();
+        if (presentateur && !courant.h) try { presentateur.updateInkTrailStartPoint(e, { color: courant.c, diameter: Math.max(1, courant.w * echelle) }); } catch (x) {}   // Edge, Chrome : le système dessine le bout du trait sous la pointe
+        brut = null; bornes(courant);
+        if (courant.h) dessiner();                                         // surligneur : redessiné d'un bloc (transparence uniforme)
         allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
       });
       const fin = e => {
@@ -988,10 +987,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (courant && e.pointerId !== idTrait) return;                    // fin d'un autre contact : le trait continue
         if (courant) {
           const n = courant.p.length;                                      // le trait se termine exactement sous la pointe
-          if (brut && Math.hypot(brut[0] - courant.p[n - 2], brut[1] - courant.p[n - 1]) >= 0.8) courant.p.push(brut[0], brut[1]);
-          effacerBout(); enCours = null; bornes(courant);
-          if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
+          const q = pos(e); if (e.type === "pointerup" && Math.hypot(q[0] - courant.p[n - 2], q[1] - courant.p[n - 1]) >= 0.8) courant.p.push(q[0], q[1]);
+          effacerBout(); enCours = null;
+          if (!courant.h) lisserTrait(courant);                             // anti-tremblement, après coup : aucun retard pendant le geste
+          bornes(courant);
           let f = reglages.formesAuto === false ? null : reconnaitre(courant, traits);    // trait droit -> segment, boucle ronde -> cercle
+          if (!f && !(reglages.soigne && !courant.h)) dessiner();           // le trait lissé remplace le tracé brut
           if (courant.h) { if (f && f.f === "seg") { courant.p = f.p.slice(0, 4); BORNES.delete(courant); bornes(courant); } f = null; dessiner(); }   // surligneur : seulement redressé
           else if (f) { traits[traits.indexOf(courant)] = f; BORNES.delete(courant); courant = f; bornes(f); dessiner(); }
           else if (reglages.soigne && !courant.h && embellir(courant)) { BORNES.delete(courant); bornes(courant); dessiner(); }   // écriture soignée
@@ -1130,13 +1131,20 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     if (diag < 110) return null;                                          // taille d'une lettre : on ne touche à rien
+    // part du changement de direction concentrée dans quelques coins : élevée pour un polygone, faible pour un cercle ou un arc
+    const coins = (() => { const M = 48, Q = []; let acc = 0, k = 1; Q.push(P[0]);
+      for (let j = 1; j <= M; j++) { const cible = L * j / M; while (k < n - 1 && acc + Math.hypot(P[k][0] - P[k - 1][0], P[k][1] - P[k - 1][1]) < cible) { acc += Math.hypot(P[k][0] - P[k - 1][0], P[k][1] - P[k - 1][1]); k++; } Q.push(P[k]); }
+      const a = []; for (let j = 1; j < Q.length - 1; j++) { let d = Math.atan2(Q[j + 1][1] - Q[j][1], Q[j + 1][0] - Q[j][0]) - Math.atan2(Q[j][1] - Q[j - 1][1], Q[j][0] - Q[j - 1][0]);
+        while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; a.push(Math.abs(d)); }
+      const tot = a.reduce((x, y) => x + y, 0); if (tot < 0.3) return 1; a.sort((x, y) => y - x);
+      return a.slice(0, Math.ceil(a.length * 0.12)).reduce((x, y) => x + y, 0) / tot; })();
     const ferme = d < Math.max(35, 0.2 * L);
     // 2. cercle
     if (ferme) {
       let cx = 0, cy = 0; P.forEach(q => { cx += q[0] / n; cy += q[1] / n; });
       let R = 0; P.forEach(q => { R += Math.hypot(q[0] - cx, q[1] - cy) / n; });
       let v = 0; P.forEach(q => { v += (Math.hypot(q[0] - cx, q[1] - cy) - R) ** 2 / n; });
-      if (Math.sqrt(v) / R < 0.2 && L > 0.7 * 2 * Math.PI * R && L < 1.6 * 2 * Math.PI * R)
+      if (coins < 0.45 && Math.sqrt(v) / R < 0.2 && L > 0.7 * 2 * Math.PI * R && L < 1.6 * 2 * Math.PI * R)
         return { c: t.c, w: t.w, f: "cercle", p: pointsForme("cercle", cx, cy, cx + R, cy) };
     }
     // 3. polygone : simplification de Douglas-Peucker, puis on vérifie que le tracé colle aux côtés
@@ -1150,7 +1158,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const cotes = S.length - 1, assezLongs = S.slice(1).every((q, k) => Math.hypot(q[0] - S[k][0], q[1] - S[k][1]) > 35);
     const fidele = () => P.every(q => S.slice(1).some((r, k) => dist(q, S[k], r) < 1.6 * eps));
-    if (ferme && cotes >= 3 && cotes <= 5 && assezLongs && fidele()) {
+    if (ferme && coins > 0.45 && cotes >= 3 && cotes <= 5 && assezLongs && fidele()) {
       if (cotes === 4) {                                                  // presque un rectangle droit : on le redresse
         const ang = (a, b) => { const g = Math.abs(Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI) % 90; return Math.min(g, 90 - g); };
         if (S.slice(1).every((q, k) => ang(S[k], q) < 10)) {
@@ -1162,7 +1170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       S = S.map(accroche); S[S.length - 1] = S[0];
       return { c: t.c, w: t.w, f: "poly", p: S.flat() };
     }
-    if (!ferme && cotes >= 2 && cotes <= 3 && S.slice(1).every((q, k) => Math.hypot(q[0] - S[k][0], q[1] - S[k][1]) > 60) && fidele()) {
+    if (!ferme && coins > 0.45 && cotes >= 2 && cotes <= 3 && S.slice(1).every((q, k) => Math.hypot(q[0] - S[k][0], q[1] - S[k][1]) > 60) && fidele()) {
       S[0] = accroche(S[0]); S[S.length - 1] = accroche(S[S.length - 1]);  // ligne brisée : un angle, des axes...
       return { c: t.c, w: t.w, f: "poly", p: S.flat() };
     }
@@ -1273,6 +1281,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const i0 = Math.max(0, k - 1), i3 = Math.min(n - 1, k + 2);
     const x0 = p[2 * i0], y0 = p[2 * i0 + 1], x1 = p[2 * k], y1 = p[2 * k + 1], x2 = p[2 * k + 2], y2 = p[2 * k + 3], x3 = p[2 * i3], y3 = p[2 * i3 + 1];
     c2.bezierCurveTo(x1 + (x2 - x0) / 6, y1 + (y2 - y0) / 6, x2 - (x3 - x1) / 6, y2 - (y3 - y1) / 6, x2, y2);
+  }
+  /* Lissage léger au lever du stylet (moyenne centrée : ne décale pas le trait, ne crée aucun retard pendant l'écriture) */
+  function lisserTrait(t) {
+    const p = t.p, n = p.length / 2; if (n < 5) return;
+    const q = p.slice();
+    for (let k = 2; k < n - 2; k++) for (const c of [0, 1])
+      q[2 * k + c] = Math.round((p[2 * k - 4 + c] + 2 * p[2 * k - 2 + c] + 3 * p[2 * k + c] + 2 * p[2 * k + 2 + c] + p[2 * k + 4 + c]) / 9 * 10) / 10;
+    t.p = q;
   }
   /* Écriture soignée : on retire le tremblement du trait (sans arrondir les angles des lettres), puis il est tracé « à la plume » */
   function embellir(t) {
