@@ -68,6 +68,12 @@ toc: false
 [Sujet](../2026-DS-eval/geometrie-reperee/geometrie-reperee-seconde-2026-eval3-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/geometrie-reperee/geometrie-reperee-seconde-2026-eval3-correction.pdf){.eval-btn .correction}
 :::
 
+::: {.eval}
+[DM n°1]{.eval-titre}
+
+[Sujet](../2026-DS-eval/geometrie-reperee/geometrie-reperee-seconde-2026-DM1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/geometrie-reperee/geometrie-reperee-seconde-2026-DM1-correction.pdf){.eval-btn .correction}
+:::
+
 ::::
 
 :::::
