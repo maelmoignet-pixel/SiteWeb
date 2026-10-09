@@ -734,8 +734,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Manuel du niveau : exercices découpés, publiés avec le site (seconde : Sésamath, licence CC BY-SA) */
   const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
                     "premiere-spe": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
+                    "premiere-tc": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023", nom: "manuel Sésamath Première tronc commun (CC BY-SA)" },
                     "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire" } };
-  const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|terminale-spe)\//) || [])[1];
+  const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|premiere-tc|terminale-spe)\//) || [])[1];
   const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
   if (MANUEL && MANUEL.dossier) {
     const lib = document.querySelector('script[src*="site_libs/"]');
@@ -878,7 +879,7 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.innerHTML = `<div class="encre-barre haut">
         <button data-a="annuler" aria-label="Annuler">↶</button><button data-a="retablir" aria-label="Rétablir">↷</button>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
-        <button data-a="doigt"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
+        <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
         ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
         <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
@@ -948,6 +949,7 @@ document.addEventListener("DOMContentLoaded", function () {
         case "retablir": { const a = annules.pop(); if (a) { traits.push(a); sauver(); } break; }
         case "haut": defile.scrollBy({ top: -defile.clientHeight * 0.8, behavior: "smooth" }); return;
         case "bas": allonger((defile.scrollTop || 0) + defile.clientHeight * 1.8); defile.scrollBy({ top: defile.clientHeight * 0.8, behavior: "smooth" }); return;
+        case "formes": reglages.formesAuto = reglages.formesAuto === false; break;
         case "doigt": reglages.doigt = reglages.doigt === "defile" ? "ecrit" : "defile"; break;
         case "plein": zone.classList.toggle("plein"); b.textContent = zone.classList.contains("plein") ? "Quitter le plein écran" : "Plein écran"; setTimeout(dimensionner, 0); break;
         case "effacer":
@@ -998,6 +1000,7 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.querySelectorAll(".ep").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && +b.dataset.e === reglages.ep));
       zone.querySelector('[data-a="gomme"]').setAttribute("aria-pressed", !!reglages.gomme);
       zone.querySelectorAll("[data-o]").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && b.dataset.o === (reglages.outil || "stylo")));
+      zone.querySelector('[data-a="formes"]').textContent = reglages.formesAuto === false ? "Formes auto : non" : "Formes auto : oui";
       zone.querySelector('[data-a="doigt"]').textContent = reglages.doigt === "defile" ? "Doigt : défiler" : "Doigt : écrire";
     }
     let cale;
@@ -1246,6 +1249,8 @@ document.addEventListener("DOMContentLoaded", function () {
           if (brut && Math.hypot(brut[0] - courant.p[n - 2], brut[1] - courant.p[n - 1]) >= 0.8) courant.p.push(brut[0], brut[1]);
           effacerBout(); enCours = null; bornes(courant);
           if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
+          const f = reglages.formesAuto === false ? null : reconnaitre(courant, traits);    // trait droit -> segment, boucle ronde -> cercle
+          if (f) { traits[traits.indexOf(courant)] = f; BORNES.delete(courant); courant = f; bornes(f); dessiner(); }
           rattacher(courant);
           courant = null; idTrait = null; dessines = 0; sauver(); libelle();
         }
@@ -1340,6 +1345,26 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = liste.length - 1; i >= 0; i--) { const t = liste[i]; if (t.f !== "repere") continue; const r = t.r;
       if (x >= r.x0 - 20 && x <= r.x0 + (r.xmax - r.xmin) * r.u + 20 && y >= r.y0 - 20 && y <= r.y0 + (r.ymax - r.ymin) * r.u + 20) return t; }
     return null;
+  }
+  /* Reconnaissance de forme sur un trait à main levée : presque droit -> segment, boucle presque ronde -> cercle */
+  function reconnaitre(t, liste) {
+    const p = t.p, n = p.length / 2; if (n < 6) return null;
+    let L = 0, cx = 0, cy = 0;
+    for (let k = 0; k < n; k++) { cx += p[2 * k] / n; cy += p[2 * k + 1] / n; if (k) L += Math.hypot(p[2 * k] - p[2 * k - 2], p[2 * k + 1] - p[2 * k - 1]); }
+    const x0 = p[0], y0 = p[1], x1 = p[2 * n - 2], y1 = p[2 * n - 1], d = Math.hypot(x1 - x0, y1 - y0);
+    if (d > 70 && L < 1.08 * d) {                                         // segment : aucun point ne s'écarte de la corde
+      let ecart = 0;
+      for (let k = 0; k < n; k++) ecart = Math.max(ecart, Math.abs((x1 - x0) * (y0 - p[2 * k + 1]) - (x0 - p[2 * k]) * (y1 - y0)) / d);
+      if (ecart < Math.max(7, 0.045 * d)) {
+        const a = pointProche(liste, x0, y0) || [x0, y0], b = pointProche(liste, x1, y1) || [x1, y1];
+        return { c: t.c, w: t.w, f: "seg", p: a[0] === x0 && b[0] === x1 ? pointsForme("seg", x0, y0, x1, y1) : [a[0], a[1], b[0], b[1]] };
+      }
+    }
+    let R = 0; for (let k = 0; k < n; k++) R += Math.hypot(p[2 * k] - cx, p[2 * k + 1] - cy) / n;
+    if (R < 30 || d > 0.6 * R || L < 0.8 * 2 * Math.PI * R || L > 1.45 * 2 * Math.PI * R) return null;   // boucle fermée, à peu près un tour
+    let v = 0; for (let k = 0; k < n; k++) v += (Math.hypot(p[2 * k] - cx, p[2 * k + 1] - cy) - R) ** 2 / n;
+    if (Math.sqrt(v) / R > 0.14) return null;                              // trop ovale ou anguleux : on garde le tracé
+    return { c: t.c, w: t.w, f: "cercle", p: pointsForme("cercle", cx, cy, cx + R, cy) };
   }
   /* Les extrémités des segments, flèches et cercles s'accrochent aux points placés */
   const AIMANTEES = ["seg", "fleche", "cercle"];
