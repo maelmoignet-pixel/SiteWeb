@@ -836,7 +836,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
   // outils de tracé : main levée, et formes « à la règle » (enregistrées comme des traits, comme le reste)
   const OUTILS = [["stylo", "✎", "Main levée"], ["seg", "╱", "Segment (règle)"], ["fleche", "→", "Flèche, vecteur"], ["cercle", "◯", "Cercle"], ["rect", "▭", "Rectangle"],
-                  ["repere", "⊞", "Repère orthonormé"], ["point", "•", "Point (s'aimante au quadrillage)"], ["droite", "⟷", "Droite"], ["deplacer", "✥", "Déplacer"]];
+                  ["repere", "⊞", "Repère orthonormé"], ["point", "•", "Point (s'aimante au quadrillage)"], ["deplacer", "✥", "Déplacer, agrandir"]];
   const REPERES = [
     { nom: "Classique (−5 à 5)", r: { xmin: -5, xmax: 5, ymin: -5, ymax: 5, px: "1", py: "1" } },
     { nom: "Grand (−10 à 10)", r: { xmin: -10, xmax: 10, ymin: -10, ymax: 10, px: "2", py: "2" } },
@@ -941,16 +941,52 @@ document.addEventListener("DOMContentLoaded", function () {
     let fondImg = null;
     let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
     const imgExos = new Map();
-    let ajuster = false, selImg = null;            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
+    const nouvelId = l => l + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    exos.forEach(e => { if (!e.id) e.id = nouvelId("i"); });           // chaque image a un identifiant (pour y rattacher l'écriture)
+    let ajuster = false, selImg = null, selObj = null;            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
     const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
     if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
     const sauverExos = () => { try { if (exos.length) localStorage.setItem(opts.cleExos, JSON.stringify(exos)); else localStorage.removeItem(opts.cleExos);
                                      localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
     const basContenu = () => Math.max(opts.entete ? 190 : 0, ...traits.map(t => maxY(t) + t.w), ...exos.map(e => e.y + e.h + 50));
+    const estImage = o => exos.includes(o);
+    function boite(o) {                                  // [x, y, largeur, hauteur] d'une image ou d'un repère
+      if (estImage(o)) return [o.x, o.y, o.w, o.h];
+      if (o.f === "repere") return [o.r.x0, o.r.y0, (o.r.xmax - o.r.xmin) * o.r.u, (o.r.ymax - o.r.ymin) * o.r.u];
+      return null;
+    }
+    const enfants = o => traits.filter(t => t !== o && o.id && (t.lien === o.id || t.rep === o.id));
+    function photo(o) {                                  // état de départ d'un objet et de ce qui lui est rattaché
+      const p = o.p ? o.p.slice() : null, r = o.r ? Object.assign({}, o.r) : null, img = estImage(o) ? { x: o.x, y: o.y, w: o.w, h: o.h } : null;
+      return { o, p, r, img, enf: enfants(o).map(t => ({ t, p: t.p.slice(), w: t.w })) };
+    }
+    function transformer(ph, k, dx, dy) {                // agrandir de k depuis le coin haut-gauche, puis décaler de (dx, dy)
+      const o = ph.o, b0 = ph.img ? [ph.img.x, ph.img.y] : ph.r ? [ph.r.x0, ph.r.y0] : [ph.p[0], ph.p[1]];
+      const f = (x, y) => [b0[0] + (x - b0[0]) * k + dx, b0[1] + (y - b0[1]) * k + dy];
+      if (ph.img) { [o.x, o.y] = f(ph.img.x, ph.img.y); o.w = ph.img.w * k; o.h = ph.img.h * k; }
+      if (ph.r) { [o.r.x0, o.r.y0] = f(ph.r.x0, ph.r.y0); o.r.u = ph.r.u * k; }
+      if (ph.p) for (let i = 0; i < ph.p.length; i += 2) [o.p[i], o.p[i + 1]] = f(ph.p[i], ph.p[i + 1]);
+      ph.enf.forEach(e => { for (let i = 0; i < e.p.length; i += 2) [e.t.p[i], e.t.p[i + 1]] = f(e.p[i], e.p[i + 1]);
+        if (e.t.f !== "point") e.t.w = Math.max(1, e.w * k); BORNES.delete(e.t); });
+      if (o.p) BORNES.delete(o);
+    }
+    /* Une écriture faite sur une image ou un repère lui appartient (elle suivra ses déplacements et sa taille) */
+    function rattacher(t) {
+      if (t.rep || t.f === "repere") return;
+      let meilleur = null, aire = Infinity;
+      for (const o of [...exos, ...traits.filter(x => x.f === "repere")]) {
+        const b = boite(o); if (!b) continue;
+        let dedans = 0, n = t.p.length / 2;
+        for (let i = 0; i < t.p.length; i += 2) if (t.p[i] >= b[0] && t.p[i] <= b[0] + b[2] && t.p[i + 1] >= b[1] && t.p[i + 1] <= b[1] + b[3]) dedans++;
+        if (dedans >= 0.7 * n && b[2] * b[3] < aire) { meilleur = o; aire = b[2] * b[3]; }
+      }
+      if (meilleur) t.lien = meilleur.id; else delete t.lien;
+    }
+    z.rattacher = rattacher;
     function placerImage(src, im, infos) {
       const w = Math.min(1150, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
       const y = basContenu() + 30;
-      exos.push(Object.assign({ src, x: 30, y, w, h }, infos)); imgExos.set(src, im); sauverExos();
+      exos.push(Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos)); imgExos.set(src, im); sauverExos();
       hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
       defile.scrollTop = Math.max(0, (y - 20) * echelle);
     }
@@ -1025,10 +1061,20 @@ document.addEventListener("DOMContentLoaded", function () {
     let confirmeEff = false;
     function clicBarre(e) {
       const b = e.target.closest("button"); if (!b) return;
-      if (b.dataset.o) { reglages.outil = b.dataset.o; reglages.gomme = false; if (b.dataset.o === "repere") ouvrirReglagesRepere(); else fermerReglagesRepere(); }
+      if (b.dataset.o) { reglages.outil = b.dataset.o; reglages.gomme = false; selObj = null; if (b.dataset.o === "repere") ouvrirReglagesRepere(); else fermerReglagesRepere(); }
       else if (b.dataset.rp !== undefined) { reglages.repere = Object.assign({}, REPERES[+b.dataset.rp].r); garderReglages(); return fermerReglagesRepere(); }
       else if (b.dataset.rpo) { const champ = b.closest(".encre-repere"); champ.querySelectorAll(`[data-rpo="${b.dataset.rpo}"]`).forEach(x => x.setAttribute("aria-pressed", x === b));
         champ.querySelector(".pi").hidden = !enPi(champ.querySelector('[data-rpo="px"][aria-pressed="true"]').dataset.v); return; }
+      else if (b.dataset.a === "rp-fermer") return fermerReglagesRepere();
+      else if (b.dataset.fn) {
+        const rp = selObj && selObj.f === "repere" ? selObj : [...traits].reverse().find(t => t.f === "repere");
+        const msg = zone.querySelector(".msg-courbe");
+        if (!rp) { msg.textContent = "Placez d'abord un repère."; return; }
+        const morceaux = courbe(rp, b.dataset.fn);
+        morceaux.forEach(p => { const t = { f: "courbe", fn: b.dataset.fn, c: reglages.coul, w: reglages.ep, p, rep: rp.id }; traits.push(t); bornes(t); });
+        annules = []; sauver(); dessiner(); msg.textContent = morceaux.length ? "Courbe tracée." : "Rien à tracer dans cette fenêtre.";
+        return;
+      }
       else if (b.dataset.a === "rp-valider") {
         const champ = b.closest(".encre-repere"), v = n => parseFloat(String(champ.querySelector("." + n).value).replace(",", "."));
         const r = { xmin: v("xmin"), xmax: v("xmax"), ymin: v("ymin"), ymax: v("ymax"),
@@ -1055,10 +1101,10 @@ document.addEventListener("DOMContentLoaded", function () {
           if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
           return;
         }
-        case "retirer-exo": if (exos.length) { if (selImg && exos.includes(selImg)) exos.splice(exos.indexOf(selImg), 1); else exos.pop();
-          selImg = null; sauverExos(); dessiner(); } return;
-        case "ajuster": ajuster = !ajuster; selImg = null; b.setAttribute("aria-pressed", ajuster);
-          b.textContent = ajuster ? "Terminer l'ajustement" : "Ajuster les images"; dessiner(); return;
+        case "retirer-exo": if (exos.length) { const im = selObj && exos.includes(selObj) ? selObj : exos[exos.length - 1];
+          exos.splice(exos.indexOf(im), 1); traits = traits.filter(t => t.lien !== im.id);       // l'écriture faite dessus part avec l'image
+          selObj = null; sauverExos(); sauver(); dessiner(); } return;
+        case "ajuster": reglages.outil = "deplacer"; reglages.gomme = false; break;      // « Ajuster les images » = l'outil ✥
         case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
@@ -1077,7 +1123,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="lignes">pas en x : ${choix("px", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"], ["pi/2", "π/2"], ["pi", "π"]], r.px)}</div>
         <div class="lignes">y de <input class="ymin" inputmode="decimal" value="${r.ymin}"> à <input class="ymax" inputmode="decimal" value="${r.ymax}"></div>
         <div class="lignes">pas en y : ${choix("py", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"]], r.py)}</div>
-        <div class="lignes"><button data-a="rp-valider">Valider</button><span class="err" style="color:#b3261e"></span></div>`;
+        <div class="lignes"><button data-a="rp-valider">Valider</button><span class="err" style="color:#b3261e"></span></div>
+        <h4>Tracer une courbe sur le repère ${selObj && selObj.f === "repere" ? "sélectionné" : "le plus récent"}</h4>
+        <div class="lignes">${FONCTIONS.map(([k, t]) => `<button data-fn="${k}">${t}</button>`).join("")}</div>
+        <div class="lignes"><span class="msg-courbe" style="color:#5d6679">Couleur et épaisseur : celles de la barre du bas.</span><button data-a="rp-fermer">Fermer</button></div>`;
       zone.appendChild(p);
     }
     function etatBarre() {
@@ -1122,15 +1171,17 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
         ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
         ctx.fillText(legende(e), e.x, e.y + e.h + 30);
-        if (e === selImg) {                                              // cadre de sélection et poignée de redimensionnement
-          ctx.save(); ctx.setLineDash([14, 10]); ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 4; ctx.strokeRect(e.x - 6, e.y - 6, e.w + 12, e.h + 12); ctx.restore();
-          ctx.fillStyle = "#2d4db0"; ctx.fillRect(e.x + e.w - 22, e.y + e.h - 22, 44, 44);
-          ctx.fillStyle = "#fff"; ctx.font = "700 30px system-ui, sans-serif"; ctx.fillText("⤡", e.x + e.w - 15, e.y + e.h + 11);
-        } });
+        });
       if (fondImg) { const [x, y, w, h] = boiteFond(fondImg); if (y + h >= haut && y <= haut + vh) { ctx.fillStyle = "#fff"; ctx.fillRect(x, y, w, h); ctx.drawImage(fondImg, x, y, w, h); } }
       const visible = t => { const [a, b] = BORNES.get(t) || bornes(t); return b + (t.w || 0) + 40 >= haut && a - (t.w || 0) - 40 <= haut + vh; };
       traits.forEach(t => { if (t.f === "repere" && visible(t)) tracer(t); });                 // les repères d'abord (en dessous)
       traits.forEach(t => { if (t.f !== "repere" && (t.f === "droite" || visible(t))) tracer(t); });   // puis le reste, visible seulement
+      const b = selObj && boite(selObj);                                 // cadre de sélection et poignée pour agrandir
+      if (b && (reglages.outil === "deplacer")) {
+        ctx.save(); ctx.setLineDash([14, 10]); ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 4; ctx.strokeRect(b[0] - 6, b[1] - 6, b[2] + 12, b[3] + 12); ctx.restore();
+        ctx.fillStyle = "#2d4db0"; ctx.fillRect(b[0] + b[2] - 26, b[1] + b[3] - 26, 52, 52);
+        ctx.fillStyle = "#fff"; ctx.font = "700 34px system-ui, sans-serif"; ctx.textAlign = "left"; ctx.textBaseline = "alphabetic"; ctx.fillText("⤡", b[0] + b[2] - 17, b[1] + b[3] + 12);
+      }
     }
     function style(t) { ctx.strokeStyle = t.c; ctx.lineWidth = t.w; ctx.lineCap = "round"; ctx.lineJoin = "round"; }
     let enCours = null;                        // trait en train d'être écrit : son dernier morceau est sur le calque
@@ -1183,9 +1234,11 @@ document.addEventListener("DOMContentLoaded", function () {
       function objetSous(x, y) {
         const tol = 22 / Math.max(echelle, 0.3);
         const d = (ax, ay, bx, by) => { const dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy, u = l ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l)) : 0; return Math.hypot(ax + u * dx - x, ay + u * dy - y); };
+        const proprio = t => (t.lien && (exos.find(i => i.id === t.lien) || traits.find(o => o.id === t.lien))) || null;
         for (let i = traits.length - 1; i >= 0; i--) { const t = traits[i]; if (t.f === "point" && Math.hypot(t.p[0] - x, t.p[1] - y) < tol + 8) return t; }
-        for (let i = traits.length - 1; i >= 0; i--) { const t = traits[i], p = t.p; if (t.f === "repere" || t.f === "point") continue;
-          if (p.length === 2 ? Math.hypot(p[0] - x, p[1] - y) < tol + t.w : p.some((_, j) => j % 2 === 0 && j + 3 < p.length && d(p[j], p[j + 1], p[j + 2], p[j + 3]) < tol + t.w)) return t; }
+        for (let i = traits.length - 1; i >= 0; i--) { const t = traits[i], p = t.p; if (t.f === "repere" || t.f === "point" || t.rep) continue;
+          if (p.length === 2 ? Math.hypot(p[0] - x, p[1] - y) < tol + t.w : p.some((_, j) => j % 2 === 0 && j + 3 < p.length && d(p[j], p[j + 1], p[j + 2], p[j + 3]) < tol + t.w)) return proprio(t) || t; }
+        for (let i = exos.length - 1; i >= 0; i--) { const e = exos[i]; if (x >= e.x && x <= e.x + e.w && y >= e.y && y <= e.y + e.h) return e; }
         return repereSous(traits, x, y);
       }
       // iPad : empêcher la sélection de texte, la loupe et le geste « Griffonner » pendant l'écriture
@@ -1229,15 +1282,18 @@ document.addEventListener("DOMContentLoaded", function () {
         gomme = !!reglages.gomme || e.button === 5 || (e.buttons & 32) > 0;      // bouton gomme du stylet
         if (gomme) { effacerA(pos(e)); return; }
         const outil = reglages.outil || "stylo";
-        if (outil === "deplacer") {                                        // toucher un objet puis le faire glisser
-          const [x, y] = pos(e), obj = objetSous(x, y);
-          if (obj) { canvas.setPointerCapture(e.pointerId); bouge = { t: obj, id: e.pointerId, x, y, x0: x, y0: y, p0: obj.p.slice() }; }
-          return;
+        if (outil === "deplacer") {                                        // toucher un objet puis le faire glisser (ou tirer sa poignée)
+          const [x, y] = pos(e), b = selObj && boite(selObj);
+          const poignee = b && Math.abs(x - (b[0] + b[2])) < 45 && Math.abs(y - (b[1] + b[3])) < 45;
+          const obj = poignee ? selObj : objetSous(x, y);
+          selObj = obj && boite(obj) ? obj : null;
+          if (obj) { canvas.setPointerCapture(e.pointerId); bouge = { ph: photo(obj), id: e.pointerId, x0: x, y0: y, taille: poignee, b: boite(obj) }; }
+          dessiner(); return;
         }
         if (outil === "point") {
           const [x, y] = pos(e), rp = repereSous(traits, x, y), [ax, ay] = aimanter(rp, x, y);
-          const n = traits.filter(o => o.f === "point" && o.rep === (rp ? rp.id : null)).length;
-          const t = { f: "point", c: reglages.coul, w: 3, p: [ax, ay], rep: rp ? rp.id : null, nom: String.fromCharCode(65 + n % 26) + (n >= 26 ? Math.floor(n / 26) : "") };
+          const t = { f: "point", c: reglages.coul, w: 3, p: [ax, ay], rep: rp ? rp.id : null };
+          if (!t.rep) rattacher(t);
           traits.push(t); annules = []; bornes(t); dessiner(); sauver(); libelle(); return;
         }
         if (outil !== "stylo") {                                           // forme à la règle, droite ou repère : aperçu pendant le geste
@@ -1259,11 +1315,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if (defilement && e.pointerId === defilement.id) { defile.scrollTop = defilement.haut - (e.clientY - defilement.y); return; }
         if (gomme && e.buttons) { effacerA(pos(e)); return; }
         if (bouge && e.pointerId === bouge.id) {
-          let [x, y] = pos(e), dx = x - bouge.x0, dy = y - bouge.y0;
-          if (bouge.t.f === "point" && bouge.t.rep) {                       // un point déplacé s'aimante aussi au quadrillage
-            const rp = traits.find(o => o.id === bouge.t.rep); const [ax, ay] = aimanter(rp, bouge.p0[0] + dx, bouge.p0[1] + dy); dx = ax - bouge.p0[0]; dy = ay - bouge.p0[1];
+          let [x, y] = pos(e), dx = x - bouge.x0, dy = y - bouge.y0, o = bouge.ph.o;
+          if (bouge.taille) {                                              // poignée : nouvelle largeur, proportions gardées
+            const w = Math.max(150, Math.min(LARGEUR - bouge.b[0] - 10, bouge.b[2] + dx)); transformer(bouge.ph, w / bouge.b[2], 0, 0);
+          } else {
+            if (o.f === "point" && o.rep) {                                // un point déplacé s'aimante aussi au quadrillage
+              const rp = traits.find(r => r.id === o.rep); const [ax, ay] = aimanter(rp, bouge.ph.p[0] + dx, bouge.ph.p[1] + dy); dx = ax - bouge.ph.p[0]; dy = ay - bouge.ph.p[1];
+            }
+            transformer(bouge.ph, 1, dx, dy);
           }
-          deplacerObjet(traits, bouge.t, dx - (bouge.x - bouge.x0), dy - (bouge.y - bouge.y0)); bouge.x = bouge.x0 + dx; bouge.y = bouge.y0 + dy;
           dessiner(); return;
         }
         if (forme && e.pointerId === forme.id) {
@@ -1297,7 +1357,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
         if (defilement && e.pointerId === defilement.id) { defilement = null; return; }
         if (bouge && e.pointerId === bouge.id) {
-          bouge = null; hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS)); dimensionner(); sauver(); return;
+          const o = bouge.ph.o; bouge = null;
+          if (!boite(o) && o.f !== "point") rattacher(o);                  // un trait déplacé sur (ou hors d') une image change de propriétaire
+          hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS), ...exos.map(i => i.y + i.h + PAS)); dimensionner(); sauver(); sauverExos(); return;
         }
         if (forme && e.pointerId === forme.id) {
           effacerBout();
@@ -1305,6 +1367,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (forme.f === "repere") { const [x, y] = forme.p ? [forme.p[4], forme.p[5]] : [forme.x0, forme.y0]; t = creerRepere(reglages.repere || REPERES[0].r, forme.x0, forme.y0, x, y); }
           else if (forme.p && forme.taille > 4) { t = { c: forme.c, w: forme.w, f: forme.f, p: forme.p }; if (forme.f === "droite") t.rep = forme.rep; }   // un simple appui ne crée pas de forme
           if (t) {
+            if (t.f !== "repere") rattacher(t);
             traits.push(t); annules = []; bornes(t); dessiner();
             hauteur = Math.max(hauteur, maxY(t) + PAS); allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); sauver(); libelle();
           }
@@ -1316,6 +1379,7 @@ document.addEventListener("DOMContentLoaded", function () {
           if (brut && Math.hypot(brut[0] - courant.p[n - 2], brut[1] - courant.p[n - 1]) >= 0.8) courant.p.push(brut[0], brut[1]);
           effacerBout(); enCours = null; bornes(courant);
           if (courant.p.length <= 4) dessiner(); else finirTrait(courant, dessines);
+          rattacher(courant);
           courant = null; idTrait = null; dessines = 0; sauver(); libelle();
         }
         if (gomme) { gomme = false; sauver(); }
@@ -1330,7 +1394,8 @@ document.addEventListener("DOMContentLoaded", function () {
       traits = traits.filter(t => { const p = t.p; if (p.length === 2) return Math.hypot(p[0] - x, p[1] - y) >= r + t.w;
         for (let i = 0; i + 3 < p.length; i += 2) if (dist(p[i], p[i + 1], p[i + 2], p[i + 3]) < r + t.w) return false; return true; });
       const ids = new Set(traits.filter(t => t.f === "repere").map(t => t.id));
-      traits = traits.filter(t => !t.rep || ids.has(t.rep));             // un repère effacé emporte ses points et droites
+      exos.forEach(i => ids.add(i.id));
+      traits = traits.filter(t => (!t.rep || ids.has(t.rep)) && (!t.lien || ids.has(t.lien)));   // un repère effacé emporte ce qui lui appartient
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
@@ -1382,7 +1447,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (t.f === "point") {
       c2.fillStyle = c2.strokeStyle = t.c; c2.lineWidth = 3;
       c2.beginPath(); c2.moveTo(t.p[0] - 9, t.p[1] - 9); c2.lineTo(t.p[0] + 9, t.p[1] + 9); c2.moveTo(t.p[0] + 9, t.p[1] - 9); c2.lineTo(t.p[0] - 9, t.p[1] + 9); c2.stroke();
-      if (t.nom) { c2.font = "600 28px system-ui, sans-serif"; c2.textAlign = "left"; c2.textBaseline = "bottom"; c2.fillText(t.nom, t.p[0] + 10, t.p[1] - 8); }
       return;
     }
     if (t.f === "droite") {                                              // prolongée jusqu'aux bords du repère (ou de la feuille)
@@ -1430,6 +1494,22 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < t.p.length; i += 2) { t.p[i] += dx; t.p[i + 1] += dy; }
     BORNES.delete(t);
     if (t.f === "repere") { t.r.x0 += dx; t.r.y0 += dy; liste.forEach(o => { if (o.rep === t.id) deplacerObjet(liste, o, dx, dy); }); }
+  }
+  /* Courbes des fonctions de référence : échantillonnées dans la fenêtre du repère, coupées là où elles sortent ou ne sont pas définies */
+  const FONCTIONS = [["carre", "x²"], ["cube", "x³"], ["racine", "√x"], ["inverse", "1/x"], ["exp", "eˣ"], ["ln", "ln x"], ["cos", "cos x"], ["sin", "sin x"]];
+  const F = { carre: x => x * x, cube: x => x * x * x, racine: x => x >= 0 ? Math.sqrt(x) : NaN, inverse: x => x !== 0 ? 1 / x : NaN,
+              exp: Math.exp, ln: x => x > 0 ? Math.log(x) : NaN, cos: Math.cos, sin: Math.sin };
+  function courbe(rp, nom) {
+    const r = rp.r, f = F[nom], N = 600, morceaux = []; let cur = [];
+    const marge = (r.ymax - r.ymin) * 0.02;
+    for (let k = 0; k <= N; k++) {
+      const mx = r.xmin + (r.xmax - r.xmin) * k / N, my = f(mx);
+      const ok = isFinite(my) && my >= r.ymin - marge && my <= r.ymax + marge;
+      if (ok) { const [x, y] = versEcran(r, mx, Math.max(r.ymin, Math.min(r.ymax, my))); cur.push(Math.round(x * 10) / 10, Math.round(y * 10) / 10); }
+      if ((!ok || k === N) && cur.length >= 4) { morceaux.push(cur); }
+      if (!ok || k === N) cur = [];
+    }
+    return morceaux;
   }
   function pointsForme(f, x0, y0, x1, y1) {
     if (f === "seg" || f === "fleche") {                                // presque horizontal ou vertical : on aligne (axes, tableaux)
