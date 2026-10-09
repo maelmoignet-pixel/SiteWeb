@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <rect width="800" height="600" fill="#5b7c99"/>
+  <rect y="430" width="800" height="170" fill="#46647e"/>
+  <path d="M0 430 Q 100 400 200 430 T 400 430 T 600 430 T 800 430 V 445 H 0 Z" fill="#46647e"/>
+  <text x="400" y="380" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-size="330" fill="#ffffff" fill-opacity="0.92">π</text>
+</svg>
