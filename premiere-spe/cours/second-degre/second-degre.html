@@ -1247,6 +1247,15 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-page-barre button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-page-barre button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
 .encre-page-bouton[hidden], .encre-page-calque[hidden], .encre-page-barre[hidden] { display: none; }
+.encre-connexion { position: fixed; inset: 0; z-index: 3000; background: rgba(27, 34, 50, .55); display: flex; align-items: center; justify-content: center; }
+.encre-connexion form { background: #fff; border-radius: 14px; padding: 18px 20px; width: min(420px, calc(100% - 32px)); display: grid; gap: 10px; font: 16px system-ui, sans-serif; }
+.encre-connexion h3 { margin: 0; font-size: 19px; }
+.encre-connexion p { margin: 0; color: #3a4256; }
+.encre-connexion .err { color: #b3261e; min-height: 1.2em; }
+.encre-connexion input { font: 17px system-ui, sans-serif; min-height: 46px; padding: 0 12px; border: 1px solid var(--encre-trait); border-radius: 10px; }
+.encre-connexion div { display: flex; gap: 8px; }
+.encre-connexion button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
+.encre-connexion button[type="submit"] { background: var(--encre-accent); color: #fff; border-color: var(--encre-accent); }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
@@ -1286,7 +1295,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const idbGet = id => idb().then(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
   function chargerImage(src) {
     if (src.startsWith("idb:")) {                                       // capture enregistrée sur l'appareil
-      if (!IMAGES[src]) IMAGES[src] = idbGet(src.slice(4)).then(d => { if (!d) throw new Error("capture absente"); return chargerImage(d); });
+      if (!IMAGES[src]) IMAGES[src] = idbGet(src.slice(4)).then(d => d || (window.encreSync ? window.encreSync.capture(src.slice(4)) : null))
+                                                     .then(d => { if (!d) throw new Error("capture absente"); return chargerImage(d); });
       return IMAGES[src];
     }
     if (!IMAGES[src]) IMAGES[src] = new Promise((ok, ko) => { const im = new Image(); if (/^https?:/.test(src)) im.crossOrigin = "anonymous";
@@ -1998,6 +2008,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (traits.length !== avant) dessiner();
     }
     z.exporter = () => traits;
+    z.recharger = () => {                       // notes arrivées d'un autre appareil
+      try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+      if (opts.cleExos) { try { const l = JSON.parse(localStorage.getItem(opts.cleExos) || "[]"); if (l.length || !opts.fond) { exos.splice(0, exos.length, ...l); chargerExos(); } } catch (e) {} }
+      annules = []; etats = []; selLasso = null; selObj = null;
+      hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS), ...exos.map(e => e.y + e.h + PAS));
+      if (zone) dimensionner(); libelle();
+    };
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
@@ -2329,7 +2346,7 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Petit menu : nombre de zones écrites, sauvegarde dans un fichier et rechargement */
   if (!blocs.length) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -2491,6 +2508,152 @@ document.addEventListener("DOMContentLoaded", function () {
       fond.remove(); suite(cv.toDataURL("image/jpeg", 0.88));
     });
   }
+
+  /* ---------- Sauvegarde en ligne et synchronisation (Firebase du cahier de texte, compte de Maël seulement) ----------
+     Les notes restent d'abord dans le navigateur ; chaque changement est envoyé en ligne (quelques secondes après),
+     et les notes plus récentes écrites sur un autre appareil (écran du lycée, iPad) sont récupérées.
+     Accès protégé : connexion par e-mail et mot de passe, et règles Firestore limitées à ce compte. */
+  const FIREBASE = { apiKey: "AIzaSyA1j_Z4QApF8OwtmK39GRc2qdJ_6krLoCw", authDomain: "cahier-de-texte-45228.firebaseapp.com", projectId: "cahier-de-texte-45228",
+                     storageBucket: "cahier-de-texte-45228.firebasestorage.app", messagingSenderId: "658368948237", appId: "1:658368948237:web:7973bbb9c69470ee104d44" };
+  const SYNC = { actif: false, base: null, etat: "", maj: 0 };
+  const bSync = menu.querySelector('[data-m="sync"]');
+  const lsJson = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || "") || d; } catch (e) { return d; } };
+  const lsEcrire = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const empreinte = s => { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
+  let dernierVu = {}, enLigne = lsJson("encre-sync-vu", {}), heures = lsJson("encre-sync-t", {}), capturesEnvoyees = lsJson("encre-sync-cap", {});
+  SYNC.maj = +localStorage.getItem("encre-sync-maj") || 0;
+  const clesNotes = () => { const l = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) l.push(k); } } catch (e) {} return l; };
+  const versId = k => encodeURIComponent(k).replace(/\./g, "%2E"), deId = id => decodeURIComponent(id);
+  const MORCEAU = 800000;                                               // un document Firestore : 1 Mo au plus
+  function etatSync(t) { SYNC.etat = t; bSync.textContent = t; }
+  function chargerScript(f) {
+    const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
+    return new Promise((ok, ko) => { const sc = document.createElement("script"); sc.src = racine + "ressources/" + f; sc.onload = ok; sc.onerror = ko; document.head.appendChild(sc); });
+  }
+  let firebasePret = null;
+  function chargerFirebase() {
+    firebasePret = firebasePret || chargerScript("firebase-app-compat.js").then(() => Promise.all([chargerScript("firebase-auth-compat.js"), chargerScript("firebase-firestore-compat.js")]))
+      .then(() => { if (!firebase.apps.length) firebase.initializeApp(FIREBASE);
+        firebase.auth().onAuthStateChanged(u => { if (u) demarrer(u); else { SYNC.actif = false; etatSync("☁ Se connecter"); } }); });
+    return firebasePret;
+  }
+  function demarrer(u) {
+    SYNC.base = firebase.firestore().collection("utilisateurs").doc(u.uid); SYNC.actif = true;
+    try { localStorage.setItem("encre-sync", "1"); } catch (e) {}
+    window.encreSync = { capture: lireCapture };
+    recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
+  }
+  // --- réception : seulement ce qui a changé depuis la dernière fois ---
+  async function recevoir() {
+    if (!SYNC.actif) return;
+    const ts = firebase.firestore.Timestamp.fromMillis(SYNC.maj);
+    const q = await SYNC.base.collection("tableau").where("maj", ">", ts).get();
+    const docs = {}, parts = {}; let max = SYNC.maj;
+    q.forEach(d => { const v = d.data(); if (v.maj) max = Math.max(max, v.maj.toMillis());
+      const i = d.id.indexOf("~"); if (i >= 0) (parts[d.id.slice(0, i)] = parts[d.id.slice(0, i)] || [])[+d.id.slice(i + 1)] = v.p; else docs[d.id] = v; });
+    const changees = new Set();
+    for (const [id, d] of Object.entries(docs)) {
+      const k = deId(id), valeur = d.del ? null : d.n ? (parts[id] || []).join("") : d.v;
+      if (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n) continue;   // morceaux incomplets : on attendra
+      const loc = localStorage.getItem(k);
+      if (valeur === loc) { if (valeur !== null) enLigne[k] = empreinte(valeur); continue; }
+      if ((d.t || 0) > (heures[k] || 0)) {                              // la version en ligne est plus récente
+        try { if (valeur === null) localStorage.removeItem(k); else localStorage.setItem(k, valeur); } catch (e) { continue; }
+        if (valeur === null) { delete enLigne[k]; delete dernierVu[k]; } else enLigne[k] = dernierVu[k] = empreinte(valeur);   // pas pris pour une modification locale
+        heures[k] = d.t || 0; changees.add(k);
+      }
+    }
+    SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
+    lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
+    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); }
+    etatSync("☁ À jour");
+  }
+  // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
+  let envoiEnCours = false;
+  async function envoyer() {
+    if (!SYNC.actif || envoiEnCours) return;
+    const maintenant = Date.now(), cles = clesNotes(), aEnvoyer = [];
+    for (const k of cles) {
+      const v = localStorage.getItem(k), e = empreinte(v);
+      if (dernierVu[k] !== undefined && dernierVu[k] !== e) heures[k] = maintenant;          // modifiée pendant cette visite
+      dernierVu[k] = e;
+      if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +localStorage.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
+    }
+    const supprimees = Object.keys(enLigne).filter(k => !cles.includes(k));
+    if (!aEnvoyer.length && !supprimees.length) return envoyerCaptures();
+    envoiEnCours = true; etatSync("☁ Envoi…");
+    try {
+      const col = SYNC.base.collection("tableau"), maj = firebase.firestore.FieldValue.serverTimestamp();
+      let lot = firebase.firestore().batch(), n = 0, octets = 0;               // envois groupés : au plus 400 documents ou 4 Mo à la fois
+      const ecrire = async (ref, d) => { lot.set(ref, d); octets += (d.v || d.p || "").length;
+        if (++n >= 400 || octets > 4e6) { await lot.commit(); lot = firebase.firestore().batch(); n = 0; octets = 0; } };
+      for (const [k, v] of aEnvoyer) {
+        const id = versId(k);
+        if (v.length <= MORCEAU) await ecrire(col.doc(id), { v, t: heures[k], maj });
+        else { const m = Math.ceil(v.length / MORCEAU);
+          for (let i = 0; i < m; i++) await ecrire(col.doc(id + "~" + i), { p: v.slice(i * MORCEAU, (i + 1) * MORCEAU), maj });
+          await ecrire(col.doc(id), { n: m, t: heures[k], maj }); }
+      }
+      for (const k of supprimees) await ecrire(col.doc(versId(k)), { del: true, t: maintenant, maj });
+      if (n) await lot.commit();
+      aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; }); supprimees.forEach(k => { delete enLigne[k]; });
+      lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
+      etatSync("☁ À jour");
+    } catch (e) { etatSync("☁ Hors ligne"); }
+    envoiEnCours = false;
+    envoyerCaptures();
+  }
+  // --- captures d'exercices (enregistrées sur l'appareil) : envoyées une fois, récupérées à la demande ---
+  async function envoyerCaptures() {
+    const ids = new Set();
+    clesNotes().filter(k => k.includes("#exos-img:")).forEach(k => lsJson(k, []).forEach(e => { if (e.src && e.src.startsWith("idb:")) ids.add(e.src.slice(4)); }));
+    for (const id of ids) {
+      if (capturesEnvoyees[id]) continue;
+      const d = await idbGet(id).catch(() => null); if (!d) continue;
+      try { const col = SYNC.base.collection("captures"), m = Math.ceil(d.length / MORCEAU), lot = firebase.firestore().batch();
+        for (let i = 0; i < m; i++) lot.set(col.doc(id + "~" + i), { p: d.slice(i * MORCEAU, (i + 1) * MORCEAU) });
+        lot.set(col.doc(id), { n: m }); await lot.commit();
+        capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); } catch (e) { return; }
+    }
+  }
+  async function lireCapture(id) {
+    if (!SYNC.actif) return null;
+    try { const col = SYNC.base.collection("captures"), t = await col.doc(id).get(); if (!t.exists) return null;
+      const n = t.data().n, morceaux = await Promise.all([...Array(n)].map((_, i) => col.doc(id + "~" + i).get()));
+      const d = morceaux.map(x => x.data().p).join(""); await idbPut(id, d); capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); return d; }
+    catch (e) { return null; }
+  }
+  setInterval(() => { if (SYNC.actif) envoyer(); }, 4000);
+  setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
+  document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(); else recevoir().then(envoyer).catch(() => {}); });
+  addEventListener("pagehide", () => { if (SYNC.actif) envoyer(); });
+  // --- connexion ---
+  function fenetreConnexion() {
+    const f = document.createElement("div"); f.className = "encre-connexion";
+    f.innerHTML = `<form><h3>Sauvegarde en ligne des notes</h3>
+      <p>Connectez-vous avec le compte du cahier de texte. Vos notes seront sauvegardées et retrouvées sur vos autres appareils.</p>
+      <input type="email" autocomplete="username" placeholder="Adresse e-mail" required><input type="password" autocomplete="current-password" placeholder="Mot de passe" required>
+      <p class="err"></p><div><button type="submit">Se connecter</button><button type="button" data-x>Annuler</button></div></form>`;
+    document.body.appendChild(f);
+    const [em, mdp] = f.querySelectorAll("input"); em.value = localStorage.getItem("encre-sync-email") || ""; (em.value ? mdp : em).focus();
+    f.querySelector("[data-x]").onclick = () => f.remove();
+    f.querySelector("form").onsubmit = e => { e.preventDefault(); f.querySelector(".err").textContent = "Connexion…";
+      chargerFirebase().then(() => firebase.auth().signInWithEmailAndPassword(em.value.trim(), mdp.value))
+        .then(() => { try { localStorage.setItem("encre-sync-email", em.value.trim()); } catch (x) {} f.remove(); },
+              x => { f.querySelector(".err").textContent = { "auth/invalid-credential": "E-mail ou mot de passe incorrect.", "auth/wrong-password": "Mot de passe incorrect.",
+                "auth/too-many-requests": "Trop d'essais : réessayez dans quelques minutes.", "auth/network-request-failed": "Pas de connexion internet." }[x && x.code] || "Connexion impossible (" + (x && (x.code || x.message)) + ")."; }); };
+  }
+  bSync.addEventListener("click", () => {
+    if (!SYNC.actif) return fenetreConnexion();
+    if (confirm("Notes sauvegardées en ligne (" + SYNC.etat.replace("☁ ", "") + ").\n\nOK : synchroniser maintenant\nAnnuler : rien\n\n(Pour vous déconnecter de cet appareil, tapez « deconnexion » dans la fenêtre suivante.)")) {
+      recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
+    } else if ((prompt("Se déconnecter de cet appareil ? Tapez deconnexion pour confirmer.") || "").trim().toLowerCase() === "deconnexion") {
+      firebase.auth().signOut(); try { localStorage.removeItem("encre-sync"); } catch (e) {}
+    }
+  });
+  if (localStorage.getItem("encre-sync") === "1") { etatSync("☁ …"); chargerFirebase().catch(() => etatSync("☁ Hors ligne")); }
 
   /* ---------- PDF : notes de cours, puis feuilles d'exercices (une par séance) ---------- */
   function chargerJsPdf() {
