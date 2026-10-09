@@ -829,7 +829,8 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-zone.plein .encre-defile { height: auto; }
 .encre-defile .vue { position: sticky; top: 0; width: 100%; touch-action: none; }
 .encre-defile .vue canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; }
-.encre-defile .vue canvas.trace { pointer-events: none; }
+.encre-defile .vue canvas.trace { pointer-events: none; display: none; }
+.encre-defile .vue canvas.trace.actif { display: block; }
 .encre-diag { font: 12px ui-monospace, monospace; color: #5d6679; }
 .encre-defile .cale { width: 1px; }
 .encre-exos { position: fixed; left: 14px; bottom: 14px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #fff; background: var(--encre-accent);
@@ -1077,7 +1078,7 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.innerHTML = `<div class="encre-barre haut">
         <button data-a="annuler" aria-label="Annuler">↶</button><button data-a="retablir" aria-label="Rétablir">↷</button>
         <button data-a="haut" aria-label="Remonter">▲</button><button data-a="bas" aria-label="Descendre">▼</button>
-        <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button><button data-a="soigne" title="Écriture lissée et tracée comme à la plume (elle reste manuscrite)"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
+        <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
         ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
         <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
@@ -1167,7 +1168,6 @@ document.addEventListener("DOMContentLoaded", function () {
         case "haut": defile.scrollBy({ top: -defile.clientHeight * 0.8, behavior: "smooth" }); return;
         case "bas": allonger((defile.scrollTop || 0) + defile.clientHeight * 1.8); defile.scrollBy({ top: defile.clientHeight * 0.8, behavior: "smooth" }); return;
         case "formes": reglages.formesAuto = reglages.formesAuto === false; break;
-        case "soigne": reglages.soigne = !reglages.soigne; break;
         case "doigt": reglages.doigt = reglages.doigt === "defile" ? "ecrit" : "defile"; break;
         case "plein": zone.classList.toggle("plein"); b.textContent = zone.classList.contains("plein") ? "Quitter le plein écran" : "Plein écran"; setTimeout(dimensionner, 0); break;
         case "effacer":
@@ -1222,7 +1222,6 @@ document.addEventListener("DOMContentLoaded", function () {
       zone.querySelectorAll(".ep").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && +b.dataset.e === reglages.ep));
       zone.querySelector('[data-a="gomme"]').setAttribute("aria-pressed", !!reglages.gomme);
       zone.querySelectorAll("[data-o]").forEach(b => b.setAttribute("aria-pressed", !reglages.gomme && b.dataset.o === (reglages.outil || "stylo")));
-      zone.querySelector('[data-a="soigne"]').textContent = reglages.soigne ? "Écriture soignée : oui" : "Écriture soignée : non";
       zone.querySelector('[data-a="formes"]').textContent = reglages.formesAuto === false ? "Formes auto : non" : "Formes auto : oui";
       zone.querySelector('[data-a="doigt"]').textContent = reglages.doigt === "defile" ? "Doigt : défiler" : "Doigt : écrire";
     }
@@ -1424,7 +1423,7 @@ document.addEventListener("DOMContentLoaded", function () {
           let [x0, y0] = pos(e); const rp = outil === "droite" ? repereSous(traits, x0, y0) : null;
           if (rp) [x0, y0] = aimanter(rp, x0, y0);
           if (AIMANTEES.includes(outil)) { const q = pointProche(traits, x0, y0); if (q) [x0, y0] = q; }
-          forme = { f: outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId, rep: rp ? rp.id : null }; return;
+          forme = { f: outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId, rep: rp ? rp.id : null }; calque.classList.add("actif"); return;
         }
         courant = outil === "surligneur" ? { c: reglages.coul === COULEURS[0] ? "#ffd21f" : reglages.coul, w: 14 + 2.5 * reglages.ep, p: pos(e), h: 1 }   // noir -> jaune fluo
                                          : { c: reglages.coul, w: reglages.ep, p: pos(e) };
@@ -1483,6 +1482,14 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
         if (!courant || e.pointerId !== idTrait) return;
+        if (presentateur && !courant.h) try { presentateur.updateInkTrailStartPoint(e, { color: courant.c, diameter: Math.max(1, courant.w * echelle) }); } catch (x) {}   // Edge, Chrome : le système dessine le bout du trait sous la pointe
+        if (!bruts || courant.h) avancer(e);
+      });
+      // Edge, Chrome : les événements « bruts » arrivent dès que l'écran les envoie (les autres, une fois par image) : moins de retard
+      let bruts = false;
+      if ("onpointerrawupdate" in window) canvas.addEventListener("pointerrawupdate", e => { if (courant && !courant.h && e.pointerId === idTrait) { bruts = true; avancer(e); } });
+      let basTrait = 0;
+      function avancer(e) {
         const evts = (e.getCoalescedEvents && e.getCoalescedEvents().length) ? e.getCoalescedEvents() : [e];   // tous les points intermédiaires
         const avant = courant.p.length;
         if (!courant.h) { ctx.strokeStyle = courant.c; ctx.lineWidth = courant.w; ctx.lineCap = ctx.lineJoin = "round"; ctx.beginPath(); ctx.moveTo(courant.p[avant - 2], courant.p[avant - 1]); }
@@ -1491,11 +1498,12 @@ document.addEventListener("DOMContentLoaded", function () {
           if (Math.hypot(x - courant.p[n - 2], y - courant.p[n - 1]) >= 0.8) { courant.p.push(x, y); if (!courant.h) ctx.lineTo(x, y); }
         }
         if (!courant.h && courant.p.length > avant) ctx.stroke();
-        if (presentateur && !courant.h) try { presentateur.updateInkTrailStartPoint(e, { color: courant.c, diameter: Math.max(1, courant.w * echelle) }); } catch (x) {}   // Edge, Chrome : le système dessine le bout du trait sous la pointe
-        brut = null; bornes(courant);
+        const b = BORNES.get(courant) || [Infinity, -Infinity];             // hauteur occupée : mise à jour avec les seuls nouveaux points
+        for (let i = avant + 1; i < courant.p.length; i += 2) { b[0] = Math.min(b[0], courant.p[i]); b[1] = Math.max(b[1], courant.p[i]); }
+        BORNES.set(courant, b);
         if (courant.h) dessiner();                                         // surligneur : redessiné d'un bloc (transparence uniforme)
-        allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5);
-      });
+        if (b[1] > basTrait + 50) { basTrait = b[1]; allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); }   // la page s'allonge rarement : pas à chaque point
+      }
       const fin = e => {
         doigts.delete(e.pointerId);
         if (manip && e.pointerId === manip.id) { manip = null; sauverExos(); hauteur = Math.max(hauteur, ...exos.map(i => i.y + i.h + PAS)); dimensionner(); return; }
@@ -1521,7 +1529,7 @@ document.addEventListener("DOMContentLoaded", function () {
           hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS), ...exos.map(i => i.y + i.h + PAS)); dimensionner(); sauver(); sauverExos(); return;
         }
         if (forme && e.pointerId === forme.id) {
-          effacerBout();
+          effacerBout(); calque.classList.remove("actif");
           let t = null;
           if (forme.f === "repere") { const [x, y] = forme.p ? [forme.p[4], forme.p[5]] : [forme.x0, forme.y0]; t = creerRepere(reglages.repere || REPERES[0].r, forme.x0, forme.y0, x, y); if (reglages.sansValeurs) t.r.sansValeurs = true; }
           else if (forme.p && forme.taille > 4) { t = { c: forme.c, w: forme.w, f: forme.f, p: forme.p }; if (forme.f === "droite") t.rep = forme.rep; }   // un simple appui ne crée pas de forme
@@ -1540,10 +1548,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if (!courant.h) lisserTrait(courant);                             // anti-tremblement, après coup : aucun retard pendant le geste
           bornes(courant);
           let f = reglages.formesAuto === false ? null : reconnaitre(courant, traits);    // trait droit -> segment, boucle ronde -> cercle
-          if (!f && !(reglages.soigne && !courant.h)) dessiner();           // le trait lissé remplace le tracé brut
+          if (!f) dessiner();                                               // le trait lissé remplace le tracé brut
           if (courant.h) { if (f && f.f === "seg") { courant.p = f.p.slice(0, 4); BORNES.delete(courant); bornes(courant); } f = null; dessiner(); }   // surligneur : seulement redressé
           else if (f) { traits[traits.indexOf(courant)] = f; BORNES.delete(courant); courant = f; bornes(f); dessiner(); }
-          else if (reglages.soigne && !courant.h && embellir(courant)) { BORNES.delete(courant); bornes(courant); dessiner(); }   // écriture soignée
           rattacher(courant);
           courant = null; idTrait = null; dessines = 0; sauver(); libelle();
         }
