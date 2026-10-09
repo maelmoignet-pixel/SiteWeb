@@ -84,4 +84,6 @@ toc: false
 
 - [Numworks](https://www.numworks.com/fr/emulateur/graphique/){target="_blank"} — Émulateur de calculatrice Numworks
 
+- [Manuel Sésamath 2023](https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023){target="_blank"} — Manuel de première tronc commun en ligne (Sésamath 2023)
+
 :::
