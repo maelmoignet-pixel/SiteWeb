@@ -737,6 +737,8 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-repere .lignes { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .encre-repere button { font: 600 14px system-ui, sans-serif; min-height: 40px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-repere button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+.encre-repere .coche { font: 600 14px system-ui, sans-serif; cursor: pointer; }
+.encre-repere .coche input { width: 22px; height: 22px; min-height: 0; }
 .encre-repere input { width: 3.6em; min-height: 38px; text-align: center; font: 600 15px system-ui, sans-serif; border: 1px solid var(--encre-trait); border-radius: 8px; }
 .encre-zone { position: relative; }
 .encre-barre .sep { width: 1px; align-self: stretch; background: var(--encre-trait); margin: 0 4px; }
@@ -1068,10 +1070,16 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="lignes">pas en x : ${choix("px", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"], ["pi/2", "π/2"], ["pi", "π"]], r.px)}</div>
         <div class="lignes">y de <input class="ymin" inputmode="decimal" value="${r.ymin}"> à <input class="ymax" inputmode="decimal" value="${r.ymax}"></div>
         <div class="lignes">pas en y : ${choix("py", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"]], r.py)}</div>
+        <label class="lignes coche"><input type="checkbox" class="valeurs" ${reglages.sansValeurs ? "" : "checked"}> Afficher les valeurs sur les axes <span style="color:#5d6679;font-weight:400">(repère ${selObj && selObj.f === "repere" ? "sélectionné" : "le plus récent"} et suivants)</span></label>
         <div class="lignes"><button data-a="rp-valider">Valider</button><span class="err" style="color:#b3261e"></span></div>
         <h4>Tracer une courbe sur le repère ${selObj && selObj.f === "repere" ? "sélectionné" : "le plus récent"}</h4>
         <div class="lignes">${FONCTIONS.map(([k, t]) => `<button data-fn="${k}">${t}</button>`).join("")}</div>
         <div class="lignes"><span class="msg-courbe" style="color:#5d6679">Couleur et épaisseur : celles de la barre du bas.</span><button data-a="rp-fermer">Fermer</button></div>`;
+      p.querySelector(".valeurs").onchange = e => {
+        reglages.sansValeurs = !e.target.checked; garderReglages();
+        const rp = selObj && selObj.f === "repere" ? selObj : [...traits].reverse().find(t => t.f === "repere");
+        if (rp) { if (reglages.sansValeurs) rp.r.sansValeurs = true; else delete rp.r.sansValeurs; sauver(); dessiner(); }
+      };
       zone.appendChild(p);
     }
     function etatBarre() {
@@ -1244,6 +1252,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (outil !== "stylo") {                                           // forme à la règle, droite ou repère : aperçu pendant le geste
           let [x0, y0] = pos(e); const rp = outil === "droite" ? repereSous(traits, x0, y0) : null;
           if (rp) [x0, y0] = aimanter(rp, x0, y0);
+          if (AIMANTEES.includes(outil)) { const q = pointProche(traits, x0, y0); if (q) [x0, y0] = q; }
           forme = { f: outil, c: reglages.coul, w: reglages.ep, x0, y0, id: e.pointerId, rep: rp ? rp.id : null }; return;
         }
         courant = { c: reglages.coul, w: reglages.ep, p: pos(e) }; bornes(courant); idTrait = e.pointerId; typeTrait = e.pointerType;
@@ -1275,7 +1284,9 @@ document.addEventListener("DOMContentLoaded", function () {
           let [x, y] = pos(e); forme.taille = Math.hypot(x - forme.x0, y - forme.y0);
           if (forme.f === "droite") { const rp = traits.find(o => o.id === forme.rep); [x, y] = aimanter(rp, x, y); forme.p = [forme.x0, forme.y0, x, y]; }
           else if (forme.f === "repere") forme.p = pointsForme("rect", forme.x0, forme.y0, x, y);
-          else forme.p = pointsForme(forme.f, forme.x0, forme.y0, x, y);
+          else { const q = AIMANTEES.includes(forme.f) ? pointProche(traits, x, y) : null;
+                 forme.p = q ? (forme.f === "cercle" ? pointsForme("cercle", forme.x0, forme.y0, q[0], q[1]) : [forme.x0, forme.y0, q[0], q[1]])   // accroché à un point : pas d'alignement
+                             : pointsForme(forme.f, forme.x0, forme.y0, x, y); }
           effacerBout(); const dpr = window.devicePixelRatio || 1;
           ctxT.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
           if (forme.f === "repere") { ctxT.save(); ctxT.setLineDash([12, 10]); traceForme(ctxT, { f: "rect", c: "#2d4db0", w: 3, p: forme.p }); ctxT.restore(); }
@@ -1309,7 +1320,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (forme && e.pointerId === forme.id) {
           effacerBout();
           let t = null;
-          if (forme.f === "repere") { const [x, y] = forme.p ? [forme.p[4], forme.p[5]] : [forme.x0, forme.y0]; t = creerRepere(reglages.repere || REPERES[0].r, forme.x0, forme.y0, x, y); }
+          if (forme.f === "repere") { const [x, y] = forme.p ? [forme.p[4], forme.p[5]] : [forme.x0, forme.y0]; t = creerRepere(reglages.repere || REPERES[0].r, forme.x0, forme.y0, x, y); if (reglages.sansValeurs) t.r.sansValeurs = true; }
           else if (forme.p && forme.taille > 4) { t = { c: forme.c, w: forme.w, f: forme.f, p: forme.p }; if (forme.f === "droite") t.rep = forme.rep; }   // un simple appui ne crée pas de forme
           if (t) {
             if (t.f !== "repere") rattacher(t);
@@ -1377,12 +1388,12 @@ document.addEventListener("DOMContentLoaded", function () {
     c2.textAlign = "center"; c2.textBaseline = "top";
     for (let v = Math.ceil(r.xmin / sx - 1e-9) * sx; v <= r.xmax + 1e-9; v += sx) {
       if (Math.abs(v - ay) < 1e-9 && ay === 0) continue; const [x] = versEcran(r, v, 0);
-      c2.beginPath(); c2.moveTo(x, yAxe - 6); c2.lineTo(x, yAxe + 6); c2.stroke(); c2.fillText(libelleGrad(v, enPi(r.px)), x, yAxe + 9);
+      c2.beginPath(); c2.moveTo(x, yAxe - 6); c2.lineTo(x, yAxe + 6); c2.stroke(); if (!r.sansValeurs) c2.fillText(libelleGrad(v, enPi(r.px)), x, yAxe + 9);
     }
     c2.textAlign = "right"; c2.textBaseline = "middle";
     for (let v = Math.ceil(r.ymin / sy - 1e-9) * sy; v <= r.ymax + 1e-9; v += sy) {
       if (Math.abs(v - ax) < 1e-9 && ax === 0) continue; const [, y] = versEcran(r, 0, v);
-      c2.beginPath(); c2.moveTo(xAxe - 6, y); c2.lineTo(xAxe + 6, y); c2.stroke(); c2.fillText(libelleGrad(v, enPi(r.py)), xAxe - 10, y);
+      c2.beginPath(); c2.moveTo(xAxe - 6, y); c2.lineTo(xAxe + 6, y); c2.stroke(); if (!r.sansValeurs) c2.fillText(libelleGrad(v, enPi(r.py)), xAxe - 10, y);
     }
     if (ax === 0 && ay === 0) { c2.textAlign = "right"; c2.textBaseline = "top"; c2.fillText("O", xAxe - 8, yAxe + 8); }
     c2.restore();
@@ -1418,6 +1429,13 @@ document.addEventListener("DOMContentLoaded", function () {
     for (let i = liste.length - 1; i >= 0; i--) { const t = liste[i]; if (t.f !== "repere") continue; const r = t.r;
       if (x >= r.x0 - 20 && x <= r.x0 + (r.xmax - r.xmin) * r.u + 20 && y >= r.y0 - 20 && y <= r.y0 + (r.ymax - r.ymin) * r.u + 20) return t; }
     return null;
+  }
+  /* Les extrémités des segments, flèches et cercles s'accrochent aux points placés */
+  const AIMANTEES = ["seg", "fleche", "cercle"];
+  function pointProche(liste, x, y, seuil = 32) {
+    let mieux = null, d = seuil;
+    for (const t of liste) if (t.f === "point") { const e = Math.hypot(t.p[0] - x, t.p[1] - y); if (e < d) { d = e; mieux = [t.p[0], t.p[1]]; } }
+    return mieux;
   }
   function aimanter(rp, x, y) {
     if (!rp) return [x, y];
