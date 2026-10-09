@@ -77,6 +77,14 @@ toc: false
         - [Titre affiché](../2026-DS-eval/intervalles-equations-inequations/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+::::: {.evals}
+
+::: {.eval}
+[Évaluation n°4]{.eval-titre}
+
+[Sujet](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval4-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval4-correction.pdf){.eval-btn .correction}
+:::
+
+:::::
 
 :::
