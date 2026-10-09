@@ -11,3 +11,5 @@ _offline_cache/
 Overleaf*/
 # Mémoire locale du script publier.sh
 .derniere-publication
+# Fichiers fantômes du système (fichier supprimé encore ouvert), jamais dans le dépôt
+.fuse_hidden*
