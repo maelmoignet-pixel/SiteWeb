@@ -66,3 +66,9 @@ echo "→ Publication sur GitHub Pages…"
 quarto publish gh-pages --no-render --no-prompt
 git rev-parse HEAD > "$REF_FICHIER"
 echo "✔ Site publié."
+
+# Sauvegarde PRIVÉE des sources (.tex, cahier de texte, outils) : voir ~/Outils/sauvegarder.sh
+if [ -x "$HOME/Outils/sauvegarder.sh" ]; then
+    echo "→ Sauvegarde privée des sources…"
+    "$HOME/Outils/sauvegarder.sh" || echo "  (sources non sauvegardées cette fois ; le site, lui, est bien publié)"
+fi
