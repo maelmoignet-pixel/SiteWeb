@@ -1439,25 +1439,79 @@ document.addEventListener("DOMContentLoaded", function () {
       if (x >= r.x0 - 20 && x <= r.x0 + (r.xmax - r.xmin) * r.u + 20 && y >= r.y0 - 20 && y <= r.y0 + (r.ymax - r.ymin) * r.u + 20) return t; }
     return null;
   }
-  /* Reconnaissance de forme sur un trait à main levée : presque droit -> segment, boucle presque ronde -> cercle */
+  /* Reconnaissance de forme sur un trait à main levée (bouton « Formes auto ») :
+     trait presque droit -> segment ; puis, pour les tracés plus grands qu'une lettre seulement :
+     boucle ronde -> cercle, contour à 3 à 5 coins -> triangle / quadrilatère (rectangle si presque droit),
+     ligne brisée (2 ou 3 traits) -> traits droits, courbe simple -> courbe lissée. L'écriture n'est jamais modifiée. */
   function reconnaitre(t, liste) {
-    const p = t.p, n = p.length / 2; if (n < 6) return null;
-    let L = 0, cx = 0, cy = 0;
-    for (let k = 0; k < n; k++) { cx += p[2 * k] / n; cy += p[2 * k + 1] / n; if (k) L += Math.hypot(p[2 * k] - p[2 * k - 2], p[2 * k + 1] - p[2 * k - 1]); }
-    const x0 = p[0], y0 = p[1], x1 = p[2 * n - 2], y1 = p[2 * n - 1], d = Math.hypot(x1 - x0, y1 - y0);
-    if (d > 70 && L < 1.08 * d) {                                         // segment : aucun point ne s'écarte de la corde
-      let ecart = 0;
-      for (let k = 0; k < n; k++) ecart = Math.max(ecart, Math.abs((x1 - x0) * (y0 - p[2 * k + 1]) - (x0 - p[2 * k]) * (y1 - y0)) / d);
-      if (ecart < Math.max(7, 0.045 * d)) {
-        const a = pointProche(liste, x0, y0) || [x0, y0], b = pointProche(liste, x1, y1) || [x1, y1];
-        return { c: t.c, w: t.w, f: "seg", p: a[0] === x0 && b[0] === x1 ? pointsForme("seg", x0, y0, x1, y1) : [a[0], a[1], b[0], b[1]] };
+    const p = t.p, n = p.length / 2; if (n < 5) return null;
+    const P = []; for (let k = 0; k < n; k++) P.push([p[2 * k], p[2 * k + 1]]);
+    let L = 0, xmin = 1e9, xmax = -1e9, ymin = 1e9, ymax = -1e9;
+    P.forEach((q, k) => { if (k) L += Math.hypot(q[0] - P[k - 1][0], q[1] - P[k - 1][1]);
+      xmin = Math.min(xmin, q[0]); xmax = Math.max(xmax, q[0]); ymin = Math.min(ymin, q[1]); ymax = Math.max(ymax, q[1]); });
+    const A = P[0], B = P[n - 1], d = Math.hypot(B[0] - A[0], B[1] - A[1]), diag = Math.hypot(xmax - xmin, ymax - ymin);
+    const dist = (q, a, b) => { const l = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1e-9;
+      const u = Math.max(0, Math.min(1, ((q[0] - a[0]) * (b[0] - a[0]) + (q[1] - a[1]) * (b[1] - a[1])) / (l * l)));
+      return Math.hypot(q[0] - a[0] - u * (b[0] - a[0]), q[1] - a[1] - u * (b[1] - a[1])); };
+    const accroche = q => pointProche(liste, q[0], q[1]) || q;
+    // 1. segment (à toute taille : un « 1 », un trait de fraction restent droits, ce qui ne change rien)
+    if (d > 45 && L < 1.25 * d) {
+      let e = 0; P.forEach(q => { e = Math.max(e, dist(q, A, B)); });
+      if (e < Math.max(12, 0.1 * d)) {
+        const a = accroche(A), b = accroche(B);
+        return { c: t.c, w: t.w, f: "seg", p: a === A && b === B ? pointsForme("seg", A[0], A[1], B[0], B[1]) : [a[0], a[1], b[0], b[1]] };
       }
     }
-    let R = 0; for (let k = 0; k < n; k++) R += Math.hypot(p[2 * k] - cx, p[2 * k + 1] - cy) / n;
-    if (R < 30 || d > 0.6 * R || L < 0.8 * 2 * Math.PI * R || L > 1.45 * 2 * Math.PI * R) return null;   // boucle fermée, à peu près un tour
-    let v = 0; for (let k = 0; k < n; k++) v += (Math.hypot(p[2 * k] - cx, p[2 * k + 1] - cy) - R) ** 2 / n;
-    if (Math.sqrt(v) / R > 0.14) return null;                              // trop ovale ou anguleux : on garde le tracé
-    return { c: t.c, w: t.w, f: "cercle", p: pointsForme("cercle", cx, cy, cx + R, cy) };
+    if (diag < 110) return null;                                          // taille d'une lettre : on ne touche à rien
+    const ferme = d < Math.max(35, 0.2 * L);
+    // 2. cercle
+    if (ferme) {
+      let cx = 0, cy = 0; P.forEach(q => { cx += q[0] / n; cy += q[1] / n; });
+      let R = 0; P.forEach(q => { R += Math.hypot(q[0] - cx, q[1] - cy) / n; });
+      let v = 0; P.forEach(q => { v += (Math.hypot(q[0] - cx, q[1] - cy) - R) ** 2 / n; });
+      if (Math.sqrt(v) / R < 0.2 && L > 0.7 * 2 * Math.PI * R && L < 1.6 * 2 * Math.PI * R)
+        return { c: t.c, w: t.w, f: "cercle", p: pointsForme("cercle", cx, cy, cx + R, cy) };
+    }
+    // 3. polygone : simplification de Douglas-Peucker, puis on vérifie que le tracé colle aux côtés
+    const eps = Math.max(10, 0.035 * L);
+    const rdp = (a, b) => { let m = 0, im = -1; for (let k = a + 1; k < b; k++) { const e = dist(P[k], P[a], P[b]); if (e > m) { m = e; im = k; } }
+      return m > eps ? [...rdp(a, im).slice(0, -1), ...rdp(im, b)] : [a, b]; };
+    let S = rdp(0, n - 1).map(k => P[k]);
+    if (ferme) {
+      S[S.length - 1] = S[0];
+      if (S.length > 4 && dist(S[0], S[S.length - 2], S[1]) < eps) { S = S.slice(1, -1); S.push(S[0]); }   // départ au milieu d'un côté
+    }
+    const cotes = S.length - 1, assezLongs = S.slice(1).every((q, k) => Math.hypot(q[0] - S[k][0], q[1] - S[k][1]) > 35);
+    const fidele = () => P.every(q => S.slice(1).some((r, k) => dist(q, S[k], r) < 1.6 * eps));
+    if (ferme && cotes >= 3 && cotes <= 5 && assezLongs && fidele()) {
+      if (cotes === 4) {                                                  // presque un rectangle droit : on le redresse
+        const ang = (a, b) => { const g = Math.abs(Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI) % 90; return Math.min(g, 90 - g); };
+        if (S.slice(1).every((q, k) => ang(S[k], q) < 10)) {
+          const xs = S.map(q => q[0]).sort((a, b) => a - b), ys = S.map(q => q[1]).sort((a, b) => a - b);
+          const x0 = (xs[0] + xs[1]) / 2, x1 = (xs[3] + xs[4]) / 2, y0 = (ys[0] + ys[1]) / 2, y1 = (ys[3] + ys[4]) / 2;
+          return { c: t.c, w: t.w, f: "rect", p: pointsForme("rect", x0, y0, x1, y1) };
+        }
+      }
+      S = S.map(accroche); S[S.length - 1] = S[0];
+      return { c: t.c, w: t.w, f: "poly", p: S.flat() };
+    }
+    if (!ferme && cotes >= 2 && cotes <= 3 && S.slice(1).every((q, k) => Math.hypot(q[0] - S[k][0], q[1] - S[k][1]) > 60) && fidele()) {
+      S[0] = accroche(S[0]); S[S.length - 1] = accroche(S[S.length - 1]);  // ligne brisée : un angle, des axes...
+      return { c: t.c, w: t.w, f: "poly", p: S.flat() };
+    }
+    // 4. courbe simple (qui tourne peu, sans pointe) : on la lisse
+    const R = [P[0]]; for (const q of P) { const r = R[R.length - 1]; if (Math.hypot(q[0] - r[0], q[1] - r[1]) >= 6) R.push(q); }
+    if (R.length < 8 || diag < 150) return null;
+    let tour = 0, pointe = false;
+    for (let k = 3; k < R.length - 3; k += 3) {
+      const a1 = Math.atan2(R[k][1] - R[k - 3][1], R[k][0] - R[k - 3][0]), a2 = Math.atan2(R[k + 3][1] - R[k][1], R[k + 3][0] - R[k][0]);
+      let da = Math.abs(a2 - a1); if (da > Math.PI) da = 2 * Math.PI - da; tour += da; if (da > 1.2) pointe = true;
+    }
+    if (pointe || tour > 2.2 * Math.PI) return null;                       // écriture, gribouillis : on garde le tracé
+    const lisse = R.map((q, k) => { if (k === 0 || k === R.length - 1) return q; let sx = 0, sy = 0, sw = 0;
+      for (let j = -4; j <= 4; j++) { const r = R[Math.max(0, Math.min(R.length - 1, k + j))], w = 5 - Math.abs(j); sx += r[0] * w; sy += r[1] * w; sw += w; }
+      return [Math.round(sx / sw * 10) / 10, Math.round(sy / sw * 10) / 10]; });
+    return { c: t.c, w: t.w, p: lisse.flat() };
   }
   /* Les extrémités des segments, flèches et cercles s'accrochent aux points placés */
   const AIMANTEES = ["seg", "fleche", "cercle"];
