@@ -727,10 +727,17 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-recadrage .ok { background: #ffcc00; }
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
+.encre-page-bouton { position: fixed; left: 14px; bottom: 74px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #1b2232; background: #ffe14d;
+  border: 0; border-radius: 12px; padding: 12px 16px; min-height: 48px; box-shadow: 0 4px 14px rgba(0,0,0,.2); cursor: pointer; }
+.encre-page-calque { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1400; touch-action: none; mix-blend-mode: multiply; cursor: crosshair; }
+.encre-page-barre { position: fixed; left: 14px; bottom: 74px; z-index: 1500; display: flex; gap: 6px; background: #fff; border: 1px solid var(--encre-trait); border-radius: 12px; padding: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.encre-page-barre button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
+.encre-page-barre button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+.encre-page-bouton[hidden], .encre-page-calque[hidden], .encre-page-barre[hidden] { display: none; }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-@media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos { display: none !important; } }
+@media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-bouton, .encre-page-calque, .encre-page-barre { display: none !important; } }
 </style>
 <script>
 (() => {
@@ -738,7 +745,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
   // outils de tracé : main levée, et formes « à la règle » (enregistrées comme des traits, comme le reste)
-  const OUTILS = [["stylo", "✎", "Main levée"], ["surligneur", "🖍", "Surligneur"], ["pointeur", "✦", "Pointeur (s'efface tout seul)"], ["seg", "╱", "Segment (règle)"], ["fleche", "→", "Flèche, vecteur"], ["cercle", "◯", "Cercle"], ["rect", "▭", "Rectangle"],
+  // les crayons sont dans la barre du bas (avec les couleurs) ; les outils à la règle à gauche
+  const CRAYONS = [["stylo", "✎ Stylo", "Main levée"], ["surligneur", "🖍 Surligneur", "Surligneur"], ["pointeur", "✦ Pointeur", "Pointeur (s'efface tout seul)"]];
+  const OUTILS = [["seg", "╱", "Segment (règle)"], ["fleche", "→", "Flèche, vecteur"], ["cercle", "◯", "Cercle"], ["rect", "▭", "Rectangle"],
                   ["repere", "⊞", "Repère orthonormé"], ["point", "•", "Point (s'aimante au quadrillage)"], ["lasso", "⬚", "Lasso : entourer pour déplacer, agrandir, recolorer, dupliquer"], ["deplacer", "✥", "Déplacer, agrandir"]];
   const REPERES = [
     { nom: "Classique (−5 à 5)", r: { xmin: -5, xmax: 5, ymin: -5, ymax: 5, px: "1", py: "1" } },
@@ -967,6 +976,8 @@ document.addEventListener("DOMContentLoaded", function () {
           ${OUTILS.map(([o, ic, nom]) => `<button data-o="${o}" title="${nom}" aria-label="${nom}">${ic}</button>`).join("")}
         </div><div class="encre-defile"><div class="vue"><canvas></canvas><canvas class="trace"></canvas></div><div class="cale"></div></div></div>
         <div class="encre-barre bas">
+          ${CRAYONS.map(([o, ic, nom]) => `<button data-o="${o}" title="${nom}">${ic}</button>`).join("")}
+          <span class="sep"></span>
           ${COULEURS.map(c => `<button class="coul" data-c="${c}" aria-label="Couleur"><i style="background:${c}"></i></button>`).join("")}
           <span class="sep"></span>
           ${EPAISSEURS.map(e => `<button class="ep" data-e="${e}" aria-label="Épaisseur ${e}"><i style="height:${Math.max(2, e / 2)}px"></i></button>`).join("")}
@@ -1758,6 +1769,75 @@ document.addEventListener("DOMContentLoaded", function () {
   const PREFIXE_EXOS = PAGE + "|exos:";
   const bExos = document.createElement("button"); bExos.className = "encre-exos"; bExos.textContent = "✎ Exercices";
   document.body.appendChild(bExos);
+  /* Surligneur et pointeur sur la page du cours (hors des zones d'écriture) : un calque transparent par-dessus la page.
+     Chaque trait est accroché au paragraphe qu'il touche, pour suivre le défilement et les zones qui s'ouvrent. Rien n'est enregistré. */
+  const bPage = document.createElement("button"); bPage.className = "encre-page-bouton"; bPage.textContent = "🖍 Surligner";
+  document.body.appendChild(bPage);
+  const calquePage = document.createElement("canvas"); calquePage.className = "encre-page-calque"; calquePage.hidden = true;
+  const barrePage = document.createElement("div"); barrePage.className = "encre-page-barre"; barrePage.hidden = true;
+  barrePage.innerHTML = '<button data-p="surligneur">🖍 Surligneur</button><button data-p="pointeur">✦ Pointeur</button><button data-p="effacer">Effacer</button><button data-p="fin">Terminer</button>';
+  document.body.append(calquePage, barrePage);
+  const cp = calquePage.getContext("2d");
+  let outilPage = "surligneur", traitsPage = [], enCoursPage = null, doigtPage = null, animPage = 0;
+  const etatPage = () => barrePage.querySelectorAll("[data-p]").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === outilPage));
+  function ouvrirPage(oui) {
+    calquePage.hidden = barrePage.hidden = !oui; bPage.hidden = oui;
+    if (oui) { etatPage(); taillePage(); }
+  }
+  function taillePage() { const d = window.devicePixelRatio || 1; calquePage.width = Math.round(innerWidth * d); calquePage.height = Math.round(innerHeight * d); dessinerPage(); }
+  function dessinerPage() {
+    if (calquePage.hidden) return;
+    const d = window.devicePixelRatio || 1, now = performance.now();
+    cp.setTransform(1, 0, 0, 1, 0, 0); cp.clearRect(0, 0, calquePage.width, calquePage.height); cp.setTransform(d, 0, 0, d, 0, 0);
+    traitsPage = traitsPage.filter(t => !t.fin || now - t.fin < 2000);
+    for (const t of traitsPage) {
+      if (!t.el.isConnected) continue; const r = t.el.getBoundingClientRect(); if (!r.width && !r.height) continue;   // bloc replié : trait caché
+      const p = t.p.map((v, i) => v + (i % 2 ? r.top : r.left));
+      cp.save();
+      if (t.h) cp.globalAlpha = 0.5;
+      else { cp.globalAlpha = t.fin ? Math.max(0, Math.min(1, (2000 - (now - t.fin)) / 600)) : 1; cp.shadowColor = "rgba(255,40,60,.9)"; cp.shadowBlur = 12; }
+      traceCourbe(cp, { c: t.h ? "#ffe14d" : "#ff2d3d", w: t.h ? 20 : 5, p });
+      cp.restore();
+    }
+    if (traitsPage.some(t => t.fin) && !animPage) animPage = requestAnimationFrame(() => { animPage = 0; dessinerPage(); });
+  }
+  function blocSous(x, y) {                     // le paragraphe (ou l'encadré, la formule…) sous le stylet
+    const el = document.elementsFromPoint(x, y).find(e => e !== calquePage && !barrePage.contains(e)) || document.body;
+    return el.closest("p, li, td, th, h1, h2, h3, h4, figure, table, pre, mjx-container, .callout, main") || el;
+  }
+  bPage.addEventListener("click", () => ouvrirPage(true));
+  barrePage.addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (!b) return;
+    if (b.dataset.p === "fin") return ouvrirPage(false);
+    if (b.dataset.p === "effacer") { traitsPage = []; dessinerPage(); return; }
+    outilPage = b.dataset.p; etatPage(); });
+  addEventListener("scroll", () => dessinerPage(), { passive: true });
+  addEventListener("resize", () => { if (!calquePage.hidden) taillePage(); });
+  calquePage.addEventListener("pointerdown", e => {
+    const t = e.pointerType === "touch" ? Math.max(e.width || 0, e.height || 0) : 0;
+    const doigt = e.pointerType === "touch" && (t > 90 ? "paume" : t > 14 || (t <= 1 && STYLET_VU));
+    if (doigt === "paume") return;
+    e.preventDefault(); calquePage.setPointerCapture(e.pointerId);
+    if (doigt) { doigtPage = { id: e.pointerId, y: e.clientY }; return; }          // un doigt fait défiler la page
+    if (enCoursPage) return;
+    const el = blocSous(e.clientX, e.clientY), r = el.getBoundingClientRect();
+    enCoursPage = { id: e.pointerId, el, h: outilPage === "surligneur", p: [e.clientX - r.left, e.clientY - r.top] };
+    traitsPage.push(enCoursPage); dessinerPage();
+  });
+  calquePage.addEventListener("pointermove", e => {
+    if (doigtPage && e.pointerId === doigtPage.id) { scrollBy(0, doigtPage.y - e.clientY); doigtPage.y = e.clientY; return; }
+    const t = enCoursPage; if (!t || e.pointerId !== t.id) return;
+    const r = t.el.getBoundingClientRect();
+    for (const ev of (e.getCoalescedEvents && e.getCoalescedEvents().length ? e.getCoalescedEvents() : [e])) t.p.push(ev.clientX - r.left, ev.clientY - r.top);
+    dessinerPage();
+  });
+  const finPage = e => {
+    if (doigtPage && e.pointerId === doigtPage.id) { doigtPage = null; return; }
+    const t = enCoursPage; if (!t || e.pointerId !== t.id) return; enCoursPage = null;
+    if (t.h) { const f = reconnaitre({ c: "", w: 20, p: t.p }, []); if (f && f.f === "seg") t.p = f.p.slice(0, 4); }   // surligner une ligne : bien droit
+    else t.fin = performance.now();
+    dessinerPage();
+  };
+  calquePage.addEventListener("pointerup", finPage); calquePage.addEventListener("pointercancel", finPage);
   function ouvrirExos(iso) {
     const auj = isoJour(new Date());
     const dates = new Set([auj]);
