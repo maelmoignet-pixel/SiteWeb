@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
 .encre-page-bouton { position: fixed; left: 14px; bottom: 74px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #1b2232; background: #ffe14d;
   border: 0; border-radius: 12px; padding: 12px 16px; min-height: 48px; box-shadow: 0 4px 14px rgba(0,0,0,.2); cursor: pointer; }
-.encre-page-calque { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1400; touch-action: none; mix-blend-mode: multiply; cursor: crosshair; }
+.encre-page-calque { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1400; touch-action: none; mix-blend-mode: multiply; cursor: crosshair; }
 .encre-page-barre { position: fixed; left: 14px; bottom: 74px; z-index: 1500; display: flex; gap: 6px; background: #fff; border: 1px solid var(--encre-trait); border-radius: 12px; padding: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
 .encre-page-barre button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-page-barre button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
@@ -1361,11 +1361,17 @@ document.addEventListener("DOMContentLoaded", function () {
     calquePage.hidden = barrePage.hidden = !oui; bPage.hidden = oui;
     if (oui) { etatPage(); taillePage(); }
   }
-  function taillePage() { const d = window.devicePixelRatio || 1; calquePage.width = Math.round(innerWidth * d); calquePage.height = Math.round(innerHeight * d); dessinerPage(); }
+  let boitePage = { left: 0, top: 0, width: 1, height: 1 };
+  function taillePage() {                       // taille réelle du calque à l'écran (pas 100vw/100vh, faux sur iPad et avec la mise à l'échelle)
+    const d = window.devicePixelRatio || 1; boitePage = calquePage.getBoundingClientRect();
+    calquePage.width = Math.max(1, Math.round(boitePage.width * d)); calquePage.height = Math.max(1, Math.round(boitePage.height * d)); dessinerPage();
+  }
   function dessinerPage() {
     if (calquePage.hidden) return;
     const d = window.devicePixelRatio || 1, now = performance.now();
-    cp.setTransform(1, 0, 0, 1, 0, 0); cp.clearRect(0, 0, calquePage.width, calquePage.height); cp.setTransform(d, 0, 0, d, 0, 0);
+    const sx = calquePage.width / (boitePage.width || 1), sy = calquePage.height / (boitePage.height || 1);
+    cp.setTransform(1, 0, 0, 1, 0, 0); cp.clearRect(0, 0, calquePage.width, calquePage.height);
+    cp.setTransform(sx, 0, 0, sy, -boitePage.left * sx, -boitePage.top * sy);   // coordonnées de la fenêtre (comme le stylet), quel que soit le placement du calque
     traitsPage = traitsPage.filter(t => !t.fin || now - t.fin < 2000);
     for (const t of traitsPage) {
       if (!t.el.isConnected) continue; const r = t.el.getBoundingClientRect(); if (!r.width && !r.height) continue;   // bloc replié : trait caché
@@ -1389,6 +1395,7 @@ document.addEventListener("DOMContentLoaded", function () {
     outilPage = b.dataset.p; etatPage(); });
   addEventListener("scroll", () => dessinerPage(), { passive: true });
   addEventListener("resize", () => { if (!calquePage.hidden) taillePage(); });
+  if (window.visualViewport) visualViewport.addEventListener("resize", () => { if (!calquePage.hidden) taillePage(); });
   calquePage.addEventListener("pointerdown", e => {
     const t = e.pointerType === "touch" ? Math.max(e.width || 0, e.height || 0) : 0;
     const doigt = e.pointerType === "touch" && (t > 90 ? "paume" : t > 14 || (t <= 1 && STYLET_VU));
