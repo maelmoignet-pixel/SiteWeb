@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
       else barreOuv.after(zone);
       canvas = zone.querySelector(".vue canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
-      calque = zone.querySelector(".vue canvas.trace"); ctxT = calque.getContext("2d", { desynchronized: true }) || calque.getContext("2d");
+      calque = zone.querySelector(".vue canvas.trace"); ctxT = calque.getContext("2d");                 // calque transparent : jamais en affichage rapide (il deviendrait noir)
       zone.addEventListener("click", clicBarre);              // barres du haut, du bas et bandeau d'outils
       defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
       brancherCrayon();
@@ -716,6 +716,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!zone) return;
       const dpr = window.devicePixelRatio || 1, haut = (defile.scrollTop || 0) / echelle, vh = defile.clientHeight / echelle;
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // fond blanc peint (pas transparent) : en affichage rapide (Edge, Chrome), un fond transparent s'affiche en noir
+      if (!(filtre && filtre.seul)) { ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, canvas.width, canvas.height); }
       ctx.setTransform(dpr * echelle, 0, 0, dpr * echelle, 0, -(defile.scrollTop || 0) * dpr);
       if (!(filtre && filtre.seul)) {
       ctx.strokeStyle = "#d6dbe5"; ctx.lineWidth = 1.5; ctx.beginPath();               // lignes de cahier
