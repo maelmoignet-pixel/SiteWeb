@@ -1,0 +1,87 @@
+---
+title: "Mathématiques – Première (tronc commun)"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU NIVEAU : Première – tronc commun (enseignement scientifique / maths spécifiques)
+     Ce fichier est : premiere-tc/index.qmd
+     Il affiche la liste des chapitres, les automatismes, puis les bacs blancs.
+     ===================================================================== -->
+
+## Chapitres
+
+<!-- AJOUTER UN CHAPITRE :
+     1. Copie un fichier du dossier chapitres/ et donne-lui le nom du nouveau chapitre
+     2. Change le titre en haut de ce nouveau fichier
+     3. Ajoute ici une ligne :  - [Titre du chapitre](chapitres/nom-du-fichier.qmd)
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.chapitres}
+
+- [Croissances linéaires](chapitres/croissance-lineaire.qmd)
+- [Croissance exponentielle](chapitres/croissance-exponentielle.qmd)
+- [Analyse de l'information chiffrée](chapitres/information-chiffree.qmd)
+- [Probabilités conditionnelles et indépendance](chapitres/probabilites.qmd)
+- [Dérivation](chapitres/derivation.qmd)
+- [Géométrie repérée](chapitres/geometrie.qmd)
+
+:::
+
+## Automatismes
+
+- [Automatismes : questions types](automatismes/premiere-tc-automatismes.pdf)
+
+## Bacs blancs
+
+<!-- Les bacs blancs couvrent plusieurs chapitres : ils sont ici, au niveau de la classe. -->
+
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – Bac blanc"}
+
+<!-- ➕ AJOUTER UN DOCUMENT : copie ton PDF dans premiere-tc/2025-bac-blanc/ puis copie une carte ci-dessous. -->
+
+:::: {.evals}
+
+::: {.eval}
+[Bac blanc n°1]{.eval-titre}
+
+[Sujet](2025-bac-blanc/premiere-tc-2025-BB1-sujet.pdf){.eval-btn .sujet} [Correction](2025-bac-blanc/premiere-tc-2025-BB1-correction.pdf){.eval-btn .correction}
+:::
+
+::: {.eval}
+[Bac blanc n°2]{.eval-titre}
+
+[Sujet](2025-bac-blanc/premiere-tc-2025-BB2-sujet.pdf){.eval-btn .sujet} [Sujet (version 2)](2025-bac-blanc/premiere-tc-2025-BB2-sujet-version2.pdf){.eval-btn .sujet} [Correction](2025-bac-blanc/premiere-tc-2025-BB2-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – Bac blanc"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-tc/2026-bac-blanc/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](2026-bac-blanc/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::
+
+## Liens utiles
+
+<!-- AJOUTER UN LIEN :
+     Ajoute ici une ligne :  - [Nom du site](https://adresse-du-site){target="_blank"}
+     L'ordre des lignes = l'ordre d'affichage sur le site. -->
+
+::: {.liens-utiles}
+
+- [Automaths](https://maths-au-quotidien.fr/automaths/#/notions/1re-G){target="_blank"} — Travailler les automatismes pour l'épreuve anticipée de première
+
+- [APMEP](https://www.apmep.fr/Annales-Premiere-Generale-Technologique){target="_blank"} — Annales Première Générale et Technologique - épreuve anticipée du baccalauréat
+
+- [Numworks](https://www.numworks.com/fr/emulateur/graphique/){target="_blank"} — Émulateur de calculatrice Numworks
+
+:::

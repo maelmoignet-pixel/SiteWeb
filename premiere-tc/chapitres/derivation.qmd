@@ -1,0 +1,56 @@
+---
+title: "Dérivation"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « Dérivation » (Première – tronc commun)
+     Ce fichier est : premiere-tc/chapitres/derivation.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../cours/... désigne premiere-tc/cours/...
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+## Cours
+
+<!-- COURS : lien vers le .qmd du cours (et le TD en PDF, sans correction).
+     Si tu renommes le fichier, modifie le nom ci-dessous. -->
+
+- [Cours : Dérivation](../cours/derivation/derivation-premiere-tc.qmd)
+
+## Évaluations et DS
+
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-tc/2025-DS-eval/derivation/  (sur ton disque)
+     2. Copie une carte complète (de ::: {.eval} à :::) et modifie le titre et les liens :
+        [Sujet](../2025-DS-eval/derivation/nom-exact-du-fichier.pdf){.eval-btn .sujet}
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+:::: {.evals}
+
+::: {.eval}
+[Évaluation]{.eval-titre}
+
+[Sujet](../2025-DS-eval/derivation/derivation-premiere-tc-2025-eval-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/derivation/derivation-premiere-tc-2025-eval-correction.pdf){.eval-btn .correction}
+:::
+
+::::
+
+:::::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-tc/2026-DS-eval/derivation/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-DS-eval/derivation/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::

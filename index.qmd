@@ -37,7 +37,11 @@ title-block-banner-color: white
     <span>Spécialité en terminale</span>
   </a>
 
-  <!-- AJOUTER UNE 4e IMAGE (ex. première tronc commun) :
+  <a class="carte" href="premiere-tc/index.html">
+    <img src="images/premiere-tc.svg" alt="Première tronc commun">
+    <span>Première tronc commun</span>
+  </a>
+  <!-- AJOUTER UNE 5e IMAGE (ex. première tronc commun) :
        copie un des blocs <a class="carte"> ci-dessus, colle-le juste en dessous,
        puis change href, src et le texte du <span>.
        Une image de secours existe déjà : images/premiere-tc.svg -->

@@ -1,0 +1,49 @@
+---
+title: "Analyse de l'information chiffrée"
+toc: false
+---
+
+<!-- =====================================================================
+     PAGE DU CHAPITRE « Analyse de l'information chiffrée » (Première – tronc commun)
+     Ce fichier est : premiere-tc/chapitres/information-chiffree.qmd
+
+     COMMENT LIRE LES LIENS :
+     Les liens sont écrits par rapport à CE fichier. « ../ » veut dire
+     « remonter d'un dossier ». Donc ../cours/... désigne premiere-tc/cours/...
+     ===================================================================== -->
+
+[← Retour aux chapitres](../index.qmd)
+
+## Cours
+
+<!-- COURS : lien vers le .qmd du cours (et le TD en PDF, sans correction).
+     Si tu renommes le fichier, modifie le nom ci-dessous. -->
+
+- [Cours : Analyse de l'information chiffrée](../cours/information-chiffree/information-chiffree-premiere-tc.qmd)
+- [TD](../cours/information-chiffree/information-chiffree-premiere-tc-TD.pdf)
+
+## Évaluations et DS
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-tc/2025-DS-eval/information-chiffree/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2025-DS-eval/information-chiffree/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::
+
+::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+
+<!-- ➕ AJOUTER UN DOCUMENT :
+     1. Copie ton PDF dans le dossier  premiere-tc/2026-DS-eval/information-chiffree/  (sur ton disque)
+     2. Ajoute ici une ligne sur ce modèle :
+        - [Titre affiché](../2026-DS-eval/information-chiffree/nom-exact-du-fichier.pdf)
+     Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
+
+*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+
+:::

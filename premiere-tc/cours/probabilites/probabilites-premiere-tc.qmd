@@ -1,0 +1,541 @@
+---
+title: "Probabilités conditionnelles et indépendance"
+lang: fr
+format:
+  html:
+    html-math-method: katex
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    include-in-header:
+      text: |
+        <meta name="google" content="notranslate">
+editor:
+  render-on-save: true
+---
+```css
+```
+```{=html}
+<style>
+:root {
+  --def-color:   #2563eb;
+  --prop-color:  #7c3aed;
+  --theo-color:  #c026d3;
+  --voc-color:   #0d9488;
+  --rem-color:   #d97706;
+  --ex-color:    #16a34a;
+  --app-color:   #ea580c;
+  --not-color:   #4f46e5;
+  --meth-color:  #dc2626;
+  --ill-color:   #475569;
+}
+
+.definition, .proposition, .theoreme, .vocabulaire, .remarque, .exemple, .application,
+.notation, .methode, .illustration {
+  margin: 1.5em 0;
+  padding: 1em 1.3em 1em 1.3em;
+  border-radius: 10px;
+  border-left: 6px solid;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  font-family: "Georgia", serif;
+}
+
+.definition::before, .proposition::before, .theoreme::before, .vocabulaire::before,
+.remarque::before, .exemple::before, .application::before,
+.notation::before, .methode::before, .illustration::before {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.95em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+.definition {
+  background: #eff6ff;
+  border-color: var(--def-color);
+  color: #1e3a5f;
+}
+.definition::before {
+  content: "📘  Définition";
+  color: var(--def-color);
+}
+
+.proposition {
+  background: #f5f3ff;
+  border-color: var(--prop-color);
+  color: #3b2467;
+}
+.proposition::before {
+  content: "📐  Proposition";
+  color: var(--prop-color);
+}
+
+.theoreme {
+  background: #fdf4ff;
+  border-color: var(--theo-color);
+  color: #701a75;
+}
+.theoreme::before {
+  content: "🏛️  Théorème";
+  color: var(--theo-color);
+}
+
+.vocabulaire {
+  background: #f0fdfa;
+  border-color: var(--voc-color);
+  color: #0f4c46;
+}
+.vocabulaire::before {
+  content: "🏷️  Vocabulaire";
+  color: var(--voc-color);
+}
+
+.remarque {
+  background: #fffbeb;
+  border-color: var(--rem-color);
+  color: #6b4a06;
+}
+.remarque::before {
+  content: "💡  Remarque";
+  color: var(--rem-color);
+}
+
+.exemple {
+  background: #f0fdf4;
+  border-color: var(--ex-color);
+  color: #14532d;
+}
+.exemple::before {
+  content: "🔍  Exemple";
+  color: var(--ex-color);
+}
+
+.application {
+  background: #fff7ed;
+  border: 2px dashed var(--app-color);
+  border-left: 6px solid var(--app-color);
+  color: #7c2d12;
+}
+.application::before {
+  content: "✏️  Application";
+  color: var(--app-color);
+  font-size: 1.05em;
+}
+
+.notation {
+  background: #eef2ff;
+  border-color: var(--not-color);
+  color: #312e81;
+}
+.notation::before {
+  content: "🖊️  Notation";
+  color: var(--not-color);
+}
+
+.methode {
+  background: #fef2f2;
+  border-color: var(--meth-color);
+  color: #7f1d1d;
+}
+.methode::before {
+  content: "🧭  Méthode";
+  color: var(--meth-color);
+}
+
+.illustration {
+  background: #f8fafc;
+  border-color: var(--ill-color);
+  color: #1e293b;
+}
+.illustration::before {
+  content: "🖼️  Illustration";
+  color: var(--ill-color);
+}
+
+/* Callouts "Solution" un peu plus stylés */
+div.callout-caution {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+div.callout-caution .callout-title {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+}
+div.callout-caution .callout-title::before {
+  content: "🔓  ";
+}
+</style>
+```
+
+# Probabilité conditionnelle
+
+Dans cette partie, on suppose que $P(A)\neq 0$.
+
+## Définition
+
+::: {.definition}
+La probabilité que l'évènement $B$ se réalise sachant que l'évènement $A$ est réalisé est appelée une probabilité conditionnelle. On la note $P_A(B)$ (se lit \"$P$ de $B$ sachant $A$).
+:::
+
+::: {.application}
+Le tableau ci-dessous concerne l'ensemble des adhérents « jeunes » d'un club de tennis:
+
+|         | Benjamins | Minimes | Cadets | Total |
+|:-------:|:---------:|:-------:|:------:|:-----:|
+| Filles  |    16     |   22    |   14   |  52   |
+| Garçons |    28     |   44    |   36   |  108  |
+|  Total  |    44     |   66    |   50   |  160  |
+
+On prend au hasard la fiche d'un des adhérents et on considère les évènements:
+
+-   $M$:« L'adhérent est un minime »;
+
+-   $G$:« L'adhérent est un garçon »;
+
+-   etc.
+
+Donner la notation probabiliste ainsi que la valeur de la probabilité des évènements suivants:
+
+1.  L'adhérent est minime sachant que c'est un garçon.
+
+2.  L'adhérent est un garçon sachant qu'il est minime.
+
+3.  L'adhérent est un cadet sachant que c'est une fille.
+
+4.  L'adhérent est une fille sachant qu'elle est benjamine.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+1.  $P_G(M)=\dfrac{44}{108}=\dfrac{11}{27}$
+
+2.  $P_M(G)=\dfrac{44}{66}=\dfrac{2}{3}$
+
+3.  $P_F(C)=\dfrac{14}{52}=\dfrac{7}{26}$
+
+4.  $P_B(F)=\dfrac{16}{44}=\dfrac{4}{11}$
+:::
+
+## Propriétés
+
+::: {#proposion P(A inter B) .proposition}
+**(admise)**\
+$$P(A \cap B)=P(A)\times P_A(B)$$
+:::
+
+::: {.remarque}
+De la proposition précédente, on en déduit également:\
+$$P_A(B)=\dfrac{P(A\cap B)}{P(A)}$$
+:::
+
+::: {.exemple}
+A la montagne, 80% des vacanciers pratiquent le ski alpin et 20 % la randonnée en raquettes. 60% des skieurs et 50% des marcheurs sont des hommes.\
+On choisit un vacancier au hasard et on considère les événements suivants:
+
+-   $S$: « Le vacancier choisi pratique le ski »
+
+-   $H$: « Le vacancier choisi est un homme »
+
+Donner la notation probabiliste ainsi que la valeur de la probabilité de l'évènement « Le vacancier choisi est un homme qui pratique le ski »
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+$P(S\cap H)=P(S)\times P_S(H)=0.8 \times 0.6=0.48$
+:::
+
+# Arbres pondérés
+
+## Arbre pondérés
+
+::: {.proposition}
+**(admise)**\
+Dans un arbre pondéré:
+
+-   La somme des probabilités des branches issues d'un même nœud est égale à 1.
+
+-   La probabilité de l'événement correspondant à un chemin de l'arbre est égale au produit des probabilités inscrites sur les branches du chemin
+:::
+
+::: {.illustration}
+![](images-cours/probabilites-figure-1.svg){width="70%" fig-align="center"}
+:::
+
+::: {#ex_smartphone .application}
+Un fabriquant de smartphone achète ses écrans chez deux fournisseurs:
+
+-   60% des écran proviennent du fournisseur A;
+
+-   Le fournisseur A a un taux d'écran défectueux de 1%;
+
+-   Le fournisseur B a un taux d'écran défectueux de 2%.
+
+On prélève au hasard un smartphone dans le stock du fabriquant. On note:
+
+-   A:« L'écran provient du fournisseur A »
+
+-   B:« L'écran provient du fournisseur B »
+
+-   D:« L'écran est défectueux »
+
+1.  Représenter la situation à l'aide d'un arbre pondéré.
+
+2.  Donner la notation probabiliste ainsi que la valeur de la probabilité des évènements suivants:
+
+    1.  « Le smartphone provient du fournisseur A et est défectueux »
+
+    2.  « Le smartphone provient du fournisseur B et n'est pas défectueux ».
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+1.   
+
+    ::: {.center}
+    ![](images-cours/probabilites-figure-2.svg){width="70%" fig-align="center"}
+    :::
+
+2.  1.  $P(A\cap D)=0.6 \times 0.01=0.006$. La probabilité que l'écran provienne du fournisseur A et soit défectueux est 0.006.
+
+    2.  $P(B\cap \overline{D})=0.4 \times 0.98=0.392$. La probabilité que l'écran provienne du fournisseur B et ne soit pas défectueux est 0.392.
+:::
+
+## Formule des probabilités totales
+
+::: {.definition}
+Une partition de l'univers est un ensemble d'événements deux à deux incompatibles et dont la réunion est l'univers
+:::
+
+::: {.exemple}
+On lance un dé à six faces. L'univers est $\Omega=\{1;2;3;4;5;6\}$. On considère les évènements:
+
+-   $A$:« le résultat est pair »
+
+-   $B$:« le résultat est impair »
+
+$A$ et $B$ forment une partition de $\Omega$.
+:::
+
+::: {.vocabulaire}
+On dit aussi que les évènements de la partition forment un système complet d'événements.
+:::
+
+::: {.remarque}
+-   Deux évènements sont dit incompatibles si leur intersection est vide.
+
+-   Un évènement $A$ et son événement contraire $\overline{A}$ forment une partition de l'univers.
+:::
+
+::: {.exemple}
+Reprenons l'exemple précédent:
+
+-   $A=\{2;4;6\}$
+
+-   $B=\{1;3;5\}$
+
+D'une part $A\cap B=\{2;4;6\}\cap\{1;3;5\}= \varnothing$ et d'autre part $A\cup B=\{2;4;6\}\cup\{1;3;5\}=\Omega$. $A$ et $B$ forment bien une partition de l'univers.\
+D'autre part $A \cap \overline{A}=\varnothing$ et $A\cup \overline{A}=\Omega$. De même $A$ et $\overline{A}$ forment bien une partition de $\Omega$.
+:::
+
+## Cas particulier des probabilités totales
+
+::: {.proposition}
+**(admise)**
+
+Soit $A$ un évènement tel que $P(A)\neq 0$ (et donc $P(\overline{A})\neq 0)$.\
+La probabilité d'un événement $B$ est donnée par la formule: $$P(B)=P(A\cap B)+P(\overline{A}\cap B) = P(A)\times P_A(B)+P(\overline{A}\times P_{\overline{A}}(B)$$
+:::
+
+::: {.remarque}
+Sur un arbre pondéré, la probabilité d'un évènement $B$ s'obtient en additionnant les probabilités des chemins conduisant à la réalisation de $B$.
+:::
+
+::: {.application}
+Reprenons l'application [8](#ex_smartphone){reference-type="ref" reference="ex_smartphone"}:\
+Calculer la probabilité qu'un composant soit défectueux.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+Les évènements $A$ et $B$ forment une partition de l'univers, donc d'après la formule des probabilités totales: $$P(D)=P(A\cap D)+\relax (B\cap D)=0.6\times 0.01 +0.4 \times 0.02 = 0.014$$
+:::
+
+## Cas général
+
+::: {.proposition}
+**(admise)**\
+Soit $n \in \mathbb{N}$ On considère une experience aléatoire d'univers $\Omega$.\
+Soit $A_1$, $A_2$, \... , $A_n$ un système complet d'évènement.\
+Pour tout évènement $B$ de $\Omega$, on a: $$P(B)=P(A_1\cap B)+P(A_2\cap B)+...+P(A_3\cap B)+$$
+:::
+
+::: {.remarque}
+D'après la proposition précédente on a donc: $$P(B)=P(A_1) \times P_{A_1}(B)+P(A_2) \times P_{A_2}(B)+ ...+P(A_n) \times P_{A_n}(B)$$
+:::
+
+::: {.remarque}
+Sur un arbre pondéré, la probabilité d'un événement correspondant à plusieurs chemins est égale à la somme des probabilités des chemins correspondant à cet événement.
+:::
+
+::: {.application}
+Une entreprise fabrique des trottinettes électriques. Chacune d'entre elles est fabriquée sur l'un des trois sites A, B ou C de l'entreprise. Le site A assure 60% de la production totale, le site B produit 15% des trottinettes et le site C produit le reste.\
+Une étude a montré que, parmi les trottinettes provenant du site A, 5% sont défectueuses contre 2% pour celles du site B et 6% pour celles du site C.\
+On choisit au hasard une trottinette dans l'ensemble de la production.\
+On note $A$, $B$, $C$ et $D$ les évènements:
+
+-   $A$:« la trottinette provient du site A »
+
+-   $B$:« la trottinette provient du site B »
+
+-   $C$:« la trottinette provient du site C »
+
+-   $D$: « la trottinette est défectueuse ».
+
+1.  Justifier que les événements $A$, $B$ et $C$ forment une partition de l'univers.
+
+2.  Construire un arbre pondéré décrivant la situation.
+
+3.  Calculer la probabilité que la trottinette provienne du site A et soit défectueuse.
+
+4.  Calculer la probabilité que la trottinette soit défectueuse.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+1.  Une trottinette ne peut avoir été fabriquée simultanément sur deux sites, donc les événements $A$, $B$ et $C$ sont incompatibles deux à deux. De plus les sites A, B et C constituent la totalité des sites de l'entreprise donc $A\cup B \cup C=\Omega$. Les événements $A$, $B$ et $C$ forment donc une partition de l'univers.
+
+2.   \
+
+    ::: {.center}
+    ![](images-cours/probabilites-figure-3.svg){width="70%" fig-align="center"}
+    :::
+
+3.  $P(A\cap D)=P(A)\times P_A(D)=0.6 \times 0.05=0.03$
+
+4.  Les événements $A$, $B$ et $C$ forment une partition de l'univers donc d'après la formules des probabilités totales: $$P(D)=P(A\cap D)+P(B\cap D)+P(C\cap D)=0.6\times 0.05+0.15 \times 0.02+0.25 \times 0.06=0.048$$
+:::
+
+# Notion d'indépendance
+
+Dans cette partie, on suppose que $P(A)\neq 0$ et $P(B)\neq 0$.
+
+## Evénements indépendants
+
+::: {.definition}
+On dit que deux évènements $A$ et $B$ sont indépendants lorsque $$P(B)=P_A(B)$$
+:::
+
+::: {.remarque}
+-   L'égalité $P(B)=P_A(B)$ signifie que la réalisation de l'évènement $A$ ne modifie pas la probabilité que l'évènement $B$ se réalise.
+
+-   De manière symétrique, si $A$ et $B$ sont indépendants, on a également: $$P(A)=P_B(A)$$
+
+-   Il ne faut pas confondre événements indépendants et événements incompatibles.
+:::
+
+::: {.proposition}
+$A$ et $B$ sont indépendants si et seulement si $P(A\cap B)=P(A) \times P(B)$
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+-   $\Rightarrow$ Supposons que $A$ et $B$ sont indépendants.\
+    D'après la proposition [3](#proposion P(A inter B)){reference-type="ref" reference="proposion P(A inter B)"}, $P(A\cap B)=P(A) \times P_A(B)$.\
+    Or $A$ et $B$ sont indépendants donc $P_A(B)=P(B)$\
+    Donc $P(A\cap B)=P(A) \times P(B)$.
+
+-   $\Leftarrow$ Supposons que $P(A\cap B)=P(A) \times P(B)$.\
+    D'après la proposition [3](#proposion P(A inter B)){reference-type="ref" reference="proposion P(A inter B)"}, $P(A\cap B)=P(A) \times P_A(B)$.\
+    Donc $P(A)\times P(B)=P(A) \times P_A(B)$ et donc $P(B)=P_A(B)$\
+    Donc les évènements $A$ et $B$ sont indépendants.
+:::
+
+::: {.application}
+On tire au hasard une carte dans un jeu de 32 cartes. On considère les événements:
+
+-   $A$:«  la carte tirée est un as »;
+
+-   $B$:«  la carte tirée est un cœur ».
+
+Montrer que les événements $A$ et $B$ sont indépendants.
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+-   $P(A)=\dfrac{4}{32}=\dfrac{1}{8}$
+
+-   $P(B)=\dfrac{8}{32}=\dfrac{1}{4}$
+
+-   L'événement $A\cap B$ est « la carte tirée est l'as de cœur ».\
+    $P(A\cap B)=\dfrac{1}{32}$
+
+Ainsi $P(A)\times P(C)=P(A\cap B)$ et donc les événements $A$ et $B$ sont indépendants.
+:::
+
+::: {.proposition}
+**(admise)**\
+Si $A$ et $B$ sont deux évènements indépendants, alors $\overline{A}$ et $B$ ainsi que $A$ et $\overline{B}$ et $\overline{A}$ et $\overline{B}$ le sont également.
+:::
+
+## Succession de deux épreuves indépendantes
+
+::: {.definition}
+Lorsque deux expériences aléatoires se succèdent et que les résultats de la première expérience n'ont aucune influence sur les résultats de la seconde, on dit qu'il s'agit d'une succession de deux épreuves indépendantes.
+:::
+
+::: {.exemple}
+Une urne contient deux boules vertes et une boule rouge.\
+On tire successivement et avec remise deux boules.\
+Le résultat du second tirage n'est pas influencé par celui du premier tirage car il y a remise. C'est une succession de deux épreuves indépendantes.
+
+Soit $i\in \{1;2\}$. On note:
+
+-   $R_i$:« La boule tirée est rouge au i-ième tirage »
+
+-   $V_i$:« La boule tirée est verte au i-ième tirage »
+
+![](images-cours/probabilites-figure-4.svg){width="70%" fig-align="center"}
+
+On remarque que la probabilité d'obtenir deux boules rouges est : $$P((R_1;R_2))=P(R_1)\times P(R_2)=\dfrac{1}{3}\times \dfrac{1}{3}=\dfrac{1}{9}$$
+:::
+
+::: {.proposition}
+**(admise)**\
+Lorsque deux épreuves sont indépendantes, la probabilité d'un couple de résultats est égale au produit des probabilités de chacun d'entre eux.
+:::
+
+# Bernoulli
+
+::: {.definition}
+On appelle épreuve de Bernoulli de paramètre $p$ ($p \in [0;1]$), une expérience aléatoire admettant exactement deux issues. L'une est appelée « succès », notée $S$, dont la probabilité est $p$, l'autre est appelée « échec », notée $\Bar{S}$, dont la probabilité est $1-p$.
+:::
+
+::: {.exemple}
+1.  Lors du lancer d'un dé équilibré à six faces, on appelle succès le fait d'obtenir un 6. Cette expérience aléatoire est une épreuve de Bernoulli de paramètre $\frac{1}{6}$.
+
+2.  On tire une carte au hasard dans un jeu de 32 cartes. On considère la variable aléatoire $X$ qui prend la valeur 1 si la carte tirée est un coeur et 0 sinon. X suit la loi de Bernoulli de paramètre $\frac{1}{4}$.
+:::
+
+::: {.definition}
+L'expérience aléatoire consistant à répéter $n$ fois de manière identique et indépendante une épreuve de Bernoulli de paramètre $p$ s'appelle un schéma de Bernoulli de paramètres $n$ et $p$.
+:::
+
+::: {.remarque}
+Un schéma de Bernoulli peut s'illustrer par un arbre pondéré. L'arbre permet de compter le nombre de chemins correspondant à un nombre de succès donnés.
+:::
+
+::: {.exemple}
+On réalise trois fois de suite une épreuve de Bernoulli de paramètre $p$.\
+Les issues de cette expérience sont $SSS$, $SS\Bar{S}$, $S\Bar{S}S$, $S\Bar{S}\Bar{S}$, \...\
+On s'intéresse aux issues comportant 2 succès lors des 3 répétitions.\
+Ce sont $SS\Bar{S}$, $S\Bar{S}S$ et $\Bar{S}SS$. La probabilité de chacune de ces issues est égale à $p^2(1-p)$.
+
+![](images-cours/arbre_schema_Bernoulli.png){width="45%" fig-align="center"}
+:::

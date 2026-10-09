@@ -36,8 +36,8 @@ website:
         href: premiere-spe/index.qmd
       - text: "Spécialité Tle"
         href: terminale-spe/index.qmd
-      # - text: "1re tronc commun"        # <- décommente quand ce niveau existe
-      #   href: premiere-tc/index.qmd
+      - text: "1re tronc commun"
+        href: premiere-tc/index.qmd
 
   page-footer: "Maël Moignet"
 
