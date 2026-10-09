@@ -1013,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let cle = "figure:" + (src.startsWith("data:") ? "n" + nFig : src.split("/").pop());
     vus[cle] = (vus[cle] || 0) + 1; if (vus[cle] > 1) cle += "#" + vus[cle];
     const t = titreBloc(fig, "figure"); t[1] = (img.getAttribute && img.getAttribute("alt")) || "";
-    new Zone(fig, PAGE + "|" + cle, "figure", { titre: t, fond: src });
+    new Zone(fig, PAGE + "|" + cle, "figure", { titre: t, fond: src, cleExos: PAGE + "|" + cle + "#img" });
   });
 
   /* opts.flottant : zone « Exercices » ouverte par le bouton fixe (pas de bouton dans le cours, toujours plein écran) */
@@ -1085,7 +1085,16 @@ document.addEventListener("DOMContentLoaded", function () {
       placerImage(src, await IMAGES[src], { capture: true });
     }
     z.insererCapture = insererCapture;
-    if (opts.fond) chargerImage(opts.fond).then(im => { fondImg = im; const b = boiteFond(im); hauteur = Math.max(hauteur, b[1] + b[3] + PAS); if (zone) dimensionner(); }, () => {});
+    // figure du cours : c'est une image comme les autres (« Ajuster les images » la déplace et l'agrandit, l'écriture faite dessus suit)
+    if (opts.fond) chargerImage(opts.fond).then(im => {
+      imgExos.set(opts.fond, im);
+      let f = exos.find(e => e.fond);
+      if (!f) { const [x, y, w, h] = boiteFond(im); f = { id: "fond", src: opts.fond, x, y, w, h, fond: true }; exos.unshift(f);
+                traits.forEach(t => { if (!t.lien && !t.rep) rattacher(t); }); }
+      else f.src = opts.fond;                                             // la figure du cours a pu être mise à jour
+      hauteur = Math.max(hauteur, f.y + f.h + PAS); if (zone) dimensionner();
+    }, () => {});
+    z.images = () => exos;
     let barreOuv = null, bOuv = null;
     if (!opts.flottant) {
       barreOuv = document.createElement("div"); barreOuv.className = "encre-ouvrir";
@@ -1107,10 +1116,11 @@ document.addEventListener("DOMContentLoaded", function () {
         <span class="sep"></span>
         ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
         <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
+        ${opts.flottant || opts.fond ? '<button data-a="ajuster" aria-pressed="false">Ajuster les images</button>' : ""}
         ${opts.flottant ? `<span class="encre-manuel">
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
-            <button data-a="ajuster" aria-pressed="false">Ajuster les images</button><input type="file" accept="image/*" class="m-fichier" hidden>
+            <input type="file" accept="image/*" class="m-fichier" hidden>
             ${MANUEL && MANUEL.dossier ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
         ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
@@ -1498,7 +1508,7 @@ document.addEventListener("DOMContentLoaded", function () {
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
-  const legende = e => e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
+  const legende = e => e.fond ? "" : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   /* Formes à la règle : la liste p contient déjà les points (segment, contour du rectangle, cercle échantillonné) */
   /* ---------- Repère orthonormé : r = { x0, y0 (coin haut-gauche), u (unité), xmin, xmax, ymin, ymax, px, py (pas) } ---------- */
   const PAS_VAL = v => v === "pi" ? Math.PI : v === "pi/2" ? Math.PI / 2 : +v;
@@ -1585,12 +1595,27 @@ document.addEventListener("DOMContentLoaded", function () {
       const u = Math.max(0, Math.min(1, ((q[0] - a[0]) * (b[0] - a[0]) + (q[1] - a[1]) * (b[1] - a[1])) / (l * l)));
       return Math.hypot(q[0] - a[0] - u * (b[0] - a[0]), q[1] - a[1] - u * (b[1] - a[1])); };
     const accroche = q => pointProche(liste, q[0], q[1]) || q;
-    // 1. segment (à toute taille : un « 1 », un trait de fraction restent droits, ce qui ne change rien)
-    if (d > 45 && L < 1.25 * d) {
-      let e = 0; P.forEach(q => { e = Math.max(e, dist(q, A, B)); });
-      if (e < Math.max(12, 0.1 * d)) {
-        const a = accroche(A), b = accroche(B);
-        return { c: t.c, w: t.w, f: "seg", p: a === A && b === B ? pointsForme("seg", A[0], A[1], B[0], B[1]) : [a[0], a[1], b[0], b[1]] };
+    // 1. segment (à toute taille : un « 1 », un trait de fraction restent droits, ce qui ne change rien).
+    //    Droite moyenne (axe principal) du tracé sans ses crochets de début et de fin ; longueur mesurée sans les micro-tremblements.
+    if (diag > 40) {
+      const C = P.slice(Math.floor(n * 0.12), Math.max(Math.ceil(n * 0.88), Math.floor(n * 0.12) + 2));
+      let mx = 0, my = 0; C.forEach(q => { mx += q[0] / C.length; my += q[1] / C.length; });
+      let sxx = 0, syy = 0, sxy = 0; C.forEach(q => { sxx += (q[0] - mx) ** 2; syy += (q[1] - my) ** 2; sxy += (q[0] - mx) * (q[1] - my); });
+      const th = 0.5 * Math.atan2(2 * sxy, sxx - syy), ux = Math.cos(th), uy = Math.sin(th);
+      const ecart = q => Math.abs(-(q[0] - mx) * uy + (q[1] - my) * ux), le_long = q => (q[0] - mx) * ux + (q[1] - my) * uy;
+      let emax = 0, e2 = 0; C.forEach(q => { const e = ecart(q); emax = Math.max(emax, e); e2 += e * e / C.length; });
+      let smin = Infinity, smax = -Infinity; P.forEach(q => { const v = le_long(q); smin = Math.min(smin, v); smax = Math.max(smax, v); });
+      const span = smax - smin;
+      let Lr = 0, prec = P[0]; P.forEach(q => { const l = Math.hypot(q[0] - prec[0], q[1] - prec[1]); if (l >= 6) { Lr += l; prec = q; } });
+      const bouts = [P[0], P[n - 1]].every(q => ecart(q) < Math.max(18, 0.15 * span));   // crochets tolérés, pas un retour
+      const signe = q => -(q[0] - mx) * uy + (q[1] - my) * ux, m3 = Math.floor(C.length / 3);   // arc (parenthèse…) : milieu d'un côté, bouts de l'autre
+      const moy = T => T.reduce((v, q) => v + signe(q), 0) / Math.max(1, T.length);
+      const bombe = Math.abs(moy(C.slice(m3, 2 * m3)) - moy([...C.slice(0, m3), ...C.slice(2 * m3)]));
+      if (span > 40 && Lr < 1.3 * span && emax < Math.max(14, 0.1 * span) && Math.sqrt(e2) < Math.max(6, 0.04 * span) && bouts && bombe < Math.max(5, 0.04 * span)) {
+        const s0 = le_long(P[0]) <= le_long(P[n - 1]) ? [smin, smax] : [smax, smin];
+        const A2 = [mx + s0[0] * ux, my + s0[0] * uy], B2 = [mx + s0[1] * ux, my + s0[1] * uy];
+        const a = accroche(A2), b = accroche(B2);
+        return { c: t.c, w: t.w, f: "seg", p: a === A2 && b === B2 ? pointsForme("seg", A2[0], A2[1], B2[0], B2[1]).map(v => Math.round(v * 10) / 10) : [a[0], a[1], b[0], b[1]] };
       }
     }
     if (diag < 110) return null;                                          // taille d'une lettre : on ne touche à rien
@@ -1887,7 +1912,10 @@ document.addEventListener("DOMContentLoaded", function () {
       feuilles.splice(0, feuilles.length, ...new Set(feuilles));
       feuilles.sort();
       if (!notes.length && !feuilles.length) { info.textContent = "Aucune note à mettre en PDF"; return; }
-      if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); for (const z of notes) { const f = z.fond ? await chargerImage(z.fond).catch(() => null) : null; placer(image(lire(z.cle), z.titre[0], z.titre[1], null, f)); } }
+      if (notes.length) { placer(titrePartie("Notes de cours — " + chapitre)); for (const z of notes) {
+          const ins = (z.images ? z.images() : []).map(e => Object.assign({}, e));
+          for (const e of ins) e.im = await chargerImage(e.src).catch(() => null);
+          placer(image(lire(z.cle), z.titre[0], z.titre[1], null, null, ins)); } }
       if (feuilles.length) {
         if (!vide) { doc.addPage(); y = M; vide = true; }
         placer(titrePartie("Exercices — " + chapitre));
