@@ -972,13 +972,14 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-recadrage .ok { background: #ffcc00; }
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-zone.exos .encre-barre select { font: 600 15px system-ui, sans-serif; min-height: 44px; border-radius: 10px; border: 1px solid var(--encre-trait); padding: 0 8px; background: #fff; }
-.encre-page-bouton { position: fixed; left: 14px; bottom: 74px; z-index: 1500; font: 700 17px/1 system-ui, sans-serif; color: #1b2232; background: #ffe14d;
-  border: 0; border-radius: 12px; padding: 12px 16px; min-height: 48px; box-shadow: 0 4px 14px rgba(0,0,0,.2); cursor: pointer; }
-.encre-page-calque { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1400; touch-action: none; mix-blend-mode: multiply; cursor: crosshair; }
-.encre-page-barre { position: fixed; left: 14px; bottom: 74px; z-index: 1500; display: flex; gap: 6px; background: #fff; border: 1px solid var(--encre-trait); border-radius: 12px; padding: 6px; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
-.encre-page-barre button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 14px; border-radius: 9px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
-.encre-page-barre button[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
-.encre-page-bouton[hidden], .encre-page-calque[hidden], .encre-page-barre[hidden] { display: none; }
+.encre-page-calque { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1400; mix-blend-mode: multiply; pointer-events: none; }
+.encre-page-calque.actif { pointer-events: auto; touch-action: none; cursor: crosshair; }
+.encre-page-barre { position: fixed; left: 14px; bottom: 74px; z-index: 1500; display: flex; gap: 5px; }
+.encre-page-barre button { width: 42px; height: 42px; padding: 0; font: 20px/1 system-ui, sans-serif; border-radius: 10px; border: 1px solid var(--encre-trait);
+  background: #fff; color: #1b2232; box-shadow: 0 2px 8px rgba(0,0,0,.15); cursor: pointer; }
+.encre-page-barre button[aria-pressed="true"] { background: #ffe14d; border-color: #c9a400; outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+.encre-page-barre button[data-p="pointeur"][aria-pressed="true"] { background: #ffd9dc; border-color: #ff2d3d; }
+.encre-page-calque[hidden], .encre-page-barre[hidden] { display: none; }
 .encre-connexion { position: fixed; inset: 0; z-index: 3000; background: rgba(27, 34, 50, .55); display: flex; align-items: center; justify-content: center; }
 .encre-connexion form { background: #fff; border-radius: 14px; padding: 18px 20px; width: min(420px, calc(100% - 32px)); display: grid; gap: 10px; font: 16px system-ui, sans-serif; }
 .encre-connexion h3 { margin: 0; font-size: 19px; }
@@ -991,7 +992,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-@media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-bouton, .encre-page-calque, .encre-page-barre { display: none !important; } }
+@media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-calque, .encre-page-barre { display: none !important; } }
 </style>
 <script>
 (() => {
@@ -2091,18 +2092,20 @@ document.addEventListener("DOMContentLoaded", function () {
   document.body.appendChild(bExos);
   /* Surligneur et pointeur sur la page du cours (hors des zones d'écriture) : un calque transparent par-dessus la page.
      Chaque trait est accroché au paragraphe qu'il touche, pour suivre le défilement et les zones qui s'ouvrent. Rien n'est enregistré. */
-  const bPage = document.createElement("button"); bPage.className = "encre-page-bouton"; bPage.textContent = "🖍 Surligner";
-  document.body.appendChild(bPage);
+  // trois petits boutons toujours visibles : 🖍 surligner, ✦ pointer (un 2e appui rend la page normale), ⌫ effacer
   const calquePage = document.createElement("canvas"); calquePage.className = "encre-page-calque"; calquePage.hidden = true;
-  const barrePage = document.createElement("div"); barrePage.className = "encre-page-barre"; barrePage.hidden = true;
-  barrePage.innerHTML = '<button data-p="surligneur">🖍 Surligneur</button><button data-p="pointeur">✦ Pointeur</button><button data-p="effacer">Effacer</button><button data-p="fin">Terminer</button>';
+  const barrePage = document.createElement("div"); barrePage.className = "encre-page-barre";
+  barrePage.innerHTML = '<button data-p="surligneur" title="Surligner le cours" aria-label="Surligner le cours">🖍</button>'
+    + '<button data-p="pointeur" title="Pointer (le trait s\'efface tout seul)" aria-label="Pointer">✦</button>'
+    + '<button data-p="effacer" title="Effacer les surlignages" aria-label="Effacer les surlignages">⌫</button>';
   document.body.append(calquePage, barrePage);
   const cp = calquePage.getContext("2d");
-  let outilPage = "surligneur", traitsPage = [], enCoursPage = null, doigtPage = null, animPage = 0;
-  const etatPage = () => barrePage.querySelectorAll("[data-p]").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === outilPage));
-  function ouvrirPage(oui) {
-    calquePage.hidden = barrePage.hidden = !oui; bPage.hidden = oui;
-    if (oui) { etatPage(); taillePage(); }
+  let outilPage = null, traitsPage = [], enCoursPage = null, doigtPage = null, animPage = 0;
+  function etatPage() {                         // calque actif seulement pendant qu'un outil est choisi ; visible tant qu'il y a des traits
+    barrePage.querySelectorAll("[data-p]").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === outilPage));
+    calquePage.classList.toggle("actif", !!outilPage);
+    const voir = !!outilPage || traitsPage.length > 0;
+    if (voir && calquePage.hidden) { calquePage.hidden = false; taillePage(); } else if (!voir) calquePage.hidden = true;
   }
   let boitePage = { left: 0, top: 0, width: 1, height: 1 };
   function taillePage() {                       // taille réelle du calque à l'écran (pas 100vw/100vh, faux sur iPad et avec la mise à l'échelle)
@@ -2115,7 +2118,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const sx = calquePage.width / (boitePage.width || 1), sy = calquePage.height / (boitePage.height || 1);
     cp.setTransform(1, 0, 0, 1, 0, 0); cp.clearRect(0, 0, calquePage.width, calquePage.height);
     cp.setTransform(sx, 0, 0, sy, -boitePage.left * sx, -boitePage.top * sy);   // coordonnées de la fenêtre (comme le stylet), quel que soit le placement du calque
-    traitsPage = traitsPage.filter(t => !t.fin || now - t.fin < 2000);
+    const avant = traitsPage.length; traitsPage = traitsPage.filter(t => !t.fin || now - t.fin < 2000);
+    if (avant && !traitsPage.length && !outilPage) { calquePage.hidden = true; return; }
     for (const t of traitsPage) {
       if (!t.el.isConnected) continue; const r = t.el.getBoundingClientRect(); if (!r.width && !r.height) continue;   // bloc replié : trait caché
       const p = t.p.map((v, i) => v + (i % 2 ? r.top : r.left));
@@ -2131,11 +2135,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const el = document.elementsFromPoint(x, y).find(e => e !== calquePage && !barrePage.contains(e)) || document.body;
     return el.closest("p, li, td, th, h1, h2, h3, h4, figure, table, pre, mjx-container, .callout, main") || el;
   }
-  bPage.addEventListener("click", () => ouvrirPage(true));
   barrePage.addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (!b) return;
-    if (b.dataset.p === "fin") return ouvrirPage(false);
-    if (b.dataset.p === "effacer") { traitsPage = []; dessinerPage(); return; }
-    outilPage = b.dataset.p; etatPage(); });
+    if (b.dataset.p === "effacer") { traitsPage = []; dessinerPage(); }
+    else outilPage = outilPage === b.dataset.p ? null : b.dataset.p;
+    etatPage(); });
   addEventListener("scroll", () => dessinerPage(), { passive: true });
   addEventListener("resize", () => { if (!calquePage.hidden) taillePage(); });
   if (window.visualViewport) visualViewport.addEventListener("resize", () => { if (!calquePage.hidden) taillePage(); });
