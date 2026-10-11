@@ -138,6 +138,14 @@ toc: false
 [[Suites]{.tag}]{.chapitres-tags}
 :::
 
+::: {.eval}
+[DS n°2]{.eval-titre} [10 octobre 2026]{.eval-date}
+
+[Sujet](2026-DS-eval/terminale-2026-DS2-sujet.pdf){.eval-btn .sujet} [Correction](2026-DS-eval/terminale-2026-DS2-correction.pdf){.eval-btn .correction}
+
+[[Suites]{.tag} [Loi binomiale]{.tag}]{.chapitres-tags}
+:::
+
 ::::
 
 [Bacs blancs]{.eval-groupe}

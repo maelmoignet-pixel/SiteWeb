@@ -89,6 +89,14 @@ toc: false
 [Sujet](../2026-DS-eval/second-degre/second-degre-premiere-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/second-degre/second-degre-premiere-2026-DS1-correction.pdf){.eval-btn .correction}
 :::
 
+::: {.eval}
+[Devoir commun n°1]{.eval-titre} [10 octobre 2026]{.eval-date}
+
+[Sujet](../2026-bac-blanc/premiere-2026-DC1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-bac-blanc/premiere-2026-DC1-correction.pdf){.eval-btn .correction}
+
+[[Second degré]{.tag} [Suites]{.tag}]{.chapitres-tags}
+:::
+
 ::::
 
 :::::
