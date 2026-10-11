@@ -6,7 +6,7 @@ toc: false
 <!-- =====================================================================
      PAGE DU NIVEAU : Première – tronc commun (enseignement scientifique / maths spécifiques)
      Ce fichier est : premiere-tc/index.qmd
-     Il affiche la liste des chapitres, les automatismes, puis les bacs blancs.
+     Il affiche la liste des chapitres, puis les bacs blancs.
      ===================================================================== -->
 
 ## Chapitres
@@ -27,10 +27,6 @@ toc: false
 - [Géométrie repérée](chapitres/geometrie.qmd)
 
 :::
-
-## Automatismes
-
-- [Automatismes : questions types](automatismes/premiere-tc-automatismes.pdf)
 
 ## Bacs blancs
 
