@@ -19,7 +19,7 @@ toc: false
 
 ::: {.chapitres}
 
-<!-- MASQUÉ - [Suites](chapitres/suites.qmd) -->
+- [Suites](chapitres/suites.qmd)
 - [Loi binomiale](chapitres/loi-binomiale.qmd)
 - [Espace 1](chapitres/espace-1.qmd)
 - [Limites de fonctions](chapitres/limites-de-fonctions.qmd)
