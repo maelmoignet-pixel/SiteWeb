@@ -1438,7 +1438,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const PARTIES_ARDOISE = /\/chapitres\/[^/]+\.html$/.test(location.pathname) ? /^(cours|évaluations et ds)$/i
     : /\/(seconde|premiere-spe|premiere-tc|terminale-spe)\/(index\.html)?$/.test(location.pathname) ? /^bacs? blancs?/i : null;
   const titresArdoise = PARTIES_ARDOISE ? [...document.querySelectorAll("main h2")].filter(h => PARTIES_ARDOISE.test(h.textContent.trim())) : [];
-  if (!blocs.length && !titresArdoise.length) return;
+  const PAGE_NIVEAU = /\/(seconde|premiere-spe|premiere-tc|terminale-spe)\/(index\.html)?$/.test(location.pathname);   // + une ardoise du niveau, hors chapitres
+  if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
   menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
@@ -1545,21 +1546,24 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Ardoises : clés « …/index.html|ardoise:<partie>:<date> » (adresse du niveau toujours écrite avec index.html, pour le cahier de texte) */
   const BASE_ARDOISE = PAGE.replace(/\/$/, "/index.html");
   const hhmm = ms => { const d = new Date(ms); return d.getHours() + "h" + String(d.getMinutes()).padStart(2, "0"); };
-  const ardoises = titresArdoise.map(h => {
-    const nom = h.textContent.trim(), sec = nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  function creerArdoise(nom, sec, placer) {
     const a = { nom, sec, cle: BASE_ARDOISE + "|ardoise:" + sec + ":", img: BASE_ARDOISE + "#ardoise-img:" + sec + ":" };
     const barre = document.createElement("div"); barre.className = "encre-ouvrir";
-    a.bouton = document.createElement("button"); barre.appendChild(a.bouton); h.after(barre);
+    a.bouton = document.createElement("button"); barre.appendChild(a.bouton); placer(barre);
     a.bouton.onclick = () => ouvrirArdoise(a, isoJour(new Date()));
     return a;
-  });
+  }
+  const ardoises = titresArdoise.map(h => { const nom = h.textContent.trim();
+    return creerArdoise(nom, nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""), b => h.after(b)); });
+  if (PAGE_NIVEAU) { const h = document.querySelector("main h2"), m = document.querySelector("main");   // en haut de la page, avant « Chapitres »
+    if (m) ardoises.unshift(creerArdoise("", "niveau", b => { if (h) h.before(b); else m.appendChild(b); })); }
   function majArdoises() {                      // ● : quelque chose est écrit sur l'ardoise du jour
     const auj = isoJour(new Date());
     ardoises.forEach(a => { let ecrit = false; try { ecrit = (JSON.parse(localStorage.getItem(a.cle + auj) || "[]")).length > 0; } catch (e) {}
-      a.bouton.textContent = "✎ Ardoise"; a.bouton.classList.toggle("ecrit", ecrit); });
+      a.bouton.textContent = a.sec === "niveau" ? "✎ Ardoise du niveau" : "✎ Ardoise"; a.bouton.classList.toggle("ecrit", ecrit); });
   }
   majArdoises();
-  const titreArdoise = a => a.sec === "cours" ? chapitre : chapitre + " — " + a.nom;   // ardoise du cours : le nom du chapitre seul
+  const titreArdoise = a => a.sec === "niveau" ? "" : a.sec === "cours" ? chapitre : chapitre + " — " + a.nom;   // cours : le chapitre seul ; niveau : la date et l'heure seules
   function ouvrirArdoise(a, iso) {
     const auj = isoJour(new Date()), dates = new Set([auj]);
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(a.cle)) dates.add(k.slice(a.cle.length));
