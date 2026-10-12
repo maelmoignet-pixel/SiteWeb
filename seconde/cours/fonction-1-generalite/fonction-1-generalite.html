@@ -2350,6 +2350,7 @@ document.addEventListener("DOMContentLoaded", function () {
       a.bouton.textContent = "✎ Ardoise"; a.bouton.classList.toggle("ecrit", ecrit); });
   }
   majArdoises();
+  const titreArdoise = a => a.sec === "cours" ? chapitre : chapitre + " — " + a.nom;   // ardoise du cours : le nom du chapitre seul
   function ouvrirArdoise(a, iso) {
     const auj = isoJour(new Date()), dates = new Set([auj]);
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(a.cle)) dates.add(k.slice(a.cle.length));
@@ -2358,7 +2359,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let debut = 0; try { JSON.parse(localStorage.getItem(a.cle + iso) || "[]").forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; }); } catch (e) {}
     if (!debut && iso === auj) debut = Date.now();                       // heure : celle du premier trait (ou de l'ouverture, si rien n'est encore écrit)
     bExos.hidden = true; menu.hidden = true;
-    const z = new Zone(null, a.cle + iso, "exos", { flottant: true, entete: [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), chapitre + " — " + a.nom], date: iso, dates: liste,
+    const z = new Zone(null, a.cle + iso, "exos", { flottant: true, entete: [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), titreArdoise(a)], date: iso, dates: liste,
       cleExos: a.img + iso, changerDate: d => ouvrirArdoise(a, d), onFermer: () => { bExos.hidden = false; menu.hidden = false; majInfo(); majArdoises(); } });
     z.ouvrir();
   }
@@ -2674,7 +2675,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const iso = a ? k.slice(a.cle.length) : k.slice(PREFIXE_EXOS.length), ins = lire(a ? a.img + iso : PAGE + "#exos-img:" + iso);
           for (const e of ins) e.im = await chargerImage(e.src).catch(() => null);
           let debut = 0; lire(k).forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; });
-          placer(image(lire(k), "", "", a ? [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), chapitre + " — " + a.nom] : [dateLongue(iso), chapitre], null, ins));
+          placer(image(lire(k), "", "", a ? [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), titreArdoise(a)] : [dateLongue(iso), chapitre], null, ins));
         }
       }
       doc.save(nom);
