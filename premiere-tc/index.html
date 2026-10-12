@@ -1436,7 +1436,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function maxY(t) { let m = 0; for (let i = 1; i < t.p.length; i += 2) m = Math.max(m, t.p[i]); return m; }
 
   /* Petit menu : nombre de zones écrites, sauvegarde dans un fichier et rechargement */
-  if (!blocs.length) return;
+  /* Ardoises : parties des pages qui reçoivent une feuille libre par jour (comme la feuille d'exercices).
+     Pages de chapitre : « Cours » et « Évaluations et DS » ; pages de niveau : « Bacs blancs » (et DS). */
+  const PARTIES_ARDOISE = /\/chapitres\/[^/]+\.html$/.test(location.pathname) ? /^(cours|évaluations et ds)$/i
+    : /\/(seconde|premiere-spe|premiere-tc|terminale-spe)\/(index\.html)?$/.test(location.pathname) ? /^bacs? blancs?/i : null;
+  const titresArdoise = PARTIES_ARDOISE ? [...document.querySelectorAll("main h2")].filter(h => PARTIES_ARDOISE.test(h.textContent.trim())) : [];
+  if (!blocs.length && !titresArdoise.length) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
   menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
@@ -1539,6 +1544,36 @@ document.addEventListener("DOMContentLoaded", function () {
     z.ouvrir();
   }
   bExos.onclick = () => ouvrirExos(isoJour(new Date()));
+
+  /* Ardoises : clés « …/index.html|ardoise:<partie>:<date> » (adresse du niveau toujours écrite avec index.html, pour le cahier de texte) */
+  const BASE_ARDOISE = PAGE.replace(/\/$/, "/index.html");
+  const hhmm = ms => { const d = new Date(ms); return d.getHours() + "h" + String(d.getMinutes()).padStart(2, "0"); };
+  const ardoises = titresArdoise.map(h => {
+    const nom = h.textContent.trim(), sec = nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const a = { nom, sec, cle: BASE_ARDOISE + "|ardoise:" + sec + ":", img: BASE_ARDOISE + "#ardoise-img:" + sec + ":" };
+    const barre = document.createElement("div"); barre.className = "encre-ouvrir";
+    a.bouton = document.createElement("button"); barre.appendChild(a.bouton); h.after(barre);
+    a.bouton.onclick = () => ouvrirArdoise(a, isoJour(new Date()));
+    return a;
+  });
+  function majArdoises() {                      // ● : quelque chose est écrit sur l'ardoise du jour
+    const auj = isoJour(new Date());
+    ardoises.forEach(a => { let ecrit = false; try { ecrit = (JSON.parse(localStorage.getItem(a.cle + auj) || "[]")).length > 0; } catch (e) {}
+      a.bouton.textContent = "✎ Ardoise"; a.bouton.classList.toggle("ecrit", ecrit); });
+  }
+  majArdoises();
+  function ouvrirArdoise(a, iso) {
+    const auj = isoJour(new Date()), dates = new Set([auj]);
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(a.cle)) dates.add(k.slice(a.cle.length));
+                                                           if (k && k.startsWith(a.img)) dates.add(k.slice(a.img.length)); } } catch (e) {}
+    const liste = [...dates].sort().reverse().map(d => [d, d === auj ? "Aujourd'hui" : dateLongue(d)]);
+    let debut = 0; try { JSON.parse(localStorage.getItem(a.cle + iso) || "[]").forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; }); } catch (e) {}
+    if (!debut && iso === auj) debut = Date.now();                       // heure : celle du premier trait (ou de l'ouverture, si rien n'est encore écrit)
+    bExos.hidden = true; menu.hidden = true;
+    const z = new Zone(null, a.cle + iso, "exos", { flottant: true, entete: [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), chapitre + " — " + a.nom], date: iso, dates: liste,
+      cleExos: a.img + iso, changerDate: d => ouvrirArdoise(a, d), onFermer: () => { bExos.hidden = false; menu.hidden = false; majInfo(); majArdoises(); } });
+    z.ouvrir();
+  }
 
   function majInfo() {
     let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) n++; } } catch (e) {}
@@ -1833,6 +1868,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const feuilles = [];
       try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i);
         if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k);
+        if (k && k.startsWith(BASE_ARDOISE + "|ardoise:") && lire(k).length) feuilles.push(k);
         if (k && k.startsWith(PAGE + "#exos-img:") && lire(k).length && !feuilles.includes(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length))) feuilles.push(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length)); } } catch (e) {}
       feuilles.splice(0, feuilles.length, ...new Set(feuilles));
       feuilles.sort();
@@ -1846,9 +1882,11 @@ document.addEventListener("DOMContentLoaded", function () {
         placer(titrePartie("Exercices — " + chapitre));
         for (const [i, k] of feuilles.entries()) {
           if (i > 0) { doc.addPage(); y = M; }
-          const iso = k.slice(PREFIXE_EXOS.length), ins = lire(PAGE + "#exos-img:" + iso);
+          const a = k.startsWith(PREFIXE_EXOS) ? null : ardoises.find(x => k.startsWith(x.cle));
+          const iso = a ? k.slice(a.cle.length) : k.slice(PREFIXE_EXOS.length), ins = lire(a ? a.img + iso : PAGE + "#exos-img:" + iso);
           for (const e of ins) e.im = await chargerImage(e.src).catch(() => null);
-          placer(image(lire(k), "", "", [dateLongue(iso), chapitre], null, ins));
+          let debut = 0; lire(k).forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; });
+          placer(image(lire(k), "", "", a ? [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), chapitre + " — " + a.nom] : [dateLongue(iso), chapitre], null, ins));
         }
       }
       doc.save(nom);
