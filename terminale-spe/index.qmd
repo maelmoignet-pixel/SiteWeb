@@ -31,7 +31,6 @@ toc: false
 - [Intégration](chapitres/integration.qmd)
 - [Dénombrement](chapitres/denombrement.qmd)
 - [Trigonométrie](chapitres/trigonometrie.qmd)
-- [test](chapitres/test.qmd)
 
 :::
 
