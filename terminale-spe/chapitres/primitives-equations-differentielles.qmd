@@ -26,7 +26,7 @@ toc: false
 
 ## Évaluations et DS
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2025 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  terminale-spe/2025-DS-eval/primitives-equations-differentielles/  (sur ton disque)
@@ -34,9 +34,17 @@ toc: false
         - [Titre affiché](../2025-DS-eval/primitives-equations-differentielles/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+:::: {.evals}
 
+::: {.eval}
+[Évaluation n°1]{.eval-titre} [17 mars 2025]{.eval-date}
+
+[Sujet](../2025-DS-eval/primitives-equations-differentielles/primitives-equations-differentielles-terminale-2025-eval1-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/primitives-equations-differentielles/primitives-equations-differentielles-terminale-2025-eval1-correction.pdf){.eval-btn .correction}
 :::
+
+::::
+
+:::::
 
 ::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
 
