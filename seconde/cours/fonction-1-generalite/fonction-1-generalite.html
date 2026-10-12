@@ -1248,6 +1248,9 @@ document.addEventListener("DOMContentLoaded", function () {
   function Zone(bloc, cle, type, opts = {}) {
     const z = this;
     let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+    // heure de chaque trait (t.d, en ms) : le cahier de texte retrouve ainsi ce qui a été écrit pendant une séance ; 0 = heure inconnue (traits plus anciens)
+    const sansHeure = () => traits.forEach(t => { if (t.d === undefined) t.d = 0; });
+    sansHeure();
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
     let fondImg = null;
     let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
@@ -1444,7 +1447,7 @@ document.addEventListener("DOMContentLoaded", function () {
           traits = traits.filter(t => !selLasso.includes(t) && !(t.rep && ids.has(t.rep)) && !(t.lien && ids.has(t.lien))); finMemo(); selLasso = null; fermerMenuLasso(); sauver(); } break;
         case "l-dup": if (selLasso) { memoriser(); const nv = {};
           selLasso.forEach(t => { if (t.id) nv[t.id] = nouvelId("r"); });
-          const copies = selLasso.map(t => { const c = JSON.parse(JSON.stringify(t)); for (let i = 0; i < c.p.length; i++) c.p[i] += 40;
+          const copies = selLasso.map(t => { const c = JSON.parse(JSON.stringify(t)); delete c.d; for (let i = 0; i < c.p.length; i++) c.p[i] += 40;
             if (c.r) { c.r.x0 += 40; c.r.y0 += 40; } if (c.id) c.id = nv[t.id]; if (c.rep && nv[c.rep]) c.rep = nv[c.rep]; if (c.lien && nv[c.lien]) c.lien = nv[c.lien]; bornes(c); return c; });
           traits.push(...copies); selLasso = copies; finMemo(); sauver(); } break;
         case "haut": defile.scrollBy({ top: -defile.clientHeight * 0.8, behavior: "smooth" }); return;
@@ -1624,6 +1627,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]); for (let k = depuis; k < n - 1; k++) morceau(ctx, p, k, n); ctx.stroke();
     }
     function sauver() {
+      const maintenant = Date.now(); traits.forEach(t => { if (t.d === undefined) t.d = maintenant; });   // traits nouveaux depuis le dernier enregistrement
       try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
             localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {}
       majInfo();
@@ -1885,6 +1889,7 @@ document.addEventListener("DOMContentLoaded", function () {
     z.exporter = () => traits;
     z.recharger = () => {                       // notes arrivées d'un autre appareil
       try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+      sansHeure();
       if (opts.cleExos) { try { const l = JSON.parse(localStorage.getItem(opts.cleExos) || "[]"); if (l.length || !opts.fond) { exos.splice(0, exos.length, ...l); chargerExos(); } } catch (e) {} }
       annules = []; etats = []; selLasso = null; selObj = null;
       hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS), ...exos.map(e => e.y + e.h + PAS));
