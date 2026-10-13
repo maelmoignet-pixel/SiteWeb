@@ -1574,7 +1574,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const chapitre = ((document.querySelector("h1.title") || {}).textContent || document.title.split(" – ")[0]).trim();
   const PREFIXE_EXOS = PAGE + "|exos:";
   const bExos = document.createElement("button"); bExos.className = "encre-exos"; bExos.textContent = "✎ Exercices";
-  if (blocs.length) document.body.appendChild(bExos);           // feuille d'exercices : seulement sur les pages de cours (pas sur les pages de chapitre ou de niveau)
+  // feuille d'exercices : sur les pages de cours, et sur toute autre page où une feuille a déjà été écrite (pour la retrouver)
+  function majBoutonExos() {
+    if (bExos.isConnected) return;
+    let deja = false; try { for (let i = 0; i < localStorage.length && !deja; i++) { const k = localStorage.key(i); deja = !!k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:")); } } catch (e) {}
+    if (blocs.length || deja) document.body.appendChild(bExos);
+  }
+  majBoutonExos();
   /* Surligneur et pointeur sur la page du cours (hors des zones d'écriture) : un calque transparent par-dessus la page.
      Chaque trait est accroché au paragraphe qu'il touche, pour suivre le défilement et les zones qui s'ouvrent. Rien n'est enregistré. */
   // trois petits boutons toujours visibles : 🖍 surligner, ✦ pointer (un 2e appui rend la page normale), ⌫ effacer
@@ -1831,7 +1837,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
     lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
-    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); }
+    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); majBoutonExos(); }
     etatSync("☁ À jour");
   }
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
