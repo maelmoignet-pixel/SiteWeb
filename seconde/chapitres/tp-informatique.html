@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <style>
 :root { --encre-fond: #ffffff; --encre-trait: #d6dbe5; --encre-accent: #2d4db0; --encre-texte: #1b2232; }
 .encre-ouvrir { display: flex; justify-content: flex-end; margin: -0.6em 0 1.2em; }
-.encre-ouvrir button, .encre-barre button, .encre-menu button {
+.encre-ouvrir button, .encre-barre button, .encre-menu button, .encre-enonce > button {
   font: 600 15px/1 system-ui, sans-serif; border: 1px solid var(--encre-trait); background: #fff; color: var(--encre-texte);
   border-radius: 10px; min-height: 44px; min-width: 44px; padding: 0 14px; cursor: pointer; touch-action: manipulation; }
 .encre-ouvrir button.ecrit { border-color: var(--encre-accent); color: var(--encre-accent); }
@@ -232,6 +232,12 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-repere .coche input { width: 22px; height: 22px; min-height: 0; }
 .encre-repere input { width: 3.6em; min-height: 38px; text-align: center; font: 600 15px system-ui, sans-serif; border: 1px solid var(--encre-trait); border-radius: 8px; }
 .encre-zone { position: relative; }
+.encre-barre [data-a="annuler"], .encre-barre [data-a="retablir"] { min-width: 72px; min-height: 56px; font-size: 30px; padding: 0 10px; }
+.encre-enonce { background: #fff; border-bottom: 1px solid var(--encre-trait); display: flex; gap: 8px; align-items: flex-start; padding: 6px 10px; }
+.encre-enonce .contenu { flex: 1; min-width: 0; max-height: 24vh; overflow: auto; font-size: 1.02rem; }
+.encre-enonce .contenu > * { margin: 0 !important; }
+.encre-enonce.replie .contenu { max-height: 2.6em; overflow: hidden; opacity: .6; -webkit-mask-image: linear-gradient(#000 40%, transparent); mask-image: linear-gradient(#000 40%, transparent); }
+.encre-enonce > button { flex: none; }
 .encre-barre .sep { width: 1px; align-self: stretch; background: var(--encre-trait); margin: 0 4px; }
 .encre-barre .coul { width: 44px; padding: 0; }
 .encre-barre .coul i { display: block; width: 22px; height: 22px; border-radius: 50%; margin: auto; }
@@ -362,7 +368,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration", figure: "Figure" };
   function texteLisible(el) {                 // texte du bloc avec les formules en LaTeX (sans le doublon de KaTeX)
     const c = el.cloneNode(true);
-    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" " + (a ? a.textContent : k.textContent) + " "); });
+    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" $" + (a ? a.textContent : k.textContent).trim() + "$ "); });
+    c.querySelectorAll(".math").forEach(m => { if (!c.contains(m) || m.querySelector(".katex")) return;     // formule pas encore affichée par KaTeX
+      m.replaceWith(" $" + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + "$ "); });
     c.querySelectorAll(".callout-title, .callout-header").forEach(x => x.remove());
     return (c.textContent || "").replace(/\s+/g, " ").trim();
   }
@@ -370,7 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
     numeros[type] = (numeros[type] || 0) + 1;
     const sec = bloc.closest("section"), h = sec && sec.querySelector("h1, h2, h3, h4");
     const section = h ? h.textContent.replace(/^[\d.\s]+/, "").trim() : "";
-    let extrait = texteLisible(bloc); if (extrait.length > 140) extrait = extrait.slice(0, 137) + "…";
+    let extrait = texteLisible(bloc); if (extrait.length > 400) extrait = extrait.slice(0, 397) + "…";   // formules entre $ : voir latexLisible
     return [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), extrait];
   }
   blocs.forEach(bloc => {
@@ -522,6 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
           : '<button data-a="plein">Plein écran</button>'}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
         </div>
+        ${enonce() ? '<div class="encre-enonce"><div class="contenu"></div><button data-a="enonce" aria-label="Replier ou déplier l\'énoncé"></button></div>' : ""}
         <div class="encre-milieu"><div class="encre-outils" aria-label="Outils de tracé">
           ${OUTILS.map(([o, ic, nom]) => `<button data-o="${o}" title="${nom}" aria-label="${nom}">${ic}</button>`).join("")}
         </div><div class="encre-defile"><div class="vue"><canvas></canvas><canvas class="trace"></canvas></div><div class="cale"></div></div></div>
@@ -535,6 +544,16 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>`;
       if (opts.flottant) { zone.classList.add("plein", "exos"); document.body.appendChild(zone); }
       else barreOuv.after(zone);
+      const src = enonce(), cadre = zone.querySelector(".encre-enonce");
+      if (src && cadre) {
+        const copie = src.cloneNode(true);
+        copie.querySelectorAll(".encre-ouvrir, .encre-zone, button, script").forEach(x => x.remove());
+        [copie, ...copie.querySelectorAll("[id]")].forEach(x => x.removeAttribute("id"));
+        cadre.querySelector(".contenu").appendChild(copie);
+        const replier = r => { cadre.classList.toggle("replie", r); cadre.querySelector("button").textContent = r ? "Énoncé ▾" : "Masquer l'énoncé ▴"; };
+        replier(!!reglages.enonceReplie);
+        cadre.querySelector("button").addEventListener("click", e => { e.stopPropagation(); reglages.enonceReplie = !cadre.classList.contains("replie"); garderReglages(); replier(reglages.enonceReplie); });
+      }
       canvas = zone.querySelector(".vue canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
       calque = zone.querySelector(".vue canvas.trace"); ctxT = calque.getContext("2d");                 // calque transparent : jamais en affichage rapide (il deviendrait noir)
       zone.addEventListener("click", clicBarre);              // barres du haut, du bas et bandeau d'outils
@@ -544,6 +563,13 @@ document.addEventListener("DOMContentLoaded", function () {
       new ResizeObserver(dimensionner).observe(defile);
       if (!opts.flottant) zone.scrollIntoView({ block: "nearest", behavior: "smooth" });
       else zone.querySelector('[data-a="date"]').addEventListener("change", e => { fermer(); opts.changerDate(e.target.value); });
+    }
+    function enonce() {                        // le texte du bloc, à montrer en haut de la zone (pour une solution : l'application juste avant)
+      if (opts.flottant || !bloc || type === "figure") return null;
+      if (type !== "solution") return bloc;
+      let p = bloc.previousElementSibling;
+      while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
+      return p && estBloc(p) && !p.classList.contains("callout-caution") ? p : null;
     }
     function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
     z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
@@ -776,6 +802,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ctx.beginPath(); ctx.moveTo(p[2 * depuis], p[2 * depuis + 1]); for (let k = depuis; k < n - 1; k++) morceau(ctx, p, k, n); ctx.stroke();
     }
     function sauver() {
+      setTimeout(majTitres, 0);
       const maintenant = Date.now(); traits.forEach(t => { if (t.d === undefined) t.d = maintenant; });   // traits nouveaux depuis le dernier enregistrement
       try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
             localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {}
@@ -1368,6 +1395,40 @@ document.addEventListener("DOMContentLoaded", function () {
     const m = Math.min(n - 1, nbMorceaux === undefined ? n - 1 : nbMorceaux); if (m < 1) return;
     c2.beginPath(); c2.moveTo(p[0], p[1]); for (let k = 0; k < m; k++) morceau(c2, p, k, n); c2.stroke();
   }
+  /* Formules d'un titre ($…$) en écriture lisible, sans LaTeX : \dfrac{1}{2} -> 1/2, x^2 -> x², \leqslant -> ≤ … */
+  function latexLisible(texte) {
+    const SYM = { times: "×", cdot: "·", div: "÷", leqslant: "≤", leq: "≤", le: "≤", geqslant: "≥", geq: "≥", ge: "≥", neq: "≠", ne: "≠", approx: "≈", simeq: "≃",
+      in: "∈", notin: "∉", subset: "⊂", cup: "∪", cap: "∩", emptyset: "∅", varnothing: "∅", infty: "∞", pm: "±", mp: "∓", forall: "∀", exists: "∃",
+      to: "→", rightarrow: "→", longrightarrow: "→", mapsto: "↦", Rightarrow: "⇒", Leftrightarrow: "⇔", iff: "⇔", implies: "⇒", ldots: "…", dots: "…", cdots: "⋯",
+      alpha: "α", beta: "β", gamma: "γ", delta: "δ", Delta: "Δ", varepsilon: "ε", epsilon: "ε", theta: "θ", lambda: "λ", mu: "μ", pi: "π", sigma: "σ", Sigma: "Σ",
+      omega: "ω", Omega: "Ω", varphi: "φ", phi: "φ", rho: "ρ", tau: "τ", R: "ℝ", N: "ℕ", Z: "ℤ", Q: "ℚ", C: "ℂ", D: "𝔻", degree: "°", circ: "°", perp: "⊥", parallel: "∥",
+      sum: "Σ", prod: "Π", int: "∫", sqrt: "√", lbrace: "{", rbrace: "}", vert: "|", mid: "|", e: "e" };
+    const ENS = { R: "ℝ", N: "ℕ", Z: "ℤ", Q: "ℚ", C: "ℂ", D: "𝔻" };
+    const HAUT = { 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹", "+": "⁺", "-": "⁻", "−": "⁻", n: "ⁿ", "(": "⁽", ")": "⁾", x: "ˣ", i: "ⁱ", k: "ᵏ", p: "ᵖ" };
+    const BAS = { 0: "₀", 1: "₁", 2: "₂", 3: "₃", 4: "₄", 5: "₅", 6: "₆", 7: "₇", 8: "₈", 9: "₉", "+": "₊", "-": "₋", "−": "₋", n: "ₙ", k: "ₖ", i: "ᵢ", p: "ₚ", m: "ₘ", "(": "₍", ")": "₎", a: "ₐ", e: "ₑ", o: "ₒ", x: "ₓ", j: "ⱼ", t: "ₜ" };
+    const indice = (x, table, signe) => { const t = [...x].map(c => table[c]);
+      if (t.every(Boolean)) return t.join("");
+      return t.filter(Boolean).length * 2 >= t.length ? [...x].map((c, i) => t[i] || c).join("") : signe + (x.length > 1 ? "(" + x + ")" : x); };
+    const entourer = x => /^[\w.,√πℝℕℤℚ²³ⁿₙ]+$/u.test(x) ? x : "(" + x + ")";
+    const formule = m => {
+      let x = m.replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
+        .replace(/\\(?:text|mathrm|textbf|mathbf|mathit|operatorname|textit)\s*\{([^{}]*)\}/g, "$1").replace(/\\mathbb\s*\{(\w)\}/g, (_, l) => ENS[l] || l)
+        .replace(/\\(?:overrightarrow|vec)\s*\{([^{}]*)\}/g, "$1⃗").replace(/\\overline\s*\{([^{}]*)\}/g, "$1̅").replace(/\\\{/g, "{").replace(/\\\}/g, "}");
+      x = x.replace(/\\([A-Za-z]+)/g, (m, c) => ["frac", "dfrac", "tfrac", "sqrt"].includes(c) ? m : SYM[c] !== undefined ? SYM[c] : c);   // symboles d'abord (\in dans un indice…)
+      for (let k = 0; k < 6; k++) {                                       // de l'intérieur vers l'extérieur
+        x = x.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => "\u0001" + entourer(a.trim()) + "/" + entourer(b.trim()) + "\u0002")
+             .replace(/\\sqrt\s*\{([^{}]*)\}/g, (_, a) => "√" + entourer(a.trim()))
+             .replace(/\^\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), HAUT, "^")).replace(/_\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), BAS, "_"));
+      }
+      x = x.replace(/\^([\w+\-])/g, (_, a) => indice(a, HAUT, "^")).replace(/_([\w])/g, (_, a) => indice(a, BAS, "_"))
+           .replace(/\\([A-Za-z]+)/g, (_, c) => SYM[c] !== undefined ? SYM[c] : c).replace(/[{}]/g, "").replace(/-/g, "−");
+      for (let k = 0; k < 4; k++) x = x.replace(/\u0001([^\u0001\u0002]*)\u0002(?=\s*[\w(√\u0001])/gu, "($1)");   // ½x -> (1/2)x
+      x = x.replace(/[\u0001\u0002]/g, "");
+      return x.replace(/\s+/g, " ").replace(/\s*([=≤≥<>≠≈×·÷+−→⇒⇔∈∉∪∩])\s*/g, "$1").trim();
+    };
+    const morceaux = String(texte || "").split("$");                       // morceaux impairs : formules
+    return morceaux.map((m, i) => i % 2 ? formule(m) : m).join("").replace(/\s+/g, " ").replace(/\s([,.;:)])/g, "$1").trim();
+  }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
   function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
   function maxY(t) { let m = 0; for (let i = 1; i < t.p.length; i += 2) m = Math.max(m, t.p[i]); return m; }
@@ -1517,6 +1578,14 @@ document.addEventListener("DOMContentLoaded", function () {
     z.ouvrir();
   }
 
+  function majTitres() {                       // { clé de zone : [« Application 3 — Section », extrait avec formules $…$] } pour les zones écrites
+    const t = {};
+    Zone.toutes.forEach(z => { if (!z.titre || !z.cle.startsWith(PAGE + "|") || z.cle.includes("|exos:") || z.cle.includes("|ardoise:")) return;
+      try { if ((JSON.parse(localStorage.getItem(z.cle) || "[]")).length) t[z.cle.slice(PAGE.length + 1)] = z.titre; } catch (e) {} });
+    const v = Object.keys(t).length ? JSON.stringify(t) : null;
+    try { if (v !== localStorage.getItem(PAGE + "#titres")) { if (v) localStorage.setItem(PAGE + "#titres", v); else localStorage.removeItem(PAGE + "#titres"); } } catch (e) {}
+  }
+  setTimeout(majTitres, 1500);
   function majInfo() {
     let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) n++; } } catch (e) {}
     menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
@@ -1640,7 +1709,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
     lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
-    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); }
+    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); }
     etatSync("☁ À jour");
   }
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
@@ -1752,6 +1821,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const K = 0.75, W = LARGEUR;
     const mesure = document.createElement("canvas").getContext("2d");
     mesure.font = "400 30px system-ui, sans-serif";
+    if (sousTitre) { sousTitre = latexLisible(sousTitre); if (sousTitre.length > 200) sousTitre = sousTitre.slice(0, 197) + "…"; }
     const lignes = sousTitre ? lignesTexte(mesure, sousTitre, W - 60) : [];
     const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
     let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
