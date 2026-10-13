@@ -44,7 +44,7 @@
 .encre-zone { position: relative; }
 .encre-barre [data-a="annuler"], .encre-barre [data-a="retablir"] { min-width: 72px; min-height: 56px; font-size: 30px; padding: 0 10px; }
 .encre-enonce { background: #fff; border-bottom: 1px solid var(--encre-trait); display: flex; gap: 8px; align-items: flex-start; padding: 6px 10px; }
-.encre-enonce .contenu { flex: 1; min-width: 0; max-height: 24vh; overflow: auto; font-size: 1.02rem; }
+.encre-enonce .contenu { flex: 1; min-width: 0; max-height: 42vh; overflow: auto; font-size: 1.02rem; }
 .encre-enonce .contenu > * { margin: 0 !important; }
 .encre-enonce.replie .contenu { max-height: 2.6em; overflow: hidden; opacity: .6; -webkit-mask-image: linear-gradient(#000 40%, transparent); mask-image: linear-gradient(#000 40%, transparent); }
 .encre-enonce > button { flex: none; }
@@ -188,7 +188,7 @@
     numeros[type] = (numeros[type] || 0) + 1;
     const sec = bloc.closest("section"), h = sec && sec.querySelector("h1, h2, h3, h4");
     const section = h ? h.textContent.replace(/^[\d.\s]+/, "").trim() : "";
-    let extrait = texteLisible(bloc); if (extrait.length > 400) extrait = extrait.slice(0, 397) + "…";   // formules entre $ : voir latexLisible
+    let extrait = texteLisible(bloc); if (extrait.length > 2000) extrait = extrait.slice(0, 1997) + "…";   // l'énoncé en entier ; formules entre $ : voir latexLisible
     return [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), extrait];
   }
   blocs.forEach(bloc => {
@@ -1639,7 +1639,7 @@
     const K = 0.75, W = LARGEUR;
     const mesure = document.createElement("canvas").getContext("2d");
     mesure.font = "400 30px system-ui, sans-serif";
-    if (sousTitre) { sousTitre = latexLisible(sousTitre); if (sousTitre.length > 200) sousTitre = sousTitre.slice(0, 197) + "…"; }
+    if (sousTitre) sousTitre = latexLisible(sousTitre);                  // l'énoncé en entier, sur autant de lignes qu'il faut
     const lignes = sousTitre ? lignesTexte(mesure, sousTitre, W - 60) : [];
     const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
     let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
