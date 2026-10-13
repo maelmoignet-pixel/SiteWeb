@@ -648,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-zone { position: relative; }
 .encre-barre [data-a="annuler"], .encre-barre [data-a="retablir"] { min-width: 72px; min-height: 56px; font-size: 30px; padding: 0 10px; }
 .encre-enonce { background: #fff; border-bottom: 1px solid var(--encre-trait); display: flex; gap: 8px; align-items: flex-start; padding: 6px 10px; }
-.encre-enonce .contenu { flex: 1; min-width: 0; max-height: 24vh; overflow: auto; font-size: 1.02rem; }
+.encre-enonce .contenu { flex: 1; min-width: 0; max-height: 42vh; overflow: auto; font-size: 1.02rem; }
 .encre-enonce .contenu > * { margin: 0 !important; }
 .encre-enonce.replie .contenu { max-height: 2.6em; overflow: hidden; opacity: .6; -webkit-mask-image: linear-gradient(#000 40%, transparent); mask-image: linear-gradient(#000 40%, transparent); }
 .encre-enonce > button { flex: none; }
@@ -782,18 +782,31 @@ document.addEventListener("DOMContentLoaded", function () {
   const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration", figure: "Figure" };
   function texteLisible(el) {                 // texte du bloc avec les formules en LaTeX (sans le doublon de KaTeX)
     const c = el.cloneNode(true);
-    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" $" + (a ? a.textContent : k.textContent).trim() + "$ "); });
+    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"), d = k.closest(".katex-display") ? "$$" : "$";   // formule centrée : $$ … $$
+      (k.closest(".katex-display") || k).replaceWith(" " + d + (a ? a.textContent : k.textContent).trim() + d + " "); });
     c.querySelectorAll(".math").forEach(m => { if (!c.contains(m) || m.querySelector(".katex")) return;     // formule pas encore affichée par KaTeX
-      m.replaceWith(" $" + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + "$ "); });
+      const d = m.classList.contains("display") ? "$$" : "$";
+      m.replaceWith(" " + d + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + d + " "); });
     c.querySelectorAll(".callout-title, .callout-header").forEach(x => x.remove());
     return (c.textContent || "").replace(/\s+/g, " ").trim();
   }
+  const TITRE_DE = new WeakMap();           // titre déjà calculé de chaque bloc (pour la solution qui le suit)
+  const ENONCES = { proposition: "Propriété", propriete: "Propriété", theoreme: "Théorème", corollaire: "Corollaire", lemme: "Lemme", definition: "Définition", methode: "Méthode" };
   function titreBloc(bloc, type) {
     numeros[type] = (numeros[type] || 0) + 1;
     const sec = bloc.closest("section"), h = sec && sec.querySelector("h1, h2, h3, h4");
     const section = h ? h.textContent.replace(/^[\d.\s]+/, "").trim() : "";
-    let extrait = texteLisible(bloc); if (extrait.length > 400) extrait = extrait.slice(0, 397) + "…";   // formules entre $ : voir latexLisible
-    return [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), extrait];
+    const coupe = t => t.length > 2000 ? t.slice(0, 1997) + "…" : t;          // l'énoncé en entier ; formules entre $ : voir latexLisible
+    let r = [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), coupe(texteLisible(bloc))];
+    if (type === "solution") {                // une solution : on montre ce qu'elle résout ou démontre (le bloc juste avant)
+      let p = bloc.previousElementSibling;
+      while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
+      const cl = p && [...p.classList].find(c => ENONCES[c]);
+      if (p && TITRE_DE.has(p)) r = ["Correction — " + TITRE_DE.get(p)[0], TITRE_DE.get(p)[1]];
+      else if (cl) r = ["Démonstration — " + ENONCES[cl] + (section ? " — " + section : ""), coupe(texteLisible(p))];
+    }
+    TITRE_DE.set(bloc, r);
+    return r;
   }
   blocs.forEach(bloc => {
     const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
@@ -1825,22 +1838,25 @@ document.addEventListener("DOMContentLoaded", function () {
       return t.filter(Boolean).length * 2 >= t.length ? [...x].map((c, i) => t[i] || c).join("") : signe + (x.length > 1 ? "(" + x + ")" : x); };
     const entourer = x => /^[\w.,√πℝℕℤℚ²³ⁿₙ]+$/u.test(x) ? x : "(" + x + ")";
     const formule = m => {
-      let x = m.replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
+      let x = m.replace(/\\begin\s*\{[^}]*\}|\\end\s*\{[^}]*\}/g, " ").replace(/&/g, "").replace(/\\\\/g, " ; ").replace(/\\[()\[\]]/g, " ").replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
         .replace(/\\(?:text|mathrm|textbf|mathbf|mathit|operatorname|textit)\s*\{([^{}]*)\}/g, "$1").replace(/\\mathbb\s*\{(\w)\}/g, (_, l) => ENS[l] || l)
         .replace(/\\(?:overrightarrow|vec)\s*\{([^{}]*)\}/g, "$1⃗").replace(/\\overline\s*\{([^{}]*)\}/g, "$1̅").replace(/\\\{/g, "{").replace(/\\\}/g, "}");
+      x = x.replace(/[_^]\s*\{([^{}]*)$/, " $1");                           // indice ou exposant coupé (texte tronqué)
       x = x.replace(/\\([A-Za-z]+)/g, (m, c) => ["frac", "dfrac", "tfrac", "sqrt"].includes(c) ? m : SYM[c] !== undefined ? SYM[c] : c);   // symboles d'abord (\in dans un indice…)
       for (let k = 0; k < 6; k++) {                                       // de l'intérieur vers l'extérieur
         x = x.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => "\u0001" + entourer(a.trim()) + "/" + entourer(b.trim()) + "\u0002")
              .replace(/\\sqrt\s*\{([^{}]*)\}/g, (_, a) => "√" + entourer(a.trim()))
              .replace(/\^\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), HAUT, "^")).replace(/_\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), BAS, "_"));
       }
+      x = x.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{?([^{}]*)$/, (_, a, b) => entourer(a.trim()) + "/" + (b.trim() ? entourer(b.trim()) : ""))   // fraction coupée (texte tronqué)
+           .replace(/\\(?:[dt]?frac|sqrt)\s*\{?([^{}]*)$/, "$1").replace(/\\(?:[dt]?frac|sqrt|left|right)\b/g, "");
       x = x.replace(/\^([\w+\-])/g, (_, a) => indice(a, HAUT, "^")).replace(/_([\w])/g, (_, a) => indice(a, BAS, "_"))
            .replace(/\\([A-Za-z]+)/g, (_, c) => SYM[c] !== undefined ? SYM[c] : c).replace(/[{}]/g, "").replace(/-/g, "−");
       for (let k = 0; k < 4; k++) x = x.replace(/\u0001([^\u0001\u0002]*)\u0002(?=\s*[\w(√\u0001])/gu, "($1)");   // ½x -> (1/2)x
       x = x.replace(/[\u0001\u0002]/g, "");
       return x.replace(/\s+/g, " ").replace(/\s*([=≤≥<>≠≈×·÷+−→⇒⇔∈∉∪∩])\s*/g, "$1").trim();
     };
-    const morceaux = String(texte || "").split("$");                       // morceaux impairs : formules
+    const morceaux = String(texte || "").replace(/\$\$/g, "$").split("$");    // morceaux impairs : formules ($$ … $$ compris)
     return morceaux.map((m, i) => i % 2 ? formule(m) : m).join("").replace(/\s+/g, " ").replace(/\s([,.;:)])/g, "$1").trim();
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
@@ -2241,7 +2257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const K = 0.75, W = LARGEUR;
     const mesure = document.createElement("canvas").getContext("2d");
     mesure.font = "400 30px system-ui, sans-serif";
-    if (sousTitre) { sousTitre = latexLisible(sousTitre); if (sousTitre.length > 200) sousTitre = sousTitre.slice(0, 197) + "…"; }
+    if (sousTitre) sousTitre = latexLisible(sousTitre);                  // l'énoncé en entier, sur autant de lignes qu'il faut
     const lignes = sousTitre ? lignesTexte(mesure, sousTitre, W - 60) : [];
     const bandeau = enteteExos ? 0 : 70 + lignes.length * 40 + 20;
     let bas = enteteExos ? 200 : 60; traits.forEach(t => { for (let i = 1; i < t.p.length; i += 2) bas = Math.max(bas, t.p[i] + t.w); });
