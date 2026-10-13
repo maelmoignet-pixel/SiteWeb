@@ -178,18 +178,31 @@
   const NOMS = { exemple: "Exemple", application: "Application", exercice: "Exercice", solution: "Démonstration", figure: "Figure" };
   function texteLisible(el) {                 // texte du bloc avec les formules en LaTeX (sans le doublon de KaTeX)
     const c = el.cloneNode(true);
-    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"); k.replaceWith(" $" + (a ? a.textContent : k.textContent).trim() + "$ "); });
+    c.querySelectorAll(".katex").forEach(k => { const a = k.querySelector("annotation"), d = k.closest(".katex-display") ? "$$" : "$";   // formule centrée : $$ … $$
+      (k.closest(".katex-display") || k).replaceWith(" " + d + (a ? a.textContent : k.textContent).trim() + d + " "); });
     c.querySelectorAll(".math").forEach(m => { if (!c.contains(m) || m.querySelector(".katex")) return;     // formule pas encore affichée par KaTeX
-      m.replaceWith(" $" + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + "$ "); });
+      const d = m.classList.contains("display") ? "$$" : "$";
+      m.replaceWith(" " + d + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + d + " "); });
     c.querySelectorAll(".callout-title, .callout-header").forEach(x => x.remove());
     return (c.textContent || "").replace(/\s+/g, " ").trim();
   }
+  const TITRE_DE = new WeakMap();           // titre déjà calculé de chaque bloc (pour la solution qui le suit)
+  const ENONCES = { proposition: "Propriété", propriete: "Propriété", theoreme: "Théorème", corollaire: "Corollaire", lemme: "Lemme", definition: "Définition", methode: "Méthode" };
   function titreBloc(bloc, type) {
     numeros[type] = (numeros[type] || 0) + 1;
     const sec = bloc.closest("section"), h = sec && sec.querySelector("h1, h2, h3, h4");
     const section = h ? h.textContent.replace(/^[\d.\s]+/, "").trim() : "";
-    let extrait = texteLisible(bloc); if (extrait.length > 2000) extrait = extrait.slice(0, 1997) + "…";   // l'énoncé en entier ; formules entre $ : voir latexLisible
-    return [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), extrait];
+    const coupe = t => t.length > 2000 ? t.slice(0, 1997) + "…" : t;          // l'énoncé en entier ; formules entre $ : voir latexLisible
+    let r = [NOMS[type] + " " + numeros[type] + (section ? " — " + section : ""), coupe(texteLisible(bloc))];
+    if (type === "solution") {                // une solution : on montre ce qu'elle résout ou démontre (le bloc juste avant)
+      let p = bloc.previousElementSibling;
+      while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
+      const cl = p && [...p.classList].find(c => ENONCES[c]);
+      if (p && TITRE_DE.has(p)) r = ["Correction — " + TITRE_DE.get(p)[0], TITRE_DE.get(p)[1]];
+      else if (cl) r = ["Démonstration — " + ENONCES[cl] + (section ? " — " + section : ""), coupe(texteLisible(p))];
+    }
+    TITRE_DE.set(bloc, r);
+    return r;
   }
   blocs.forEach(bloc => {
     const type = bloc.classList.contains("callout-caution") ? "solution" : [...bloc.classList].find(c => ["exemple", "application", "exercice"].includes(c));
@@ -1221,9 +1234,10 @@
       return t.filter(Boolean).length * 2 >= t.length ? [...x].map((c, i) => t[i] || c).join("") : signe + (x.length > 1 ? "(" + x + ")" : x); };
     const entourer = x => /^[\w.,√πℝℕℤℚ²³ⁿₙ]+$/u.test(x) ? x : "(" + x + ")";
     const formule = m => {
-      let x = m.replace(/\\[()\[\]]/g, " ").replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
+      let x = m.replace(/\\begin\s*\{[^}]*\}|\\end\s*\{[^}]*\}/g, " ").replace(/&/g, "").replace(/\\\\/g, " ; ").replace(/\\[()\[\]]/g, " ").replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
         .replace(/\\(?:text|mathrm|textbf|mathbf|mathit|operatorname|textit)\s*\{([^{}]*)\}/g, "$1").replace(/\\mathbb\s*\{(\w)\}/g, (_, l) => ENS[l] || l)
         .replace(/\\(?:overrightarrow|vec)\s*\{([^{}]*)\}/g, "$1⃗").replace(/\\overline\s*\{([^{}]*)\}/g, "$1̅").replace(/\\\{/g, "{").replace(/\\\}/g, "}");
+      x = x.replace(/[_^]\s*\{([^{}]*)$/, " $1");                           // indice ou exposant coupé (texte tronqué)
       x = x.replace(/\\([A-Za-z]+)/g, (m, c) => ["frac", "dfrac", "tfrac", "sqrt"].includes(c) ? m : SYM[c] !== undefined ? SYM[c] : c);   // symboles d'abord (\in dans un indice…)
       for (let k = 0; k < 6; k++) {                                       // de l'intérieur vers l'extérieur
         x = x.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, (_, a, b) => "\u0001" + entourer(a.trim()) + "/" + entourer(b.trim()) + "\u0002")
@@ -1238,7 +1252,7 @@
       x = x.replace(/[\u0001\u0002]/g, "");
       return x.replace(/\s+/g, " ").replace(/\s*([=≤≥<>≠≈×·÷+−→⇒⇔∈∉∪∩])\s*/g, "$1").trim();
     };
-    const morceaux = String(texte || "").split("$");                       // morceaux impairs : formules
+    const morceaux = String(texte || "").replace(/\$\$/g, "$").split("$");    // morceaux impairs : formules ($$ … $$ compris)
     return morceaux.map((m, i) => i % 2 ? formule(m) : m).join("").replace(/\s+/g, " ").replace(/\s([,.;:)])/g, "$1").trim();
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
