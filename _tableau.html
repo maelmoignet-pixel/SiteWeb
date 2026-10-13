@@ -1221,7 +1221,7 @@
       return t.filter(Boolean).length * 2 >= t.length ? [...x].map((c, i) => t[i] || c).join("") : signe + (x.length > 1 ? "(" + x + ")" : x); };
     const entourer = x => /^[\w.,√πℝℕℤℚ²³ⁿₙ]+$/u.test(x) ? x : "(" + x + ")";
     const formule = m => {
-      let x = m.replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
+      let x = m.replace(/\\[()\[\]]/g, " ").replace(/\\left|\\right|\\displaystyle|\\limits/g, "").replace(/\{,\}/g, ",").replace(/\\[,;:! ]|~|\\quad|\\qquad/g, " ")
         .replace(/\\(?:text|mathrm|textbf|mathbf|mathit|operatorname|textit)\s*\{([^{}]*)\}/g, "$1").replace(/\\mathbb\s*\{(\w)\}/g, (_, l) => ENS[l] || l)
         .replace(/\\(?:overrightarrow|vec)\s*\{([^{}]*)\}/g, "$1⃗").replace(/\\overline\s*\{([^{}]*)\}/g, "$1̅").replace(/\\\{/g, "{").replace(/\\\}/g, "}");
       x = x.replace(/\\([A-Za-z]+)/g, (m, c) => ["frac", "dfrac", "tfrac", "sqrt"].includes(c) ? m : SYM[c] !== undefined ? SYM[c] : c);   // symboles d'abord (\in dans un indice…)
@@ -1230,6 +1230,8 @@
              .replace(/\\sqrt\s*\{([^{}]*)\}/g, (_, a) => "√" + entourer(a.trim()))
              .replace(/\^\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), HAUT, "^")).replace(/_\s*\{([^{}]*)\}/g, (_, a) => indice(a.trim(), BAS, "_"));
       }
+      x = x.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{?([^{}]*)$/, (_, a, b) => entourer(a.trim()) + "/" + (b.trim() ? entourer(b.trim()) : ""))   // fraction coupée (texte tronqué)
+           .replace(/\\(?:[dt]?frac|sqrt)\s*\{?([^{}]*)$/, "$1").replace(/\\(?:[dt]?frac|sqrt|left|right)\b/g, "");
       x = x.replace(/\^([\w+\-])/g, (_, a) => indice(a, HAUT, "^")).replace(/_([\w])/g, (_, a) => indice(a, BAS, "_"))
            .replace(/\\([A-Za-z]+)/g, (_, c) => SYM[c] !== undefined ? SYM[c] : c).replace(/[{}]/g, "").replace(/-/g, "−");
       for (let k = 0; k < 4; k++) x = x.replace(/\u0001([^\u0001\u0002]*)\u0002(?=\s*[\w(√\u0001])/gu, "($1)");   // ½x -> (1/2)x
