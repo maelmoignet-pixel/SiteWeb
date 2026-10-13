@@ -412,7 +412,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const d = m.classList.contains("display") ? "$$" : "$";
       m.replaceWith(" " + d + m.textContent.trim().replace(/^\\[(\[]|\\[)\]]$/g, "").trim() + d + " "); });
     c.querySelectorAll(".callout-title, .callout-header").forEach(x => x.remove());
-    return (c.textContent || "").replace(/\s+/g, " ").trim();
+    // structure : « ¶ » à chaque nouveau paragraphe ou question (1., a), •), pour la retrouver dans le cahier de texte
+    c.querySelectorAll("ol, ul").forEach(l => { const t = l.getAttribute("type") || "1", d = +(l.getAttribute("start") || 1);
+      [...l.children].filter(x => x.tagName === "LI").forEach((li, i) => li.prepend(" ¶" + (l.tagName === "UL" ? "• " : t === "a" ? String.fromCharCode(96 + d + i) + ") " : t === "A" ? String.fromCharCode(64 + d + i) + ") " : (d + i) + ". "))); });
+    c.querySelectorAll("p, div.math.display").forEach((x, i) => { if (i) x.prepend(" ¶ "); });
+    return (c.textContent || "").replace(/\s+/g, " ").replace(/\s*¶\s*/g, "¶").replace(/¶+/g, "¶").replace(/^¶|¶$/g, "")
+      .replace(/\s+([,.)])/g, "$1").replace(/\(\s+/g, "(").trim();
   }
   const TITRE_DE = new WeakMap();           // titre déjà calculé de chaque bloc (pour la solution qui le suit)
   const ENONCES = { proposition: "Propriété", propriete: "Propriété", theoreme: "Théorème", corollaire: "Corollaire", lemme: "Lemme", definition: "Définition", methode: "Méthode" };
@@ -1481,7 +1486,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return x.replace(/\s+/g, " ").replace(/\s*([=≤≥<>≠≈×·÷+−→⇒⇔∈∉∪∩])\s*/g, "$1").trim();
     };
     const morceaux = String(texte || "").replace(/\$\$/g, "$").split("$");    // morceaux impairs : formules ($$ … $$ compris)
-    return morceaux.map((m, i) => i % 2 ? formule(m) : m).join("").replace(/\s+/g, " ").replace(/\s([,.;:)])/g, "$1").trim();
+    return morceaux.map((m, i) => i % 2 ? formule(m) : m.replace(/¶/g, " ")).join("").replace(/\s+/g, " ").replace(/\s([,.;:)])/g, "$1").trim();
   }
   const BORNES = new WeakMap();      // hauteur occupée par chaque trait (non enregistrée)
   function bornes(t) { let a = Infinity, b = -Infinity; for (let i = 1; i < t.p.length; i += 2) { a = Math.min(a, t.p[i]); b = Math.max(b, t.p[i]); } BORNES.set(t, [a, b]); return [a, b]; }
