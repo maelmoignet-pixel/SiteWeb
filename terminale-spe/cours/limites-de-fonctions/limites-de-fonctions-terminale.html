@@ -2633,11 +2633,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .ma-seance a, .ma-seance button { font: 600 1.05rem system-ui, sans-serif; border-radius: 12px; padding: 12px 18px; min-height: 52px; border: 1px solid #2d4db0;
   background: #fff; color: #2d4db0; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; }
 .ma-seance a.plein, .ma-seance button.plein { background: #2d4db0; color: #fff; }
-.ma-seance form { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
-.ma-seance input { font: inherit; padding: 10px; border: 1px solid #c6cde0; border-radius: 10px; min-width: 200px; }
-.ma-seance.discret { border: 0; background: none; padding: 0; justify-content: flex-end; margin-bottom: .6rem; }
-.ma-seance.discret > button { font-size: .85rem; min-height: 34px; padding: 6px 12px; border-color: #c6cde0; color: #5d6679; font-weight: 500; }
-.ma-seance.discret .detail { font-size: .85rem; color: #5d6679; width: 100%; text-align: right; }
+.ma-seance[hidden] { display: none; }
 @media print { .ma-seance { display: none; } }
 </style>
 <script>
@@ -2648,13 +2644,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const hm = m => Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0");
-  const boite = document.createElement("div"); boite.className = "ma-seance"; boite.innerHTML = '<div class="titre"><small>📅 Ma séance</small><b>…</b></div>';
+  const boite = document.createElement("div"); boite.className = "ma-seance"; boite.hidden = true;   // visible seulement s'il y a un cours
   const cartes = document.querySelector("main .cartes"); cartes.parentNode.insertBefore(boite, cartes);
-  const montrer = (titre, detail, boutons = "") => { boite.classList.remove("discret"); boite.innerHTML = `<div class="titre"><small>📅 Ma séance${detail ? " · " + esc(detail) : ""}</small><b>${esc(titre)}</b></div>${boutons}`; };
-  // pas de cours (ou pas connecté) : juste un petit bouton, qui montre l'information quand on le touche
-  const discret = (texte, action) => { boite.classList.add("discret"); boite.innerHTML = '<button type="button">📅</button>';
-    boite.querySelector("button").onclick = () => { if (action) return action(); boite.querySelector("button").remove(); boite.insertAdjacentHTML("beforeend", `<div class="detail">${esc(texte)}</div>`); }; };
-  const JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+  const montrer = (titre, detail, boutons = "") => { boite.hidden = false; boite.innerHTML = `<div class="titre"><small>📅 Ma séance${detail ? " · " + esc(detail) : ""}</small><b>${esc(titre)}</b></div>${boutons}`; };
   const charger = f => new Promise((ok, ko) => { const s = document.createElement("script"); s.src = racine + "ressources/" + f; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
   const lundi = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; };
   const iso = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -2671,20 +2663,16 @@ document.addEventListener("DOMContentLoaded", function () {
     return { chapitre: url, cours: a ? new URL(a.getAttribute("href"), new URL(url, location.href)).href : null, titre };
   }
   async function afficher(u) {
-    montrer("Recherche du cours de l'heure…");
     const base = firebase.firestore().collection("utilisateurs").doc(u.uid), maintenant = new Date(), k = iso(lundi(maintenant));
     const [cfg, sem] = await Promise.all([base.collection("donnees").doc("config").get(), base.collection("semaines").doc(k).get()]);
-    if (!cfg.exists) return montrer("Emploi du temps introuvable", "ouvrez une fois le cahier de texte");
+    if (!cfg.exists) return boite.remove();
     const C = JSON.parse(cfg.data().json), W = sem.exists ? JSON.parse(sem.data().json) : null;
     const liste = W ? W.seances : C.modele.map(m => ({ ...m, contenu: {} }));
     const j = (maintenant.getDay() + 6) % 7, min = maintenant.getHours() * 60 + maintenant.getMinutes();
     const classe = id => C.classes.find(c => c.id === id) || {};
     const duJour = liste.filter(s => s.jour === j && !classe(s.classe).sansCdt).sort((a, b) => a.debut - b.debut);
     const s = duJour.find(x => min >= x.debut - 15 && min < x.debut + x.duree) || duJour.find(x => x.debut > min);
-    if (!s) {                                                           // plus de cours aujourd'hui : bouton discret, avec le prochain cours de la semaine
-      const p = liste.filter(x => x.jour > j && !classe(x.classe).sansCdt).sort((a, b) => a.jour - b.jour || a.debut - b.debut)[0];
-      return discret(p ? "Prochain cours : " + JOURS[p.jour] + " " + hm(p.debut) + " · " + (classe(p.classe).nom || "") : "Plus de cours cette semaine");
-    }
+    if (!s) return boite.remove();                                      // ni cours en cours ni cours à venir aujourd'hui : rien
     const cl = classe(s.classe), quand = (min >= s.debut - 15 ? "maintenant · " : "prochain cours · ") + hm(s.debut) + "–" + hm(s.debut + s.duree);
     let chs = ((s.contenu || {}).chs || []).slice();
     if (!chs.length) {                                                  // pas encore noté : le dernier chapitre vu avec cette classe
@@ -2699,16 +2687,11 @@ document.addEventListener("DOMContentLoaded", function () {
       (l.cours ? `<a class="plein" href="${esc(l.cours)}">📖 Ouvrir le cours</a><a href="${esc(l.cours)}#exercices">✎ Feuille d'exercices du jour</a>` : "")
       + `<a href="${esc(l.chapitre)}">Page du chapitre</a>`);
   }
-  function connexion(msg) {
-    montrer("Connectez-vous pour voir le cours de l'heure", msg || "", `<form><input type="email" placeholder="Adresse e-mail" autocomplete="username" required>
-      <input type="password" placeholder="Mot de passe" autocomplete="current-password" required><button class="plein">Se connecter</button></form>`);
-    boite.querySelector("form").onsubmit = e => { e.preventDefault(); const [a, b] = boite.querySelectorAll("input");
-      firebase.auth().signInWithEmailAndPassword(a.value.trim(), b.value).catch(() => connexion("identifiants refusés")); };
-  }
   charger("firebase-app-compat.js").then(() => Promise.all([charger("firebase-auth-compat.js"), charger("firebase-firestore-compat.js")])).then(() => {
     if (!firebase.apps.length) firebase.initializeApp(FIREBASE);
     try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
-    firebase.auth().onAuthStateChanged(u => { if (!u) return discret("", () => connexion()); afficher(u).catch(e => montrer("Emploi du temps illisible", e.message || "réseau ?")); });
+    // pas connecté (la connexion se fait par ☁ sur une page de cours) ou emploi du temps illisible : rien
+    firebase.auth().onAuthStateChanged(u => { if (!u) return boite.remove(); afficher(u).catch(() => boite.remove()); });
   }).catch(() => boite.remove());
 })();
 </script>
