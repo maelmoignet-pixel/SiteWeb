@@ -107,11 +107,13 @@ toc: false
 
 :::: {.evals}
 
+<!-- MASQUÉ
 ::: {.eval}
 [DS n°1]{.eval-titre}
 
 [Sujet](../2026-DS-eval/suites/suites-terminale-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/suites/suites-terminale-2026-DS1-correction.pdf){.eval-btn .correction}
 :::
+-->
 
 ::::
 
