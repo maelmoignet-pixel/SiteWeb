@@ -78,6 +78,13 @@ toc: false
 [Sujet](../2026-DS-eval/croissance-lineaire/croissance-lineaire-premiere-tc-2026-DS1-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/croissance-lineaire/croissance-lineaire-premiere-tc-2026-DS1-correction.pdf){.eval-btn .correction}
 :::
 
+
+::: {.eval}
+[DS n°3]{.eval-titre} [14 octobre 2026]{.eval-date}
+
+[Sujet](../2026-DS-eval/croissance-lineaire/croissance-lineaire-premiere-tc-2026-DS3-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/croissance-lineaire/croissance-lineaire-premiere-tc-2026-DS3-correction.pdf){.eval-btn .correction}
+:::
+
 ::::
 
 :::::
