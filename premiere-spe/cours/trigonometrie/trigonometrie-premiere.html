@@ -2321,6 +2321,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const PREFIXE_EXOS = PAGE + "|exos:";
   const bExos = document.createElement("button"); bExos.className = "encre-exos"; bExos.textContent = "✎ Exercices";
   // feuille d'exercices : sur les pages de cours, et sur toute autre page où une feuille a déjà été écrite (pour la retrouver)
+  /* Feuilles d'exercices écrites depuis une page de chapitre (le bouton y était apparu par erreur, le 13 octobre 2026) :
+     rangées dans le cours du chapitre, là où est le bouton. Rien n'est perdu : fusion sans doublon si le cours a déjà une feuille ce jour-là. */
+  function rangerFeuillesDansLeCours() {
+    if (blocs.length) return;
+    const a = document.querySelector('main a[href*="cours/"][href$=".html"]'); if (!a) return;
+    let cible; try { cible = "encre:" + new URL(a.getAttribute("href"), location.href).pathname; } catch (e) { return; }
+    if (cible === PAGE) return;
+    const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
+    const cles = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:"))) cles.push(k); } } catch (e) { return; }
+    cles.forEach(k => {
+      const k2 = cible + k.slice(PAGE.length), deja = lire(k2), vus = new Set(deja.map(x => JSON.stringify(x)));
+      const tout = deja.concat(lire(k).filter(x => !vus.has(JSON.stringify(x))));
+      try { localStorage.setItem(k2, JSON.stringify(tout)); localStorage.setItem(cible + "#modifie", String(Date.now())); localStorage.removeItem(k); } catch (e) {}
+    });
+  }
+  rangerFeuillesDansLeCours();
   function majBoutonExos() {
     if (bExos.isConnected) return;
     let deja = false; try { for (let i = 0; i < localStorage.length && !deja; i++) { const k = localStorage.key(i); deja = !!k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:")); } } catch (e) {}
@@ -2583,7 +2599,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
     lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
-    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); majBoutonExos(); }
+    if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); rangerFeuillesDansLeCours(); majBoutonExos(); }
     etatSync("☁ À jour");
   }
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
