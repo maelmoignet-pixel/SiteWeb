@@ -41,7 +41,7 @@ else
             case "$f" in
                 _*|*/_*|.*) ;;                                   # fichiers internes (non publiés)
                 *.qmd) PAGES+=("$f") ;;
-                *.pdf|*.png|*.jpg|*.jpeg|*.svg|*.gif|*/tp-informatique/*.py|*/exercices-sesamath/*.json) FICHIERS+=("$f") ;;
+                *.pdf|*.png|*.jpg|*.jpeg|*.svg|*.gif|*/tp-informatique/*.py|*/exercices-sesamath/*.json|gestion/*) FICHIERS+=("$f") ;;
             esac
         done
         if [[ "$MODE" == "--essai" ]]; then
@@ -68,7 +68,7 @@ git rev-parse HEAD > "$REF_FICHIER"
 echo "✔ Site publié."
 
 # Sauvegarde PRIVÉE des sources (.tex, cahier de texte, outils) : voir ~/Outils/sauvegarder.sh
-if [ -x "$HOME/Outils/sauvegarder.sh" ]; then
+if [ -z "${GESTION_EN_LIGNE:-}" ] && [ -x "$HOME/Outils/sauvegarder.sh" ]; then   # (pas depuis l'outil en ligne : GitHub n'a pas votre dossier)
     echo "→ Sauvegarde privée des sources…"
     "$HOME/Outils/sauvegarder.sh" || echo "  (sources non sauvegardées cette fois ; le site, lui, est bien publié)"
 fi

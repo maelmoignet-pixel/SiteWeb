@@ -18,6 +18,8 @@ project:
     - "ressources/*.js"
     # Exercices du manuel Sésamath Seconde (CC BY-SA), affichés dans la feuille d'exercices
     - "seconde/exercices-sesamath/*"
+    # Outil de gestion du site en ligne (page copiée depuis ~/Outils/gestion-site/page.html)
+    - "gestion/*"
 
 lang: fr
 
