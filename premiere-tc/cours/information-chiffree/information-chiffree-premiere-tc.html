@@ -2300,6 +2300,9 @@ document.addEventListener("DOMContentLoaded", function () {
 .ma-seance a.plein, .ma-seance button.plein { background: #2d4db0; color: #fff; }
 .ma-seance form { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
 .ma-seance input { font: inherit; padding: 10px; border: 1px solid #c6cde0; border-radius: 10px; min-width: 200px; }
+.ma-seance.discret { border: 0; background: none; padding: 0; justify-content: flex-end; margin-bottom: .6rem; }
+.ma-seance.discret > button { font-size: .85rem; min-height: 34px; padding: 6px 12px; border-color: #c6cde0; color: #5d6679; font-weight: 500; }
+.ma-seance.discret .detail { font-size: .85rem; color: #5d6679; width: 100%; text-align: right; }
 @media print { .ma-seance { display: none; } }
 </style>
 <script>
@@ -2312,7 +2315,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const hm = m => Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0");
   const boite = document.createElement("div"); boite.className = "ma-seance"; boite.innerHTML = '<div class="titre"><small>📅 Ma séance</small><b>…</b></div>';
   const cartes = document.querySelector("main .cartes"); cartes.parentNode.insertBefore(boite, cartes);
-  const montrer = (titre, detail, boutons = "") => { boite.innerHTML = `<div class="titre"><small>📅 Ma séance${detail ? " · " + esc(detail) : ""}</small><b>${esc(titre)}</b></div>${boutons}`; };
+  const montrer = (titre, detail, boutons = "") => { boite.classList.remove("discret"); boite.innerHTML = `<div class="titre"><small>📅 Ma séance${detail ? " · " + esc(detail) : ""}</small><b>${esc(titre)}</b></div>${boutons}`; };
+  // pas de cours (ou pas connecté) : juste un petit bouton, qui montre l'information quand on le touche
+  const discret = (texte, action) => { boite.classList.add("discret"); boite.innerHTML = '<button type="button">📅</button>';
+    boite.querySelector("button").onclick = () => { if (action) return action(); boite.querySelector("button").remove(); boite.insertAdjacentHTML("beforeend", `<div class="detail">${esc(texte)}</div>`); }; };
+  const JOURS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
   const charger = f => new Promise((ok, ko) => { const s = document.createElement("script"); s.src = racine + "ressources/" + f; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
   const lundi = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; };
   const iso = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -2339,7 +2346,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const classe = id => C.classes.find(c => c.id === id) || {};
     const duJour = liste.filter(s => s.jour === j && !classe(s.classe).sansCdt).sort((a, b) => a.debut - b.debut);
     const s = duJour.find(x => min >= x.debut - 15 && min < x.debut + x.duree) || duJour.find(x => x.debut > min);
-    if (!s) return montrer("Plus de cours aujourd'hui", duJour.length ? "dernier : " + hm(duJour[duJour.length - 1].debut) : "");
+    if (!s) {                                                           // plus de cours aujourd'hui : bouton discret, avec le prochain cours de la semaine
+      const p = liste.filter(x => x.jour > j && !classe(x.classe).sansCdt).sort((a, b) => a.jour - b.jour || a.debut - b.debut)[0];
+      return discret(p ? "Prochain cours : " + JOURS[p.jour] + " " + hm(p.debut) + " · " + (classe(p.classe).nom || "") : "Plus de cours cette semaine");
+    }
     const cl = classe(s.classe), quand = (min >= s.debut - 15 ? "maintenant · " : "prochain cours · ") + hm(s.debut) + "–" + hm(s.debut + s.duree);
     let chs = ((s.contenu || {}).chs || []).slice();
     if (!chs.length) {                                                  // pas encore noté : le dernier chapitre vu avec cette classe
@@ -2363,7 +2373,7 @@ document.addEventListener("DOMContentLoaded", function () {
   charger("firebase-app-compat.js").then(() => Promise.all([charger("firebase-auth-compat.js"), charger("firebase-firestore-compat.js")])).then(() => {
     if (!firebase.apps.length) firebase.initializeApp(FIREBASE);
     try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
-    firebase.auth().onAuthStateChanged(u => { if (!u) return connexion(); afficher(u).catch(e => montrer("Emploi du temps illisible", e.message || "réseau ?")); });
+    firebase.auth().onAuthStateChanged(u => { if (!u) return discret("", () => connexion()); afficher(u).catch(e => montrer("Emploi du temps illisible", e.message || "réseau ?")); });
   }).catch(() => boite.remove());
 })();
 </script>
