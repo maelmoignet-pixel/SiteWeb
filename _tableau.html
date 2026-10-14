@@ -1396,6 +1396,7 @@
     z.ouvrir();
   }
   bExos.onclick = () => ouvrirExos(isoJour(new Date()));
+  if (location.hash === "#exercices" && blocs.length) setTimeout(() => ouvrirExos(isoJour(new Date())), 400);   // « Feuille d'exercices du jour » de Ma séance
 
   /* Ardoises : clés « …/index.html|ardoise:<partie>:<date> » (adresse du niveau toujours écrite avec index.html, pour le cahier de texte) */
   const BASE_ARDOISE = PAGE.replace(/\/$/, "/index.html");

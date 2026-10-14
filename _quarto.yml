@@ -55,3 +55,5 @@ format:
       # Mode tableau (écran tactile) : zones d'écriture au stylet sous les exemples, applications et démonstrations.
       # Pour revenir en arrière : supprimer la ligne ci-dessous.
       - _tableau.html
+      # « Ma séance » : sur l'accueil, le cours de l'heure d'après l'emploi du temps du cahier de texte
+      - _ma-seance.html
