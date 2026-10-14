@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestion du site</title>
+<style>
+:root { --fond: #f4f6fb; --surface: #fff; --encre: #1b2232; --doux: #5d6679; --trait: #dfe3ee; --accent: #2d4db0; --accent-doux: #e8edfb;
+  --ok: #11845b; --ok-doux: #e3f5ec; --err: #c0262d; --err-doux: #fbe9ea; --seconde: #11845b; --premiere-spe: #2d4db0; --premiere-tc: #8a4fbf; --terminale-spe: #c0262d; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--encre); background: var(--fond); }
+button { font: inherit; cursor: pointer; }
+header { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; padding: 10px 18px; background: var(--surface); border-bottom: 1px solid var(--trait); }
+header h1 { font-size: 1.1rem; margin: 0; flex: 1; }
+.etat { color: var(--doux); font-size: .9rem; }
+.etat b { color: var(--accent); }
+.btn { border: 1px solid var(--trait); background: var(--surface); color: var(--encre); border-radius: 9px; padding: 7px 13px; }
+.btn:hover { border-color: var(--accent); }
+.btn.plein { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.btn.plein:disabled { opacity: .45; cursor: default; }
+.btn.petit { padding: 3px 9px; font-size: .85rem; }
+.btn.danger { color: var(--err); }
+main { display: grid; grid-template-columns: 290px 1fr; min-height: calc(100vh - 56px); }
+nav { border-right: 1px solid var(--trait); background: var(--surface); overflow: auto; max-height: calc(100vh - 56px); position: sticky; top: 56px; padding: 8px 0 30px; }
+nav details { border-bottom: 1px solid var(--trait); }
+nav summary { list-style: none; padding: 10px 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+nav summary::-webkit-details-marker { display: none; }
+nav summary::before { content: "▸"; color: var(--doux); }
+nav details[open] > summary::before { content: "▾"; }
+.pastille { width: 10px; height: 10px; border-radius: 50%; background: var(--niv, #5b7c99); flex: none; }
+nav ul { list-style: none; margin: 0 0 8px; padding: 0; }
+nav li button { display: flex; width: 100%; text-align: left; border: 0; background: none; padding: 6px 16px 6px 36px; color: var(--encre); gap: 6px; }
+nav li button:hover { background: var(--fond); }
+nav li button[aria-current="true"] { background: var(--accent-doux); color: var(--accent); font-weight: 600; }
+nav li .nb { margin-left: auto; color: var(--doux); font-size: .8rem; }
+section.vue { padding: 22px 28px 60px; max-width: 1100px; }
+.fil { color: var(--doux); font-size: .9rem; }
+h2.chap { margin: 4px 0 4px; font-size: 1.6rem; display: flex; align-items: center; gap: 10px; }
+.cours { color: var(--doux); margin-bottom: 18px; }
+.annee { background: var(--surface); border: 1px solid var(--trait); border-radius: 14px; padding: 14px 18px 18px; margin-bottom: 18px; }
+.annee h3 { margin: 0 0 10px; font-size: 1.1rem; display: flex; gap: 10px; align-items: baseline; }
+.annee h3 small { color: var(--doux); font-weight: 400; font-size: .8rem; font-family: ui-monospace, monospace; }
+.cartes { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.carte { border: 1px solid var(--trait); border-radius: 10px; padding: 9px 11px; display: flex; flex-direction: column; gap: 6px; }
+.carte strong { font-size: .98rem; }
+.carte .date { color: var(--doux); font-size: .82rem; }
+.carte .liens { display: flex; gap: 6px; flex-wrap: wrap; }
+.carte a { font-size: .85rem; color: var(--accent); text-decoration: none; border: 1px solid var(--accent-doux); border-radius: 7px; padding: 2px 8px; }
+.carte a.manque { color: var(--err); border-color: var(--err-doux); }
+.carte .tag { font-size: .75rem; background: var(--fond); border-radius: 6px; padding: 1px 6px; color: var(--doux); }
+.vide { color: var(--doux); font-style: italic; margin: 0 0 12px; }
+.ajout { border: 2px dashed var(--trait); border-radius: 12px; padding: 12px; display: grid; gap: 10px; }
+.ajout.ouvert { border-color: var(--accent); background: #fafbff; }
+.depots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.depot { border: 2px dashed #c6cde0; border-radius: 10px; min-height: 96px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px; color: var(--doux); background: var(--surface); cursor: pointer; transition: .15s; }
+.depot.survol { border-color: var(--accent); background: var(--accent-doux); color: var(--accent); }
+.depot.plein { border-style: solid; border-color: var(--ok); background: var(--ok-doux); color: var(--ok); }
+.depot b { font-size: 1rem; color: var(--encre); }
+.depot .f { font-size: .82rem; word-break: break-all; }
+.reglages { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--trait); border-radius: 9px; overflow: hidden; }
+.seg button { border: 0; background: var(--surface); padding: 6px 12px; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.reglages label { display: inline-flex; gap: 6px; align-items: center; color: var(--doux); }
+.reglages input { font: inherit; padding: 5px 8px; border: 1px solid var(--trait); border-radius: 8px; }
+.reglages input[type=number] { width: 64px; }
+.apercu-nom { font-family: ui-monospace, monospace; font-size: .8rem; color: var(--doux); }
+.msg { border-radius: 9px; padding: 8px 12px; }
+.msg.ok { background: var(--ok-doux); color: var(--ok); }
+.msg.err { background: var(--err-doux); color: var(--err); }
+.accueil { color: var(--doux); max-width: 640px; }
+.accueil h2 { color: var(--encre); }
+#journal { position: fixed; inset: 0; background: rgba(20,25,40,.55); display: flex; align-items: center; justify-content: center; z-index: 20; }
+#journal[hidden] { display: none; }
+#journal .boite { background: var(--surface); border-radius: 14px; width: min(860px, 94vw); max-height: 86vh; display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; }
+#journal h3 { margin: 0; padding: 12px 16px; border-bottom: 1px solid var(--trait); }
+#journal pre { margin: 0; padding: 12px 16px; overflow: auto; font-size: .82rem; background: #10141f; color: #d8deea; white-space: pre-wrap; }
+#journal .pied { padding: 10px 16px; display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--trait); }
+.outils { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 18px; }
+.bloc { background: var(--surface); border: 1px solid var(--trait); border-radius: 14px; padding: 14px 18px 16px; margin-bottom: 18px; }
+.bloc h3 { margin: 0 0 10px; font-size: 1.1rem; }
+.bloc.danger { border-color: var(--err-doux); }
+.bloc.danger h3 { color: var(--err); }
+.liste-ch { list-style: none; margin: 0; padding: 0; }
+.liste-ch li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--trait); }
+.liste-ch li:last-child { border-bottom: 0; }
+.liste-ch li .t { flex: 1; }
+.liste-ch li .t button { border: 0; background: none; color: var(--accent); padding: 0; text-align: left; }
+.liste-ch .n { color: var(--doux); font-size: .8rem; }
+.ligne-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ligne-form input[type=text], .ligne-form input[type=number] { font: inherit; padding: 6px 9px; border: 1px solid var(--trait); border-radius: 8px; min-width: 260px; }
+.ligne-form input[type=number] { min-width: 0; width: 90px; }
+.cours-l { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 6px 0; }
+.cours-l strong { flex: 1; }
+nav .nouveau { margin: 12px 16px; width: calc(100% - 32px); }
+nav li button.vue-niv { color: var(--doux); font-style: italic; }
+.masque { opacity: .55; }
+.badge-m { display: inline-block; font-size: .72rem; font-weight: 600; color: #7a5a00; background: #fff3c4; border-radius: 6px; padding: 1px 7px; }
+.carte.masque, .bloc.masque { border-style: dashed; }
+.carte a.lien-masque { color: #7a5a00; border-color: #ffe08a; background: #fffaf0; text-decoration: line-through; }
+.carte .actions { display: flex; flex-wrap: wrap; gap: 4px; }
+nav li button.nouveau-ch { color: var(--accent); }
+nav .masque-nav { opacity: .5; }
+#boite { position: fixed; inset: 0; background: rgba(20,25,40,.55); display: flex; align-items: center; justify-content: center; z-index: 30; }
+#boite[hidden] { display: none; }
+#boite form { background: var(--surface); border-radius: 14px; width: min(520px, 94vw); padding: 18px 20px; display: grid; gap: 12px; }
+#boite h3 { margin: 0; }
+#boite label { display: flex; gap: 8px; align-items: center; }
+#boite label.col { flex-direction: column; align-items: stretch; gap: 4px; color: var(--doux); }
+#boite input[type=text] { font: inherit; padding: 7px 10px; border: 1px solid var(--trait); border-radius: 8px; }
+#boite .pied { display: flex; justify-content: flex-end; gap: 8px; }
+.btn.rouge { background: var(--err); border-color: var(--err); color: #fff; font-weight: 600; }
+#suivi { position: sticky; top: 56px; z-index: 6; background: #fff8e1; color: #6b5200; border-bottom: 1px solid #ffe08a; padding: 8px 18px; font-weight: 600; }
+#suivi[hidden] { display: none; }
+.connexion { max-width: 640px; }
+.connexion ol { padding-left: 20px; line-height: 1.6; }
+.connexion input { font: inherit; width: 100%; padding: 8px 10px; border: 1px solid var(--trait); border-radius: 8px; margin: 8px 0; }
+@media (max-width: 760px) { main { grid-template-columns: 1fr; } nav { position: static; max-height: none; } .depots { grid-template-columns: 1fr; } section.vue { padding: 16px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛠 Gestion du site</h1>
+  <span class="etat" id="etat">…</span>
+  <button class="btn" id="annuler" hidden></button>
+  <button class="btn plein" id="publier" disabled>Publier le site</button>
+  <button class="btn" id="deconnexion" hidden title="Oublier la clé d'accès GitHub sur cet appareil">Se déconnecter</button>
+</header>
+<div id="suivi" hidden></div>
+<main>
+  <nav id="nav"></nav>
+  <section class="vue" id="vue"><div class="accueil"><h2>Bienvenue</h2><p>Choisissez un chapitre à gauche.</p></div></section>
+</main>
+<div id="boite" hidden><form method="dialog"></form></div>
+<div id="journal" hidden><div class="boite"><h3>Publication</h3><pre id="log"></pre><div class="pied"><button class="btn" id="fermer-journal" disabled>Fermer</button></div></div></div>
+<script>
+const TYPES = [["eval", "Évaluation"], ["DS", "DS"], ["DM", "DM"]];
+const SUFFIXES = { "seconde": "seconde", "premiere-spe": "premiere", "premiere-tc": "premiere-tc", "terminale-spe": "terminale" };
+let NIVEAUX = [], courant = null, ETAT = { a_publier: [], non_enregistres: [] };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const nav = document.getElementById("nav"), vue = document.getElementById("vue");
+
+/* ---------- Deux façons de travailler : sur le Chromebook (serveur local, rapide) ou en ligne (GitHub, 2 à 5 min) ----------
+   En ligne, chaque action est une « demande » déposée dans le dépôt privé sources-cours ; GitHub la traite avec le même code
+   que l'outil du Chromebook, publie le site, et écrit le résultat que cette page attend. */
+const EN_LIGNE = !/^(localhost|127\.0\.0\.1|penguin\.linux\.test)$/.test(location.hostname);
+const DEPOT = "https://api.github.com/repos/maelmoignet-pixel/sources-cours", SITE_URL = "https://maelmoignet-pixel.github.io/SiteWeb/";
+const RACINE_EN_LIGNE = "Outils/gestion-site/en-ligne/";
+let JETON = ""; try { JETON = localStorage.getItem("gestion-jeton") || ""; } catch (e) {}
+let OCCUPE = false;
+function suivi(t) { const b = document.getElementById("suivi"); b.hidden = !t; b.textContent = t || ""; }
+async function gh(chemin, opts = {}) {
+  const r = await fetch(chemin.startsWith("http") ? chemin : DEPOT + chemin, { cache: "no-store", ...opts,
+    headers: { Authorization: "Bearer " + JETON, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28", ...(opts.headers || {}) } });
+  if (r.status === 401) { deconnecter(); throw new Error("GitHub a refusé la clé d'accès (expirée ou supprimée ?) : reconnectez-vous."); }
+  if (!r.ok) { const e = new Error("GitHub : " + r.status + " " + ((await r.json().catch(() => ({}))).message || "")); e.statut = r.status; throw e; }
+  return r.status === 204 ? null : opts.brut ? r : r.json();
+}
+const lireBrut = chemin => gh("/contents/" + chemin.split("/").map(encodeURIComponent).join("/") + "?ref=main&t=" + Date.now(), { headers: { Accept: "application/vnd.github.raw+json" }, brut: true });
+const enBase64 = f => new Promise((ok, ko) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1] || ""); r.onerror = ko; r.readAsDataURL(f); });
+const texteBase64 = t => btoa(unescape(encodeURIComponent(t)));
+const attendre = ms => new Promise(r => setTimeout(r, ms));
+async function demanderEnLigne(action, corps) {
+  const id = new Date().toISOString().replace(/\D/g, "").slice(0, 14) + "-" + Math.random().toString(36).slice(2, 7);
+  const demande = { id, action, publier: action !== "rafraichir", champs: {}, fichiers: [], donnees: null }, envois = [];
+  if (corps instanceof FormData) {
+    let i = 0;
+    for (const [k, v] of corps.entries()) {
+      if (v instanceof File) { const chemin = (i++) + "-" + v.name.replace(/[^\w.\-]+/g, "_"); demande.fichiers.push({ champ: k, nom: v.name, chemin }); envois.push([chemin, v]); }
+      else demande.champs[k] = v;
+    }
+  } else demande.donnees = corps || {};
+  suivi("⏳ Envoi des fichiers vers GitHub…");
+  const items = [];
+  for (const [chemin, f] of envois) {
+    const b = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: await enBase64(f), encoding: "base64" }) });
+    items.push({ path: RACINE_EN_LIGNE + "demandes/" + id + "/" + chemin, mode: "100644", type: "blob", sha: b.sha });
+  }
+  const bj = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: texteBase64(JSON.stringify(demande)), encoding: "base64" }) });
+  items.push({ path: RACINE_EN_LIGNE + "demandes/" + id + ".json", mode: "100644", type: "blob", sha: bj.sha });
+  for (let essai = 0; ; essai++) {                          // un commit d'un coup : la demande et ses fichiers
+    const ref = await gh("/git/ref/heads/main"), base = ref.object.sha, c0 = await gh("/git/commits/" + base);
+    const t = await gh("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: c0.tree.sha, tree: items }) });
+    const c = await gh("/git/commits", { method: "POST", body: JSON.stringify({ message: "outil en ligne : demande « " + action + " »", tree: t.sha, parents: [base] }) });
+    try { await gh("/git/refs/heads/main", { method: "PATCH", body: JSON.stringify({ sha: c.sha }) }); break; }
+    catch (e) { if (essai >= 4 || e.statut !== 422) throw e; await attendre(1500); }
+  }
+  const debut = Date.now();
+  for (;;) {                                                // GitHub travaille : on attend son résultat
+    await attendre(6000);
+    try { return await (await lireBrut(RACINE_EN_LIGNE + "resultats/" + id + ".json")).json(); } catch (e) { if (e.statut !== 404) throw e; }
+    const s = Math.round((Date.now() - debut) / 1000);
+    let etape = "en attente chez GitHub";
+    try { const l = await gh("/actions/runs?per_page=5"); const run = l.workflow_runs.find(x => x.status !== "completed");
+      if (run) etape = run.status === "in_progress" ? "GitHub travaille (compilation, publication)" : "en file d'attente chez GitHub"; } catch (e) {}
+    suivi(`⏳ ${etape}… ${Math.floor(s / 60)} min ${String(s % 60).padStart(2, "0")} s — vous pouvez laisser la page ouverte`);
+    if (s > 1800) throw new Error("Pas de réponse de GitHub après 30 minutes : regardez l'onglet « Actions » du dépôt sources-cours.");
+  }
+}
+/* appel d'une fonction de l'outil (url « /api/… »), localement ou en ligne ; renvoie le résultat ou lève l'erreur */
+async function appeler(url, corps) {
+  if (!EN_LIGNE) {
+    const r = await fetch(url, corps === undefined ? {} : corps instanceof FormData ? { method: "POST", body: corps }
+      : { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(corps) });
+    const d = await r.json(); if (!r.ok) throw new Error(d.erreur); return d;
+  }
+  if (url === "/api/arbre") { try { return await (await lireBrut(RACINE_EN_LIGNE + "arbre.json")).json(); } catch (e) { if (e.statut === 404) return null; throw e; } }
+  if (OCCUPE) throw new Error("Une action est déjà en cours chez GitHub : attendez qu'elle soit finie.");
+  OCCUPE = true;
+  try {
+    const res = await demanderEnLigne(url.replace(/^\/api\//, ""), corps);
+    if (!res.ok) throw new Error(res.erreur);
+    const d = res.resultat || {};
+    if (res.publication && res.publication !== "ok") d.message = (d.message || "Fait") + " Mais la publication a échoué : " + res.publication;
+    else if (res.publication === "ok") d.message = (d.message || "Fait") + " Le site est à jour en ligne ✔";
+    if (d.apercu) d.apercu = SITE_URL + d.apercu.replace(/^\/apercu\//, "");
+    return d;
+  } finally { OCCUPE = false; suivi(""); }
+}
+function deconnecter() { try { localStorage.removeItem("gestion-jeton"); } catch (e) {} JETON = ""; }
+function ecranConnexion(msg) {
+  nav.innerHTML = "";
+  vue.innerHTML = `<div class="connexion"><h2>🔑 Outil de gestion en ligne</h2>
+    <p>Pour travailler sur le site depuis cet appareil, collez votre <b>clé d'accès GitHub</b> (elle commence par <code>github_pat_</code>). Elle reste enregistrée sur cet appareil seulement.</p>
+    ${msg ? `<p class="msg err">${esc(msg)}</p>` : ""}
+    <input type="password" id="jeton" placeholder="github_pat_…" autocomplete="off"><button class="btn plein" id="valider-jeton">Se connecter</button>
+    <p style="color:var(--doux);font-size:.9rem">Pas de clé ? Elle se crée sur github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens.</p></div>`;
+  document.getElementById("valider-jeton").onclick = async () => {
+    JETON = document.getElementById("jeton").value.trim();
+    try { await gh(""); try { localStorage.setItem("gestion-jeton", JETON); } catch (e) {} charger(); }
+    catch (e) { JETON = ""; ecranConnexion("Cette clé ne donne pas accès au dépôt sources-cours (" + e.message + ")."); }
+  };
+}
+document.getElementById("deconnexion").addEventListener("click", () => { if (confirm("Oublier la clé d'accès GitHub sur cet appareil ?")) { deconnecter(); ecranConnexion(); } });
+/* PDF : en ligne, ceux du site sont lus sur le site ; ceux du coffre (masqués) dans le dépôt privé */
+document.addEventListener("click", async e => {
+  const a = e.target.closest("a[data-rel]"); if (!a || !EN_LIGNE) return;
+  if (!a.classList.contains("lien-masque") && !a.closest(".carte.masque")) return;
+  e.preventDefault(); const w = window.open("", "_blank");
+  try { const r = await lireBrut("Outils/gestion-site/coffre/" + a.dataset.rel), b = await r.blob(); const u = URL.createObjectURL(new Blob([b], { type: "application/pdf" })); if (w) w.location = u; else location = u; }
+  catch (x) { if (w) w.location = a.href; }
+});
+
+async function charger() {
+  if (EN_LIGNE && !JETON) return ecranConnexion();
+  document.getElementById("deconnexion").hidden = !EN_LIGNE;
+  let d; try { d = await appeler("/api/arbre"); } catch (x) { vue.innerHTML = `<p class="msg err">${esc(x.message)}</p>`; return; }
+  if (!d) {                                                 // en ligne, toute première fois : GitHub n'a pas encore décrit le site
+    vue.innerHTML = `<div class="accueil"><h2>Première utilisation en ligne</h2><p>GitHub doit d'abord lire l'état du site (environ 3 minutes, une seule fois).</p><button class="btn plein" id="initialiser">Lire l'état du site</button></div>`;
+    document.getElementById("initialiser").onclick = async () => { try { await appeler("/api/rafraichir", {}); charger(); } catch (x) { bandeau(x.message, false); } };
+    return;
+  }
+  NIVEAUX = d.niveaux; majEtat(d.etat); dessinerNav();
+  if (courant) afficher(courant);
+  if (d.avertissement) bandeau(d.avertissement, false);
+}
+function majEtat(e) {
+  ETAT = e; const n = e.a_publier.length;
+  document.getElementById("etat").innerHTML = EN_LIGNE ? "🌐 En ligne · chaque action est publiée (2 à 5 min)"
+    : n ? `<b>${n}</b> changement${n > 1 ? "s" : ""} prêt${n > 1 ? "s" : ""} à publier` : "Tout est publié";
+  document.getElementById("publier").disabled = !n; document.getElementById("publier").hidden = EN_LIGNE;
+  const a = document.getElementById("annuler"); a.hidden = !e.annulable; a.textContent = "↶ Annuler : " + (e.annulable.length > 50 ? e.annulable.slice(0, 50) + "…" : e.annulable);
+}
+document.getElementById("annuler").addEventListener("click", () => action("/api/annuler", {}, "Annuler la dernière action ?\n" + ETAT.annulable));
+/* appel d'une action du serveur, puis rechargement de l'arbre */
+async function action(url, donnees, confirmation) {
+  if (confirmation && !confirm(confirmation)) return null;
+  try { const d = await appeler(url, donnees); await charger(); bandeau(d.message, true); return d;
+  } catch (x) { bandeau(x.message, false); return null; }
+}
+function bandeau(texte, ok) { const b = document.createElement("p"); b.className = "msg " + (ok ? "ok" : "err"); b.textContent = (ok ? "✓ " : "") + texte; vue.prepend(b); window.scrollTo(0, 0); }
+/* petite fenêtre de questions : champs [{ nom, label, type: "text"|"checkbox", valeur }] */
+function demander(titre, texte, champs, bouton, danger) {
+  const boite = document.getElementById("boite"), f = boite.querySelector("form");
+  f.innerHTML = `<h3>${esc(titre)}</h3>${texte ? `<p style="margin:0;color:var(--doux)">${texte}</p>` : ""}${champs.map(c => c.type === "checkbox"
+      ? `<label><input type="checkbox" name="${c.nom}" ${c.valeur ? "checked" : ""}> ${esc(c.label)}</label>`
+      : `<label class="col">${esc(c.label)}<input type="text" name="${c.nom}" value="${esc(c.valeur || "")}" autocomplete="off"></label>`).join("")}
+    <div class="pied"><button class="btn" value="non">Annuler</button><button class="btn ${danger ? "rouge" : "plein"}" value="oui">${esc(bouton)}</button></div>`;
+  boite.hidden = false; const p = f.querySelector("input[type=text]"); if (p) p.focus();
+  return new Promise(ok => { f.onsubmit = e => { e.preventDefault(); const v = e.submitter && e.submitter.value; boite.hidden = true;
+    if (v !== "oui") return ok(null); const r = {}; champs.forEach(c => { const i = f.elements[c.nom]; r[c.nom] = c.type === "checkbox" ? i.checked : i.value; }); ok(r); }; });
+}
+function chapitre(id) { for (const n of NIVEAUX) for (const c of n.chapitres) if (c.id === id) return [n, c]; return [null, null]; }
+function dessinerNav() {
+  const ouverts = new Set([...nav.querySelectorAll("details[open]")].map(d => d.dataset.niv));
+  if (!nav.children.length && courant) ouverts.add(courant.split("/")[0]);
+  nav.innerHTML = NIVEAUX.map(n => `<details data-niv="${n.id}" ${ouverts.has(n.id) ? "open" : ""} style="--niv:var(--${n.id})">
+    <summary class="${n.masque ? "masque-nav" : ""}"><span class="pastille"></span>${esc(n.nom)}${n.masque ? " 🙈" : ""}</summary><ul><li><button class="vue-niv" data-niveau="${n.id}" aria-current="${n.id === courant}">Tout le niveau…</button></li>${n.chapitres.map(c => {
+      const nb = c.annees.reduce((s, a) => s + a.cartes.length, 0);
+      return `<li class="${c.masque ? "masque-nav" : ""}"><button data-ch="${c.id}" aria-current="${c.id === courant}">${esc(c.titre)}${c.masque ? " 🙈" : ""}<span class="nb">${nb || ""}</span></button></li>`; }).join("")}<li><button class="nouveau-ch" data-nouveau-ch="${n.id}">＋ Nouveau chapitre</button></li></ul></details>`).join("") + `<button class="btn nouveau" id="nouveau-niveau">＋ Nouveau niveau</button>`;
+}
+nav.addEventListener("click", async e => {
+  if (e.target.id === "nouveau-niveau") {
+    const r = await demander("Nouveau niveau", "Exemple : « Terminale expertes ». Il apparaîtra dans le menu du site et sur la page d'accueil.",
+      [{ nom: "nom", label: "Nom dans le menu" }, { nom: "titre", label: "Titre de la page et de la carte d'accueil (facultatif)" }], "Créer le niveau");
+    if (r && r.nom.trim()) { const d = await action("/api/niveau/ajouter", r); if (d) { courant = d.id; dessinerNav(); afficher(courant); } }
+    return;
+  }
+  const nc = e.target.closest("[data-nouveau-ch]");
+  if (nc) { const r = await demander("Nouveau chapitre", "Dans " + esc(NIVEAUX.find(x => x.id === nc.dataset.nouveauCh).nom) + ". Il s'ajoutera à la fin de la liste (l'ordre se change dans « Tout le niveau… »).",
+      [{ nom: "titre", label: "Titre du chapitre" }], "Créer le chapitre");
+    if (r && r.titre.trim()) { const d = await action("/api/chapitre/ajouter", { niveau: nc.dataset.nouveauCh, titre: r.titre }); if (d) { courant = d.id; dessinerNav(); afficher(courant); } }
+    return; }
+  const b = e.target.closest("[data-ch], [data-niveau]"); if (!b) return; courant = b.dataset.ch || b.dataset.niveau; dessinerNav(); afficher(courant); window.scrollTo(0, 0); });
+
+/* ---------- un chapitre ---------- */
+const pdf = (niv, lien) => (EN_LIGNE ? SITE_URL : "/pdf/") + niv + "/" + lien.replace(/^\.\.\//, "");
+function prochainNumero(a, type) {
+  let max = 0; const re = new RegExp("-" + type + "(\\d+)-", "i");
+  a.cartes.forEach(c => { const m = (c.sujet + " " + c.correction).match(re); if (m) max = Math.max(max, +m[1]);
+    const t = c.titre.match(type === "eval" ? /valuation\s*n?°?\s*(\d+)/i : new RegExp("^" + type + "\\s*n?°?\\s*(\\d+)", "i")); if (t) max = Math.max(max, +t[1]); });
+  return max + 1;
+}
+function afficher(id) {
+  if (!id.includes("/")) return afficherNiveau(id);
+  const [n, c] = chapitre(id); if (!c) { vue.innerHTML = '<div class="accueil"><p>Choisissez un chapitre à gauche.</p></div>'; return; }
+  let h = `<div class="fil">${esc(n.nom)}</div><h2 class="chap" style="--niv:var(--${n.id})"><span class="pastille"></span>${esc(c.titre)}</h2>
+    ${c.masque ? '<p class="msg" style="background:#fff3c4;color:#7a5a00">🙈 Ce chapitre est masqué : les élèves ne le voient pas sur le site.</p>' : ""}
+    <div class="outils"><button class="btn" data-f="renommer">Renommer</button><button class="btn" data-masquer="chapitre" data-valeur="${c.masque ? 0 : 1}">${c.masque ? "👁 Afficher le chapitre" : "🙈 Masquer le chapitre"}</button><a class="btn" href="https://maelmoignet-pixel.github.io/SiteWeb/${c.fichier.replace(/\.qmd$/, ".html")}" target="_blank" style="text-decoration:none">Voir en ligne</a>
+      <button class="btn danger" data-f="supprimer">Supprimer le chapitre</button></div>
+    <div class="bloc"><h3>Cours</h3>${c.cours.length ? c.cours.map(x => `<div class="cours-l ${x.masque ? "masque" : ""}"><strong>${esc(x.titre)} ${x.masque ? '<span class="badge-m">masqué</span>' : ""}</strong>${x.existe ? "" : '<span class="msg err">fichier introuvable</span>'}
+      ${x.url ? `<a class="btn petit" href="${x.url}" target="_blank" style="text-decoration:none">Ouvrir en ligne</a>` : ""}<button class="btn petit" data-remplacer="${esc(x.lien)}" data-titre="${esc(x.titre)}">Remplacer…</button><button class="btn petit" data-masquer="cours" data-lien="${esc(x.lien)}" data-valeur="${x.masque ? 0 : 1}">${x.masque ? "👁 Afficher" : "🙈 Masquer"}</button><button class="btn petit danger" data-cours="${esc(x.lien)}" data-titre="${esc(x.titre)}">Retirer</button></div>`).join("")
+      : '<p class="vide">Pas encore de cours pour ce chapitre.</p>'}<div class="ajout-cours" data-lien="" style="margin-top:10px">
+      <div class="depot" data-k="cours"><b class="titre-depot">${c.cours.length ? "Ajouter un autre cours" : "Ajouter le cours"}</b><span>Glissez ici le <b>.tex</b> du cours et ses images (png, jpg…)<br>ou touchez pour les choisir</span><input type="file" multiple accept=".tex,.png,.jpg,.jpeg,.gif,.svg,.pdf,.eps" hidden></div>
+      <div class="ligne-form" style="margin-top:8px"><button class="btn plein convertir" disabled>Convertir et ajouter</button><button class="btn annuler-remplacement" hidden>Ne pas remplacer</button></div>
+      <div class="retour-cours">${dernierCours && dernierCours.id === id ? dernierCours.html : ""}</div></div></div>`;
+  if (!c.annees.length) h += `<p class="vide">Cette page n'a pas de partie « DS et évaluations ».</p>`;
+  c.annees.slice().reverse().forEach(a => {
+    h += `<div class="annee" data-annee="${a.annee}"><h3>📁 ${a.annee} – DS et évaluations <small>${esc(a.dossier)}/</small></h3>`;
+    const ref = x => `data-ligne="${x.ligne}" data-titre="${esc(x.titre)}" data-annee="${a.annee}"`;
+    if (a.cartes.length) h += `<div class="cartes">${a.cartes.map(x => `<div class="carte ${x.masque ? "masque" : ""}"><strong>${esc(x.titre)} ${x.masque ? '<span class="badge-m">masquée</span>' : ""}</strong>${x.date ? `<span class="date">${esc(x.date)}</span>` : ""}
+      <div class="liens">${x.sujet ? `<a href="${pdf(n.id, x.sujet)}" data-rel="${esc(n.id + "/" + x.sujet.replace(/^\.\.\//, ""))}" target="_blank" class="${x.sujet_masque ? "lien-masque" : x.sujet_existe === false ? "manque" : ""}" title="${x.sujet_masque ? "masqué" : ""}">${x.correction || x.liste ? "Sujet" : "PDF"}</a>` : ""}${x.correction ? `<a href="${pdf(n.id, x.correction)}" data-rel="${esc(n.id + "/" + x.correction.replace(/^\.\.\//, ""))}" target="_blank" class="${x.correction_masque ? "lien-masque" : x.correction_existe === false ? "manque" : ""}" title="${x.correction_masque ? "masquée" : ""}">Correction</a>` : ""}</div>
+      ${x.liste ? "" : `<div class="actions"><button class="btn petit" data-modifier-carte="1" data-date="${esc(x.date)}" ${ref(x)}>✏️ Modifier</button><button class="btn petit" data-masquer="carte" ${ref(x)} data-valeur="${x.masque ? 0 : 1}">${x.masque ? "👁 Afficher" : "🙈 Masquer"}</button>
+        ${x.correction && !x.masque ? `<button class="btn petit" data-masquer="correction" ${ref(x)} data-valeur="${x.correction_masque ? 0 : 1}">${x.correction_masque ? "👁 Afficher la correction" : "🙈 Masquer la correction"}</button>` : ""}</div>`}
+      ${x.tags.length ? `<div>${x.tags.map(t => `<span class="tag">${esc(t)}</span>`).join(" ")}</div>` : ""}
+      ${x.liste ? "" : `<div><button class="btn petit danger" data-retirer="${x.ligne}" data-titre="${esc(x.titre)}" data-annee="${a.annee}">Retirer</button></div>`}</div>`).join("")}</div>`;
+    else h += `<p class="vide">Aucun document pour l'instant.</p>`;
+    h += zoneAjout(n, c, a) + "</div>";
+  });
+  vue.innerHTML = h;
+  vue.querySelectorAll(".ajout").forEach(brancher);
+  vue.querySelectorAll(".ajout-cours").forEach(brancherCours);
+}
+function zoneAjout(n, c, a) {
+  const auj = new Date(), iso = auj.getFullYear() + "-" + String(auj.getMonth() + 1).padStart(2, "0") + "-" + String(auj.getDate()).padStart(2, "0");
+  return `<div class="ajout" data-annee="${a.annee}" data-dossier="${esc(a.dossier)}" data-niv="${n.id}">
+    <div class="depots">
+      <div class="depot" data-k="sujet"><b>Sujet</b><span>Glissez le PDF ou le <b>.tex</b> ici<br>(avec ses images), ou touchez pour choisir</span><input type="file" multiple accept=".pdf,.tex,.png,.jpg,.jpeg,.eps" hidden></div>
+      <div class="depot" data-k="correction"><b>Correction</b><span>Glissez le PDF ou le .tex ici<br>ou touchez pour choisir</span><input type="file" accept=".pdf,.tex" hidden></div>
+    </div>
+    <div class="reglages">
+      <span class="seg">${TYPES.map(([k, l], i) => `<button data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</span>
+      <label>n° <input type="number" min="1" max="99" class="num" value="${prochainNumero(a, "eval")}"></label>
+      <label>date <input type="date" class="date" value="${iso}"></label>
+      <label><input type="checkbox" class="sans-date"> sans date</label>
+      <label title="La correction reste au coffre, invisible des élèves, jusqu'à ce que vous l'affichiez"><input type="checkbox" class="corr-masquee"> correction masquée (à afficher après le devoir)</label>
+    </div>
+    <div class="apercu-nom"></div>
+    <p class="vide astuce" style="margin:0;font-size:.85rem">Astuce : un seul .tex de classe <i>exam</i> suffit, le sujet et la correction en sont tirés (option <i>answers</i>).</p>
+    <div><button class="btn plein envoyer" disabled>Ajouter au site</button></div>
+    <div class="retour"></div>
+  </div>`;
+}
+function brancher(z) {
+  const [, c] = chapitre(courant), a = c.annees.find(x => x.annee === z.dataset.annee), fichiers = {}; let images = [];
+  let type = "eval";
+  const num = z.querySelector(".num"), bEnv = z.querySelector(".envoyer"), nomV = z.querySelector(".apercu-nom"), retour = z.querySelector(".retour");
+  const majNom = () => {
+    const dos = z.dataset.dossier.split("/").pop(), base = `${dos}-${SUFFIXES[z.dataset.niv]}-${z.dataset.annee}-${type}${num.value}`;
+    const unTex = fichiers.sujet && /\.tex$/i.test(fichiers.sujet.name) && !fichiers.correction;
+    const cz = z.querySelector('[data-k="correction"]');
+    if (unTex) { cz.classList.add("plein"); cz.querySelector("span").innerHTML = "tirée du même .tex<br>(si c'est un .tex <i>exam</i>)"; }
+    else if (!fichiers.correction) { cz.classList.remove("plein"); cz.querySelector("span").innerHTML = "Glissez le PDF ou le .tex ici<br>ou touchez pour choisir"; }
+    nomV.textContent = Object.keys(fichiers).length ? "Sera rangé dans " + z.dataset.dossier + "/ sous " + (unTex ? ["sujet", "correction"] : ["sujet", "correction"].filter(k => fichiers[k])).map(k => base + "-" + k + ".pdf").join(" et ")
+      + (Object.values(fichiers).some(f => /\.tex$/i.test(f.name)) ? " (compilés à partir du .tex" + (images.length ? ", avec " + images.length + " image" + (images.length > 1 ? "s" : "") : "") + ")" : "") : "";
+    bEnv.disabled = !fichiers.sujet; z.classList.toggle("ouvert", Object.keys(fichiers).length > 0);
+  };
+  z.querySelectorAll(".depot").forEach(d => {
+    const inp = d.querySelector("input");
+    const prendre = f => { if (!f) return;
+      if (!/\.(pdf|tex)$/i.test(f.name) && f.type !== "application/pdf") { retour.innerHTML = `<p class="msg err">« ${esc(f.name)} » n'est ni un PDF ni un .tex.</p>`; return; }
+      fichiers[d.dataset.k] = f; d.classList.add("plein"); d.querySelector("span").innerHTML = `✓ <span class="f">${esc(f.name)}</span>`; retour.innerHTML = ""; majNom(); };
+    d.addEventListener("click", () => inp.click()); inp.addEventListener("change", () => repartir([...inp.files], d.dataset.k));
+    d.addEventListener("dragover", e => { e.preventDefault(); d.classList.add("survol"); });
+    d.addEventListener("dragleave", () => d.classList.remove("survol"));
+    d.addEventListener("drop", e => { e.preventDefault(); d.classList.remove("survol");
+      repartir([...e.dataTransfer.files], d.dataset.k); });
+    const repartir = (tous, k) => {                    // .tex / PDF / images : chacun à sa place
+      const img = tous.filter(f => /\.(png|jpe?g|eps)$/i.test(f.name)), fs = tous.filter(f => !img.includes(f));
+      if (img.length) images = img;
+      if (fs.length === 1 && k === d.dataset.k) return prendre(fs[0]);
+      if (!fs.length) { majNom(); return; }
+      if (fs.length === 2) {                                   // les deux d'un coup : la correction est celle dont le nom le dit
+        const corr = fs.find(f => /corr/i.test(f.name)) || fs[1];
+        fichiers.correction = corr; fichiers.sujet = fs.find(f => f !== corr);
+        z.querySelectorAll(".depot").forEach(x => { x.classList.add("plein"); x.querySelector("span").innerHTML = `✓ <span class="f">${esc(fichiers[x.dataset.k].name)}</span>`; }); majNom();
+      } else prendre(fs[0]); };
+  });
+  z.querySelectorAll("[data-type]").forEach(b => b.addEventListener("click", () => { type = b.dataset.type;
+    z.querySelectorAll("[data-type]").forEach(x => x.setAttribute("aria-pressed", x === b)); num.value = prochainNumero(a, type); majNom(); }));
+  num.addEventListener("input", majNom);
+  bEnv.addEventListener("click", async () => {
+    const fd = new FormData(); fd.append("chapitre", courant); fd.append("annee", z.dataset.annee); fd.append("type", type); fd.append("numero", num.value);
+    if (!z.querySelector(".sans-date").checked) fd.append("date", z.querySelector(".date").value);
+    if (z.querySelector(".corr-masquee").checked) fd.append("correction_masquee", "1");
+    ["sujet", "correction"].forEach(k => fichiers[k] && fd.append(k, fichiers[k], fichiers[k].name));
+    images.forEach(f => fd.append("images", f, f.name));
+    const tex = Object.values(fichiers).some(f => /\.tex$/i.test(f.name));
+    bEnv.disabled = true; bEnv.textContent = tex ? "Compilation du .tex… (jusqu'à une minute)" : "Ajout…";
+    try { const d = await appeler("/api/ajouter", fd);
+      await charger(); const nz = vue.querySelector(`.ajout[data-annee="${z.dataset.annee}"] .retour`);
+      if (nz) nz.innerHTML = `<p class="msg ok">✓ ${esc(d.message)}${EN_LIGNE ? "" : ". Il reste à <b>publier le site</b> (bouton en haut) pour qu'il soit en ligne."}</p>`;
+    } catch (x) { retour.innerHTML = `<p class="msg err">${esc(x.message)}</p>`; bEnv.disabled = false; bEnv.textContent = "Ajouter au site"; }
+  });
+}
+vue.addEventListener("click", async e => {
+  const b = e.target.closest("[data-retirer]"); if (!b) return;
+  if (!confirm(`Retirer « ${b.dataset.titre} » (${b.dataset.annee}) du site ?\nLes PDF de cette carte seront supprimés de vos dossiers.`)) return;
+  try { const d = await appeler("/api/retirer", { chapitre: courant, annee: b.dataset.annee, ligne: b.dataset.retirer, titre: b.dataset.titre }); await charger(); bandeau(d.message, true); }
+  catch (x) { bandeau(x.message, false); }
+});
+
+/* ---------- cours : dépôt du .tex, conversion, aperçu ---------- */
+let dernierCours = null;
+function brancherCours(z) {
+  const d = z.querySelector(".depot"), inp = d.querySelector("input"), bConv = z.querySelector(".convertir"), bAnn = z.querySelector(".annuler-remplacement"), retour = z.querySelector(".retour-cours");
+  let liste = [];
+  const prendre = fs => { liste = [...fs]; const tex = liste.filter(f => /\.tex$/i.test(f.name));
+    d.classList.toggle("plein", tex.length === 1);
+    d.querySelector("span").innerHTML = liste.length ? liste.map(f => (/\.tex$/i.test(f.name) ? "📄 " : "🖼 ") + esc(f.name)).join("<br>") : "";
+    bConv.disabled = tex.length !== 1;
+    retour.innerHTML = tex.length === 1 ? "" : `<p class="msg err">Il faut exactement un fichier .tex (vous en avez déposé ${tex.length}).</p>`; };
+  d.addEventListener("click", () => inp.click()); inp.addEventListener("change", () => prendre(inp.files));
+  d.addEventListener("dragover", e => { e.preventDefault(); d.classList.add("survol"); });
+  d.addEventListener("dragleave", () => d.classList.remove("survol"));
+  d.addEventListener("drop", e => { e.preventDefault(); d.classList.remove("survol"); prendre(e.dataTransfer.files); });
+  z.remplacer = (lien, titre) => { z.dataset.lien = lien; z.querySelector(".titre-depot").textContent = "Remplacer « " + titre + " » par un nouveau .tex"; bAnn.hidden = false; z.scrollIntoView({ block: "center" }); };
+  bAnn.addEventListener("click", () => { z.dataset.lien = ""; z.querySelector(".titre-depot").textContent = "Ajouter un cours"; bAnn.hidden = true; });
+  bConv.addEventListener("click", async () => {
+    if (z.dataset.lien && !confirm("La page du cours va être refaite entièrement à partir de ce .tex.\nUne correction faite seulement sur le site (et pas dans le .tex) sera perdue.\n\nContinuer ?")) return;
+    const fd = new FormData(); fd.append("chapitre", courant); if (z.dataset.lien) fd.append("lien", z.dataset.lien);
+    liste.forEach(f => fd.append("fichiers", f, f.name));
+    bConv.disabled = true; bConv.textContent = "Conversion en cours… (jusqu'à une minute)";
+    try { const x = await appeler("/api/cours/ajouter", fd);
+      dernierCours = { id: courant, html: `<div class="msg ok" style="margin-top:8px">✓ ${esc(x.message)}<br><a class="btn plein" style="display:inline-block;margin-top:6px;text-decoration:none" href="${x.apercu}" target="_blank">👁 ${EN_LIGNE ? "Voir la page en ligne" : "Voir l'aperçu de la page"}</a>
+        <div style="margin-top:6px;color:var(--doux);font-size:.85rem">Source rangée dans ${esc(x.source)}. Si le résultat ne convient pas : « ↶ Annuler » en haut.</div></div>`
+        + (x.avertissements.length ? `<div class="msg err" style="margin-top:8px"><b>À vérifier dans l'aperçu :</b><ul style="margin:4px 0 0 18px;padding:0">${x.avertissements.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>` : "") };
+      await charger();
+    } catch (e) { retour.innerHTML = `<p class="msg err">${esc(e.message)}</p>`; bConv.disabled = false; bConv.textContent = "Convertir et ajouter"; }
+  });
+}
+
+/* ---------- vue d'un niveau ---------- */
+function afficherNiveau(niv) {
+  const n = NIVEAUX.find(x => x.id === niv); if (!n) { vue.innerHTML = '<div class="accueil"><p>Choisissez un chapitre à gauche.</p></div>'; return; }
+  const suivante = String(Math.max(new Date().getFullYear(), ...n.annees.map(Number)) + (n.annees.includes(String(new Date().getFullYear())) ? 1 : 0));
+  vue.innerHTML = `<div class="fil">Niveau</div><h2 class="chap" style="--niv:var(--${n.id})"><span class="pastille"></span>${esc(n.nom)}</h2>
+    ${n.masque ? '<p class="msg" style="background:#fff3c4;color:#7a5a00">🙈 Ce niveau est masqué : il n\'apparaît plus dans le menu ni sur l\'accueil.</p>' : ""}
+    <div class="outils"><button class="btn" data-n="renommer">Renommer</button><button class="btn" data-masquer="niveau" data-valeur="${n.masque ? 0 : 1}">${n.masque ? "👁 Afficher le niveau" : "🙈 Masquer le niveau"}</button><a class="btn" href="${n.url}" target="_blank" style="text-decoration:none">Voir en ligne</a></div>
+    <div class="bloc"><h3>Chapitres (${n.chapitres.length}), dans l'ordre du site</h3><ul class="liste-ch">${n.chapitres.map((c, i) => `<li>
+      <span class="t ${c.masque ? "masque" : ""}"><button data-ouvrir="${c.id}">${esc(c.titre)}</button> ${c.masque ? '<span class="badge-m">masqué</span>' : c.dans_menu ? "" : '<span class="n">(absent de la page du niveau)</span>'}</span>
+      <span class="n">${c.cours.length ? "cours ✓" : "pas de cours"} · ${c.annees.reduce((s, a) => s + a.cartes.length, 0)} doc.</span>
+      <button class="btn petit" data-monter="${c.id}" ${i === 0 ? "disabled" : ""} title="Monter">↑</button><button class="btn petit" data-descendre="${c.id}" ${i === n.chapitres.length - 1 ? "disabled" : ""} title="Descendre">↓</button></li>`).join("") || '<li class="vide">Aucun chapitre.</li>'}</ul>
+      <div class="ligne-form" style="margin-top:12px"><input type="text" id="nouveau-ch" placeholder="Titre du nouveau chapitre"><button class="btn plein" data-n="ajouter-ch">Ajouter le chapitre</button></div></div>
+    <div class="bloc"><h3>Années de DS et évaluations</h3><p style="margin:0 0 10px">Années présentes : ${n.annees.join(", ") || "aucune"}.</p>
+      <div class="ligne-form"><input type="number" id="nouvelle-annee" value="${suivante}" min="2020" max="2099"><button class="btn" data-n="annee">Préparer cette année dans tous les chapitres</button></div></div>
+    <div class="bloc danger"><h3>Zone dangereuse</h3><button class="btn rouge" data-n="supprimer">Supprimer tout le niveau…</button></div>`;
+}
+vue.addEventListener("click", async e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.ouvrir) { courant = b.dataset.ouvrir; dessinerNav(); return afficher(courant); }
+  if (b.dataset.modifierCarte) {
+    const r = await demander("Modifier « " + b.dataset.titre + " »", "Les PDF ne changent pas, seul l'affichage sur le site.",
+      [{ nom: "nouveau_titre", label: "Titre affiché (ex. Évaluation n°2, DS n°1, Devoir maison…)", valeur: b.dataset.titre },
+       { nom: "date", label: "Date affichée (ex. 14 novembre 2026), vide pour aucune", valeur: b.dataset.date }], "Enregistrer");
+    if (r) action("/api/carte/modifier", { chapitre: courant, annee: b.dataset.annee, ligne: b.dataset.ligne, titre: b.dataset.titre, ...r });
+    return;
+  }
+  if (b.dataset.remplacer) { const z = vue.querySelector(".ajout-cours"); if (z && z.remplacer) z.remplacer(b.dataset.remplacer, b.dataset.titre); return; }
+  if (b.dataset.masquer) {
+    const q = b.dataset.masquer, d = { quoi: q, masquer: b.dataset.valeur === "1" };
+    if (q === "niveau") d.niveau = courant; else d.chapitre = courant;
+    if (q === "cours") d.lien = b.dataset.lien;
+    if (["carte", "sujet", "correction"].includes(q)) Object.assign(d, { annee: b.dataset.annee, ligne: b.dataset.ligne, titre: b.dataset.titre });
+    return action("/api/masquer", d);
+  }
+  if (b.dataset.monter || b.dataset.descendre) return action("/api/chapitre/modifier", { chapitre: b.dataset.monter || b.dataset.descendre, sens: b.dataset.monter ? -1 : 1 });
+  const n = NIVEAUX.find(x => x.id === courant);
+  if (b.dataset.n === "ajouter-ch") { const t = document.getElementById("nouveau-ch").value.trim(); if (t) action("/api/chapitre/ajouter", { niveau: courant, titre: t }); return; }
+  if (b.dataset.n === "annee") return action("/api/annee/ajouter", { niveau: courant, annee: document.getElementById("nouvelle-annee").value }, `Ajouter une partie « ${document.getElementById("nouvelle-annee").value} – DS et évaluations » à tous les chapitres de ${n.nom} ?`);
+  if (b.dataset.n === "renommer") { const r = await demander("Renommer le niveau", "", [{ nom: "nom", label: "Nouveau nom (menu du site et titre de la page)", valeur: n.nom }], "Renommer"); if (r) action("/api/niveau/modifier", { niveau: courant, nom: r.nom }); return; }
+  if (b.dataset.n === "supprimer") {
+    const r = await demander("Supprimer « " + n.nom + " »", `<b>Tout</b> le niveau sera supprimé : ses ${n.chapitres.length} chapitres, ses cours et ses PDF. Pour confirmer, tapez son nom exact : <b>${esc(n.nom)}</b>`, [{ nom: "confirmation", label: "Nom du niveau" }], "Supprimer définitivement", true);
+    if (r) { const d = await action("/api/niveau/supprimer", { niveau: courant, confirmation: r.confirmation }); if (d) { courant = null; dessinerNav(); vue.innerHTML = ""; bandeau(d.message, true); } }
+    return;
+  }
+  const [, c] = chapitre(courant); if (!c) return;
+  if (b.dataset.f === "renommer") { const r = await demander("Renommer le chapitre", "", [{ nom: "titre", label: "Nouveau titre", valeur: c.titre }], "Renommer"); if (r && r.titre.trim()) action("/api/chapitre/modifier", { chapitre: courant, titre: r.titre }); return; }
+  if (b.dataset.f === "supprimer") {
+    const r = await demander("Supprimer « " + c.titre + " »", "La page du chapitre disparaîtra du site.", [{ nom: "avec_cours", label: "Supprimer aussi le cours de ce chapitre (" + (c.cours.length ? c.cours.map(x => x.dossier).join(", ") : "aucun") + ")", type: "checkbox" },
+      { nom: "avec_pdf", label: "Supprimer aussi les PDF des DS et évaluations de ce chapitre", type: "checkbox" }], "Supprimer", true);
+    if (r) { const niv = courant.split("/")[0]; const d = await action("/api/chapitre/supprimer", { chapitre: courant, ...r }); if (d) { courant = niv; dessinerNav(); afficher(niv); bandeau(d.message, true); } }
+    return;
+  }
+  if (b.dataset.cours) {
+    const r = await demander("Retirer « " + b.dataset.titre + " »", "Le lien vers ce cours disparaîtra de la page du chapitre.", [{ nom: "supprimer_dossier", label: "Supprimer aussi le dossier du cours de vos fichiers", type: "checkbox" }], "Retirer", true);
+    if (r) action("/api/cours/retirer", { chapitre: courant, lien: b.dataset.cours, ...r });
+  }
+});
+
+/* ---------- publication ---------- */
+document.getElementById("publier").addEventListener("click", async () => {
+  const j = document.getElementById("journal"), log = document.getElementById("log"), f = document.getElementById("fermer-journal");
+  j.hidden = false; log.textContent = ""; f.disabled = true;
+  try { const r = await fetch("/api/publier", { method: "POST" }), lect = r.body.getReader(), dec = new TextDecoder();
+    for (;;) { const { done, value } = await lect.read(); if (done) break; log.textContent += dec.decode(value, { stream: true }); log.scrollTop = log.scrollHeight; }
+  } catch (x) { log.textContent += "\n✖ " + x.message; }
+  f.disabled = false; charger();
+});
+document.getElementById("fermer-journal").addEventListener("click", () => { document.getElementById("journal").hidden = true; });
+charger();
+</script>
+</body>
+</html>
