@@ -1708,6 +1708,7 @@ document.addEventListener("DOMContentLoaded", function () {
     z.ouvrir();
   }
   bExos.onclick = () => ouvrirExos(isoJour(new Date()));
+  if (location.hash === "#exercices" && blocs.length) setTimeout(() => ouvrirExos(isoJour(new Date())), 400);   // « Feuille d'exercices du jour » de Ma séance
 
   /* Ardoises : clés « …/index.html|ardoise:<partie>:<date> » (adresse du niveau toujours écrite avec index.html, pour le cahier de texte) */
   const BASE_ARDOISE = PAGE.replace(/\/$/, "/index.html");
@@ -2089,6 +2090,86 @@ document.addEventListener("DOMContentLoaded", function () {
     try { const d = JSON.parse(await f.text()); Object.entries(d).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v))); location.reload(); }
     catch (e) { menu.querySelector(".info").textContent = "Fichier de notes illisible"; }
   });
+})();
+</script>
+<!-- « Ma séance » : sur la page d'accueil, le cours de l'heure d'après l'emploi du temps du cahier de texte (Firebase).
+     Un geste pour ouvrir le cours, un autre pour la feuille d'exercices du jour. Rien n'est affiché sans connexion. -->
+<style>
+.ma-seance { margin: 0 auto 1.4rem; max-width: 980px; border: 2px solid #2d4db0; border-radius: 16px; background: #f3f6ff; padding: 14px 18px;
+  font-family: system-ui, sans-serif; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.ma-seance .titre { flex: 1 1 320px; min-width: 0; }
+.ma-seance .titre small { display: block; color: #5d6679; font-size: .9rem; }
+.ma-seance .titre b { font-size: 1.25rem; color: #1b2232; }
+.ma-seance a, .ma-seance button { font: 600 1.05rem system-ui, sans-serif; border-radius: 12px; padding: 12px 18px; min-height: 52px; border: 1px solid #2d4db0;
+  background: #fff; color: #2d4db0; text-decoration: none; cursor: pointer; display: inline-flex; align-items: center; }
+.ma-seance a.plein, .ma-seance button.plein { background: #2d4db0; color: #fff; }
+.ma-seance form { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
+.ma-seance input { font: inherit; padding: 10px; border: 1px solid #c6cde0; border-radius: 10px; min-width: 200px; }
+@media print { .ma-seance { display: none; } }
+</style>
+<script>
+(() => {
+  if (!document.querySelector("main .cartes a.carte")) return;           // seulement sur la page d'accueil
+  const FIREBASE = { apiKey: "AIzaSyA1j_Z4QApF8OwtmK39GRc2qdJ_6krLoCw", authDomain: "cahier-de-texte-45228.firebaseapp.com", projectId: "cahier-de-texte-45228",
+                     storageBucket: "cahier-de-texte-45228.firebasestorage.app", messagingSenderId: "658368948237", appId: "1:658368948237:web:7973bbb9c69470ee104d44" };
+  const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const hm = m => Math.floor(m / 60) + "h" + String(m % 60).padStart(2, "0");
+  const boite = document.createElement("div"); boite.className = "ma-seance"; boite.innerHTML = '<div class="titre"><small>📅 Ma séance</small><b>…</b></div>';
+  const cartes = document.querySelector("main .cartes"); cartes.parentNode.insertBefore(boite, cartes);
+  const montrer = (titre, detail, boutons = "") => { boite.innerHTML = `<div class="titre"><small>📅 Ma séance${detail ? " · " + esc(detail) : ""}</small><b>${esc(titre)}</b></div>${boutons}`; };
+  const charger = f => new Promise((ok, ko) => { const s = document.createElement("script"); s.src = racine + "ressources/" + f; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+  const lundi = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; };
+  const iso = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  // page de chapitre et page de cours d'un chapitre du cahier (« seconde/geometrie-reperee »)
+  async function liens(chId) {
+    const [niv, slug] = chId.split("/"), lire = async u => { const r = await fetch(u); if (!r.ok) throw new Error(r.status); return r.text(); };
+    let url = racine + niv + "/chapitres/" + slug + ".html", html;
+    try { html = await lire(url); } catch (e) {                         // nom de page différent (ex. « derivations ») : on le cherche sur la page du niveau
+      const idx = await lire(racine + niv + "/index.html"), m = [...idx.matchAll(/href="(chapitres\/[^"]+\.html)"/g)].map(x => x[1]).find(h => h.includes(slug.split("-")[0]));
+      if (!m) throw e; url = racine + niv + "/" + m; html = await lire(url);
+    }
+    const doc = new DOMParser().parseFromString(html, "text/html"), a = doc.querySelector('main a[href*="cours/"][href$=".html"]');
+    const titre = ((doc.querySelector("h1.title") || {}).textContent || slug).trim();
+    return { chapitre: url, cours: a ? new URL(a.getAttribute("href"), new URL(url, location.href)).href : null, titre };
+  }
+  async function afficher(u) {
+    montrer("Recherche du cours de l'heure…");
+    const base = firebase.firestore().collection("utilisateurs").doc(u.uid), maintenant = new Date(), k = iso(lundi(maintenant));
+    const [cfg, sem] = await Promise.all([base.collection("donnees").doc("config").get(), base.collection("semaines").doc(k).get()]);
+    if (!cfg.exists) return montrer("Emploi du temps introuvable", "ouvrez une fois le cahier de texte");
+    const C = JSON.parse(cfg.data().json), W = sem.exists ? JSON.parse(sem.data().json) : null;
+    const liste = W ? W.seances : C.modele.map(m => ({ ...m, contenu: {} }));
+    const j = (maintenant.getDay() + 6) % 7, min = maintenant.getHours() * 60 + maintenant.getMinutes();
+    const classe = id => C.classes.find(c => c.id === id) || {};
+    const duJour = liste.filter(s => s.jour === j && !classe(s.classe).sansCdt).sort((a, b) => a.debut - b.debut);
+    const s = duJour.find(x => min >= x.debut - 15 && min < x.debut + x.duree) || duJour.find(x => x.debut > min);
+    if (!s) return montrer("Plus de cours aujourd'hui", duJour.length ? "dernier : " + hm(duJour[duJour.length - 1].debut) : "");
+    const cl = classe(s.classe), quand = (min >= s.debut - 15 ? "maintenant · " : "prochain cours · ") + hm(s.debut) + "–" + hm(s.debut + s.duree);
+    let chs = ((s.contenu || {}).chs || []).slice();
+    if (!chs.length) {                                                  // pas encore noté : le dernier chapitre vu avec cette classe
+      const tout = await base.collection("semaines").get(), t0 = k + "#" + s.jour + "#" + String(s.debut).padStart(4, "0"); let tb = "";
+      tout.forEach(d => { const w = JSON.parse(d.data().json); for (const x of w.seances || []) {
+        if (x.classe !== s.classe || !x.contenu || !(x.contenu.chs || []).length) continue;
+        const t = d.id + "#" + x.jour + "#" + String(x.debut).padStart(4, "0"); if (t < t0 && t > tb) { tb = t; chs = [x.contenu.chs[x.contenu.chs.length - 1]]; } } });
+    }
+    if (!chs.length) return montrer(cl.nom || "Cours", quand + " · chapitre pas encore choisi dans le cahier de texte");
+    const l = await liens(chs[chs.length - 1]);
+    montrer(cl.nom + " — " + l.titre, quand,
+      (l.cours ? `<a class="plein" href="${esc(l.cours)}">📖 Ouvrir le cours</a><a href="${esc(l.cours)}#exercices">✎ Feuille d'exercices du jour</a>` : "")
+      + `<a href="${esc(l.chapitre)}">Page du chapitre</a>`);
+  }
+  function connexion(msg) {
+    montrer("Connectez-vous pour voir le cours de l'heure", msg || "", `<form><input type="email" placeholder="Adresse e-mail" autocomplete="username" required>
+      <input type="password" placeholder="Mot de passe" autocomplete="current-password" required><button class="plein">Se connecter</button></form>`);
+    boite.querySelector("form").onsubmit = e => { e.preventDefault(); const [a, b] = boite.querySelectorAll("input");
+      firebase.auth().signInWithEmailAndPassword(a.value.trim(), b.value).catch(() => connexion("identifiants refusés")); };
+  }
+  charger("firebase-app-compat.js").then(() => Promise.all([charger("firebase-auth-compat.js"), charger("firebase-firestore-compat.js")])).then(() => {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE);
+    try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
+    firebase.auth().onAuthStateChanged(u => { if (!u) return connexion(); afficher(u).catch(e => montrer("Emploi du temps illisible", e.message || "réseau ?")); });
+  }).catch(() => boite.remove());
 })();
 </script>
 <script id="quarto-html-after-body" type="application/javascript">
