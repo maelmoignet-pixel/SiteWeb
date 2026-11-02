@@ -390,7 +390,6 @@ Dériver la fonction $f$ définie sur $\mathbb{R}$ par $f(x) = (x^2 + 1)(4x - 3)
             &= 2x \times (4x - 3) + (x^2 + 1) \times 4 \\
             &= 8x^2 - 6x + 4x^2 + 4 \\
             &= 12x^2 - 6x + 4
-
     \end{aligned}$$
 :::
 
@@ -410,7 +409,6 @@ Dériver la fonction $f$ définie sur $\mathbb{R} \setminus \{3\}$ par $f(x) = \
             &= \frac{2 \times (x - 3) - (2x + 1) \times 1}{(x - 3)^2} \\
             &= \frac{2x - 6 - 2x - 1}{(x - 3)^2} \\
             &= -\frac{7}{(x - 3)^2}
-
     \end{aligned}$$
 :::
 

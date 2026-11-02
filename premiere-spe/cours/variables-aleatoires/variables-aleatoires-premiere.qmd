@@ -373,7 +373,6 @@ Par définition de l'espérance on a: $$\begin{aligned}
         &=\displaystyle\sum_{i=1}^n [ ax_i \times P(X=x_i)+b \times P(X=x_i)]\\
         &=a\displaystyle\sum_{i=1}^n  x_i \times P(X=x_i)+b\displaystyle\sum_{i=1}^n  P(X=x_i)\\
         &=aE(X)+b
-
 \end{aligned}$$
 :::
 

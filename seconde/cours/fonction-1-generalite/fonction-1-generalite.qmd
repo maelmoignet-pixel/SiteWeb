@@ -207,13 +207,11 @@ Compléter le tableau:
 On note $$\begin{aligned}
                               f: E &\rightarrow \mathbb{R}\\
                               x &\mapsto f(x)
-
 \end{aligned}$$
 
 Dans notre exemple, on note: $$\begin{aligned}
                               f: [-2;2] &\rightarrow \mathbb{R}\\
                               x &\mapsto 2x
-
 \end{aligned}$$
 :::
 

@@ -286,7 +286,6 @@ $$\begin{aligned}
 et~ 
   A\cup B&=\{2,4,6\} \cup \{3,6\}\\
   &=\{2,3,4,6\}
-
 \end{aligned}$$
 :::
 

@@ -233,7 +233,6 @@ Pour tous réels $x$ et $y$ et pour tout entier relatif $n$ :
         \text{Or, } \exp(x-x) &= \exp(x + (-x)) = \exp(x) \times \exp(-x) \\
         \text{D'où } \exp(x) \times \exp(-x) &= 1 \\
         \exp(-x) &= \dfrac{1}{\exp(x)}
-
     \end{aligned}$$
 
 -   Pour tous réels $x$ et $y$ : $$\begin{aligned}
@@ -241,7 +240,6 @@ Pour tous réels $x$ et $y$ et pour tout entier relatif $n$ :
         &= \exp(x) \times \exp(-y) \\
         &= \exp(x) \times \dfrac{1}{\exp(y)} \\
         &= \dfrac{\exp(x)}{\exp(y)}
-
     \end{aligned}$$
 :::
 
