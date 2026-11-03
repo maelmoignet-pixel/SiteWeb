@@ -28,6 +28,10 @@ toc: false
 
 - [TD : Deuxième partie](../cours/espace-1/espace-TD2-terminale.pdf)
 
+- [TD : Intersections](../cours/espace-1/espace-intersections-terminale.pdf)
+
+- [TD Intersections : correction](../cours/espace-1/espace-intersections-terminale-correction.pdf)
+
 
 ## Évaluations et DS
 
