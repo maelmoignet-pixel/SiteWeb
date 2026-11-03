@@ -673,7 +673,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const idbPut = (id, v) => idb().then(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); }));
   const idbGet = id => idb().then(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  function attendreSync() {                                             // la connexion à Firebase se fait juste après l'ouverture de la page
+    let k = 0; const pret = () => window.encreSync && window.encreSync.manuel;
+    return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return localStorage.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
+  }
   function chargerImage(src) {
+    if (src.startsWith("manuel:")) {                                    // exercice du manuel privé : gardé sur l'appareil après la première lecture
+      const [col, cle] = src.slice(7).split("/");
+      if (!IMAGES[src]) IMAGES[src] = idbGet(src).then(d => d || attendreSync().then(S => S ? S.manuel(cle, col) : null)
+          .then(x => x && x.d && idbPut(src, x.d).then(() => x.d, () => x.d)))
+        .then(d => { if (!d) { delete IMAGES[src]; throw new Error("exercice absent"); } return chargerImage(d); });
+      return IMAGES[src];
+    }
     if (src.startsWith("idb:")) {                                       // capture enregistrée sur l'appareil
       if (!IMAGES[src]) IMAGES[src] = idbGet(src.slice(4)).then(d => d || (window.encreSync ? window.encreSync.capture(src.slice(4)) : null))
                                                      .then(d => { if (!d) throw new Error("capture absente"); return chargerImage(d); });
@@ -692,7 +703,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
                     "premiere-spe": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
                     "premiere-tc": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023", nom: "manuel Sésamath Première tronc commun (CC BY-SA)" },
-                    "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire" } };
+                    "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire",
+                                       prive: "manuel-tle" } };   // exercices découpés dans le Firebase de Maël (droits d'auteur : jamais sur le site)
   const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|premiere-tc|terminale-spe)\//) || [])[1];
   const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
   if (MANUEL && MANUEL.dossier) {
@@ -702,6 +714,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   let indexManuel = null;
   function trouverExercice(n, p) {
+    if (MANUEL.prive) {                                                 // manuel privé : la liste des exercices (une lecture), puis l'image à la demande
+      indexManuel = indexManuel || attendreSync().then(S => { if (!S) throw new Error("connexion"); return S.manuel("_index"); })
+        .then(d => { if (!d) throw new Error("absent"); return new Set(d.cles); });
+      indexManuel.catch(() => { indexManuel = null; });
+      return indexManuel.then(cles => { const p2 = [p, p + 1, p - 1, p + 2].find(q => cles.has(n + "@" + q));   // page à une près (énoncé sur la page voisine)
+        if (p2 === undefined) throw new Error("absent"); return "manuel:" + MANUEL.prive + "/" + n + "@" + p2; });
+    }
     indexManuel = indexManuel || fetch(MANUEL.base + "index.json").then(r => r.json());
     return indexManuel.then(idx => { const f = idx[n + "@" + p]; if (!f) throw new Error("absent"); return MANUEL.base + f; });
   }
@@ -846,7 +865,7 @@ document.addEventListener("DOMContentLoaded", function () {
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
       try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
-      catch (e) { msg.textContent = "Exercice n°" + n + " p." + p + " introuvable"; }
+      catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable"; }
     }
     async function insererCapture(dataUrl) {                            // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
@@ -891,8 +910,8 @@ document.addEventListener("DOMContentLoaded", function () {
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
-            ${MANUEL && MANUEL.dossier ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
-        ${opts.flottant && MANUEL && MANUEL.dossier ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
+            ${MANUEL && (MANUEL.dossier || MANUEL.prive) ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
+        ${opts.flottant && MANUEL && (MANUEL.dossier || MANUEL.prive) ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
             <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
@@ -2078,7 +2097,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function demarrer(u) {
     SYNC.base = firebase.firestore().collection("utilisateurs").doc(u.uid); SYNC.actif = true;
     try { localStorage.setItem("encre-sync", "1"); } catch (e) {}
-    window.encreSync = { capture: lireCapture };
+    window.encreSync = { capture: lireCapture, manuel: lireManuel };
     recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
   }
   // --- réception : seulement ce qui a changé depuis la dernière fois ---
@@ -2158,6 +2177,10 @@ document.addEventListener("DOMContentLoaded", function () {
         lot.set(col.doc(id), { n: m }); await lot.commit();
         capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); } catch (e) { return; }
     }
+  }
+  async function lireManuel(cle, col = MANUEL && MANUEL.prive) {        // manuel privé : un document par exercice ({ d: image }), et « _index »
+    if (!SYNC.actif || !col) return null;
+    const t = await delai(SYNC.base.collection(col).doc(cle).get()); return t.exists ? t.data() : null;
   }
   async function lireCapture(id) {
     if (!SYNC.actif) return null;
