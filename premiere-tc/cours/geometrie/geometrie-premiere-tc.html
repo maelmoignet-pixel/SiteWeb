@@ -830,7 +830,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const enfants = o => traits.filter(t => t !== o && o.id && (t.lien === o.id || t.rep === o.id));
     function photo(o) {                                  // état de départ d'un objet et de ce qui lui est rattaché
-      const p = o.p ? o.p.slice() : null, r = o.r ? Object.assign({}, o.r) : null, img = estImage(o) ? { x: o.x, y: o.y, w: o.w, h: o.h } : null;
+      const img = estImage(o) ? { x: o.x, y: o.y, w: o.w, h: o.h } : null;   // (une image du manuel a aussi un « p » : son numéro de page)
+      const p = !img && Array.isArray(o.p) ? o.p.slice() : null, r = o.r ? Object.assign({}, o.r) : null;
       return { o, p, r, img, enf: enfants(o).map(t => ({ t, p: t.p.slice(), w: t.w })) };
     }
     function transformer(ph, k, dx, dy) {                // agrandir de k depuis le coin haut-gauche, puis décaler de (dx, dy)
@@ -1210,6 +1211,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function brancherCrayon() {
       let courant = null, gomme = false, dessines = 0, idTrait = null, typeTrait = null, forme = null, brut = null, bouge = null;
       // l'objet sous le doigt : un point, puis un trait ou une forme, puis l'intérieur d'un repère
+      function saisie(x, y) {                                            // { obj, poignee } sous le stylet ou le doigt, ou null
+        const tol = Math.max(45, 34 / Math.max(echelle, 0.3)), coin = b => b && Math.abs(x - (b[0] + b[2])) < tol && Math.abs(y - (b[1] + b[3])) < tol;
+        if (selObj && coin(boite(selObj))) return { obj: selObj, poignee: true };
+        const avecBoite = [...exos].reverse().concat([...traits].reverse().filter(t => t.f === "repere"));
+        const o = avecBoite.find(o => coin(boite(o)));
+        if (o) return { obj: o, poignee: true };
+        const t = objetSous(x, y); return t ? { obj: t, poignee: false } : null;
+      }
       function objetSous(x, y) {
         const tol = 22 / Math.max(echelle, 0.3);
         const d = (ax, ay, bx, by) => { const dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy, u = l ? Math.max(0, Math.min(1, ((x - ax) * dx + (y - ay) * dy) / l)) : 0; return Math.hypot(ax + u * dx - x, ay + u * dy - y); };
@@ -1243,7 +1252,11 @@ document.addEventListener("DOMContentLoaded", function () {
             manip = { id: e.pointerId, mode: poignee ? "taille" : "deplacer", x0: x, y0: y, ix: selImg.x, iy: selImg.y, iw: selImg.w, ratio: selImg.h / selImg.w }; }
           dessiner(); return;
         }
-        const nature = natureContact(e);
+        // outil ✥ : le coin de n'importe quelle image (ou repère) est une poignée, même si elle n'est pas encore sélectionnée ;
+        // un doigt posé sur un objet le saisit (ailleurs, il fait défiler comme d'habitude)
+        const prise = reglages.outil === "deplacer" && !reglages.gomme && !courant && !forme ? saisie(...pos(e)) : null;
+        let nature = natureContact(e);
+        if (prise && nature === "doigt" && doigts.size === 0) nature = "stylet";
         if (diag) diag.textContent = `${e.pointerType} ${Math.round(e.width || 0)}×${Math.round(e.height || 0)} pression ${(e.pressure || 0).toFixed(2)} → ${nature}`;
         if (nature === "paume") return;                                   // main posée : ignorée
         if (nature === "doigt") {
@@ -1263,9 +1276,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (gomme) { effacerA(pos(e)); return; }
         const outil = reglages.outil || "stylo";
         if (outil === "deplacer") {                                        // toucher un objet puis le faire glisser (ou tirer sa poignée)
-          const [x, y] = pos(e), b = selObj && boite(selObj);
-          const poignee = b && Math.abs(x - (b[0] + b[2])) < 45 && Math.abs(y - (b[1] + b[3])) < 45;
-          const obj = poignee ? selObj : objetSous(x, y);
+          const [x, y] = pos(e), poignee = !!(prise && prise.poignee), obj = prise ? prise.obj : null;
           selObj = obj && boite(obj) ? obj : null;
           if (obj) { canvas.setPointerCapture(e.pointerId); bouge = { ph: photo(obj), id: e.pointerId, x0: x, y0: y, taille: poignee, b: boite(obj) };
                      dessiner(); debutApercu([obj, ...bouge.ph.enf.map(c => c.t)]); return; }
