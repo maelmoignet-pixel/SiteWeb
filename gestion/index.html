@@ -135,6 +135,8 @@ nav .masque-nav { opacity: .5; }
 <div id="journal" hidden><div class="boite"><h3>Publication</h3><pre id="log"></pre><div class="pied"><button class="btn" id="fermer-journal" disabled>Fermer</button></div></div></div>
 <script>
 const TYPES = [["eval", "Évaluation"], ["DS", "DS"], ["DM", "DM"]];
+const TYPES_NIVEAU = [["DS", "DS"], ["BB", "Bac blanc"], ["DC", "Devoir commun"]];   // partie « Bacs blancs et DS » de la page du niveau
+const TITRES = { eval: "[ÉE]valuation", DS: "DS", DM: "DM", BB: "Bac blanc", DC: "Devoir commun" };
 const SUFFIXES = { "seconde": "seconde", "premiere-spe": "premiere", "premiere-tc": "premiere-tc", "terminale-spe": "terminale" };
 let NIVEAUX = [], courant = null, ETAT = { a_publier: [], non_enregistres: [] };
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -287,7 +289,7 @@ function dessinerNav() {
   nav.innerHTML = NIVEAUX.map(n => `<details data-niv="${n.id}" ${ouverts.has(n.id) ? "open" : ""} style="--niv:var(--${n.id})">
     <summary class="${n.masque ? "masque-nav" : ""}"><span class="pastille"></span>${esc(n.nom)}${n.masque ? " 🙈" : ""}</summary><ul><li><button class="vue-niv" data-niveau="${n.id}" aria-current="${n.id === courant}">Tout le niveau…</button></li>${n.chapitres.map(c => {
       const nb = c.annees.reduce((s, a) => s + a.cartes.length, 0);
-      return `<li class="${c.masque ? "masque-nav" : ""}"><button data-ch="${c.id}" aria-current="${c.id === courant}">${esc(c.titre)}${c.masque ? " 🙈" : ""}<span class="nb">${nb || ""}</span></button></li>`; }).join("")}<li><button class="nouveau-ch" data-nouveau-ch="${n.id}">＋ Nouveau chapitre</button></li></ul></details>`).join("") + `<button class="btn nouveau" id="nouveau-niveau">＋ Nouveau niveau</button>`;
+      return `<li class="${c.masque ? "masque-nav" : ""}"><button data-ch="${c.id}" aria-current="${c.id === courant}">${c.niveau ? "📌 " : ""}${esc(c.titre)}${c.masque ? " 🙈" : ""}<span class="nb">${nb || ""}</span></button></li>`; }).join("")}<li><button class="nouveau-ch" data-nouveau-ch="${n.id}">＋ Nouveau chapitre</button></li></ul></details>`).join("") + `<button class="btn nouveau" id="nouveau-niveau">＋ Nouveau niveau</button>`;
 }
 nav.addEventListener("click", async e => {
   if (e.target.id === "nouveau-niveau") {
@@ -308,7 +310,7 @@ const pdf = (niv, lien) => (EN_LIGNE ? SITE_URL : "/pdf/") + niv + "/" + lien.re
 function prochainNumero(a, type) {
   let max = 0; const re = new RegExp("-" + type + "(\\d+)-", "i");
   a.cartes.forEach(c => { const m = (c.sujet + " " + c.correction).match(re); if (m) max = Math.max(max, +m[1]);
-    const t = c.titre.match(type === "eval" ? /valuation\s*n?°?\s*(\d+)/i : new RegExp("^" + type + "\\s*n?°?\\s*(\\d+)", "i")); if (t) max = Math.max(max, +t[1]); });
+    const t = c.titre.match(new RegExp("^" + TITRES[type] + "\\s*n?°?\\s*(\\d+)", "i")); if (t) max = Math.max(max, +t[1]); });
   return max + 1;
 }
 function afficher(id) {
@@ -316,6 +318,8 @@ function afficher(id) {
   const [n, c] = chapitre(id); if (!c) { vue.innerHTML = '<div class="accueil"><p>Choisissez un chapitre à gauche.</p></div>'; return; }
   let h = `<div class="fil">${esc(n.nom)}</div><h2 class="chap" style="--niv:var(--${n.id})"><span class="pastille"></span>${esc(c.titre)}</h2>
     ${c.masque ? '<p class="msg" style="background:#fff3c4;color:#7a5a00">🙈 Ce chapitre est masqué : les élèves ne le voient pas sur le site.</p>' : ""}
+    ${c.niveau ? `<p class="vide" style="margin:0 0 10px">Sur la page du niveau : DS de l'année, bacs blancs et devoirs communs (plusieurs chapitres).</p>
+    <div class="outils"><a class="btn" href="https://maelmoignet-pixel.github.io/SiteWeb/${n.id}/index.html" target="_blank" style="text-decoration:none">Voir en ligne</a></div>` : `
     <div class="outils"><button class="btn" data-f="renommer">Renommer</button><button class="btn" data-masquer="chapitre" data-valeur="${c.masque ? 0 : 1}">${c.masque ? "👁 Afficher le chapitre" : "🙈 Masquer le chapitre"}</button><a class="btn" href="https://maelmoignet-pixel.github.io/SiteWeb/${c.fichier.replace(/\.qmd$/, ".html")}" target="_blank" style="text-decoration:none">Voir en ligne</a>
       <button class="btn danger" data-f="supprimer">Supprimer le chapitre</button></div>
     <div class="bloc"><h3>Cours</h3>${c.cours.length ? c.cours.map(x => `<div class="cours-l ${x.masque ? "masque" : ""}"><strong>${esc(x.titre)} ${x.masque ? '<span class="badge-m">masqué</span>' : ""}</strong>${x.existe ? "" : '<span class="msg err">fichier introuvable</span>'}
@@ -323,10 +327,10 @@ function afficher(id) {
       : '<p class="vide">Pas encore de cours pour ce chapitre.</p>'}<div class="ajout-cours" data-lien="" style="margin-top:10px">
       <div class="depot" data-k="cours"><b class="titre-depot">${c.cours.length ? "Ajouter un autre cours" : "Ajouter le cours"}</b><span>Glissez ici le <b>.tex</b> du cours et ses images (png, jpg…)<br>ou touchez pour les choisir</span><input type="file" multiple accept=".tex,.png,.jpg,.jpeg,.gif,.svg,.pdf,.eps" hidden></div>
       <div class="ligne-form" style="margin-top:8px"><button class="btn plein convertir" disabled>Convertir et ajouter</button><button class="btn annuler-remplacement" hidden>Ne pas remplacer</button></div>
-      <div class="retour-cours">${dernierCours && dernierCours.id === id ? dernierCours.html : ""}</div></div></div>`;
+      <div class="retour-cours">${dernierCours && dernierCours.id === id ? dernierCours.html : ""}</div></div></div>`}`;
   if (!c.annees.length) h += `<p class="vide">Cette page n'a pas de partie « DS et évaluations ».</p>`;
   c.annees.slice().reverse().forEach(a => {
-    h += `<div class="annee" data-annee="${a.annee}"><h3>📁 ${a.annee} – DS et évaluations <small>${esc(a.dossier)}/</small></h3>`;
+    h += `<div class="annee" data-annee="${a.annee}"><h3>📁 ${a.annee} – ${c.niveau ? esc(c.titre) : "DS et évaluations"} <small>${esc(a.dossier)}/</small></h3>`;
     const ref = x => `data-ligne="${x.ligne}" data-titre="${esc(x.titre)}" data-annee="${a.annee}"`;
     if (a.cartes.length) h += `<div class="cartes">${a.cartes.map(x => `<div class="carte ${x.masque ? "masque" : ""}"><strong>${esc(x.titre)} ${x.masque ? '<span class="badge-m">masquée</span>' : ""}</strong>${x.date ? `<span class="date">${esc(x.date)}</span>` : ""}
       <div class="liens">${x.sujet ? `<a href="${pdf(n.id, x.sujet)}" data-rel="${esc(n.id + "/" + x.sujet.replace(/^\.\.\//, ""))}" target="_blank" class="${x.sujet_masque ? "lien-masque" : x.sujet_existe === false ? "manque" : ""}" title="${x.sujet_masque ? "masqué" : ""}">${x.correction || x.liste ? "Sujet" : "PDF"}</a>` : ""}${x.correction ? `<a href="${pdf(n.id, x.correction)}" data-rel="${esc(n.id + "/" + x.correction.replace(/^\.\.\//, ""))}" target="_blank" class="${x.correction_masque ? "lien-masque" : x.correction_existe === false ? "manque" : ""}" title="${x.correction_masque ? "masquée" : ""}">Correction</a>` : ""}</div>
@@ -349,8 +353,8 @@ function zoneAjout(n, c, a) {
       <div class="depot" data-k="correction"><b>Correction</b><span>Glissez le PDF ou le .tex ici<br>ou touchez pour choisir</span><input type="file" accept=".pdf,.tex" hidden></div>
     </div>
     <div class="reglages">
-      <span class="seg">${TYPES.map(([k, l], i) => `<button data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</span>
-      <label>n° <input type="number" min="1" max="99" class="num" value="${prochainNumero(a, "eval")}"></label>
+      <span class="seg">${(c.niveau ? TYPES_NIVEAU : TYPES).map(([k, l], i) => `<button data-type="${k}" aria-pressed="${i === 0}">${l}</button>`).join("")}</span>
+      <label>n° <input type="number" min="1" max="99" class="num" value="${prochainNumero(a, c.niveau ? "DS" : "eval")}"></label>
       <label>date <input type="date" class="date" value="${iso}"></label>
       <label><input type="checkbox" class="sans-date"> sans date</label>
       <label title="La correction reste au coffre, invisible des élèves, jusqu'à ce que vous l'affichiez"><input type="checkbox" class="corr-masquee"> correction masquée (à afficher après le devoir)</label>
@@ -363,15 +367,16 @@ function zoneAjout(n, c, a) {
 }
 function brancher(z) {
   const [, c] = chapitre(courant), a = c.annees.find(x => x.annee === z.dataset.annee), fichiers = {}; let images = [];
-  let type = "eval";
+  let type = c.niveau ? "DS" : "eval";
   const num = z.querySelector(".num"), bEnv = z.querySelector(".envoyer"), nomV = z.querySelector(".apercu-nom"), retour = z.querySelector(".retour");
   const majNom = () => {
-    const dos = z.dataset.dossier.split("/").pop(), base = `${dos}-${SUFFIXES[z.dataset.niv]}-${z.dataset.annee}-${type}${num.value}`;
+    const dos = z.dataset.dossier.split("/").pop(), base = c.niveau ? `${SUFFIXES[z.dataset.niv]}-${z.dataset.annee}-${type}${num.value}` : `${dos}-${SUFFIXES[z.dataset.niv]}-${z.dataset.annee}-${type}${num.value}`;
+    const rangement = c.niveau ? z.dataset.niv + "/" + z.dataset.annee + (type === "DS" ? "-DS-eval" : "-bac-blanc") : z.dataset.dossier;
     const unTex = fichiers.sujet && /\.tex$/i.test(fichiers.sujet.name) && !fichiers.correction;
     const cz = z.querySelector('[data-k="correction"]');
     if (unTex) { cz.classList.add("plein"); cz.querySelector("span").innerHTML = "tirée du même .tex<br>(si c'est un .tex <i>exam</i>)"; }
     else if (!fichiers.correction) { cz.classList.remove("plein"); cz.querySelector("span").innerHTML = "Glissez le PDF ou le .tex ici<br>ou touchez pour choisir"; }
-    nomV.textContent = Object.keys(fichiers).length ? "Sera rangé dans " + z.dataset.dossier + "/ sous " + (unTex ? ["sujet", "correction"] : ["sujet", "correction"].filter(k => fichiers[k])).map(k => base + "-" + k + ".pdf").join(" et ")
+    nomV.textContent = Object.keys(fichiers).length ? "Sera rangé dans " + rangement + "/ sous " + (unTex ? ["sujet", "correction"] : ["sujet", "correction"].filter(k => fichiers[k])).map(k => base + "-" + k + ".pdf").join(" et ")
       + (Object.values(fichiers).some(f => /\.tex$/i.test(f.name)) ? " (compilés à partir du .tex" + (images.length ? ", avec " + images.length + " image" + (images.length > 1 ? "s" : "") : "") + ")" : "") : "";
     bEnv.disabled = !fichiers.sujet; z.classList.toggle("ouvert", Object.keys(fichiers).length > 0);
   };
@@ -457,10 +462,10 @@ function afficherNiveau(niv) {
   vue.innerHTML = `<div class="fil">Niveau</div><h2 class="chap" style="--niv:var(--${n.id})"><span class="pastille"></span>${esc(n.nom)}</h2>
     ${n.masque ? '<p class="msg" style="background:#fff3c4;color:#7a5a00">🙈 Ce niveau est masqué : il n\'apparaît plus dans le menu ni sur l\'accueil.</p>' : ""}
     <div class="outils"><button class="btn" data-n="renommer">Renommer</button><button class="btn" data-masquer="niveau" data-valeur="${n.masque ? 0 : 1}">${n.masque ? "👁 Afficher le niveau" : "🙈 Masquer le niveau"}</button><a class="btn" href="${n.url}" target="_blank" style="text-decoration:none">Voir en ligne</a></div>
-    <div class="bloc"><h3>Chapitres (${n.chapitres.length}), dans l'ordre du site</h3><ul class="liste-ch">${n.chapitres.map((c, i) => `<li>
+    <div class="bloc"><h3>Chapitres (${n.chapitres.filter(c => !c.niveau).length}), dans l'ordre du site</h3><ul class="liste-ch">${n.chapitres.filter(c => !c.niveau).map((c, i, l) => `<li>
       <span class="t ${c.masque ? "masque" : ""}"><button data-ouvrir="${c.id}">${esc(c.titre)}</button> ${c.masque ? '<span class="badge-m">masqué</span>' : c.dans_menu ? "" : '<span class="n">(absent de la page du niveau)</span>'}</span>
       <span class="n">${c.cours.length ? "cours ✓" : "pas de cours"} · ${c.annees.reduce((s, a) => s + a.cartes.length, 0)} doc.</span>
-      <button class="btn petit" data-monter="${c.id}" ${i === 0 ? "disabled" : ""} title="Monter">↑</button><button class="btn petit" data-descendre="${c.id}" ${i === n.chapitres.length - 1 ? "disabled" : ""} title="Descendre">↓</button></li>`).join("") || '<li class="vide">Aucun chapitre.</li>'}</ul>
+      <button class="btn petit" data-monter="${c.id}" ${i === 0 ? "disabled" : ""} title="Monter">↑</button><button class="btn petit" data-descendre="${c.id}" ${i === l.length - 1 ? "disabled" : ""} title="Descendre">↓</button></li>`).join("") || '<li class="vide">Aucun chapitre.</li>'}</ul>
       <div class="ligne-form" style="margin-top:12px"><input type="text" id="nouveau-ch" placeholder="Titre du nouveau chapitre"><button class="btn plein" data-n="ajouter-ch">Ajouter le chapitre</button></div></div>
     <div class="bloc"><h3>Années de DS et évaluations</h3><p style="margin:0 0 10px">Années présentes : ${n.annees.join(", ") || "aucune"}.</p>
       <div class="ligne-form"><input type="number" id="nouvelle-annee" value="${suivante}" min="2020" max="2099"><button class="btn" data-n="annee">Préparer cette année dans tous les chapitres</button></div></div>
