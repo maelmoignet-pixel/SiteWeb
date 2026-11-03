@@ -1,0 +1,4 @@
+Exercices extraits du manuel **Sésamath Première tronc commun – enseignement scientifique (édition 2023)**, sous licence
+Creative Commons BY-SA (https://creativecommons.org/licenses/by-sa/4.0/deed.fr).
+Source : https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023  — Découpage automatique, un fichier par exercice
+(p<page>-n<numéro>.webp ou .png). Utilisés par la feuille d'exercices du mode tableau.

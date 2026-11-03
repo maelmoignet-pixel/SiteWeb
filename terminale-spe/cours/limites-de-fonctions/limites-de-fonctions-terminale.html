@@ -1001,10 +1001,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let w = LARGEUR * 0.8, h = w * nh / nw; if (h > 1400) { h = 1400; w = h * nw / nh; }
     return [(LARGEUR - w) / 2, 30, w, h];
   }
-  /* Manuel du niveau : exercices découpés, publiés avec le site (Sésamath Seconde et Première spécialité, licence CC BY-SA) */
+  /* Manuel du niveau : exercices découpés, publiés avec le site (Sésamath Seconde, Première spécialité et tronc commun, licence CC BY-SA) */
   const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
                     "premiere-spe": { dossier: "premiere-spe/exercices-sesamath/", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
-                    "premiere-tc": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023", nom: "manuel Sésamath Première tronc commun (CC BY-SA)" },
+                    "premiere-tc": { dossier: "premiere-tc/exercices-sesamath/", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023", nom: "manuel Sésamath Première tronc commun (CC BY-SA)" },
                     "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire",
                                        prive: "manuel-tle" } };   // exercices découpés dans le Firebase de Maël (droits d'auteur : jamais sur le site)
   const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|premiere-tc|terminale-spe)\//) || [])[1];
