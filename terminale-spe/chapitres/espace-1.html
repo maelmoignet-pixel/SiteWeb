@@ -162,6 +162,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p><a href="../../terminale-spe/cours/espace-1/geometrie-espace-terminale.html">Cours : Géométrie dans l’espace</a></p></li>
 <li><p><a href="../cours/espace-1/espace-TD1-terminale.pdf">TD : Première partie</a></p></li>
 <li><p><a href="../cours/espace-1/espace-TD2-terminale.pdf">TD : Deuxième partie</a></p></li>
+<li><p><a href="../cours/espace-1/espace-intersections-terminale.pdf">TD : Intersections</a></p></li>
+<li><p><a href="../cours/espace-1/espace-intersections-terminale-correction.pdf">TD Intersections : correction</a></p></li>
 </ul>
 </section>
 <section id="évaluations-et-ds" class="level2">
@@ -396,9 +398,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let w = LARGEUR * 0.8, h = w * nh / nw; if (h > 1400) { h = 1400; w = h * nw / nh; }
     return [(LARGEUR - w) / 2, 30, w, h];
   }
-  /* Manuel du niveau : exercices découpés, publiés avec le site (Sésamath Seconde et Première spécialité, licence CC BY-SA) */
+  /* Manuel du niveau : exercices découpés, publiés avec le site (seconde : Sésamath, licence CC BY-SA) */
   const MANUELS = { seconde: { dossier: "seconde/exercices-sesamath/", nom: "manuel Sésamath Seconde (CC BY-SA)", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms2_2019" },
-                    "premiere-spe": { dossier: "premiere-spe/exercices-sesamath/", lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
+                    "premiere-spe": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1spe_2019", nom: "manuel Sésamath Première spécialité (CC BY-SA)" },
                     "premiere-tc": { lien: "https://manuel.sesamath.net/numerique/?ouvrage=ms1tces_2023", nom: "manuel Sésamath Première tronc commun (CC BY-SA)" },
                     "terminale-spe": { lien: "https://www.lelivrescolaire.fr/page/48150563?num=0&singlePageIndex=1", nom: "Le Livre Scolaire",
                                        prive: "manuel-tle" } };   // exercices découpés dans le Firebase de Maël (droits d'auteur : jamais sur le site)
@@ -419,8 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (p2 === undefined) throw new Error("absent"); return "manuel:" + MANUEL.prive + "/" + n + "@" + p2; });
     }
     indexManuel = indexManuel || fetch(MANUEL.base + "index.json").then(r => r.json());
-    return indexManuel.then(idx => { const q = [p, p + 1, p - 1, p + 2].find(x => idx[n + "@" + x]);   // page à une près (énoncé sur la page voisine)
-      if (q === undefined) throw new Error("absent"); return MANUEL.base + idx[n + "@" + q]; });
+    return indexManuel.then(idx => { const f = idx[n + "@" + p]; if (!f) throw new Error("absent"); return MANUEL.base + f; });
   }
   Zone.toutes = [];
   /* Les blocs qui reçoivent une zone d'écriture */
