@@ -85,6 +85,13 @@ toc: false
 [Sujet](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval4-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval4-correction.pdf){.eval-btn .correction}
 :::
 
+
+::: {.eval}
+[Évaluation n°6]{.eval-titre} [15 octobre 2026]{.eval-date}
+
+[Sujet](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval6-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/intervalles-equations-inequations/intervalles-equations-inequations-seconde-2026-eval6-correction.pdf){.eval-btn .correction}
+:::
+
 :::::
 
 :::
