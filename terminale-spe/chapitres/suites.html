@@ -2181,8 +2181,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function fenetreConnexion() {
     const f = document.createElement("div"); f.className = "encre-connexion";
     f.innerHTML = `<form><h3>Sauvegarde en ligne des notes</h3>
-      <div class="qr"><p><b>Avec le téléphone</b> : scannez ce code avec l'appareil photo (la page « Copie » doit y être connectée), puis touchez « Connecter ce tableau ».</p>
-        <div class="code">Préparation du code…</div></div>
+      <div class="qr"><div class="code">…</div></div>
       <details><summary>Ou avec l'e-mail et le mot de passe</summary>
       <input type="email" autocomplete="username" placeholder="Adresse e-mail" required><input type="password" autocomplete="current-password" placeholder="Mot de passe" required>
       <div><button type="submit">Se connecter</button></div></details>
@@ -2200,7 +2199,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const url = racine + "copie/?appairer=" + encodeURIComponent(u.uid);
       const qr = qrcode(0, "M"); qr.addData(url); qr.make(); code.innerHTML = qr.createSvgTag({ cellSize: 7, margin: 3 });
       attendreAppairage(u);
-    }).catch(x => { code.textContent = x && x.code === "auth/operation-not-allowed" ? "Connexion par QR code pas encore activée dans Firebase (connexion anonyme)." : "Code indisponible (réseau ?)."; });
+    }).catch(x => { code.textContent = x && /operation-not-allowed|admin-restricted-operation/.test(x.code || "") ? "QR code : activer « Anonyme » dans Firebase." : "QR code indisponible (réseau ?)."; });
     f.querySelector("form").onsubmit = e => { e.preventDefault(); f.querySelector(".err").textContent = "Connexion…";
       chargerFirebase().then(() => firebase.auth().signInWithEmailAndPassword(em.value.trim(), mdp.value))
         .then(() => { try { localStorage.setItem("encre-sync-email", em.value.trim()); } catch (x) {} f.remove(); },
