@@ -20,18 +20,30 @@ h1 { font-size: 1.25rem; margin: 0 0 14px; }
 .gros.second { background: #fff; color: var(--accent); border: 2px solid var(--accent); min-height: 58px; font-size: 1.05rem; }
 .gros.envoyer { background: #1f7a3d; }
 .gros:disabled { opacity: .45; }
-.pages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 14px; }
+.pages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 8px; }
 .pages figure { margin: 0; position: relative; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.15); aspect-ratio: 3 / 4; }
-.pages img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pages img { width: 100%; height: 100%; object-fit: contain; display: block; background: #e9ecf3; }
 .pages .etat { position: absolute; left: 4px; bottom: 4px; font: 700 12px system-ui, sans-serif; background: rgba(255,255,255,.92); border-radius: 6px; padding: 2px 6px; }
 .pages .x { position: absolute; right: 4px; top: 4px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(27,34,50,.75); color: #fff; font-size: 18px; }
+.pages .crop { position: absolute; right: 4px; bottom: 4px; height: 30px; border-radius: 8px; border: 0; background: rgba(45,77,176,.9); color: #fff; font: 700 13px system-ui, sans-serif; padding: 0 8px; }
+.astuce { color: var(--doux); font-size: .9rem; margin: 0 0 12px; }
 .msg { min-height: 1.4em; margin: 0 0 12px; font-weight: 600; }
 .msg.ok { color: #1f7a3d; } .msg.err { color: #b3261e; }
 .bas { color: var(--doux); font-size: .9rem; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
 .bas button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; text-decoration: underline; }
 label { display: block; font-weight: 600; margin: 12px 0 4px; }
-input[type=email], input[type=password] { width: 100%; font: inherit; padding: 12px; border: 1px solid #aab; border-radius: 12px; }
-.coche { display: flex; align-items: center; gap: 8px; font-weight: 400; color: var(--doux); }
+input[type=email], input[type=password], input[type=text] { width: 100%; font: inherit; padding: 12px; border: 1px solid #aab; border-radius: 12px; background: #fff; }
+.titre { margin: 0 0 12px; }
+.coche { display: flex; align-items: center; gap: 8px; font-weight: 400; color: var(--doux); margin: 8px 0; }
+.coche input { width: 22px; height: 22px; }
+/* éditeur de recadrage : 4 coins à déplacer */
+.editeur { position: fixed; inset: 0; z-index: 10; background: #11151f; display: flex; flex-direction: column; padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)); gap: 10px; }
+.editeur .zone { position: relative; flex: 1; min-height: 0; touch-action: none; }
+.editeur canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.editeur .boutons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.editeur button { min-height: 56px; border-radius: 14px; border: 0; font: 700 1rem system-ui, sans-serif; background: #fff; color: var(--texte); }
+.editeur button.ok { background: #ffcc00; grid-column: 1 / -1; min-height: 64px; font-size: 1.2rem; }
+.editeur p { color: #fff; margin: 0; font-size: .95rem; text-align: center; }
 [hidden] { display: none !important; }
 </style>
 </head>
@@ -51,11 +63,23 @@ input[type=email], input[type=password] { width: 100%; font: inherit; padding: 1
   <input type="file" accept="image/*" multiple id="galerie" hidden>
   <button class="gros" id="b-photo">📷 Photographier une page</button>
   <div class="pages" id="pages"></div>
+  <p class="astuce" id="astuce" hidden>Touchez « ✂ » pour recadrer une page (elle repart aussitôt).</p>
+  <input type="text" id="titre" class="titre" placeholder="Titre (facultatif) : Léa, ex. 12…" autocomplete="off" enterkeyhint="send">
   <p class="msg" id="msg"></p>
   <button class="gros envoyer" id="b-envoyer" disabled>Envoyer au tableau</button>
   <button class="gros second" id="b-galerie">Choisir dans les photos…</button>
-  <label class="coche"><input type="checkbox" id="blanchir" checked> Blanchir le fond (copie plus lisible)</label>
+  <label class="coche"><input type="checkbox" id="auto"> Feuille seule : détecter ses bords (décocher pour un cahier)</label>
+  <label class="coche"><input type="checkbox" id="blanchir"> Blanchir le fond (copie plus lisible)</label>
   <div class="bas"><span id="qui"></span><button id="b-deco" type="button">Se déconnecter</button></div>
+</div>
+
+<div class="editeur" id="editeur" hidden>
+  <p>Faites glisser les 4 coins sur les bords de la feuille</p>
+  <div class="zone" id="ed-zone"><canvas id="ed-canvas"></canvas></div>
+  <div class="boutons">
+    <button id="ed-auto" type="button">Détecter la feuille</button><button id="ed-tout" type="button">Toute la photo</button><button id="ed-non" type="button">Annuler</button>
+    <button class="ok" id="ed-ok" type="button">✓ Recadrer</button>
+  </div>
 </div>
 
 <script src="../ressources/firebase-app-compat.js"></script>
@@ -67,9 +91,10 @@ const FIREBASE = { apiKey: "AIzaSyA1j_Z4QApF8OwtmK39GRc2qdJ_6krLoCw", authDomain
 firebase.initializeApp(FIREBASE);
 try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
 const $ = id => document.getElementById(id), MORCEAU = 800000;      // un document Firestore : 1 Mo au plus
-let col = null, copie = null;                                       // copie en cours : { id, pages: [{ img, envoi (promesse du nombre de morceaux) }] }
-try { $("blanchir").checked = localStorage.getItem("copie-blanchir") !== "0"; } catch (e) {}
-$("blanchir").onchange = () => { try { localStorage.setItem("copie-blanchir", $("blanchir").checked ? "1" : "0"); } catch (e) {} };
+let col = null, copie = null;          // copie en cours : { id, pages: [{ orig (canvas), quad, img (JPEG envoyé), envoi, fait }] }
+const reglage = (id, defaut) => { let v = defaut; try { const x = localStorage.getItem("copie-" + id); if (x !== null) v = x === "1"; } catch (e) {}
+  $(id).checked = v; $(id).onchange = () => { try { localStorage.setItem("copie-" + id, $(id).checked ? "1" : "0"); } catch (e) {} }; };
+reglage("blanchir", true); reglage("auto", true);
 const msg = (t, cl = "") => { $("msg").textContent = t; $("msg").className = "msg " + cl; };
 
 firebase.auth().onAuthStateChanged(u => {
@@ -83,43 +108,113 @@ $("connexion").onsubmit = async e => {
 };
 $("b-deco").onclick = () => firebase.auth().signOut();
 
-// Photo -> image réduite (1800 px au plus) et, si demandé, fond blanchi : on divise par l'éclairage de la page,
-// estimé sur une version très réduite puis agrandie (rapide, et le stylo de l'élève garde ses couleurs).
-async function preparer(fichier) {
+/* ---------- la photo : réduite, gardée pour un recadrage éventuel ---------- */
+async function charger(fichier) {                                  // canvas de 2000 px au plus (orientation de l'appareil respectée)
   const url = URL.createObjectURL(fichier), im = new Image(); im.src = url;
   try { await im.decode(); } catch (e) { await new Promise((ok, ko) => { im.onload = ok; im.onerror = ko; }); }
-  const L = 1800, k = Math.min(1, L / Math.max(im.naturalWidth, im.naturalHeight));
-  const w = Math.round(im.naturalWidth * k), h = Math.round(im.naturalHeight * k);
-  const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d");
-  x.drawImage(im, 0, 0, w, h); URL.revokeObjectURL(url);
-  if ($("blanchir").checked) {
-    const p = document.createElement("canvas"); p.width = Math.max(8, Math.round(w / 48)); p.height = Math.max(8, Math.round(h / 48));
+  const k = Math.min(1, 2000 / Math.max(im.naturalWidth, im.naturalHeight));
+  const c = document.createElement("canvas"); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k);
+  c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url); return c;
+}
+const touteLaPhoto = c => [[0, 0], [c.width, 0], [c.width, c.height], [0, c.height]];
+
+/* ---------- détection de la feuille : la grande zone claire et peu colorée, sur une image de 256 px ---------- */
+function detecter(c) {
+  const k = 256 / Math.max(c.width, c.height), w = Math.max(16, Math.round(c.width * k)), h = Math.max(16, Math.round(c.height * k));
+  const p = document.createElement("canvas"); p.width = w; p.height = h; const x = p.getContext("2d"); x.drawImage(c, 0, 0, w, h);
+  const d = x.getImageData(0, 0, w, h).data, s = new Float32Array(w * h), hist = new Array(256).fill(0);
+  for (let i = 0; i < w * h; i++) { const r = d[4 * i], g = d[4 * i + 1], b = d[4 * i + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+    const v = Math.max(0, Math.min(255, (r + g + b) / 3 - 1.2 * (mx - mn))); s[i] = v; hist[v | 0]++; }
+  let tot = w * h, somme = 0; for (let i = 0; i < 256; i++) somme += i * hist[i];
+  let sB = 0, wB = 0, best = 0, seuil = 128;                       // seuil d'Otsu : papier / fond
+  for (let t = 0; t < 256; t++) { wB += hist[t]; if (!wB) continue; const wF = tot - wB; if (!wF) break; sB += t * hist[t];
+    const mB = sB / wB, mF = (somme - sB) / wF, v = wB * wF * (mB - mF) * (mB - mF); if (v > best) { best = v; seuil = t; } }
+  let m = new Uint8Array(w * h); for (let i = 0; i < w * h; i++) m[i] = s[i] > seuil ? 1 : 0;
+  const morpho = (m, dilate) => { const o = new Uint8Array(w * h);  // 3×3 : boucher les traits d'écriture, détacher les petits bouts
+    for (let y = 0; y < h; y++) for (let xx = 0; xx < w; xx++) { let v = dilate ? 0 : 1;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const yy = y + dy, xi = xx + dx; const q = yy < 0 || yy >= h || xi < 0 || xi >= w ? 0 : m[yy * w + xi];
+        if (dilate) v |= q; else v &= q; }
+      o[y * w + xx] = v; } return o; };
+  m = morpho(morpho(morpho(morpho(m, true), true), false), false);
+  const lab = new Int32Array(w * h).fill(-1); let meilleur = null;    // plus grande zone d'un seul tenant
+  for (let i0 = 0; i0 < w * h; i0++) { if (!m[i0] || lab[i0] >= 0) continue;
+    const pile = [i0], pts = []; lab[i0] = i0;
+    while (pile.length) { const i = pile.pop(); pts.push(i); const y = (i / w) | 0, xx = i % w;
+      for (const j of [xx > 0 ? i - 1 : -1, xx < w - 1 ? i + 1 : -1, y > 0 ? i - w : -1, y < h - 1 ? i + w : -1]) if (j >= 0 && m[j] && lab[j] < 0) { lab[j] = i0; pile.push(j); } }
+    if (!meilleur || pts.length > meilleur.length) meilleur = pts; }
+  if (!meilleur || meilleur.length < 0.12 * w * h || meilleur.length > 0.97 * w * h) return null;   // pas de feuille nette sur un fond
+  let tl, tr, br, bl, a = Infinity, b = -Infinity, cc = -Infinity, dd = Infinity;   // coins : extrêmes de x+y et de x−y
+  for (const i of meilleur) { const y = (i / w) | 0, xx = i % w;
+    if (xx + y < a) { a = xx + y; tl = [xx, y]; } if (xx + y > b) { b = xx + y; br = [xx, y]; }
+    if (xx - y > cc) { cc = xx - y; tr = [xx, y]; } if (xx - y < dd) { dd = xx - y; bl = [xx, y]; } }
+  const q = [tl, tr, br, bl].map(([u, v]) => [(u + 0.5) / k, (v + 0.5) / k]);
+  const aire = Math.abs(q.reduce((s, p, i) => { const n = q[(i + 1) % 4]; return s + p[0] * n[1] - n[0] * p[1]; }, 0)) / 2;
+  return aire > 0.12 * c.width * c.height ? q : null;
+}
+
+/* ---------- recadrage avec redressement (homographie), puis fond blanchi, puis JPEG ---------- */
+function homographie(src, dst) {                                   // matrice 3×3 qui envoie dst[i] sur src[i]
+  const A = [], B = [];
+  for (let i = 0; i < 4; i++) { const [x, y] = dst[i], [u, v] = src[i];
+    A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); B.push(u); A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); B.push(v); }
+  for (let c = 0; c < 8; c++) { let p = c; for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+    [A[c], A[p]] = [A[p], A[c]]; [B[c], B[p]] = [B[p], B[c]];
+    for (let r = 0; r < 8; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; B[r] -= f * B[c]; } }
+  return B.map((b, i) => b / A[i][i]).concat([1]);
+}
+function rendre(pg) {
+  const o = pg.orig, q = pg.quad, L = (p, r) => Math.hypot(p[0] - r[0], p[1] - r[1]);
+  let W = (L(q[0], q[1]) + L(q[3], q[2])) / 2, H = (L(q[0], q[3]) + L(q[1], q[2])) / 2;
+  const k = Math.min(1, 1800 / Math.max(W, H)); W = Math.max(8, Math.round(W * k)); H = Math.max(8, Math.round(H * k));
+  const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+  const entier = q.every((p, i) => L(p, touteLaPhoto(o)[i]) < 1);
+  if (entier) x.drawImage(o, 0, 0, W, H);
+  else {
+    const S = o.getContext("2d").getImageData(0, 0, o.width, o.height).data, ow = o.width, oh = o.height;
+    const m = homographie(q, [[0, 0], [W, 0], [W, H], [0, H]]), D = x.createImageData(W, H), d = D.data;
+    for (let y = 0; y < H; y++) for (let xx = 0; xx < W; xx++) {
+      const z = m[6] * xx + m[7] * y + 1, u = (m[0] * xx + m[1] * y + m[2]) / z, v = (m[3] * xx + m[4] * y + m[5]) / z;
+      const u0 = Math.max(0, Math.min(ow - 2, u | 0)), v0 = Math.max(0, Math.min(oh - 2, v | 0)), fu = Math.min(1, Math.max(0, u - u0)), fv = Math.min(1, Math.max(0, v - v0));
+      const i = 4 * (v0 * ow + u0), j = 4 * (y * W + xx);
+      for (let c2 = 0; c2 < 3; c2++) { const a = S[i + c2], b = S[i + 4 + c2], cc = S[i + 4 * ow + c2], dd = S[i + 4 * ow + 4 + c2];
+        d[j + c2] = (a * (1 - fu) + b * fu) * (1 - fv) + (cc * (1 - fu) + dd * fu) * fv; }
+      d[j + 3] = 255; }
+    x.putImageData(D, 0, 0);
+  }
+  if ($("blanchir").checked) {            // on divise par l'éclairage de la page, estimé sur une version très réduite puis agrandie
+    const p = document.createElement("canvas"); p.width = Math.max(8, Math.round(W / 48)); p.height = Math.max(8, Math.round(H / 48));
     const px = p.getContext("2d"); px.imageSmoothingQuality = "high"; px.drawImage(c, 0, 0, p.width, p.height);
-    const f = document.createElement("canvas"); f.width = w; f.height = h; const fx = f.getContext("2d"); fx.imageSmoothingQuality = "high"; fx.drawImage(p, 0, 0, w, h);
-    const A = x.getImageData(0, 0, w, h), B = fx.getImageData(0, 0, w, h).data, a = A.data;
+    const f = document.createElement("canvas"); f.width = W; f.height = H; const fx = f.getContext("2d"); fx.imageSmoothingQuality = "high"; fx.drawImage(p, 0, 0, W, H);
+    const A = x.getImageData(0, 0, W, H), B = fx.getImageData(0, 0, W, H).data, a = A.data;
     for (let i = 0; i < a.length; i += 4) for (let j = i; j < i + 3; j++) a[j] = (a[j] * 255 / (B[j] || 1) - 60) * 1.45;   // fond -> blanc, encre plus franche
     x.putImageData(A, 0, 0);
   }
   return c.toDataURL("image/jpeg", 0.72);
 }
 
-// chaque page part dès qu'elle est prise (en morceaux de 800 Ko) : « Envoyer » n'a presque plus rien à faire
-function envoyerPage(page, k) {
-  const d = page.img, n = Math.ceil(d.length / MORCEAU), lot = firebase.firestore().batch();
+/* ---------- envoi : chaque page part dès qu'elle est prête (et repart si on la recadre) ---------- */
+function envoyerPage(pg) {
+  const k = copie.pages.indexOf(pg), d = pg.img, n = Math.ceil(d.length / MORCEAU), lot = firebase.firestore().batch();
   for (let i = 0; i < n; i++) lot.set(col.doc(copie.id + "~" + k + "~" + i), { p: d.slice(i * MORCEAU, (i + 1) * MORCEAU) });
-  return lot.commit().then(() => n);
+  pg.fait = false;
+  pg.envoi = lot.commit().then(() => { pg.fait = true; dessinerPages(); return n; });
+  pg.envoi.catch(() => msg("Réseau : une page n'est pas partie. Réessayez « Envoyer ».", "err"));
+  return pg.envoi;
 }
 function dessinerPages() {
   $("pages").innerHTML = "";
   (copie ? copie.pages : []).forEach((pg, k) => {
     const f = document.createElement("figure");
-    f.innerHTML = `<img src="${pg.img}" alt="page ${k + 1}"><span class="etat">${pg.fait ? "✓ " : "↑ "}${k + 1}</span><button class="x" aria-label="Retirer la page">×</button>`;
-    f.querySelector(".x").onclick = () => { copie.pages.splice(k, 1); copie.pages.forEach((p, j) => { if (j >= k) p.envoi = envoyerPage(p, j).then(n => (p.fait = true, dessinerPages(), n)); }); dessinerPages(); };
+    f.innerHTML = `<img src="${pg.img}" alt="page ${k + 1}"><span class="etat">${pg.fait ? "✓ " : "↑ "}${k + 1}</span><button class="x" aria-label="Retirer la page">×</button><button class="crop" aria-label="Recadrer">✂</button>`;
+    f.querySelector(".x").onclick = () => { copie.pages.splice(k, 1); copie.pages.slice(k).forEach(envoyerPage); dessinerPages(); };
+    f.querySelector(".crop").onclick = () => editer(pg);
+    f.querySelector("img").onclick = () => editer(pg);
     $("pages").appendChild(f);
   });
   const n = copie ? copie.pages.length : 0;
   $("b-envoyer").disabled = !n; $("b-envoyer").textContent = n ? `Envoyer au tableau (${n} page${n > 1 ? "s" : ""})` : "Envoyer au tableau";
   $("b-photo").textContent = n ? "📷 Page suivante" : "📷 Photographier une page";
+  $("astuce").hidden = !n;
 }
 async function ajouter(fichiers) {
   if (!fichiers.length) return;
@@ -127,32 +222,73 @@ async function ajouter(fichiers) {
   msg("Préparation…");
   for (const f of fichiers) {
     try {
-      const pg = { img: await preparer(f), fait: false }, k = copie.pages.length; copie.pages.push(pg);
-      pg.envoi = envoyerPage(pg, k).then(n => { pg.fait = true; dessinerPages(); return n; });
-      pg.envoi.catch(() => msg("Réseau : la page n'est pas partie. Réessayez « Envoyer ».", "err"));
+      const orig = await charger(f), pg = { orig, quad: ($("auto").checked && detecter(orig)) || touteLaPhoto(orig), fait: false };
+      pg.img = rendre(pg); copie.pages.push(pg); envoyerPage(pg);
     } catch (e) { msg("Photo illisible : " + (e.message || e), "err"); }
   }
-  dessinerPages(); msg("");
+  dessinerPages(); if (!$("msg").classList.contains("err")) msg("");
 }
 $("b-photo").onclick = () => $("photo").click();
 $("b-galerie").onclick = () => $("galerie").click();
 $("photo").onchange = () => { ajouter([...$("photo").files]); $("photo").value = ""; };
 $("galerie").onchange = () => { ajouter([...$("galerie").files]); $("galerie").value = ""; };
+$("titre").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); $("titre").blur(); if (!$("b-envoyer").disabled) $("b-envoyer").click(); } });
 $("b-envoyer").onclick = async () => {
   if (!copie || !copie.pages.length) return;
   $("b-envoyer").disabled = true; msg("Envoi…");
   try {
-    const morceaux = await Promise.all(copie.pages.map((p, k) => p.envoi.catch(() => (p.envoi = envoyerPage(p, k)))));   // une page ratée : renvoyée
-    const petite = await vignette(copie.pages[0].img);
-    await col.doc(copie.id).set({ t: Date.now(), pages: morceaux, vignette: petite, pret: true });   // le tableau la voit à cet instant
-    msg(`✓ Envoyée (${copie.pages.length} page${copie.pages.length > 1 ? "s" : ""}). Au tableau : « 📥 Copie élève ».`, "ok");
-    copie = null; dessinerPages();
+    const morceaux = await Promise.all(copie.pages.map(p => p.envoi.catch(() => envoyerPage(p))));   // une page ratée : renvoyée
+    const titre = $("titre").value.trim().slice(0, 80);
+    await col.doc(copie.id).set({ t: Date.now(), pages: morceaux, vignette: await vignette(copie.pages[0].img), titre, pret: true });   // le tableau la voit à cet instant
+    msg(`✓ Envoyée${titre ? " « " + titre + " »" : ""} (${copie.pages.length} page${copie.pages.length > 1 ? "s" : ""}). Au tableau : « 📥 Copie élève ».`, "ok");
+    copie = null; $("titre").value = ""; dessinerPages();
   } catch (e) { msg("Envoi impossible : " + (e.message || e) + ". Réessayez.", "err"); $("b-envoyer").disabled = false; }
 };
 function vignette(d) {                                              // pour choisir entre plusieurs copies au tableau
   return new Promise(ok => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"), k = 160 / im.naturalHeight;
     c.width = Math.round(im.naturalWidth * k); c.height = 160; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL("image/jpeg", 0.6)); }; im.src = d; });
 }
+
+/* ---------- éditeur : la photo entière, le quadrilatère et ses 4 poignées ---------- */
+let ed = null;                                                      // { pg, quad, k, ox, oy, prise }
+function editer(pg) {
+  ed = { pg, quad: pg.quad.map(p => p.slice()), prise: -1 };
+  $("editeur").hidden = false; requestAnimationFrame(dessinerEd);
+}
+function dessinerEd() {
+  if (!ed) return;
+  const cv = $("ed-canvas"), r = $("ed-zone").getBoundingClientRect(), dpr = window.devicePixelRatio || 1, o = ed.pg.orig;
+  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+  const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, r.width, r.height);
+  ed.k = Math.min(r.width / o.width, r.height / o.height); ed.ox = (r.width - o.width * ed.k) / 2; ed.oy = (r.height - o.height * ed.k) / 2;
+  x.drawImage(o, ed.ox, ed.oy, o.width * ed.k, o.height * ed.k);
+  const P = ed.quad.map(([u, v]) => [ed.ox + u * ed.k, ed.oy + v * ed.k]);
+  x.fillStyle = "rgba(0,0,0,.45)"; x.beginPath(); x.rect(0, 0, r.width, r.height); x.moveTo(...P[0]); P.slice(1).forEach(p => x.lineTo(...p)); x.closePath(); x.fill("evenodd");
+  x.strokeStyle = "#ffcc00"; x.lineWidth = 3; x.beginPath(); x.moveTo(...P[0]); P.slice(1).forEach(p => x.lineTo(...p)); x.closePath(); x.stroke();
+  P.forEach(([u, v], i) => { x.beginPath(); x.arc(u, v, i === ed.prise ? 22 : 17, 0, 2 * Math.PI); x.fillStyle = "rgba(255,204,0,.9)"; x.fill(); x.lineWidth = 3; x.strokeStyle = "#11151f"; x.stroke(); });
+}
+const zoneEd = $("ed-zone");
+const posEd = e => { const r = zoneEd.getBoundingClientRect(); return [(e.clientX - r.left - ed.ox) / ed.k, (e.clientY - r.top - ed.oy) / ed.k]; };
+zoneEd.addEventListener("pointerdown", e => {
+  if (!ed) return; const [u, v] = posEd(e);
+  let i = -1, best = 48 / ed.k; ed.quad.forEach((p, j) => { const d = Math.hypot(p[0] - u, p[1] - v); if (d < best) { best = d; i = j; } });
+  ed.prise = i; if (i >= 0) { zoneEd.setPointerCapture(e.pointerId); ed.dx = ed.quad[i][0] - u; ed.dy = ed.quad[i][1] - v; } dessinerEd();
+});
+zoneEd.addEventListener("pointermove", e => {
+  if (!ed || ed.prise < 0) return; const [u, v] = posEd(e), o = ed.pg.orig;
+  ed.quad[ed.prise] = [Math.max(0, Math.min(o.width, u + ed.dx)), Math.max(0, Math.min(o.height, v + ed.dy))]; dessinerEd();
+});
+const lacher = () => { if (ed) { ed.prise = -1; dessinerEd(); } };
+zoneEd.addEventListener("pointerup", lacher); zoneEd.addEventListener("pointercancel", lacher);
+window.addEventListener("resize", () => dessinerEd());
+$("ed-auto").onclick = () => { const q = detecter(ed.pg.orig); if (q) { ed.quad = q; dessinerEd(); } else $("ed-auto").textContent = "Feuille non trouvée"; setTimeout(() => $("ed-auto").textContent = "Détecter la feuille", 2000); };
+$("ed-tout").onclick = () => { ed.quad = touteLaPhoto(ed.pg.orig); dessinerEd(); };
+$("ed-non").onclick = () => { ed = null; $("editeur").hidden = true; };
+$("ed-ok").onclick = () => {
+  const pg = ed.pg; pg.quad = ed.quad; ed = null; $("editeur").hidden = true;
+  if (!copie || !copie.pages.includes(pg)) return;
+  pg.img = rendre(pg); dessinerPages(); envoyerPage(pg);           // repart aussitôt (remplace l'ancienne version)
+};
 </script>
 </body>
 </html>
