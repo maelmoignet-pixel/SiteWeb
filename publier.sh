@@ -41,7 +41,7 @@ else
             case "$f" in
                 _*|*/_*|.*) ;;                                   # fichiers internes (non publiés)
                 *.qmd) PAGES+=("$f") ;;
-                *.pdf|*.png|*.jpg|*.jpeg|*.svg|*.gif|*.webp|*/tp-informatique/*.py|*/exercices-sesamath/*|gestion/*) FICHIERS+=("$f") ;;
+                *.pdf|*.png|*.jpg|*.jpeg|*.svg|*.gif|*.webp|*/tp-informatique/*.py|*/exercices-sesamath/*|gestion/*|copie/*) FICHIERS+=("$f") ;;
             esac
         done
         if [[ "$MODE" == "--essai" ]]; then

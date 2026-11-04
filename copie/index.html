@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Copie">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2d4db0">
+<meta name="robots" content="noindex">
+<title>Copie au tableau</title>
+<style>
+:root { --accent: #2d4db0; --texte: #1b2232; --doux: #5d6679; --fond: #f3f6ff; }
+* { box-sizing: border-box; }
+body { margin: 0; font: 17px system-ui, -apple-system, sans-serif; color: var(--texte); background: var(--fond); min-height: 100vh;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)); }
+h1 { font-size: 1.25rem; margin: 0 0 14px; }
+.gros { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 84px; font: 700 1.3rem system-ui, sans-serif;
+  border: 0; border-radius: 18px; background: var(--accent); color: #fff; cursor: pointer; margin: 0 0 12px; }
+.gros.second { background: #fff; color: var(--accent); border: 2px solid var(--accent); min-height: 58px; font-size: 1.05rem; }
+.gros.envoyer { background: #1f7a3d; }
+.gros:disabled { opacity: .45; }
+.pages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 14px; }
+.pages figure { margin: 0; position: relative; border-radius: 10px; overflow: hidden; background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.15); aspect-ratio: 3 / 4; }
+.pages img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pages .etat { position: absolute; left: 4px; bottom: 4px; font: 700 12px system-ui, sans-serif; background: rgba(255,255,255,.92); border-radius: 6px; padding: 2px 6px; }
+.pages .x { position: absolute; right: 4px; top: 4px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(27,34,50,.75); color: #fff; font-size: 18px; }
+.msg { min-height: 1.4em; margin: 0 0 12px; font-weight: 600; }
+.msg.ok { color: #1f7a3d; } .msg.err { color: #b3261e; }
+.bas { color: var(--doux); font-size: .9rem; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.bas button { font: inherit; color: var(--accent); background: none; border: 0; padding: 0; text-decoration: underline; }
+label { display: block; font-weight: 600; margin: 12px 0 4px; }
+input[type=email], input[type=password] { width: 100%; font: inherit; padding: 12px; border: 1px solid #aab; border-radius: 12px; }
+.coche { display: flex; align-items: center; gap: 8px; font-weight: 400; color: var(--doux); }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<h1>📷 Copie d'élève → tableau</h1>
+
+<form id="connexion" hidden>
+  <p>Connexion une seule fois sur ce téléphone (le compte du cahier de texte).</p>
+  <label for="em">E-mail</label><input id="em" type="email" autocomplete="username" required>
+  <label for="mdp">Mot de passe</label><input id="mdp" type="password" autocomplete="current-password" required>
+  <p class="msg err" id="err-co"></p>
+  <button class="gros">Se connecter</button>
+</form>
+
+<div id="appli" hidden>
+  <input type="file" accept="image/*" capture="environment" id="photo" hidden>
+  <input type="file" accept="image/*" multiple id="galerie" hidden>
+  <button class="gros" id="b-photo">📷 Photographier une page</button>
+  <div class="pages" id="pages"></div>
+  <p class="msg" id="msg"></p>
+  <button class="gros envoyer" id="b-envoyer" disabled>Envoyer au tableau</button>
+  <button class="gros second" id="b-galerie">Choisir dans les photos…</button>
+  <label class="coche"><input type="checkbox" id="blanchir" checked> Blanchir le fond (copie plus lisible)</label>
+  <div class="bas"><span id="qui"></span><button id="b-deco" type="button">Se déconnecter</button></div>
+</div>
+
+<script src="../ressources/firebase-app-compat.js"></script>
+<script src="../ressources/firebase-auth-compat.js"></script>
+<script src="../ressources/firebase-firestore-compat.js"></script>
+<script>
+const FIREBASE = { apiKey: "AIzaSyA1j_Z4QApF8OwtmK39GRc2qdJ_6krLoCw", authDomain: "cahier-de-texte-45228.firebaseapp.com", projectId: "cahier-de-texte-45228",
+                   storageBucket: "cahier-de-texte-45228.firebasestorage.app", messagingSenderId: "658368948237", appId: "1:658368948237:web:7973bbb9c69470ee104d44" };
+firebase.initializeApp(FIREBASE);
+try { firebase.firestore().settings({ experimentalAutoDetectLongPolling: true, merge: true }); } catch (e) {}
+const $ = id => document.getElementById(id), MORCEAU = 800000;      // un document Firestore : 1 Mo au plus
+let col = null, copie = null;                                       // copie en cours : { id, pages: [{ img, envoi (promesse du nombre de morceaux) }] }
+try { $("blanchir").checked = localStorage.getItem("copie-blanchir") !== "0"; } catch (e) {}
+$("blanchir").onchange = () => { try { localStorage.setItem("copie-blanchir", $("blanchir").checked ? "1" : "0"); } catch (e) {} };
+const msg = (t, cl = "") => { $("msg").textContent = t; $("msg").className = "msg " + cl; };
+
+firebase.auth().onAuthStateChanged(u => {
+  $("connexion").hidden = !!u; $("appli").hidden = !u;
+  if (u) { col = firebase.firestore().collection("utilisateurs").doc(u.uid).collection("copies"); $("qui").textContent = u.email; }
+});
+$("connexion").onsubmit = async e => {
+  e.preventDefault(); $("err-co").textContent = "";
+  try { await firebase.auth().signInWithEmailAndPassword($("em").value.trim(), $("mdp").value); }
+  catch (x) { $("err-co").textContent = "Connexion impossible : " + (x.code || x.message); }
+};
+$("b-deco").onclick = () => firebase.auth().signOut();
+
+// Photo -> image réduite (1800 px au plus) et, si demandé, fond blanchi : on divise par l'éclairage de la page,
+// estimé sur une version très réduite puis agrandie (rapide, et le stylo de l'élève garde ses couleurs).
+async function preparer(fichier) {
+  const url = URL.createObjectURL(fichier), im = new Image(); im.src = url;
+  try { await im.decode(); } catch (e) { await new Promise((ok, ko) => { im.onload = ok; im.onerror = ko; }); }
+  const L = 1800, k = Math.min(1, L / Math.max(im.naturalWidth, im.naturalHeight));
+  const w = Math.round(im.naturalWidth * k), h = Math.round(im.naturalHeight * k);
+  const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d");
+  x.drawImage(im, 0, 0, w, h); URL.revokeObjectURL(url);
+  if ($("blanchir").checked) {
+    const p = document.createElement("canvas"); p.width = Math.max(8, Math.round(w / 48)); p.height = Math.max(8, Math.round(h / 48));
+    const px = p.getContext("2d"); px.imageSmoothingQuality = "high"; px.drawImage(c, 0, 0, p.width, p.height);
+    const f = document.createElement("canvas"); f.width = w; f.height = h; const fx = f.getContext("2d"); fx.imageSmoothingQuality = "high"; fx.drawImage(p, 0, 0, w, h);
+    const A = x.getImageData(0, 0, w, h), B = fx.getImageData(0, 0, w, h).data, a = A.data;
+    for (let i = 0; i < a.length; i += 4) for (let j = i; j < i + 3; j++) a[j] = (a[j] * 255 / (B[j] || 1) - 60) * 1.45;   // fond -> blanc, encre plus franche
+    x.putImageData(A, 0, 0);
+  }
+  return c.toDataURL("image/jpeg", 0.72);
+}
+
+// chaque page part dès qu'elle est prise (en morceaux de 800 Ko) : « Envoyer » n'a presque plus rien à faire
+function envoyerPage(page, k) {
+  const d = page.img, n = Math.ceil(d.length / MORCEAU), lot = firebase.firestore().batch();
+  for (let i = 0; i < n; i++) lot.set(col.doc(copie.id + "~" + k + "~" + i), { p: d.slice(i * MORCEAU, (i + 1) * MORCEAU) });
+  return lot.commit().then(() => n);
+}
+function dessinerPages() {
+  $("pages").innerHTML = "";
+  (copie ? copie.pages : []).forEach((pg, k) => {
+    const f = document.createElement("figure");
+    f.innerHTML = `<img src="${pg.img}" alt="page ${k + 1}"><span class="etat">${pg.fait ? "✓ " : "↑ "}${k + 1}</span><button class="x" aria-label="Retirer la page">×</button>`;
+    f.querySelector(".x").onclick = () => { copie.pages.splice(k, 1); copie.pages.forEach((p, j) => { if (j >= k) p.envoi = envoyerPage(p, j).then(n => (p.fait = true, dessinerPages(), n)); }); dessinerPages(); };
+    $("pages").appendChild(f);
+  });
+  const n = copie ? copie.pages.length : 0;
+  $("b-envoyer").disabled = !n; $("b-envoyer").textContent = n ? `Envoyer au tableau (${n} page${n > 1 ? "s" : ""})` : "Envoyer au tableau";
+  $("b-photo").textContent = n ? "📷 Page suivante" : "📷 Photographier une page";
+}
+async function ajouter(fichiers) {
+  if (!fichiers.length) return;
+  if (!copie) copie = { id: "k" + Date.now() + Math.random().toString(36).slice(2, 6), pages: [] };
+  msg("Préparation…");
+  for (const f of fichiers) {
+    try {
+      const pg = { img: await preparer(f), fait: false }, k = copie.pages.length; copie.pages.push(pg);
+      pg.envoi = envoyerPage(pg, k).then(n => { pg.fait = true; dessinerPages(); return n; });
+      pg.envoi.catch(() => msg("Réseau : la page n'est pas partie. Réessayez « Envoyer ».", "err"));
+    } catch (e) { msg("Photo illisible : " + (e.message || e), "err"); }
+  }
+  dessinerPages(); msg("");
+}
+$("b-photo").onclick = () => $("photo").click();
+$("b-galerie").onclick = () => $("galerie").click();
+$("photo").onchange = () => { ajouter([...$("photo").files]); $("photo").value = ""; };
+$("galerie").onchange = () => { ajouter([...$("galerie").files]); $("galerie").value = ""; };
+$("b-envoyer").onclick = async () => {
+  if (!copie || !copie.pages.length) return;
+  $("b-envoyer").disabled = true; msg("Envoi…");
+  try {
+    const morceaux = await Promise.all(copie.pages.map((p, k) => p.envoi.catch(() => (p.envoi = envoyerPage(p, k)))));   // une page ratée : renvoyée
+    const petite = await vignette(copie.pages[0].img);
+    await col.doc(copie.id).set({ t: Date.now(), pages: morceaux, vignette: petite, pret: true });   // le tableau la voit à cet instant
+    msg(`✓ Envoyée (${copie.pages.length} page${copie.pages.length > 1 ? "s" : ""}). Au tableau : « 📥 Copie élève ».`, "ok");
+    copie = null; dessinerPages();
+  } catch (e) { msg("Envoi impossible : " + (e.message || e) + ". Réessayez.", "err"); $("b-envoyer").disabled = false; }
+};
+function vignette(d) {                                              // pour choisir entre plusieurs copies au tableau
+  return new Promise(ok => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"), k = 160 / im.naturalHeight;
+    c.width = Math.round(im.naturalWidth * k); c.height = 160; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL("image/jpeg", 0.6)); }; im.src = d; });
+}
+</script>
+</body>
+</html>

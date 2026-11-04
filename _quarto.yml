@@ -22,6 +22,8 @@ project:
     - "premiere-tc/exercices-sesamath/*"
     # Outil de gestion du site en ligne (page copiée depuis ~/Outils/gestion-site/page.html)
     - "gestion/*"
+    # Page du téléphone : copie d'élève photographiée -> mode tableau
+    - "copie/*"
 
 lang: fr
 
