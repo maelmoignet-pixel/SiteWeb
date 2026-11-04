@@ -75,7 +75,7 @@ input[type=email], input[type=password], input[type=text] { width: 100%; font: i
 </div>
 
 <div class="editeur" id="editeur" hidden>
-  <p>Faites glisser les 4 coins sur les bords de la feuille</p>
+  <p>Tirez un coin pour recadrer, ou faites glisser le cadre</p>
   <div class="zone" id="ed-zone"><canvas id="ed-canvas"></canvas></div>
   <div class="boutons">
     <button id="ed-auto" type="button">Détecter la feuille</button><button id="ed-tout" type="button">Toute la photo</button><button id="ed-non" type="button">Annuler</button>
@@ -163,10 +163,10 @@ function homographie(src, dst) {                                   // matrice 3�
     for (let r = 0; r < 8; r++) if (r !== c) { const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; B[r] -= f * B[c]; } }
   return B.map((b, i) => b / A[i][i]).concat([1]);
 }
-function rendre(pg) {
-  const o = pg.orig, q = pg.quad, L = (p, r) => Math.hypot(p[0] - r[0], p[1] - r[1]);
+function redresser(o, q) {                                         // la feuille (quadrilatère q de la photo o), remise d'équerre
+  const L = (p, r) => Math.hypot(p[0] - r[0], p[1] - r[1]);
   let W = (L(q[0], q[1]) + L(q[3], q[2])) / 2, H = (L(q[0], q[3]) + L(q[1], q[2])) / 2;
-  const k = Math.min(1, 1800 / Math.max(W, H)); W = Math.max(8, Math.round(W * k)); H = Math.max(8, Math.round(H * k));
+  const k = Math.min(1, 2000 / Math.max(W, H)); W = Math.max(8, Math.round(W * k)); H = Math.max(8, Math.round(H * k));
   const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
   const entier = q.every((p, i) => L(p, touteLaPhoto(o)[i]) < 1);
   if (entier) x.drawImage(o, 0, 0, W, H);
@@ -182,6 +182,15 @@ function rendre(pg) {
       d[j + 3] = 255; }
     x.putImageData(D, 0, 0);
   }
+  return c;
+}
+function rendre(pg) {                                              // feuille redressée, recadrée (rectangle pg.rect, en fractions), blanchie, en JPEG
+  if (!pg.redresse || pg.redresse.q !== pg.quad) { pg.redresse = redresser(pg.orig, pg.quad); pg.redresse.q = pg.quad; }
+  const R = pg.redresse, [a0, b0, a1, b1] = pg.rect || [0, 0, 1, 1];
+  const sx = a0 * R.width, sy = b0 * R.height, sw = Math.max(8, (a1 - a0) * R.width), sh = Math.max(8, (b1 - b0) * R.height);
+  const k = Math.min(1, 1800 / Math.max(sw, sh)), W = Math.max(8, Math.round(sw * k)), H = Math.max(8, Math.round(sh * k));
+  const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+  x.imageSmoothingQuality = "high"; x.drawImage(R, sx, sy, sw, sh, 0, 0, W, H);
   if ($("blanchir").checked) {            // on divise par l'éclairage de la page, estimé sur une version très réduite puis agrandie
     const p = document.createElement("canvas"); p.width = Math.max(8, Math.round(W / 48)); p.height = Math.max(8, Math.round(H / 48));
     const px = p.getContext("2d"); px.imageSmoothingQuality = "high"; px.drawImage(c, 0, 0, p.width, p.height);
@@ -256,43 +265,68 @@ function vignette(d) {                                              // pour choi
     c.width = Math.round(im.naturalWidth * k); c.height = 160; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL("image/jpeg", 0.6)); }; im.src = d; });
 }
 
-/* ---------- éditeur : la photo entière, le quadrilatère et ses 4 poignées ---------- */
-let ed = null;                                                      // { pg, quad, k, ox, oy, prise }
+/* ---------- éditeur : la feuille redressée et un rectangle ; un coin tiré entraîne ses deux côtés, le coin opposé reste fixe ---------- */
+let ed = null;                                                      // { pg, quad, base (canvas redressé), rect [x0, y0, x1, y1] en pixels de base, prise }
 function editer(pg) {
-  ed = { pg, quad: pg.quad.map(p => p.slice()), prise: -1 };
+  if (!pg.redresse || pg.redresse.q !== pg.quad) { pg.redresse = redresser(pg.orig, pg.quad); pg.redresse.q = pg.quad; }
+  const B = pg.redresse, [a0, b0, a1, b1] = pg.rect || [0, 0, 1, 1];
+  ed = { pg, quad: pg.quad, base: B, rect: [a0 * B.width, b0 * B.height, a1 * B.width, b1 * B.height], prise: null };
   $("editeur").hidden = false; requestAnimationFrame(dessinerEd);
 }
+function nouvelleBase(quad) {                                       // « Détecter la feuille » / « Toute la photo » : autre redressement, rectangle entier
+  ed.quad = quad; ed.base = redresser(ed.pg.orig, quad); ed.base.q = quad; ed.rect = [0, 0, ed.base.width, ed.base.height]; dessinerEd();
+}
+const coinsRect = r => [[r[0], r[1]], [r[2], r[1]], [r[2], r[3]], [r[0], r[3]]];
 function dessinerEd() {
   if (!ed) return;
-  const cv = $("ed-canvas"), r = $("ed-zone").getBoundingClientRect(), dpr = window.devicePixelRatio || 1, o = ed.pg.orig;
-  cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
-  const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, r.width, r.height);
-  ed.k = Math.min(r.width / o.width, r.height / o.height); ed.ox = (r.width - o.width * ed.k) / 2; ed.oy = (r.height - o.height * ed.k) / 2;
+  const cv = $("ed-canvas"), z = $("ed-zone").getBoundingClientRect(), dpr = window.devicePixelRatio || 1, o = ed.base;
+  cv.width = Math.round(z.width * dpr); cv.height = Math.round(z.height * dpr);
+  const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, z.width, z.height);
+  const m = 26;                                                     // marge : les poignées restent entières dans la zone (faciles à attraper)
+  ed.k = Math.min((z.width - 2 * m) / o.width, (z.height - 2 * m) / o.height); ed.ox = (z.width - o.width * ed.k) / 2; ed.oy = (z.height - o.height * ed.k) / 2;
   x.drawImage(o, ed.ox, ed.oy, o.width * ed.k, o.height * ed.k);
-  const P = ed.quad.map(([u, v]) => [ed.ox + u * ed.k, ed.oy + v * ed.k]);
-  x.fillStyle = "rgba(0,0,0,.45)"; x.beginPath(); x.rect(0, 0, r.width, r.height); x.moveTo(...P[0]); P.slice(1).forEach(p => x.lineTo(...p)); x.closePath(); x.fill("evenodd");
-  x.strokeStyle = "#ffcc00"; x.lineWidth = 3; x.beginPath(); x.moveTo(...P[0]); P.slice(1).forEach(p => x.lineTo(...p)); x.closePath(); x.stroke();
-  P.forEach(([u, v], i) => { x.beginPath(); x.arc(u, v, i === ed.prise ? 22 : 17, 0, 2 * Math.PI); x.fillStyle = "rgba(255,204,0,.9)"; x.fill(); x.lineWidth = 3; x.strokeStyle = "#11151f"; x.stroke(); });
+  const [X0, Y0, X1, Y1] = ed.rect.map((v, i) => (i % 2 ? ed.oy : ed.ox) + v * ed.k);
+  x.fillStyle = "rgba(0,0,0,.5)"; x.beginPath(); x.rect(0, 0, z.width, z.height); x.rect(X0, Y0, X1 - X0, Y1 - Y0); x.fill("evenodd");
+  x.strokeStyle = "#ffcc00"; x.lineWidth = 3; x.strokeRect(X0, Y0, X1 - X0, Y1 - Y0);
+  x.strokeStyle = "rgba(255,204,0,.45)"; x.lineWidth = 1; x.beginPath();               // repères des tiers
+  for (const t of [1 / 3, 2 / 3]) { x.moveTo(X0 + t * (X1 - X0), Y0); x.lineTo(X0 + t * (X1 - X0), Y1); x.moveTo(X0, Y0 + t * (Y1 - Y0)); x.lineTo(X1, Y0 + t * (Y1 - Y0)); } x.stroke();
+  [[X0, Y0], [X1, Y0], [X1, Y1], [X0, Y1]].forEach(([u, v], i) => { x.beginPath(); x.arc(u, v, ed.prise && ed.prise.coin === i ? 22 : 17, 0, 2 * Math.PI);
+    x.fillStyle = "rgba(255,204,0,.95)"; x.fill(); x.lineWidth = 3; x.strokeStyle = "#11151f"; x.stroke(); });
 }
 const zoneEd = $("ed-zone");
 const posEd = e => { const r = zoneEd.getBoundingClientRect(); return [(e.clientX - r.left - ed.ox) / ed.k, (e.clientY - r.top - ed.oy) / ed.k]; };
 zoneEd.addEventListener("pointerdown", e => {
-  if (!ed) return; const [u, v] = posEd(e);
-  let i = -1, best = 48 / ed.k; ed.quad.forEach((p, j) => { const d = Math.hypot(p[0] - u, p[1] - v); if (d < best) { best = d; i = j; } });
-  ed.prise = i; if (i >= 0) { zoneEd.setPointerCapture(e.pointerId); ed.dx = ed.quad[i][0] - u; ed.dy = ed.quad[i][1] - v; } dessinerEd();
+  if (!ed) return; const [u, v] = posEd(e), C = coinsRect(ed.rect);
+  let coin = -1, best = 48 / ed.k; C.forEach((p, j) => { const d = Math.hypot(p[0] - u, p[1] - v); if (d < best) { best = d; coin = j; } });
+  const dedans = u > ed.rect[0] && u < ed.rect[2] && v > ed.rect[1] && v < ed.rect[3];
+  if (coin < 0 && !dedans) return;
+  ed.prise = { coin, u, v, rect: ed.rect.slice() }; zoneEd.setPointerCapture(e.pointerId); dessinerEd();
 });
 zoneEd.addEventListener("pointermove", e => {
-  if (!ed || ed.prise < 0) return; const [u, v] = posEd(e), o = ed.pg.orig;
-  ed.quad[ed.prise] = [Math.max(0, Math.min(o.width, u + ed.dx)), Math.max(0, Math.min(o.height, v + ed.dy))]; dessinerEd();
+  if (!ed || !ed.prise) return;
+  const [u, v] = posEd(e), W = ed.base.width, H = ed.base.height, p = ed.prise, r0 = p.rect, du = u - p.u, dv = v - p.v, min = 0.06 * Math.max(W, H);
+  if (p.coin < 0) {                                                 // le rectangle entier glisse
+    const w = r0[2] - r0[0], h = r0[3] - r0[1], x0 = Math.max(0, Math.min(W - w, r0[0] + du)), y0 = Math.max(0, Math.min(H - h, r0[1] + dv));
+    ed.rect = [x0, y0, x0 + w, y0 + h];
+  } else {                                                          // coin tiré ; le coin opposé ne bouge pas
+    const C = coinsRect(r0), opp = C[(p.coin + 2) % 4], cx = Math.max(0, Math.min(W, C[p.coin][0] + du)), cy = Math.max(0, Math.min(H, C[p.coin][1] + dv));
+    const gauche = p.coin === 0 || p.coin === 3, haut = p.coin === 0 || p.coin === 1;
+    const x0 = gauche ? Math.min(cx, opp[0] - min) : opp[0], x1 = gauche ? opp[0] : Math.max(cx, opp[0] + min);
+    const y0 = haut ? Math.min(cy, opp[1] - min) : opp[1], y1 = haut ? opp[1] : Math.max(cy, opp[1] + min);
+    ed.rect = [Math.max(0, x0), Math.max(0, y0), Math.min(W, x1), Math.min(H, y1)];
+  }
+  dessinerEd();
 });
-const lacher = () => { if (ed) { ed.prise = -1; dessinerEd(); } };
+const lacher = () => { if (ed) { ed.prise = null; dessinerEd(); } };
 zoneEd.addEventListener("pointerup", lacher); zoneEd.addEventListener("pointercancel", lacher);
 window.addEventListener("resize", () => dessinerEd());
-$("ed-auto").onclick = () => { const q = detecter(ed.pg.orig); if (q) { ed.quad = q; dessinerEd(); } else $("ed-auto").textContent = "Feuille non trouvée"; setTimeout(() => $("ed-auto").textContent = "Détecter la feuille", 2000); };
-$("ed-tout").onclick = () => { ed.quad = touteLaPhoto(ed.pg.orig); dessinerEd(); };
+$("ed-auto").onclick = () => { const q = detecter(ed.pg.orig); if (q) nouvelleBase(q);
+  else { $("ed-auto").textContent = "Feuille non trouvée"; setTimeout(() => $("ed-auto").textContent = "Détecter la feuille", 2000); } };
+$("ed-tout").onclick = () => nouvelleBase(touteLaPhoto(ed.pg.orig));
 $("ed-non").onclick = () => { ed = null; $("editeur").hidden = true; };
 $("ed-ok").onclick = () => {
-  const pg = ed.pg; pg.quad = ed.quad; ed = null; $("editeur").hidden = true;
+  const pg = ed.pg, B = ed.base, r = ed.rect;
+  pg.quad = ed.quad; pg.redresse = B; pg.rect = [r[0] / B.width, r[1] / B.height, r[2] / B.width, r[3] / B.height]; ed = null; $("editeur").hidden = true;
   if (!copie || !copie.pages.includes(pg)) return;
   pg.img = rendre(pg); dessinerPages(); envoyerPage(pg);           // repart aussitôt (remplace l'ancienne version)
 };

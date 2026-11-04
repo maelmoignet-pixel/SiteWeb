@@ -972,7 +972,7 @@
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
-  const legende = e => e.fond ? "" : e.copie ? "Copie d'élève" + (e.titre ? " — " + e.titre : "") : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
+  const legende = e => e.fond ? "" : e.copie ? (e.titre || "") : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   /* Formes à la règle : la liste p contient déjà les points (segment, contour du rectangle, cercle échantillonné) */
   /* ---------- Repère orthonormé : r = { x0, y0 (coin haut-gauche), u (unité), xmin, xmax, ymin, ymax, px, py (pas) } ---------- */
   const PAS_VAL = v => v === "pi" ? Math.PI : v === "pi/2" ? Math.PI / 2 : +v;
