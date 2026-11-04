@@ -39,7 +39,9 @@
     return { chapitre: url, cours: a ? new URL(a.getAttribute("href"), new URL(url, location.href)).href : null, titre };
   }
   async function afficher(u) {
-    const base = firebase.firestore().collection("utilisateurs").doc(u.uid), maintenant = new Date(), k = iso(lundi(maintenant));
+    const uid = u.isAnonymous ? localStorage.getItem("encre-proprio") : u.uid;   // tableau connecté par QR code : le compte de Maël
+    if (!uid) return boite.remove();
+    const base = firebase.firestore().collection("utilisateurs").doc(uid), maintenant = new Date(), k = iso(lundi(maintenant));
     const [cfg, sem] = await Promise.all([base.collection("donnees").doc("config").get(), base.collection("semaines").doc(k).get()]);
     if (!cfg.exists) return boite.remove();
     const C = JSON.parse(cfg.data().json), W = sem.exists ? JSON.parse(sem.data().json) : null;

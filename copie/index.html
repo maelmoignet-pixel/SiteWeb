@@ -59,6 +59,10 @@ input[type=email], input[type=password], input[type=text] { width: 100%; font: i
 </form>
 
 <div id="appli" hidden>
+  <div id="appairage" hidden style="background:#fff;border:2px solid var(--accent);border-radius:16px;padding:14px;margin:0 0 14px">
+    <b>Connecter ce tableau à ton compte ?</b>
+    <p class="astuce" style="margin:6px 0 10px">Le tableau dont tu viens de scanner le code pourra lire et enregistrer tes notes, comme tes autres appareils.</p>
+    <button class="gros" id="b-appairer" style="min-height:64px">✓ Connecter ce tableau</button><p class="msg" id="msg-app"></p></div>
   <input type="file" accept="image/*" capture="environment" id="photo" hidden>
   <input type="file" accept="image/*" multiple id="galerie" hidden>
   <button class="gros" id="b-photo">📷 Photographier une page</button>
@@ -71,6 +75,7 @@ input[type=email], input[type=password], input[type=text] { width: 100%; font: i
   <button class="gros second" id="b-galerie">Choisir dans les photos…</button>
   <label class="coche"><input type="checkbox" id="auto"> Feuille seule : détecter ses bords (décocher pour un cahier)</label>
   <label class="coche"><input type="checkbox" id="blanchir"> Blanchir le fond (copie plus lisible)</label>
+  <details id="appareils" style="margin-top:14px;color:var(--doux)"><summary>Tableaux connectés par QR code</summary><div id="liste-app" style="margin-top:8px"></div></details>
   <div class="bas"><span id="qui"></span><button id="b-deco" type="button">Se déconnecter</button></div>
 </div>
 
@@ -100,8 +105,32 @@ const msg = (t, cl = "") => { $("msg").textContent = t; $("msg").className = "ms
 
 firebase.auth().onAuthStateChanged(u => {
   $("connexion").hidden = !!u; $("appli").hidden = !u;
-  if (u) { col = firebase.firestore().collection("utilisateurs").doc(u.uid).collection("copies"); $("qui").textContent = u.email; }
+  if (u) { col = firebase.firestore().collection("utilisateurs").doc(u.uid).collection("copies"); $("qui").textContent = u.email; appairage(u); }
 });
+// Connexion d'un tableau par QR code (…/copie/?appairer=<identifiant du tableau>) : le tableau est ajouté aux appareils autorisés
+const APP = firebase.firestore().collection("appareils");
+function appairage(u) {
+  const id = new URLSearchParams(location.search).get("appairer");
+  if (id && /^[\w-]{10,40}$/.test(id)) {
+    $("appairage").hidden = false;
+    $("b-appairer").onclick = async () => {
+      $("b-appairer").disabled = true;
+      try { await APP.doc(id).set({ uid: u.uid, nom: "Tableau", t: Date.now() }); $("msg-app").textContent = "✓ Tableau connecté. Tu peux revenir au tableau."; $("msg-app").className = "msg ok";
+        history.replaceState(null, "", location.pathname); listeAppareils(u); }
+      catch (e) { $("msg-app").textContent = "Impossible : " + (e.code || e.message); $("msg-app").className = "msg err"; $("b-appairer").disabled = false; }
+    };
+  }
+  listeAppareils(u);
+}
+async function listeAppareils(u) {
+  try {
+    const q = await APP.where("uid", "==", u.uid).get(), l = $("liste-app");
+    l.innerHTML = q.empty ? "Aucun." : "";
+    q.forEach(d => { const x = d.data(), r = document.createElement("div"); r.style.cssText = "display:flex;justify-content:space-between;gap:8px;align-items:center;margin:4px 0";
+      r.innerHTML = `<span>${x.nom || "Tableau"} — connecté le ${new Date(x.t).toLocaleDateString("fr-FR")}</span><button type="button" style="font:inherit;color:#b3261e;background:none;border:1px solid #b3261e;border-radius:8px;padding:4px 10px">Retirer</button>`;
+      r.querySelector("button").onclick = async () => { await APP.doc(d.id).delete(); listeAppareils(u); }; l.appendChild(r); });
+  } catch (e) {}
+}
 $("connexion").onsubmit = async e => {
   e.preventDefault(); $("err-co").textContent = "";
   try { await firebase.auth().signInWithEmailAndPassword($("em").value.trim(), $("mdp").value); }
