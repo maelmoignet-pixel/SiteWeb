@@ -24,6 +24,8 @@ project:
     - "gestion/*"
     # Page du téléphone : copie d'élève photographiée -> mode tableau
     - "copie/*"
+    # QCM d'automatismes (bouton ⚡ du mode tableau)
+    - "automatismes/**"
 
 lang: fr
 
