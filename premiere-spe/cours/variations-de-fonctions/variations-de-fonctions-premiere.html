@@ -2677,6 +2677,30 @@ document.addEventListener("DOMContentLoaded", function () {
   }).catch(() => boite.remove());
 })();
 </script>
+<!-- =====================================================================
+     _compteur.html : compteur de visites GoatCounter (sans cookie, sans
+     donnée personnelle : pas de bandeau de consentement nécessaire).
+     Les statistiques : https://maths-moignet.goatcounter.com
+     Les appareils de Maël ne sont pas comptés : ceux où la synchro du mode
+     tableau est configurée (tableau, ordinateur, tablette), et tout appareil
+     qui a ouvert une fois l'adresse du site suivie de #pas-de-compteur.
+     Pour retirer le compteur : supprimer la ligne _compteur.html de _quarto.yml.
+     ===================================================================== -->
+<script>
+(function () {
+  var moi = false;
+  try {
+    if (location.hash === "#pas-de-compteur") localStorage.setItem("skipgc", "t");
+    if (location.hash === "#compteur") localStorage.removeItem("skipgc");
+    moi = localStorage.getItem("skipgc") === "t" || !!localStorage.getItem("encre-sync") || !!localStorage.getItem("encre-proprio");
+  } catch (e) {}
+  if (moi || location.hostname === "localhost" || location.protocol === "file:") return;
+  var s = document.createElement("script");
+  s.async = true; s.src = "https://gc.zgo.at/count.js";
+  s.setAttribute("data-goatcounter", "https://maths-moignet.goatcounter.com/count");
+  document.body.appendChild(s);
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
