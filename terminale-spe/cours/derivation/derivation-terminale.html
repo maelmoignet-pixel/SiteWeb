@@ -1420,10 +1420,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const C = window.encreCopies;
       if (!C) { msg.textContent = "Connectez-vous (☁) pour recevoir les copies"; return; }
       if (!C.liste.length) { msg.textContent = "Aucune copie reçue : photographiez-la avec le téléphone (page …/copie/)"; return; }
+      return mettreCopie(C.liste.length === 1 ? C.liste[0] : null, msg);
+    }
+    async function mettreCopie(une, msg) {
+      const C = window.encreCopies;
       const mettre = async c => { msg.textContent = "Copie…";
         try { const pages = await C.pages(c); for (const d of pages) await insererCapture(d, Object.assign({ capture: true, copie: true }, c.titre ? { titre: c.titre } : {})); msg.textContent = ""; C.retirer(c); }
         catch (e) { msg.textContent = "Copie illisible (réseau ?) : réessayez"; } };
-      if (C.liste.length === 1) return mettre(C.liste[0]);
+      if (une) return mettre(une);
       const h = t => new Date(t).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
       const f = document.createElement("div"); f.className = "encre-recadrage encre-choix-copie";
       f.innerHTML = `<p>Quelle copie afficher ?</p><div class="liste">${C.liste.map((c, i) => `<button data-i="${i}">${c.vignette ? `<img src="${c.vignette}" alt="">` : ""}<span>${c.titre ? "<b>" + String(c.titre).replace(/[&<>"]/g, x => "&#" + x.charCodeAt(0) + ";") + "</b> · " : ""}${h(c.t)} · ${c.pages.length} page${c.pages.length > 1 ? "s" : ""}</span></button>`).join("")}</div>
@@ -1450,7 +1454,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bOuv = document.createElement("button"); barreOuv.appendChild(bOuv);
       if (type === "solution") bloc.before(barreOuv); else bloc.after(barreOuv);   // la zone se place avant la solution
     }
-    let zone = null, canvas, ctx, calque, ctxT, defile, echelle = 1;
+    let zone = null, canvas, ctx, calque, ctxT, defile, echelle = 1, arretZone = null;
     const libelle = () => { if (!bOuv) return; bOuv.textContent = zone ? "Réduire la zone d'écriture" : (type === "figure" ? "✎ Annoter la figure" : "✎ Écrire");
                             bOuv.classList.toggle("ecrit", traits.length > 0 && !zone); };
     libelle();
@@ -1508,8 +1512,15 @@ document.addEventListener("DOMContentLoaded", function () {
       defile.addEventListener("scroll", () => { allonger((defile.scrollTop || 0) + defile.clientHeight * 1.5); dessiner(); }, { passive: true });
       brancherCrayon();
       const bCopie = zone.querySelector(".b-copie");
-      if (bCopie) { const maj = () => { const n = window.encreCopies ? window.encreCopies.liste.length : 0; bCopie.classList.toggle("recue", n > 0); bCopie.querySelector(".nb").textContent = n || ""; };
-        maj(); document.addEventListener("encre-copies", maj); }
+      if (bCopie) {
+        arretZone = new AbortController();
+        const maj = () => { const C = window.encreCopies, n = C ? C.liste.length : 0; bCopie.classList.toggle("recue", n > 0); bCopie.querySelector(".nb").textContent = n || "";
+          // copie envoyée avec « Afficher au tableau » : elle s'affiche d'elle-même (sur l'écran qu'on regarde, si elle a moins de 3 minutes)
+          if (!C || document.visibilityState !== "visible") return;
+          C.liste.filter(c => c.affiche && !C.vues.has(c.id) && Date.now() - c.t < 180000).reverse()
+            .forEach(c => { C.vues.add(c.id); mettreCopie(c, zone.querySelector(".m-msg")); }); };
+        maj(); document.addEventListener("encre-copies", maj, { signal: arretZone.signal });
+      }
       etatBarre(); dimensionner(); libelle();
       new ResizeObserver(dimensionner).observe(defile);
       if (!opts.flottant) zone.scrollIntoView({ block: "nearest", behavior: "smooth" });
@@ -1522,7 +1533,7 @@ document.addEventListener("DOMContentLoaded", function () {
       while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
       return p && estBloc(p) && !p.classList.contains("callout-caution") ? p : null;
     }
-    function fermer() { if (!zone) return; zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
+    function fermer() { if (!zone) return; if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
     z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
     let confirmeEff = false;
     function clicBarre(e) {
@@ -2682,7 +2693,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function ecouterCopies() {
     if (arretCopies) return;
     const col = SYNC.base.collection("copies"), pages = {}, ID = firebase.firestore.FieldPath.documentId();
-    const C = window.encreCopies = { liste: [],
+    const C = window.encreCopies = { liste: [], vues: new Set(),
       pages: c => pages[c.id] || (pages[c.id] = Promise.all(c.pages.map((n, k) => Promise.all([...Array(n)].map((_, i) => col.doc(c.id + "~" + k + "~" + i).get()))
                      .then(ds => ds.map(d => { if (!d.exists) throw new Error("morceau absent"); return d.data().p; }).join(""))))
                      .catch(e => { delete pages[c.id]; throw e; })),
