@@ -63,3 +63,5 @@ format:
       - _tableau.html
       # « Ma séance » : sur l'accueil, le cours de l'heure d'après l'emploi du temps du cahier de texte
       - _ma-seance.html
+      # Compteur de visites GoatCounter (sans cookie) ; les appareils de Maël ne sont pas comptés
+      - _compteur.html
