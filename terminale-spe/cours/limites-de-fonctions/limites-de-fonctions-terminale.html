@@ -922,6 +922,12 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-barre button.b-copie.recue { background: #1f7a3d; color: #fff; border-color: #1f7a3d; }
 .encre-barre button.b-copie .nb:not(:empty) { margin-left: 6px; background: #fff; color: #1f7a3d; border-radius: 999px; padding: 1px 8px; font-size: 13px; }
+.encre-pave { position: fixed; z-index: 4000; background: #1b2232; border-radius: 18px; padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.35); width: 270px; touch-action: manipulation; }
+.encre-pave .ecran { background: #fff; border-radius: 10px; padding: 6px 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.encre-pave .ecran span { font: 600 14px system-ui, sans-serif; color: #5d6679; } .encre-pave .ecran b { font: 800 30px system-ui, sans-serif; color: #1b2232; min-height: 36px; }
+.encre-pave .touches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.encre-pave button { height: 62px; border: 0; border-radius: 12px; background: #fff; font: 700 26px system-ui, sans-serif; color: #1b2232; cursor: pointer; }
+.encre-pave button.ok { background: #1f9d55; color: #fff; font-size: 19px; } .encre-pave button.ef { background: #e3e8f4; }
 .encre-auto-reglages .carte { background: #fff; border-radius: 16px; padding: 18px 20px; max-width: 760px; width: 100%; max-height: calc(100vh - 40px); overflow: auto; font: 16px system-ui, sans-serif; color: #1b2232; }
 .encre-auto-reglages h3 { margin: 0 0 10px; font-size: 1.2rem; } .encre-auto-reglages h4 { margin: 14px 0 6px; font-size: 1rem; }
 .encre-auto-reglages .cases { display: flex; flex-wrap: wrap; gap: 6px 10px; }
@@ -1227,7 +1233,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <h4>Questions</h4><div class="cases">${SERIES_AUTO.map(([k, l]) => `<label><input type="checkbox" data-s="${k}" ${series.includes(k) ? "checked" : ""}> ${l}</label>`).join("")}</div>
         <h4>Catégories <button type="button" data-tout="1" style="min-height:32px;padding:0 10px;font-size:13px">tout cocher / décocher</button></h4>
         <div class="cases">${CATS_AUTO.map(([k, l]) => `<label><input type="checkbox" data-c="${k}" ${cats.includes(k) ? "checked" : ""}> ${l} <small data-n="${k}"></small></label>`).join("")}</div>
-        <div class="bas"><span>Nombre de questions</span><input type="number" min="1" max="30" value="${r.n || 6}"><button class="go">Commencer</button><button data-non="1">Annuler</button><span class="msg"></span></div></div>`;
+        <div class="bas"><span>Nombre de questions</span><input type="number" min="1" max="30" value="${r.n || 6}" inputmode="none" readonly data-chiffres="2" aria-label="Nombre de questions"><button class="go">Commencer</button><button data-non="1">Annuler</button><span class="msg"></span></div></div>`;
       document.body.appendChild(f);
       const choisies = (a) => [...f.querySelectorAll(`[data-${a}]:checked`)].map(x => x.dataset[a]);
       const compter = () => { const s2 = choisies("s"); let tot = 0;
@@ -1333,8 +1339,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
             ${MANUEL && (MANUEL.dossier || MANUEL.prive) ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
-        ${opts.flottant && MANUEL && (MANUEL.dossier || MANUEL.prive) ? `<span class="encre-manuel"><input class="m-num" inputmode="numeric" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
-            <input class="m-page" inputmode="numeric" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
+        ${opts.flottant && MANUEL && (MANUEL.dossier || MANUEL.prive) ? `<span class="encre-manuel"><input class="m-num" inputmode="none" readonly data-chiffres="3" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
+            <input class="m-page" inputmode="none" readonly data-chiffres="3" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
             <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
           : '<button data-a="plein">Plein écran</button>'}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
@@ -1360,8 +1366,8 @@ document.addEventListener("DOMContentLoaded", function () {
         [copie, ...copie.querySelectorAll("[id]")].forEach(x => x.removeAttribute("id"));
         cadre.querySelector(".contenu").appendChild(copie);
         const replier = r => { cadre.classList.toggle("replie", r); cadre.querySelector("button").textContent = r ? "Énoncé ▾" : "Masquer l'énoncé ▴"; };
-        replier(!!reglages.enonceReplie);
-        cadre.querySelector("button").addEventListener("click", e => { e.stopPropagation(); reglages.enonceReplie = !cadre.classList.contains("replie"); garderReglages(); replier(reglages.enonceReplie); });
+        replier(false);                                                // toujours visible à l'ouverture (le repli ne vaut que pour cette zone)
+        cadre.querySelector("button").addEventListener("click", e => { e.stopPropagation(); replier(!cadre.classList.contains("replie")); });
       }
       canvas = zone.querySelector(".vue canvas"); ctx = canvas.getContext("2d", { desynchronized: true }) || canvas.getContext("2d"); defile = zone.querySelector(".encre-defile");
       calque = zone.querySelector(".vue canvas.trace"); ctxT = calque.getContext("2d");                 // calque transparent : jamais en affichage rapide (il deviendrait noir)
@@ -1388,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (type !== "solution") return bloc;
       let p = bloc.previousElementSibling;
       while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
-      return p && estBloc(p) && !p.classList.contains("callout-caution") ? p : null;
+      return p && !p.classList.contains("callout-caution") && (estBloc(p) || [...p.classList].some(c => ENONCES[c])) ? p : null;   // application, ou propriété démontrée
     }
     function fermer() { if (!zone) return; arreterAuto(); if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
     z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
@@ -2506,6 +2512,39 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /* ---------- Pavé numérique au stylet (écran sans clavier) : N° et page du manuel, nombre de questions ---------- */
+  let pave = null;
+  function fermerPave() { if (pave) { pave.remove(); pave = null; } }
+  function ouvrirPave(inp, suite, libSuite) {
+    fermerPave();
+    const p = pave = document.createElement("div"); p.className = "encre-pave";
+    const lib = inp.getAttribute("aria-label") || inp.placeholder || "Nombre", max = +(inp.dataset.chiffres || 4);
+    p.innerHTML = `<div class="ecran"><span>${lib}</span><b>${inp.value || ""}</b></div><div class="touches">` +
+      [7, 8, 9, 4, 5, 6, 1, 2, 3].map(n => `<button data-t="${n}">${n}</button>`).join("") +
+      `<button data-t="ef" class="ef" aria-label="Effacer">⌫</button><button data-t="0">0</button><button data-t="ok" class="ok">${suite ? (libSuite || "Suivant") : "OK"}</button></div>`;
+    document.body.appendChild(p);
+    const r = inp.getBoundingClientRect(), h = p.offsetHeight, w = p.offsetWidth;
+    p.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left)) + "px";
+    p.style.top = (r.bottom + 8 + h < innerHeight ? r.bottom + 8 : Math.max(8, r.top - h - 8)) + "px";
+    const ecran = p.querySelector("b"), maj = () => { ecran.textContent = inp.value; inp.dispatchEvent(new Event("input", { bubbles: true })); };
+    p.addEventListener("pointerdown", e => e.stopPropagation());
+    p.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; const t = b.dataset.t;
+      if (t === "ef") { inp.value = inp.value.slice(0, -1); maj(); }
+      else if (t === "ok") { fermerPave(); if (suite) suite(); }
+      else if (inp.value.length < max) { inp.value = (inp.value === "0" ? "" : inp.value) + t; maj(); } });
+  }
+  document.addEventListener("pointerdown", e => {
+    if (pave && pave.contains(e.target)) return;                       // une touche du pavé
+    const inp = e.target.closest && e.target.closest("input.m-num, input.m-page, .encre-auto-reglages input[type=number]");
+    if (!inp) { if (pave) fermerPave(); return; }
+    e.preventDefault(); inp.blur();                                     // pas de clavier du système : le pavé
+    const zone = inp.closest(".encre-zone"), num = zone && zone.querySelector("input.m-num"), page = zone && zone.querySelector("input.m-page");
+    const afficher = () => { const b = zone && zone.querySelector('[data-a="manuel"]'); if (b && num.value && page.value) b.click(); };
+    if (inp === num) ouvrirPave(num, () => ouvrirPave(page, afficher, "Afficher"));
+    else if (inp === page) ouvrirPave(page, afficher, "Afficher");
+    else ouvrirPave(inp, null);
+  }, true);
+
   /* ---------- Sauvegarde en ligne et synchronisation (Firebase du cahier de texte, compte de Maël seulement) ----------
      Les notes restent d'abord dans le navigateur ; chaque changement est envoyé en ligne (quelques secondes après),
      et les notes plus récentes écrites sur un autre appareil (écran du lycée, iPad) sont récupérées.
@@ -2679,11 +2718,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   bSync.addEventListener("click", () => {
     if (!SYNC.actif) return fenetreConnexion();
-    if (confirm("Notes sauvegardées en ligne (" + SYNC.etat.replace("☁ ", "") + ").\n\nOK : synchroniser maintenant\nAnnuler : rien\n\n(Pour vous déconnecter de cet appareil, tapez « deconnexion » dans la fenêtre suivante.)")) {
-      recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
-    } else if ((prompt("Se déconnecter de cet appareil ? Tapez deconnexion pour confirmer.") || "").trim().toLowerCase() === "deconnexion") {
-      firebase.auth().signOut(); try { localStorage.removeItem("encre-sync"); } catch (e) {}
-    }
+    const f = document.createElement("div"); f.className = "encre-recadrage";        // (au stylet : pas de mot à taper)
+    f.innerHTML = `<p>Notes sauvegardées en ligne (${SYNC.etat.replace("☁ ", "")}).</p><div class="boutons"><button class="ok" data-c="sync">Synchroniser maintenant</button>
+      <button data-c="deco">Se déconnecter de cet appareil</button><button data-c="non">Fermer</button></div>`;
+    document.body.appendChild(f); let sur = false;
+    f.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.c === "sync") { f.remove(); recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne")); }
+      else if (b.dataset.c === "deco") { if (!sur) { sur = true; b.textContent = "Toucher encore pour confirmer la déconnexion"; b.style.background = "#b3261e"; b.style.color = "#fff"; return; }
+        f.remove(); firebase.auth().signOut(); try { localStorage.removeItem("encre-sync"); } catch (x) {} }
+      else f.remove(); });
   });
   if (localStorage.getItem("encre-sync") === "1") { etatSync("☁ …"); chargerFirebase().catch(() => etatSync("☁ Hors ligne")); }
 
