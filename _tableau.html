@@ -378,7 +378,7 @@
       ["fonctions", "Second degré, signes, fonctions de référence"], ["stats", "Statistiques"], ["probas", "Probabilités"]];
     const SERIES_AUTO = [["spe", "Sujets de spécialité"], ["ns", "Sujets sans spécialité"], ["commun", "Questions rédigées en plus"]];
     let baseAuto = null;
-    const ECHELLE_AUTO = 1.0;                                          // images recomposées à 2,2 px/pt : 17 cm de texte ≈ 1 060 unités
+    const ECHELLE_AUTO = 0.97;                                          // images recomposées à 2,2 px/pt : 17 cm de texte ≈ 1 060 unités
     async function reglagesAutomatismes() {
       const msg = zone.querySelector(".m-msg");
       try { baseAuto = baseAuto || (await (await fetch(BASE_AUTO + "qcm.json", { cache: "no-cache" })).json()).filter(q => q.verifie && !q.exclu); }
@@ -425,8 +425,10 @@
       auto.barre.querySelector(".chrono").textContent = Math.floor(s2 / 60) + ":" + String(s2 % 60).padStart(2, "0"); }
     function demarrerAutomatismes(liste) { arreterAuto(); auto = { liste, k: 0 }; questionAuto(); }
     async function questionAuto() {
-      const q = auto.liste[auto.k], src = BASE_AUTO + q.image, im = await chargerImage(src);
-      auto.exo = placerImage(src, im, { auto: q.id, legende: q.redigee ? "" : "Automatismes — " + q.sujet + " (APMEP)" }, auto.k ? 140 : 30, 0, ECHELLE_AUTO);
+      const q = auto.liste[auto.k], src = BASE_AUTO + q.image, im = await chargerImage(src), cat = (CATS_AUTO.find(c => c[0] === q.categorie) || [0, ""])[1];
+      auto.exo = placerImage(src, im, { auto: q.id, legende: "", x: 54,
+        carte: { t: `Question ${auto.k + 1} / ${auto.liste.length}  ·  ${cat}`, c: "#2d4db0", d: q.redigee ? "" : "APMEP · " + q.sujet.replace(/^(Spécialité|Sans spécialité) – /, "") } }, auto.k ? 190 : 100, 0, ECHELLE_AUTO);
+      montrerCarte(auto.exo);
       auto.phase = "question"; auto.t0 = performance.now(); auto.fin = 0;
       clearInterval(auto.minuteur); auto.minuteur = setInterval(majChrono, 500); barreAuto(); dessiner();
     }
@@ -437,9 +439,14 @@
         const kx = e.w / im.naturalWidth, ky = e.h / im.naturalHeight, x0 = e.x + b[0] * kx - 4, y0 = e.y + b[1] * ky - 4, x1 = e.x + (b[0] + b[2]) * kx + 4, y1 = e.y + (b[1] + b[3]) * ky + 4;
         const t = { c: "#1f9d55", w: 6, f: "rect", p: [x0, y0, x1, y0, x1, y1, x0, y1, x0, y0], lien: e.id, d: Date.now() }; bornes(t); traits.push(t); sauver();
       }
-      if (q.correction) { const src = BASE_AUTO + q.correction; try { placerImage(src, await chargerImage(src), { auto_corr: q.id, legende: "" }, 16, 0, ECHELLE_AUTO); } catch (x) {} }
-      defile.scrollTop = Math.max(0, (e.y - 20) * echelle);              // la question, sa bonne réponse entourée et la justification en dessous
+      if (q.correction) { const src = BASE_AUTO + q.correction;
+        try { placerImage(src, await chargerImage(src), { auto_corr: q.id, legende: "", x: 54, carte: { t: `Correction de la question ${auto.k + 1}`, c: "#1f8a4c" } }, 96, 0, ECHELLE_AUTO); } catch (x) {} }
+      montrerCarte(e);                                                  // la question, sa bonne réponse entourée et la justification en dessous
       auto.phase = "reponse"; barreAuto(); dessiner();
+    }
+    function montrerCarte(e) {                                          // la carte en haut de l'écran (après que la feuille s'est allongée)
+      const go = () => { defile.scrollTop = Math.max(0, (e.y - 62 - 24) * echelle); dessiner(); };
+      go(); requestAnimationFrame(() => requestAnimationFrame(go));
     }
     function arreterAuto() { if (!auto) return; clearInterval(auto.minuteur); if (auto.barre) auto.barre.remove(); auto = null; }
     async function mettreCopie(une, msg) {
@@ -722,8 +729,8 @@
         ctx.strokeStyle = "#2d4db0"; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(30, 160); ctx.lineTo(LARGEUR - 30, 160); ctx.stroke();
       }
       }
-      exos.forEach(e => { const im = imgExos.get(e.src); if (!garder(e) || !im || e.y + e.h + 40 < haut || e.y > haut + vh) return;
-        ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
+      exos.forEach(e => { const im = imgExos.get(e.src); if (!garder(e) || !im || e.y + e.h + 40 < haut || e.y - 70 > haut + vh) return;
+        dessinerCarte(ctx, e); ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
         ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
         ctx.fillText(legende(e), e.x, e.y + e.h + 30);
         });
@@ -1068,6 +1075,17 @@
     };
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
+  }
+  // carte d'une question ou d'une correction d'automatismes : bandeau de couleur (numéro, catégorie, source) et cadre
+  function dessinerCarte(c, e) {
+    const k = e.carte; if (!k) return;
+    const x = e.x - 24, y = e.y - 62, w = Math.max(1100, e.w + 48), h = e.h + 62 + 26, r = 18;
+    const rr = (x0, y0, w0, h0, rad) => { c.beginPath(); if (c.roundRect) c.roundRect(x0, y0, w0, h0, rad); else c.rect(x0, y0, w0, h0); };
+    c.save(); c.fillStyle = "#fff"; rr(x, y, w, h, r); c.fill(); c.lineWidth = 3; c.strokeStyle = k.c; c.stroke();
+    c.fillStyle = k.c; rr(x, y, w, 46, [r, r, 0, 0]); c.fill();
+    c.fillStyle = "#fff"; c.textBaseline = "middle"; c.font = "700 26px system-ui, sans-serif"; c.textAlign = "left"; c.fillText(k.t, x + 20, y + 24);
+    if (k.d) { c.font = "500 20px system-ui, sans-serif"; c.textAlign = "right"; c.globalAlpha = .9; c.fillText(k.d, x + w - 20, y + 24); }
+    c.restore();
   }
   const legende = e => e.legende !== undefined ? e.legende : e.fond ? "" : e.copie ? (e.titre || "") : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   /* Formes à la règle : la liste p contient déjà les points (segment, contour du rectangle, cercle échantillonné) */
@@ -1928,7 +1946,7 @@
     }
     c2.translate(0, bandeau);
     if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
-    insertions.forEach(e => { if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
+    insertions.forEach(e => { dessinerCarte(c2, e); if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
       c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText(legende(e), e.x, e.y + e.h + 30); });
     [...traits.filter(t => t.f === "repere"), ...traits.filter(t => t.h), ...traits.filter(t => t.f !== "repere" && !t.h)].forEach(t => traceTrait(c2, t, traits));
     return cv;
