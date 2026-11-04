@@ -346,6 +346,8 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-pave .touches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .encre-pave button { height: 62px; border: 0; border-radius: 12px; background: #fff; font: 700 26px system-ui, sans-serif; color: #1b2232; cursor: pointer; }
 .encre-pave button.ok { background: #1f9d55; color: #fff; font-size: 19px; } .encre-pave button.ef { background: #e3e8f4; }
+.encre-connexion .qr { display: flex; flex-direction: column; align-items: center; width: 100%; } .encre-connexion .qr p { text-align: left; margin: 0 0 10px; } .encre-connexion .qr .code { display: inline-block; background: #fff; padding: 6px; border-radius: 12px; min-height: 60px; }
+.encre-connexion .qr .code svg { width: 260px; height: 260px; display: block; } .encre-connexion details { margin: 10px 0; } .encre-connexion summary { cursor: pointer; color: #2d4db0; font-weight: 600; }
 .encre-auto-reglages .carte { background: #fff; border-radius: 16px; padding: 18px 20px; max-width: 760px; width: 100%; max-height: calc(100vh - 40px); overflow: auto; font: 16px system-ui, sans-serif; color: #1b2232; }
 .encre-auto-reglages h3 { margin: 0 0 10px; font-size: 1.2rem; } .encre-auto-reglages h4 { margin: 14px 0 6px; font-size: 1rem; }
 .encre-auto-reglages .cases { display: flex; flex-wrap: wrap; gap: 6px 10px; }
@@ -2014,8 +2016,21 @@ document.addEventListener("DOMContentLoaded", function () {
     return firebasePret;
   }
   function demarrer(u) {
-    SYNC.base = firebase.firestore().collection("utilisateurs").doc(u.uid); SYNC.actif = true;
-    try { localStorage.setItem("encre-sync", "1"); } catch (e) {}
+    if (u.isAnonymous) return attendreAppairage(u);                     // tableau connecté par QR code : il agit pour le compte de Maël
+    lancerSync(u.uid);
+  }
+  // Connexion par QR code : le tableau ouvre une session anonyme ; le téléphone (connecté au compte) l'ajoute à « appareils »
+  function attendreAppairage(u) {
+    if (SYNC.attente) return;
+    SYNC.anonyme = u.uid;
+    SYNC.attente = firebase.firestore().collection("appareils").doc(u.uid).onSnapshot(d => {
+      if (d.exists && d.data().uid) { SYNC.attente(); SYNC.attente = null; lancerSync(d.data().uid); document.dispatchEvent(new CustomEvent("encre-appaire")); }
+      else etatSync("☁ Se connecter");
+    }, () => { SYNC.attente = null; etatSync("☁ Se connecter"); });
+  }
+  function lancerSync(uid) {
+    SYNC.base = firebase.firestore().collection("utilisateurs").doc(uid); SYNC.actif = true;
+    try { localStorage.setItem("encre-sync", "1"); localStorage.setItem("encre-proprio", uid); } catch (e) {}
     window.encreSync = { capture: lireCapture, manuel: lireManuel };
     recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
     ecouterCopies();
@@ -2140,12 +2155,26 @@ document.addEventListener("DOMContentLoaded", function () {
   function fenetreConnexion() {
     const f = document.createElement("div"); f.className = "encre-connexion";
     f.innerHTML = `<form><h3>Sauvegarde en ligne des notes</h3>
-      <p>Connectez-vous avec le compte du cahier de texte. Vos notes seront sauvegardées et retrouvées sur vos autres appareils.</p>
+      <div class="qr"><p><b>Avec le téléphone</b> : scannez ce code avec l'appareil photo (la page « Copie » doit y être connectée), puis touchez « Connecter ce tableau ».</p>
+        <div class="code">Préparation du code…</div></div>
+      <details><summary>Ou avec l'e-mail et le mot de passe</summary>
       <input type="email" autocomplete="username" placeholder="Adresse e-mail" required><input type="password" autocomplete="current-password" placeholder="Mot de passe" required>
-      <p class="err"></p><div><button type="submit">Se connecter</button><button type="button" data-x>Annuler</button></div></form>`;
+      <div><button type="submit">Se connecter</button></div></details>
+      <p class="err"></p><div><button type="button" data-x>Fermer</button></div></form>`;
     document.body.appendChild(f);
-    const [em, mdp] = f.querySelectorAll("input"); em.value = localStorage.getItem("encre-sync-email") || ""; (em.value ? mdp : em).focus();
+    const [em, mdp] = f.querySelectorAll("input"); em.value = localStorage.getItem("encre-sync-email") || "";
     f.querySelector("[data-x]").onclick = () => f.remove();
+    document.addEventListener("encre-appaire", () => f.remove(), { once: true });
+    const code = f.querySelector(".code");
+    chargerFirebase().then(() => chargerScript("qrcode.min.js")).then(async () => {
+      let u = firebase.auth().currentUser;
+      if (!u) u = (await firebase.auth().signInAnonymously()).user;     // session de ce tableau, en attente d'autorisation
+      if (!u.isAnonymous) { code.textContent = "Déjà connecté."; return; }
+      const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? new URL(lib.getAttribute("src").split("site_libs/")[0], location.href).href : "https://maelmoignet-pixel.github.io/SiteWeb/";
+      const url = racine + "copie/?appairer=" + encodeURIComponent(u.uid);
+      const qr = qrcode(0, "M"); qr.addData(url); qr.make(); code.innerHTML = qr.createSvgTag({ cellSize: 7, margin: 3 });
+      attendreAppairage(u);
+    }).catch(x => { code.textContent = x && x.code === "auth/operation-not-allowed" ? "Connexion par QR code pas encore activée dans Firebase (connexion anonyme)." : "Code indisponible (réseau ?)."; });
     f.querySelector("form").onsubmit = e => { e.preventDefault(); f.querySelector(".err").textContent = "Connexion…";
       chargerFirebase().then(() => firebase.auth().signInWithEmailAndPassword(em.value.trim(), mdp.value))
         .then(() => { try { localStorage.setItem("encre-sync-email", em.value.trim()); } catch (x) {} f.remove(); },
@@ -2331,7 +2360,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return { chapitre: url, cours: a ? new URL(a.getAttribute("href"), new URL(url, location.href)).href : null, titre };
   }
   async function afficher(u) {
-    const base = firebase.firestore().collection("utilisateurs").doc(u.uid), maintenant = new Date(), k = iso(lundi(maintenant));
+    const uid = u.isAnonymous ? localStorage.getItem("encre-proprio") : u.uid;   // tableau connecté par QR code : le compte de Maël
+    if (!uid) return boite.remove();
+    const base = firebase.firestore().collection("utilisateurs").doc(uid), maintenant = new Date(), k = iso(lundi(maintenant));
     const [cfg, sem] = await Promise.all([base.collection("donnees").doc("config").get(), base.collection("semaines").doc(k).get()]);
     if (!cfg.exists) return boite.remove();
     const C = JSON.parse(cfg.data().json), W = sem.exists ? JSON.parse(sem.data().json) : null;
