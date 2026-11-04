@@ -695,6 +695,20 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-barre button.b-copie.recue { background: #1f7a3d; color: #fff; border-color: #1f7a3d; }
 .encre-barre button.b-copie .nb:not(:empty) { margin-left: 6px; background: #fff; color: #1f7a3d; border-radius: 999px; padding: 1px 8px; font-size: 13px; }
+.encre-auto-reglages .carte { background: #fff; border-radius: 16px; padding: 18px 20px; max-width: 760px; width: 100%; max-height: calc(100vh - 40px); overflow: auto; font: 16px system-ui, sans-serif; color: #1b2232; }
+.encre-auto-reglages h3 { margin: 0 0 10px; font-size: 1.2rem; } .encre-auto-reglages h4 { margin: 14px 0 6px; font-size: 1rem; }
+.encre-auto-reglages .cases { display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.encre-auto-reglages label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #d5dbe8; border-radius: 10px; cursor: pointer; }
+.encre-auto-reglages label input { width: 20px; height: 20px; } .encre-auto-reglages label small { color: #5d6679; }
+.encre-auto-reglages .bas { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+.encre-auto-reglages input[type=number] { width: 4.5em; font: 600 18px system-ui, sans-serif; min-height: 44px; text-align: center; border: 1px solid #aab; border-radius: 10px; }
+.encre-auto-reglages button { min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #c7cfe3; background: #fff; font: 600 16px system-ui, sans-serif; cursor: pointer; }
+.encre-auto-reglages button.go { background: #2d4db0; color: #fff; border-color: #2d4db0; } .encre-auto-reglages .msg { color: #b3261e; }
+.encre-auto-barre { position: absolute; right: 18px; bottom: 84px; z-index: 30; display: flex; align-items: center; gap: 10px; background: #1b2232; color: #fff; border-radius: 16px;
+  padding: 8px 10px 8px 16px; box-shadow: 0 6px 20px rgba(0,0,0,.25); font: 700 18px system-ui, sans-serif; }
+.encre-auto-barre .chrono { font: 800 28px ui-monospace, monospace; min-width: 4.2ch; text-align: center; color: #ffcc00; }
+.encre-auto-barre button { min-height: 50px; padding: 0 18px; border-radius: 12px; border: 0; font: 700 17px system-ui, sans-serif; cursor: pointer; background: #fff; color: #1b2232; }
+.encre-auto-barre button.rep { background: #1f9d55; color: #fff; } .encre-auto-barre button.stop { background: transparent; color: #fff; padding: 0 10px; }
 .encre-choix-copie .liste { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; max-width: 100%; }
 .encre-choix-copie .liste button { display: flex; flex-direction: column; align-items: center; gap: 6px; background: #fff; padding: 8px; min-height: 0; }
 .encre-choix-copie .liste img { height: 140px; border-radius: 6px; }
@@ -937,12 +951,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (meilleur) t.lien = meilleur.id; else delete t.lien;
     }
     z.rattacher = rattacher;
-    function placerImage(src, im, infos) {
-      const w = Math.min(1150, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
-      const y = basContenu() + 30;
-      exos.push(Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos)); imgExos.set(src, im); sauverExos();
+    function placerImage(src, im, infos, marge = 30, largeur = 1150) {
+      const w = Math.min(largeur, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
+      const y = basContenu() + marge, e = Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos);
+      exos.push(e); imgExos.set(src, im); sauverExos();
       hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
       defile.scrollTop = Math.max(0, (y - 20) * echelle);
+      return e;
     }
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
@@ -962,6 +977,79 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!C.liste.length) { msg.textContent = "Aucune copie reçue : photographiez-la avec le téléphone (page …/copie/)"; return; }
       return mettreCopie(C.liste.length === 1 ? C.liste[0] : null, msg);
     }
+    /* ---------- Automatismes : QCM de l'épreuve anticipée (APMEP 2026 + questions rédigées), une question puis sa correction ---------- */
+    let auto = null;                                                   // { liste, k, phase, t0, minuteur, barre, exo }
+    const BASE_AUTO = (() => { const lib = document.querySelector('script[src*="site_libs/"]');
+      return (lib ? lib.getAttribute("src").split("site_libs/")[0] : "https://maelmoignet-pixel.github.io/SiteWeb/") + "automatismes/"; })();
+    const CATS_AUTO = [["fractions", "Fractions et calcul numérique"], ["puissances", "Puissances, racines, écriture scientifique"], ["grandeurs", "Ordres de grandeur, unités, conversions"],
+      ["proportions", "Proportionnalité, proportions, pourcentages"], ["evolutions", "Évolutions, coefficients multiplicateurs"], ["litteral", "Calcul littéral et formules"],
+      ["equations", "Équations et inéquations"], ["lecture", "Fonctions : lecture graphique"], ["affines", "Fonctions affines et droites"],
+      ["fonctions", "Second degré, signes, fonctions de référence"], ["stats", "Statistiques"], ["probas", "Probabilités"]];
+    const SERIES_AUTO = [["spe", "Sujets de spécialité"], ["ns", "Sujets sans spécialité"], ["commun", "Questions rédigées en plus"]];
+    let baseAuto = null;
+    async function reglagesAutomatismes() {
+      const msg = zone.querySelector(".m-msg");
+      try { baseAuto = baseAuto || (await (await fetch(BASE_AUTO + "qcm.json", { cache: "no-cache" })).json()).filter(q => q.verifie && !q.exclu); }
+      catch (e) { msg.textContent = "Questions d'automatismes introuvables (réseau ?)"; return; }
+      let r = {}; try { r = JSON.parse(localStorage.getItem("encre-auto") || "{}"); } catch (e) {}
+      const defSeries = niveau === "premiere-spe" ? ["spe", "commun"] : niveau === "terminale-spe" ? ["spe", "ns", "commun"] : ["ns", "commun"];
+      const series = r.series || defSeries, cats = r.cats || CATS_AUTO.map(c => c[0]);
+      const f = document.createElement("div"); f.className = "encre-recadrage encre-auto-reglages";
+      f.innerHTML = `<div class="carte"><h3>⚡ Automatismes</h3>
+        <h4>Questions</h4><div class="cases">${SERIES_AUTO.map(([k, l]) => `<label><input type="checkbox" data-s="${k}" ${series.includes(k) ? "checked" : ""}> ${l}</label>`).join("")}</div>
+        <h4>Catégories <button type="button" data-tout="1" style="min-height:32px;padding:0 10px;font-size:13px">tout cocher / décocher</button></h4>
+        <div class="cases">${CATS_AUTO.map(([k, l]) => `<label><input type="checkbox" data-c="${k}" ${cats.includes(k) ? "checked" : ""}> ${l} <small data-n="${k}"></small></label>`).join("")}</div>
+        <div class="bas"><span>Nombre de questions</span><input type="number" min="1" max="30" value="${r.n || 6}"><button class="go">Commencer</button><button data-non="1">Annuler</button><span class="msg"></span></div></div>`;
+      document.body.appendChild(f);
+      const choisies = (a) => [...f.querySelectorAll(`[data-${a}]:checked`)].map(x => x.dataset[a]);
+      const compter = () => { const s2 = choisies("s"); let tot = 0;
+        CATS_AUTO.forEach(([k]) => { const n = baseAuto.filter(q => q.categorie === k && s2.includes(q.serie)).length; f.querySelector(`[data-n="${k}"]`).textContent = "(" + n + ")"; if (choisies("c").includes(k)) tot += n; });
+        f.querySelector(".go").textContent = `Commencer (${tot} disponibles)`; return tot; };
+      compter(); f.addEventListener("change", compter);
+      f.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+        if (b.dataset.non) return f.remove();
+        if (b.dataset.tout) { const cs = [...f.querySelectorAll("[data-c]")], tous = cs.every(x => x.checked); cs.forEach(x => { x.checked = !tous; }); compter(); return; }
+        if (b.classList.contains("go")) {
+          const s2 = choisies("s"), c2 = choisies("c"), n = Math.max(1, Math.min(30, +f.querySelector("input[type=number]").value || 6));
+          const pool = baseAuto.filter(q => s2.includes(q.serie) && c2.includes(q.categorie));
+          if (!pool.length) { f.querySelector(".msg").textContent = baseAuto.length ? "Aucune question pour ce choix." : "Aucune question vérifiée pour l'instant (relecture à faire)."; return; }
+          for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+          try { localStorage.setItem("encre-auto", JSON.stringify({ series: s2, cats: c2, n })); } catch (x) {}
+          f.remove(); demarrerAutomatismes(pool.slice(0, n));
+        } });
+    }
+    function barreAuto() {
+      if (auto.barre) auto.barre.remove();
+      const b = auto.barre = document.createElement("div"); b.className = "encre-auto-barre";
+      const dernier = auto.k === auto.liste.length - 1;
+      b.innerHTML = `<span>⚡ ${auto.k + 1}/${auto.liste.length}</span><span class="chrono">0:00</span>` +
+        (auto.phase === "question" ? '<button class="rep" data-x="rep">Correction</button>' : `<button data-x="suiv">${dernier ? "Terminer" : "Question suivante"}</button>`) +
+        '<button class="stop" data-x="stop" title="Arrêter les automatismes">✕</button>';
+      b.addEventListener("click", e => { const x = e.target.closest("button"); if (!x) return;
+        if (x.dataset.x === "rep") correctionAuto(); else if (x.dataset.x === "suiv") { if (dernier) arreterAuto(); else { auto.k++; questionAuto(); } } else arreterAuto(); });
+      zone.appendChild(b); majChrono();
+    }
+    function majChrono() { if (!auto || !auto.barre) return; const s2 = Math.floor(((auto.fin || performance.now()) - auto.t0) / 1000);
+      auto.barre.querySelector(".chrono").textContent = Math.floor(s2 / 60) + ":" + String(s2 % 60).padStart(2, "0"); }
+    function demarrerAutomatismes(liste) { arreterAuto(); auto = { liste, k: 0 }; questionAuto(); }
+    async function questionAuto() {
+      const q = auto.liste[auto.k], src = BASE_AUTO + q.image, im = await chargerImage(src);
+      auto.exo = placerImage(src, im, { auto: q.id, legende: q.redigee ? "" : "Automatismes — " + q.sujet + " (APMEP)" }, auto.k ? 140 : 30, 1000);
+      auto.phase = "question"; auto.t0 = performance.now(); auto.fin = 0;
+      clearInterval(auto.minuteur); auto.minuteur = setInterval(majChrono, 500); barreAuto(); dessiner();
+    }
+    async function correctionAuto() {
+      const q = auto.liste[auto.k], e = auto.exo; auto.fin = performance.now(); clearInterval(auto.minuteur);
+      const b = q.lettres && q.lettres[q.reponse], im = imgExos.get(e.src);
+      if (b && im) {                                                    // la bonne réponse entourée en vert, attachée à l'image
+        const kx = e.w / im.naturalWidth, ky = e.h / im.naturalHeight, x0 = e.x + b[0] * kx - 4, y0 = e.y + b[1] * ky - 4, x1 = e.x + (b[0] + b[2]) * kx + 4, y1 = e.y + (b[1] + b[3]) * ky + 4;
+        const t = { c: "#1f9d55", w: 6, f: "rect", p: [x0, y0, x1, y0, x1, y1, x0, y1, x0, y0], lien: e.id, d: Date.now() }; bornes(t); traits.push(t); sauver();
+      }
+      if (q.correction) { const src = BASE_AUTO + q.correction; try { placerImage(src, await chargerImage(src), { auto_corr: q.id, legende: "" }, 16, 1000); } catch (x) {} }
+      defile.scrollTop = Math.max(0, (e.y - 20) * echelle);              // la question, sa bonne réponse entourée et la justification en dessous
+      auto.phase = "reponse"; barreAuto(); dessiner();
+    }
+    function arreterAuto() { if (!auto) return; clearInterval(auto.minuteur); if (auto.barre) auto.barre.remove(); auto = null; }
     async function mettreCopie(une, msg) {
       const C = window.encreCopies;
       const mettre = async c => { msg.textContent = "Copie…";
@@ -1012,6 +1100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ${opts.flottant || opts.fond ? '<button data-a="ajuster" aria-pressed="false">Ajuster les images</button>' : ""}
         ${opts.flottant ? `<span class="encre-manuel">
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
+            <button data-a="auto" title="QCM d'automatismes de l'épreuve anticipée (APMEP 2026), avec correction">⚡ Automatismes</button>
             <button data-a="copie" class="b-copie" title="Copie d'élève photographiée avec le téléphone (page …/copie/)">📥 Copie élève<span class="nb"></span></button>
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
@@ -1073,7 +1162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
       return p && estBloc(p) && !p.classList.contains("callout-caution") ? p : null;
     }
-    function fermer() { if (!zone) return; if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
+    function fermer() { if (!zone) return; arreterAuto(); if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
     z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
     let confirmeEff = false;
     function clicBarre(e) {
@@ -1148,6 +1237,7 @@ document.addEventListener("DOMContentLoaded", function () {
         case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
         case "copie": insererCopieEleve(zone.querySelector(".m-msg")); return;
+        case "auto": reglagesAutomatismes(); return;
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
       }
       garderReglages(); etatBarre(); dessiner();
@@ -1587,7 +1677,7 @@ document.addEventListener("DOMContentLoaded", function () {
     z.cle = cle; z.titre = opts.titre; z.fond = opts.fond; z.cleExos = opts.cleExos;
     Zone.toutes.push(z);
   }
-  const legende = e => e.fond ? "" : e.copie ? "Copie d'élève" + (e.titre ? " — " + e.titre : "") : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
+  const legende = e => e.legende !== undefined ? e.legende : e.fond ? "" : e.copie ? (e.titre || "") : e.capture ? "Capture" + (MANUEL ? " — " + MANUEL.nom : "") : "Exercice n°" + e.n + " p." + e.p + (MANUEL ? " — " + MANUEL.nom : "");
   /* Formes à la règle : la liste p contient déjà les points (segment, contour du rectangle, cercle échantillonné) */
   /* ---------- Repère orthonormé : r = { x0, y0 (coin haut-gauche), u (unité), xmin, xmax, ymin, ymax, px, py (pas) } ---------- */
   const PAS_VAL = v => v === "pi" ? Math.PI : v === "pi/2" ? Math.PI / 2 : +v;

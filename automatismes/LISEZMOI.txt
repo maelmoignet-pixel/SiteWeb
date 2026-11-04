@@ -1,0 +1,4 @@
+QCM d'automatismes des épreuves anticipées de mathématiques 2026.
+Sujets, mise en page et corrigés : APMEP (https://www.apmep.fr/Epreuve-anticipee-2026), découpés question par question.
+Questions marquées « rédigées » et justifications manquantes : écrites pour la classe, relues par l'enseignant.
+Utilisés par le bouton « ⚡ Automatismes » du mode tableau.
