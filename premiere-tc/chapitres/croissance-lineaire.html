@@ -598,13 +598,18 @@ document.addEventListener("DOMContentLoaded", function () {
       if (meilleur) t.lien = meilleur.id; else delete t.lien;
     }
     z.rattacher = rattacher;
-    function placerImage(src, im, infos, marge = 30, largeur = 1150, echelle = 0) {   // echelle : taille fixe (même taille de caractères pour toutes)
-      const w = echelle ? Math.min(LARGEUR - 60, im.naturalWidth * echelle) : Math.min(largeur, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
+    function placerImage(src, im, infos, marge = 30, largeur = 1150, taille = 0) {   // taille : px par pixel d'image, fixe (même taille de caractères pour toutes)
+      const w = taille ? Math.min(LARGEUR - 60, im.naturalWidth * taille) : Math.min(largeur, LARGEUR - 60, im.naturalWidth * 1.6), h = w * im.naturalHeight / im.naturalWidth;
       const y = basContenu() + marge, e = Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos);
       exos.push(e); imgExos.set(src, im); sauverExos();
       hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
-      defile.scrollTop = Math.max(0, (y - 20) * echelle);
+      centrerSur(y, h);
       return e;
+    }
+    function centrerSur(y, h) {                                         // l'image insérée au milieu de l'écran (son haut visible si elle est plus grande que l'écran)
+      const go = () => { const vh = defile.clientHeight / echelle;
+        defile.scrollTop = Math.max(0, (h + 40 < vh ? y + h / 2 - vh / 2 : y - 20) * echelle); dessiner(); };
+      go(); requestAnimationFrame(() => requestAnimationFrame(go));
     }
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
