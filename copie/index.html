@@ -213,6 +213,50 @@ function redresser(o, q) {                                         // la feuille
   }
   return c;
 }
+/* Fond blanchi : on divise par la couleur du papier, estimée par carreaux (les 10 % de pixels les plus clairs de chaque carreau).
+   Un carreau couvert d'encre (figure, hachures, écriture serrée) prend la couleur du papier de ses voisins : l'encre n'est jamais « évidée ».
+   Puis une courbe douce : le papier devient blanc, le crayon reste visible, les couleurs restent naturelles. */
+function blanchir(a, W, H) {
+  const T = Math.max(16, Math.round(Math.max(W, H) / 28)), nx = Math.ceil(W / T), ny = Math.ceil(H / T), nb = nx * ny;
+  const bg = new Float32Array(nb * 3), lum = new Float32Array(nb), ok = new Uint8Array(nb);
+  const hist = new Uint32Array(256);
+  for (let by = 0; by < ny; by++) for (let bx = 0; bx < nx; bx++) {
+    const x0 = bx * T, y0 = by * T, x1 = Math.min(W, x0 + T), y1 = Math.min(H, y0 + T); hist.fill(0);
+    for (let y = y0; y < y1; y++) for (let x = x0, i = (y * W + x0) * 4; x < x1; x++, i += 4) hist[(a[i] + a[i + 1] + a[i + 2]) / 3 | 0]++;
+    let n = (x1 - x0) * (y1 - y0), garde = Math.max(1, n * 0.1), seuil = 255; for (let c = 0; seuil > 0; seuil--) { c += hist[seuil]; if (c >= garde) break; }
+    let r = 0, g = 0, b = 0, l = 0, k = 0;
+    for (let y = y0; y < y1; y++) for (let x = x0, i = (y * W + x0) * 4; x < x1; x++, i += 4) { const v = (a[i] + a[i + 1] + a[i + 2]) / 3; if (v >= seuil) { r += a[i]; g += a[i + 1]; b += a[i + 2]; l += v; k++; } }
+    const q = by * nx + bx; bg[q * 3] = r / k; bg[q * 3 + 1] = g / k; bg[q * 3 + 2] = b / k; lum[q] = l / k;
+  }
+  for (let by = 0; by < ny; by++) for (let bx = 0; bx < nx; bx++) {      // carreau nettement plus sombre que le papier autour : c'est de l'encre
+    let m = 0; for (let j = Math.max(0, by - 3); j <= Math.min(ny - 1, by + 3); j++) for (let i = Math.max(0, bx - 3); i <= Math.min(nx - 1, bx + 3); i++) m = Math.max(m, lum[j * nx + i]);
+    ok[by * nx + bx] = lum[by * nx + bx] >= 0.78 * m ? 1 : 0;
+  }
+  for (let tour = 0; tour < 80; tour++) {                                 // on le remplit avec le papier des voisins, de proche en proche
+    const nv = ok.slice(); let reste = 0;
+    for (let by = 0; by < ny; by++) for (let bx = 0; bx < nx; bx++) { const q = by * nx + bx; if (ok[q]) continue;
+      let r = 0, g = 0, b = 0, k = 0;
+      for (let j = Math.max(0, by - 1); j <= Math.min(ny - 1, by + 1); j++) for (let i = Math.max(0, bx - 1); i <= Math.min(nx - 1, bx + 1); i++) { const v = j * nx + i; if (ok[v]) { r += bg[v * 3]; g += bg[v * 3 + 1]; b += bg[v * 3 + 2]; k++; } }
+      if (k) { bg[q * 3] = r / k; bg[q * 3 + 1] = g / k; bg[q * 3 + 2] = b / k; nv[q] = 1; } else reste++; }
+    ok.set(nv); if (!reste) break;
+  }
+  const lisse = new Float32Array(nb * 3);                                 // lissage 3×3 des carreaux
+  for (let by = 0; by < ny; by++) for (let bx = 0; bx < nx; bx++) for (let c = 0; c < 3; c++) { let s = 0, k = 0;
+    for (let j = Math.max(0, by - 1); j <= Math.min(ny - 1, by + 1); j++) for (let i = Math.max(0, bx - 1); i <= Math.min(nx - 1, bx + 1); i++) { s += bg[(j * nx + i) * 3 + c]; k++; }
+    lisse[(by * nx + bx) * 3 + c] = Math.max(1, s / k); }
+  const courbe = new Float32Array(1001); for (let i = 0; i <= 1000; i++) courbe[i] = 255 * Math.pow(Math.min(1, i / 1000 / 0.9), 1.35);
+  for (let y = 0; y < H; y++) {                                           // papier interpolé entre les centres des carreaux, puis division et courbe
+    const fy = Math.min(ny - 1, Math.max(0, (y + 0.5) / T - 0.5)), j0 = Math.floor(fy), j1 = Math.min(ny - 1, j0 + 1), ty = fy - j0;
+    for (let x = 0; x < W; x++) {
+      const fx = Math.min(nx - 1, Math.max(0, (x + 0.5) / T - 0.5)), i0 = Math.floor(fx), i1 = Math.min(nx - 1, i0 + 1), tx = fx - i0, p = (y * W + x) * 4;
+      const q00 = (j0 * nx + i0) * 3, q01 = (j0 * nx + i1) * 3, q10 = (j1 * nx + i0) * 3, q11 = (j1 * nx + i1) * 3;
+      for (let c = 0; c < 3; c++) {
+        const f = (lisse[q00 + c] * (1 - tx) + lisse[q01 + c] * tx) * (1 - ty) + (lisse[q10 + c] * (1 - tx) + lisse[q11 + c] * tx) * ty;
+        a[p + c] = courbe[Math.min(1000, a[p + c] / f * 1000 | 0)];
+      }
+    }
+  }
+}
 function rendre(pg) {                                              // feuille redressée, recadrée (rectangle pg.rect, en fractions), blanchie, en JPEG
   if (!pg.redresse || pg.redresse.q !== pg.quad) { pg.redresse = redresser(pg.orig, pg.quad); pg.redresse.q = pg.quad; }
   const R = pg.redresse, [a0, b0, a1, b1] = pg.rect || [0, 0, 1, 1];
@@ -220,15 +264,8 @@ function rendre(pg) {                                              // feuille re
   const k = Math.min(1, 1800 / Math.max(sw, sh)), W = Math.max(8, Math.round(sw * k)), H = Math.max(8, Math.round(sh * k));
   const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
   x.imageSmoothingQuality = "high"; x.drawImage(R, sx, sy, sw, sh, 0, 0, W, H);
-  if ($("blanchir").checked) {            // on divise par l'éclairage de la page, estimé sur une version très réduite puis agrandie
-    const p = document.createElement("canvas"); p.width = Math.max(8, Math.round(W / 48)); p.height = Math.max(8, Math.round(H / 48));
-    const px = p.getContext("2d"); px.imageSmoothingQuality = "high"; px.drawImage(c, 0, 0, p.width, p.height);
-    const f = document.createElement("canvas"); f.width = W; f.height = H; const fx = f.getContext("2d"); fx.imageSmoothingQuality = "high"; fx.drawImage(p, 0, 0, W, H);
-    const A = x.getImageData(0, 0, W, H), B = fx.getImageData(0, 0, W, H).data, a = A.data;
-    for (let i = 0; i < a.length; i += 4) for (let j = i; j < i + 3; j++) a[j] = (a[j] * 255 / (B[j] || 1) - 60) * 1.45;   // fond -> blanc, encre plus franche
-    x.putImageData(A, 0, 0);
-  }
-  return c.toDataURL("image/jpeg", 0.72);
+  if ($("blanchir").checked) { const A = x.getImageData(0, 0, W, H); blanchir(A.data, W, H); x.putImageData(A, 0, 0); }
+  return c.toDataURL("image/jpeg", 0.8);
 }
 
 /* ---------- envoi : chaque page part dès qu'elle est prête (et repart si on la recadre) ---------- */
