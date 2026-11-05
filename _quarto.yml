@@ -9,9 +9,17 @@ project:
   type: website
   # Dossier où Quarto fabrique le site (il est ignoré par Git, voir .gitignore)
   output-dir: _site
+  # Retire les copies parasites de _site et _site_offline (voir nettoyer_sortie.py)
+  post-render:
+    - nettoyer_sortie.py
   # Force la copie de TOUS les PDF dans le site publié
   resources:
-    - "**/*.pdf"
+    # (dossier par dossier : « **/*.pdf » recopiait aussi _site et _site_offline, les anciennes versions fabriquées)
+    - "seconde/**/*.pdf"
+    - "premiere-spe/**/*.pdf"
+    - "premiere-tc/**/*.pdf"
+    - "terminale-spe/**/*.pdf"
+    - "ressources/**/*.pdf"
     # Fichiers Python des TP (à télécharger par les élèves)
     - "seconde/tp-informatique/**/*.py"
     # Bibliothèque PDF du mode tableau (export des notes manuscrites)
