@@ -108,6 +108,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="../../premiere-tc/index.html"> 
 <span class="menu-text">1re tronc commun</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../python/index.html"> 
+<span class="menu-text">Python</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -329,6 +333,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-auto-reglages .faites { font: 700 13px system-ui, sans-serif; color: #1f7a3d; background: #e7f5ec; border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
 .encre-auto-reglages .faites.zero { color: #5d6679; background: #eef1f8; font-weight: 600; }
 .encre-auto-reglages .legende-faites { font-weight: 400; color: #5d6679; font-size: 13px; margin-left: 6px; }
+.encre-python { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; z-index: 2147483000; } .encre-python[hidden] { display: none; }
 .encre-auto-reglages .bas { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
 .encre-auto-reglages input[type=number] { width: 4.5em; font: 600 18px system-ui, sans-serif; min-height: 44px; text-align: center; border: 1px solid #aab; border-radius: 10px; }
 .encre-auto-reglages button { min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #c7cfe3; background: #fff; font: 600 16px system-ui, sans-serif; cursor: pointer; }
@@ -585,12 +590,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const y = basContenu() + marge, e = Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos);
       exos.push(e); imgExos.set(src, im); sauverExos();
       hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
-      centrerSur(y, h);
+      if (e.carte) centrerSur(y - 62, h + 88); else centrerSur(y, h);   // une carte : son bandeau reste visible
       return e;
     }
     function centrerSur(y, h) {                                         // l'image insérée au milieu de l'écran (son haut visible si elle est plus grande que l'écran)
       const go = () => { const vh = defile.clientHeight / echelle;
-        defile.scrollTop = Math.max(0, (h + 40 < vh ? y + h / 2 - vh / 2 : y - 20) * echelle); dessiner(); };
+        defile.scrollTop = Math.max(0, (h + 40 < vh ? y + h / 2 - vh / 2 : y - 24) * echelle); dessiner(); };
       go(); requestAnimationFrame(() => requestAnimationFrame(go));
     }
     async function insererExercice(n, p, msg) {
@@ -598,11 +603,24 @@ document.addEventListener("DOMContentLoaded", function () {
       try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
       catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable"; }
     }
-    async function insererCapture(dataUrl, infos = { capture: true }) {   // capture recadrée : enregistrée sur l'appareil
+    async function insererCapture(dataUrl, infos = { capture: true }, marge) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
       await idbPut(id, dataUrl);
       const src = "idb:" + id; IMAGES[src] = chargerImage(dataUrl);
-      placerImage(src, await IMAGES[src], infos);
+      placerImage(src, await IMAGES[src], infos, marge);
+    }
+    /* Python : l'outil de python/ dans un cadre plein écran, gardé ouvert pour la séance (rouverture immédiate) ; « Mettre dans la feuille » y pose une carte */
+    function ouvrirPython() {
+      const base = BASE_AUTO.replace(/automatismes\/$/, "python/index.html");
+      let c = document.querySelector(".encre-python");
+      if (!c) { c = document.createElement("iframe"); c.className = "encre-python"; c.title = "Python"; c.src = base + "?tableau=1&niveau=" + encodeURIComponent(niveau || ""); document.body.appendChild(c); }
+      c.hidden = false;
+      if (window.__arretPython) window.__arretPython();
+      const ecoute = async e => { if (e.source !== c.contentWindow || !e.data) return;
+        if (e.data.type === "python-fermer") c.hidden = true;
+        else if (e.data.type === "python-carte" && typeof e.data.image === "string" && e.data.image.startsWith("data:image/png")) { c.hidden = true;
+          await insererCapture(e.data.image, { capture: true, legende: "", python: true, x: 54, carte: { t: "Python", c: "#3776ab" } }, 96); } };
+      window.addEventListener("message", ecoute); window.__arretPython = () => window.removeEventListener("message", ecoute);
     }
     // copie d'élève photographiée au téléphone : déjà téléchargée en arrière-plan, elle s'affiche tout de suite
     async function insererCopieEleve(msg) {
@@ -764,6 +782,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ${opts.flottant ? `<span class="encre-manuel">
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="auto" title="QCM d'automatismes de l'épreuve anticipée (APMEP 2026), avec correction">⚡ Automatismes</button>
+            <button data-a="python" title="Écrire et exécuter un programme Python, puis le mettre dans la feuille">🐍 Python</button>
             <button data-a="copie" class="b-copie" title="Copie d'élève photographiée avec le téléphone (page …/copie/)">📥 Copie élève<span class="nb"></span></button>
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
@@ -901,6 +920,7 @@ document.addEventListener("DOMContentLoaded", function () {
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
         case "copie": insererCopieEleve(zone.querySelector(".m-msg")); return;
         case "auto": reglagesAutomatismes(); return;
+        case "python": ouvrirPython(); return;
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
       }
       garderReglages(); etatBarre(); dessiner();

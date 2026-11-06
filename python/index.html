@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python</title>
+<link rel="stylesheet" href="cm/codemirror.css">
+<style>
+:root { --accent: #3776ab; --accent2: #2d4db0; --texte: #1b2232; --doux: #5d6679; --bord: #d5dbe8; --fond: #f3f6ff; --rouge: #b3261e; --touche: 44px; --police: 16px; }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font: 15px system-ui, sans-serif; color: var(--texte); background: var(--fond); display: flex; flex-direction: column; overflow: hidden; }
+body.tableau { --touche: 52px; --police: 22px; font-size: 17px; }
+body.tableau .t { font-size: 19px; padding: 0 6px; } body.tableau #fichier, body.tableau #telecharger { display: none; }
+button, select { font: inherit; color: inherit; }
+header { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 8px 12px; background: #fff; border-bottom: 1px solid var(--bord); }
+header b { color: var(--accent); margin-right: 4px; }
+header a { color: var(--accent2); }
+.b { min-height: var(--touche); padding: 0 14px; border: 1px solid #c7cfe3; border-radius: 10px; background: #fff; font-weight: 600; cursor: pointer; touch-action: manipulation; }
+.b:disabled { opacity: .45; }
+.b.go { background: #1f7a3d; border-color: #1f7a3d; color: #fff; }
+.b.stop { background: var(--rouge); border-color: var(--rouge); color: #fff; }
+.b.bleu { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+select.b { max-width: 240px; }
+.vide { flex: 1; }
+#etat { color: var(--doux); font-size: .92em; }
+main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 8px; padding: 8px 12px; }
+.panneau { min-height: 0; min-width: 0; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--bord); border-radius: 10px; overflow: hidden; }
+.CodeMirror { flex: 1; height: auto; min-height: 0; font: var(--police)/1.45 ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace; }
+.ligne-erreur { background: #fde7e5; }
+#resultat { flex: 1; min-height: 0; overflow: auto; padding: 8px 10px; font: var(--police)/1.4 ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+#resultat img { display: block; max-width: 100%; margin: 6px 0; }
+#resultat .err { color: var(--rouge); }
+#resultat .conseil { color: #8a5300; font-family: system-ui, sans-serif; display: block; margin-bottom: 6px; }
+#resultat .cmd { color: var(--accent2); font-weight: 600; }
+#resultat .info { color: var(--doux); font-family: system-ui, sans-serif; }
+.console { display: flex; gap: 6px; align-items: center; padding: 6px; border-top: 1px solid var(--bord); }
+.console span { font: 600 var(--police) ui-monospace, monospace; color: var(--accent2); white-space: nowrap; }
+.console input { flex: 1; min-width: 0; min-height: var(--touche); border: 1px solid #aab; border-radius: 8px; padding: 0 8px; font: var(--police) ui-monospace, "DejaVu Sans Mono", monospace; }
+.console.attend input { border: 2px solid #b35c00; background: #fff7ea; }
+#clavier { background: #e6ebf6; border-top: 1px solid var(--bord); padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
+#clavier[hidden] { display: none; }
+.rangee { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; }
+.t { min-width: var(--touche); min-height: var(--touche); padding: 0 8px; border: 1px solid #bcc6dc; border-bottom-width: 2px; border-radius: 8px; background: #fff; font: 600 var(--police) ui-monospace, "DejaVu Sans Mono", monospace; cursor: pointer; touch-action: manipulation; user-select: none; }
+.t:active { background: #dfe7fb; }
+.t.mot { color: #7b2fb0; }
+.t.fn { color: var(--accent2); }
+.t.var { color: #1f7a3d; background: #f0faf3; }
+.t.act { background: #eef1f8; font-family: system-ui, sans-serif; }
+.t.large { min-width: 200px; }
+.t.on { background: var(--accent2); color: #fff; }
+@media (max-width: 760px) {
+  body { overflow: auto; height: auto; }
+  main { grid-template-columns: minmax(0, 1fr); }
+  .CodeMirror { height: 45vh; } #resultat { min-height: 25vh; max-height: 50vh; }
+}
+</style>
+</head>
+<body>
+<header>
+  <b>🐍 Python</b>
+  <button class="b go" id="tout">▶ Exécuter</button>
+  <button class="b go" id="cellule" hidden>▶ Cette cellule</button>
+  <button class="b stop" id="stop" disabled>■ Stop</button>
+  <select class="b" id="biblio" aria-label="Ouvrir un programme"><option value="">Programmes…</option></select>
+  <span id="etat">Chargement de Python…</span>
+  <span class="vide"></span>
+  <button class="b" id="efface">Effacer le résultat</button>
+  <button class="b" id="fichier">Ouvrir un .py</button>
+  <button class="b" id="telecharger">Enregistrer</button>
+  <button class="b" id="toucheClavier">⌨ Clavier</button>
+  <button class="b bleu" id="inserer" hidden>Mettre dans la feuille</button>
+  <button class="b" id="fermer" hidden>Retour à la feuille</button>
+  <a id="retour" href="../index.html">Accueil du site</a>
+  <input type="file" id="choix" accept=".py,text/x-python,text/plain" hidden>
+</header>
+<main>
+  <section class="panneau" id="zoneCode"></section>
+  <section class="panneau">
+    <div id="resultat" aria-live="polite"></div>
+    <div class="console" id="console"><span id="invite">&gt;&gt;&gt;</span><input id="ligne" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Console Python"><button class="b" id="valider">OK</button></div>
+  </section>
+</main>
+<div id="clavier"></div>
+<script src="cm/codemirror.js"></script>
+<script src="cm/python.js"></script>
+<script>
+"use strict";
+const $ = id => document.getElementById(id), P = new URLSearchParams(location.search), AU_TABLEAU = P.get("tableau") === "1", NIVEAU = P.get("niveau") || "";
+const DUREE_MAX = 20000;
+if (AU_TABLEAU) { document.body.classList.add("tableau"); $("inserer").hidden = $("fermer").hidden = false; $("retour").hidden = true; }
+
+/* ---------- Éditeur ---------- */
+const DEPART = "# Écrivez votre programme ici\n\ndef f(x):\n    return 2*x + 1\n\nfor x in range(5):\n    print(x, f(x))\n";
+let sauve = null; try { sauve = localStorage.getItem("python-code"); } catch (e) {}
+const cm = CodeMirror($("zoneCode"), { value: sauve || DEPART, mode: "python", lineNumbers: true, indentUnit: 4, tabSize: 4, indentWithTabs: false, inputStyle: "textarea",
+  extraKeys: { Tab: c => c.execCommand(c.somethingSelected() ? "indentMore" : "insertSoftTab"), "Shift-Tab": "indentLess", "Ctrl-Enter": () => $("cellule").hidden ? lancerTout() : lancerCellule() } });
+let attente = null, cible = "code";
+cm.on("change", () => { clearTimeout(attente); attente = setTimeout(() => { try { localStorage.setItem("python-code", cm.getValue()); } catch (e) {} }, 400); majCellules(); majVariables(); enleverErreur(); });
+cm.on("focus", () => { cible = "code"; });
+$("ligne").addEventListener("focus", () => { cible = "console"; });
+let ligneErreur = null;
+function enleverErreur() { if (ligneErreur !== null) { cm.removeLineClass(ligneErreur, "background", "ligne-erreur"); ligneErreur = null; } }
+function montrerErreur(n) { enleverErreur(); const l = n - 1; if (l < 0 || l >= cm.lineCount()) return; ligneErreur = cm.getLineHandle(l); cm.addLineClass(ligneErreur, "background", "ligne-erreur"); cm.scrollIntoView({ line: l, ch: 0 }, 60); }
+/* Cellules à la Spyder : une ligne « # %% » commence une cellule */
+const estCellule = t => /^\s*#\s*%%/.test(t);
+function bornesCellule(l) { let a = l; while (a > 0 && !estCellule(cm.getLine(a))) a--; if (!estCellule(cm.getLine(a))) a = 0; let b = l + 1; while (b < cm.lineCount() && !estCellule(cm.getLine(b))) b++; return [a, b]; }
+function majCellules() { let c = false; for (let i = 0; i < cm.lineCount() && !c; i++) c = estCellule(cm.getLine(i)); $("cellule").hidden = !c; }
+
+/* ---------- Résultat ---------- */
+let tampon = "", tamponPlan = false;
+const res = $("resultat");
+function ajouter(texte, cls) { const s = document.createElement("span"); if (cls) s.className = cls; s.textContent = texte; res.appendChild(s); res.scrollTop = res.scrollHeight; return s; }
+function viderTampon() { tamponPlan = false; if (tampon) { ajouter(tampon); tampon = ""; } }
+function sortie(t) { tampon += t; if (!tamponPlan) { tamponPlan = true; requestAnimationFrame(viderTampon); } }
+const CONSEILS = [
+  [/^IndentationError|^TabError/, () => "Décalage incorrect : après « : », les lignes du bloc doivent être décalées, et toutes de la même façon."],
+  [/expected ':'/, () => "Il manque « : » à la fin de la ligne (après def, for, while, if, elif, else)."],
+  [/never closed|unmatched|was never closed/, () => "Parenthèse, crochet ou guillemet mal fermé."],
+  [/Maybe you meant '=='|cannot assign to/, () => "Pour comparer, on écrit « == » ; le signe « = » sert à donner une valeur à une variable."],
+  [/unterminated string/, () => "Il manque le guillemet qui ferme ce texte."],
+  [/^SyntaxError/, () => "Python ne comprend pas cette ligne : vérifiez les parenthèses, les « : » et l'orthographe (regardez aussi la ligne au-dessus)."],
+  [/^NameError.*name '([^']+)'/, m => `« ${m[1]} » n'existe pas : faute de frappe, ou variable/fonction pas encore définie à ce moment du programme${$("cellule").hidden ? "" : " (avez-vous exécuté sa cellule ?)"}.`],
+  [/^ZeroDivisionError/, () => "Division par zéro."],
+  [/^TypeError.*unsupported operand.*'str'|^TypeError.*can only concatenate str|^TypeError.*'<=?' not supported.*'str'|^TypeError.*'>=?' not supported.*'str'/, () => "On ne calcule pas avec un texte. input() renvoie un texte : pour un nombre, écrivez float(input(…)) ou int(input(…))."],
+  [/^TypeError.*missing \d+ required positional/, () => "La fonction a besoin de plus de valeurs entre ses parenthèses."],
+  [/^TypeError.*takes \d+ positional/, () => "Trop de valeurs données à la fonction."],
+  [/^TypeError.*'float' object cannot be interpreted/, () => "range() n'accepte que des nombres entiers : int(…) permet de convertir."],
+  [/^IndexError/, () => "Cette position n'existe pas dans la liste (la première position est 0)."],
+  [/^RecursionError/, () => "La fonction s'appelle elle-même sans jamais s'arrêter."],
+  [/^ModuleNotFoundError.*turtle/, () => "Le module turtle n'est pas disponible dans cet outil."],
+  [/^ModuleNotFoundError/, () => "Cette bibliothèque n'est pas disponible dans cet outil."],
+  [/^ValueError.*math domain/, () => "Calcul impossible (par exemple la racine d'un nombre négatif)."],
+  [/^ValueError.*could not convert|^ValueError.*invalid literal/, () => "Ce texte n'est pas un nombre valide."],
+];
+function afficherErreur(m) {
+  viderTampon(); const brut = `${m.nom}: ${m.message}`;
+  if (m.ligne && !m.console) montrerErreur(m.ligne);
+  ajouter((m.ligne && !m.console ? `Erreur ligne ${m.ligne} : ` : "Erreur : ") + brut + "\n", "err");
+  for (const [re, f] of CONSEILS) { const x = brut.match(re); if (x) { ajouter(f(x) + "\n", "conseil"); break; } }
+}
+
+/* ---------- Worker ---------- */
+let worker = null, pret = false, enCours = null, minuteur = null, attenteInput = null, messageEchec = "";
+function etat(t) { $("etat").textContent = t; }
+function boutons() { const occ = !!enCours || !!attenteInput;
+  $("tout").disabled = $("cellule").disabled = !pret || occ; $("stop").disabled = !occ; $("valider").disabled = !pret || (!!enCours); }
+function lancerWorker() {
+  worker = new Worker("worker.js"); pret = false; boutons();
+  worker.onerror = e => { echec(e.message || "le moteur n'a pas démarré"); };
+  worker.onmessage = ({ data: m }) => {
+    if (m.type === "pret") { pret = true; etat("Prêt"); boutons(); }
+    else if (m.type === "etat") etat(m.texte);
+    else if (m.type === "debut") { etat("En cours…"); clearTimeout(minuteur); minuteur = setTimeout(() => arreter(`Arrêté au bout de ${DUREE_MAX / 1000} s : le programme ne se termine pas (boucle infinie ?).`), DUREE_MAX); }
+    else if (m.type === "texte") sortie(m.texte);
+    else if (m.type === "figure") { viderTampon(); const i = new Image(); i.src = "data:image/png;base64," + m.png; i.alt = "Figure"; i.onload = () => { res.scrollTop = res.scrollHeight; }; res.appendChild(i); }
+    else if (m.type === "erreur") { clearTimeout(minuteur); afficherErreur(m); finir(); }
+    else if (m.type === "troplong") { clearTimeout(minuteur); viderTampon(); ajouter("\nArrêté : le programme affiche trop de texte (boucle infinie ?).\n", "err"); finir(); }
+    else if (m.type === "fin") { clearTimeout(minuteur); viderTampon(); finir(); }
+    else if (m.type === "input") { clearTimeout(minuteur); viderTampon(); demanderInput(m); }
+    else if (m.type === "echec") echec(m.message, m.enCours);
+  };
+}
+function echec(message, enCoursDeRun) { clearTimeout(minuteur); viderTampon(); messageEchec = message;
+  if (enCoursDeRun) { ajouter("Erreur du moteur : " + message + "\n", "err"); finir(); return; }
+  pret = false; enCours = null; boutons(); etat("Python indisponible");
+  ajouter(location.protocol === "file:" ? "Python ne fonctionne pas dans la version hors ligne du site : ouvrez la version en ligne.\n" : "Python n'a pas pu se charger (le réseau bloque peut-être cdn.jsdelivr.net).\n", "err"); }
+function finir() { enCours = null; attenteInput = null; $("console").classList.remove("attend"); $("invite").textContent = ">>>"; etat("Prêt"); boutons(); }
+function demander(mode, code, decalage) { enleverErreur(); enCours = { mode, code, decalage, reponses: [], graine: Math.floor(Math.random() * 2 ** 31), sauter: 0, figuresVues: 0 }; boutons(); etat("En cours…"); worker.postMessage(enCours); }
+function demanderInput(m) { enCours = Object.assign(enCours, { sauter: m.sauter, figuresVues: m.figures }); attenteInput = enCours; enCours = null; etat("Le programme attend une réponse");
+  $("console").classList.add("attend"); $("invite").textContent = "input :"; boutons(); $("ligne").value = ""; cible = "console"; $("ligne").focus(); }
+function valider() { const l = $("ligne"), v = l.value;
+  if (attenteInput) { const r = attenteInput; attenteInput = null; l.value = ""; $("console").classList.remove("attend"); $("invite").textContent = ">>>"; r.reponses = [...r.reponses, v]; enCours = r; boutons(); etat("En cours…"); worker.postMessage(r); return; }
+  if (!pret || enCours || !v.trim()) return; viderTampon(); ajouter(">>> " + v + "\n", "cmd"); l.value = ""; historique.push(v); posHisto = historique.length; demander("console", v, 0); }
+function arreter(msg) { clearTimeout(minuteur); viderTampon(); worker.terminate(); enCours = null; attenteInput = null; ajouter("\n" + (msg || "Programme arrêté.") + "\n", "err");
+  if ($("console").classList.contains("attend")) { $("console").classList.remove("attend"); $("invite").textContent = ">>>"; }
+  etat("Redémarrage de Python…"); lancerWorker(); }
+function lancerTout() { if (!pret || enCours || attenteInput) return; res.textContent = ""; demander("tout", cm.getValue(), 0); }
+function lancerCellule() { if (!pret || enCours || attenteInput) return; const [a, b] = bornesCellule(cm.getCursor().line); const code = cm.getRange({ line: a, ch: 0 }, { line: b, ch: 0 }); viderTampon(); ajouter(`# cellule (ligne ${a + 1})\n`, "info"); demander("cellule", code, a); }
+const historique = []; let posHisto = 0;
+
+/* ---------- Clavier au stylet ---------- */
+const MOTS = [["def", "def §():\n"], ["for", "for i in range(§):\n"], ["while", "while §:\n"], ["if", "if §:\n"], ["elif", "<elif §:\n"], ["else", "<else:\n§"], ["return", "return §"], ["print", "print(§)"], ["input", "input(\"§\")"]];
+const FONCTIONS = ["range(§)", "len(§)", "int(§)", "float(§)", "str(§)", "abs(§)", "round(§)", "sqrt(§)", "randint(§)", "random()", ".append(§)", "True", "False", " and ", " or ", "not ", " in "];
+const IMPORTS = [["math", "from math import *\n"], ["random", "from random import *\n"], ["courbes", "import matplotlib.pyplot as plt\n"], ["plot", "plt.plot(§)"], ["show", "plt.show()"]];
+const CHIFFRES = "7 8 9 4 5 6 1 2 3 0 .".split(" ");
+const OPER = ["=", "==", "!=", "<", ">", "<=", ">=", "+", "-", "*", "/", "//", "%", "**", "(", ")", "[", "]", ",", ":", "\"", "#"];
+const AZERTY = ["azertyuiop", "qsdfghjklm", "wxcvbn_"];
+const COURANTS = ["x", "y", "n", "i", "a", "b", "u", "f"];
+const RESERVES = new Set("False None True and as assert break class continue def del elif else except finally for from global if import in is lambda not or pass print range return try while with yield input len int float str abs round sqrt randint random append math plt matplotlib pyplot plot show grid".split(" "));
+let majuscule = false, abc = false;
+const clavier = $("clavier");
+function touche(l, classe, action) { return `<button type="button" class="t ${classe || ""}" data-a="${action === undefined ? "" : esc(action)}">${esc(l)}</button>`; }
+function esc(t) { return String(t).replace(/[&<>"]/g, c => "&#" + c.charCodeAt(0) + ";"); }
+function dessinerClavier() {
+  const lignes = [];
+  lignes.push(`<div class="rangee" id="rVars"></div>`);
+  lignes.push(`<div class="rangee">${MOTS.map(([l, a]) => touche(l, "mot", a)).join("")}${IMPORTS.map(([l, a]) => touche(l, "fn", a)).join("")}</div>`);
+  if (abc) {
+    AZERTY.forEach((r, k) => lignes.push(`<div class="rangee">${[...r].map(c => { const x = majuscule ? c.toUpperCase() : c; return touche(x, "", x); }).join("")}${k === 2 ? touche("⇧", "act" + (majuscule ? " on" : ""), "@maj") : ""}</div>`));
+    lignes.push(`<div class="rangee">${touche("123", "act", "@abc")}${touche("espace", "act large", " ")}${["\"", "'", ",", ".", "(", ")", ":"].map(c => touche(c, "", c)).join("")}${actions()}</div>`);
+  } else {
+    lignes.push(`<div class="rangee">${FONCTIONS.map(f => touche(f.replace("§", "").trim(), "fn", f)).join("")}</div>`);
+    lignes.push(`<div class="rangee">${CHIFFRES.map(c => touche(c, "", c)).join("")}${OPER.map(c => touche(c, "", c)).join("")}</div>`);
+    lignes.push(`<div class="rangee">${touche("abc", "act", "@abc")}${touche("espace", "act large", " ")}${actions()}</div>`);
+  }
+  clavier.innerHTML = lignes.join(""); majVariables();
+}
+const actions = () => [["←", "@g"], ["→", "@d"], ["↑", "@h"], ["↓", "@b"], ["⇤", "@moins"], ["⇥", "@plus"], ["⌫", "@suppr"], ["↶", "@annul"], ["↷", "@refait"], ["↵ Entrée", "@entree"]].map(([l, a]) => touche(l, "act", a)).join("");
+function majVariables() {
+  const r = $("rVars"); if (!r) return; const vus = new Set();
+  const lignes = cm.getValue().replace(/#.*$/gm, "").replace(/"[^"\n]*"|'[^'\n]*'/g, "");
+  for (const m of lignes.matchAll(/[A-Za-z_][A-Za-z0-9_]*/g)) if (!RESERVES.has(m[0])) vus.add(m[0]);
+  COURANTS.forEach(v => vus.add(v));
+  const h = [...vus].slice(0, 26).map(v => touche(v, "var", v)).join(""); if (r.dataset.h !== h) { r.innerHTML = h; r.dataset.h = h; }
+}
+/* écrit dans l'éditeur : « § » = position finale du curseur, « < » en tête = un cran vers la gauche d'abord (elif, else) */
+function ecrireCode(a) {
+  cm.focus(); cm.operation(() => {
+    if (a[0] === "<" && a.length > 1) { const l = cm.getCursor().line; if (!cm.getLine(l).trim()) { cm.indentLine(l, "subtract"); } a = a.slice(1); }
+    const i = a.indexOf("§"), avant = i < 0 ? a : a.slice(0, i), apres = i < 0 ? "" : a.slice(i + 1).replace(/\n$/, ""), finLigne = i >= 0 && /\n$/.test(a);
+    const poser = t => t.split("\n").forEach((m, k) => { if (k) cm.execCommand("newlineAndIndent"); if (m) cm.replaceSelection(m, "end"); });
+    poser(avant); if (apres) { cm.replaceSelection(apres, "start"); } void finLigne;
+  });
+}
+function ecrireConsole(a) {
+  a = a.replace(/^</, "").replace(/\n/g, ""); const l = $("ligne"), i = a.indexOf("§"), t = a.replace("§", ""), d = l.selectionStart ?? l.value.length, f = l.selectionEnd ?? d;
+  l.value = l.value.slice(0, d) + t + l.value.slice(f); const p = d + (i < 0 ? t.length : i); l.focus(); l.setSelectionRange(p, p);
+}
+function entree() {
+  if (cible === "console") return valider();
+  cm.focus(); const c = cm.getCursor(), reste = cm.getLine(c.line).slice(c.ch);
+  if (/^[)\]"':\s]*$/.test(reste)) cm.setCursor({ line: c.line, ch: cm.getLine(c.line).length });   // curseur dans « range(|): » : on passe à la ligne suivante
+  cm.execCommand("newlineAndIndent");
+}
+function actionClavier(a) {
+  const enConsole = cible === "console", l = $("ligne");
+  switch (a) {
+    case "@maj": majuscule = !majuscule; dessinerClavier(); return;
+    case "@abc": abc = !abc; majuscule = false; dessinerClavier(); return;
+    case "@entree": return entree();
+    case "@g": case "@d": if (enConsole) { const p = Math.max(0, Math.min(l.value.length, l.selectionStart + (a === "@g" ? -1 : 1))); l.focus(); l.setSelectionRange(p, p); } else { cm.focus(); cm.execCommand(a === "@g" ? "goCharLeft" : "goCharRight"); } return;
+    case "@h": case "@b": if (enConsole) { posHisto = Math.max(0, Math.min(historique.length, posHisto + (a === "@h" ? -1 : 1))); l.value = historique[posHisto] || ""; l.focus(); } else { cm.focus(); cm.execCommand(a === "@h" ? "goLineUp" : "goLineDown"); } return;
+    case "@suppr": if (enConsole) { let d = l.selectionStart, f = l.selectionEnd; if (d === f && d > 0) d--; l.value = l.value.slice(0, d) + l.value.slice(f); l.focus(); l.setSelectionRange(d, d); } else { cm.focus(); const c = cm.getCursor(), av = cm.getLine(c.line).slice(0, c.ch); if (!cm.somethingSelected() && av && !av.trim()) { cm.indentLine(c.line, "subtract"); } else cm.execCommand("delCharBefore"); } return;
+    case "@moins": if (!enConsole) { cm.focus(); cm.execCommand("indentLess"); } return;
+    case "@plus": if (!enConsole) { cm.focus(); cm.execCommand("indentMore"); } return;
+    case "@annul": if (!enConsole) { cm.focus(); cm.undo(); } return;
+    case "@refait": if (!enConsole) { cm.focus(); cm.redo(); } return;
+  }
+  if (enConsole) ecrireConsole(a); else ecrireCode(a);
+}
+clavier.addEventListener("pointerdown", e => e.preventDefault());       // garder le curseur là où il est
+clavier.addEventListener("click", e => { const b = e.target.closest(".t"); if (!b) return; actionClavier(b.dataset.a); if (majuscule && !b.dataset.a.startsWith("@")) { majuscule = false; dessinerClavier(); } });
+function montrerClavier(oui) {
+  clavier.hidden = !oui; $("toucheClavier").classList.toggle("bleu", oui);
+  const champ = cm.getInputField();                                     // clavier au stylet : le clavier du système ne s'ouvre pas
+  if (oui) { champ.setAttribute("inputmode", "none"); $("ligne").setAttribute("inputmode", "none"); } else { champ.removeAttribute("inputmode"); $("ligne").removeAttribute("inputmode"); }
+  try { localStorage.setItem("python-clavier", oui ? "1" : "0"); } catch (e) {}
+  requestAnimationFrame(() => cm.refresh());
+}
+$("toucheClavier").onclick = () => montrerClavier(clavier.hidden);
+
+/* ---------- Boutons ---------- */
+$("tout").onclick = lancerTout; $("cellule").onclick = lancerCellule; $("stop").onclick = () => arreter();
+$("efface").onclick = () => { viderTampon(); res.textContent = ""; enleverErreur(); };
+$("valider").onclick = valider;
+$("ligne").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); valider(); } else if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); actionClavier(e.key === "ArrowUp" ? "@h" : "@b"); } });
+$("telecharger").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([cm.getValue()], { type: "text/x-python" })); a.download = "programme.py"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
+$("fichier").onclick = () => $("choix").click();
+$("choix").onchange = async () => { const f = $("choix").files[0]; if (!f) return; ouvrirCode(await f.text()); $("choix").value = ""; };
+function ouvrirCode(code) { cm.setValue(code); cm.clearHistory(); cm.setCursor(0, 0); viderTampon(); res.textContent = ""; }
+/* Bibliothèque : programmes du site et TP */
+const NIVEAUX = { seconde: "Seconde", premiere: "Première", terminale: "Terminale" };
+const TP = [{ titre: "TP 1 – Nature d'un quadrilatère", url: "../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde.py", niveau: "seconde" }];
+let programmes = [];
+fetch("programmes.json").then(r => r.json()).then(l => { programmes = l; const b = $("biblio"), n0 = NIVEAU.replace(/-.*/, "");
+  [n0, ...Object.keys(NIVEAUX).filter(n => n !== n0)].filter(n => NIVEAUX[n]).forEach(n => { const g = document.createElement("optgroup"); g.label = NIVEAUX[n];
+    l.forEach((p, i) => { if (p.niveau === n) g.appendChild(new Option(p.titre, "p" + i)); }); TP.forEach((t, i) => { if (t.niveau === n) g.appendChild(new Option(t.titre, "t" + i)); }); b.appendChild(g); }); }).catch(() => {});
+async function chargerPy(url) { const u = new URL(url, location.href); if (u.origin !== location.origin || !/\.py$/.test(u.pathname)) throw new Error("adresse refusée"); const r = await fetch(u); if (!r.ok) throw new Error("introuvable"); return r.text(); }
+$("biblio").onchange = async () => { const v = $("biblio").value; $("biblio").value = ""; if (!v) return;
+  const actuel = cm.getValue(); if (actuel.trim() && actuel !== DEPART && !programmes.some(p => p.code === actuel) && !confirm("Remplacer le programme affiché ?")) return;
+  if (v[0] === "p") ouvrirCode(programmes[+v.slice(1)].code); else { try { ouvrirCode(await chargerPy(TP[+v.slice(1)].url)); } catch (e) { ajouter("Fichier introuvable.\n", "err"); } } };
+if (P.get("ouvrir")) chargerPy(P.get("ouvrir")).then(ouvrirCode).catch(() => ajouter("Fichier introuvable.\n", "err"));
+
+/* ---------- Mode tableau : code et résultat dans la feuille d'exercices, en carte ---------- */
+const COULEURS = { keyword: "#7b2fb0", builtin: "#2d4db0", def: "#2d4db0", string: "#1f7a3d", number: "#a4501a", comment: "#6b7385" };
+function codeAInserer() {
+  if (cm.somethingSelected()) { const a = cm.getCursor("from"), b = cm.getCursor("to"); return [a.line, b.ch ? b.line + 1 : b.line]; }
+  if (!$("cellule").hidden) return bornesCellule(cm.getCursor().line);
+  return [0, cm.lineCount()];
+}
+function imageCarte() {
+  viderTampon();
+  const K = 2, L = 1100, M = 16, TAILLE = 21, H = 30, c0 = document.createElement("canvas").getContext("2d"), police = `${TAILLE}px ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace`;
+  c0.font = police; const lc = c0.measureText("M").width, max = Math.floor((L - 2 * M - 60) / lc);
+  const [a, b] = codeAInserer(), rangs = [];                            // rangs : [{ morceaux: [[texte, couleur]…], num }]
+  for (let l = a; l < b; l++) {
+    const m = []; let n = 0, r = [], num = l + 1;
+    const pousser = () => { rangs.push({ morceaux: r, num }); r = []; n = 0; num = ""; };
+    for (const t of cm.getLineTokens(l)) { let s = t.string; const c = COULEURS[(t.type || "").split(" ")[0]] || "#1b2232";
+      while (s.length) { const p = s.slice(0, max - n); r.push([p, c]); n += p.length; s = s.slice(p.length); if (n >= max) pousser(); } }
+    if (r.length || !n) pousser(); void m;
+  }
+  while (rangs.length && !rangs[rangs.length - 1].morceaux.length) rangs.pop();
+  // le résultat affiché
+  const sorties = [], maxS = Math.floor((L - 2 * M) / lc), images = [];
+  res.childNodes.forEach(nd => {
+    if (nd.tagName === "IMG") { sorties.push({ img: nd }); images.push(nd); return; }
+    const couleur = nd.classList && nd.classList.contains("err") ? "#b3261e" : nd.classList && nd.classList.contains("conseil") ? "#8a5300" : nd.classList && nd.classList.contains("cmd") ? "#2d4db0" : "#1b2232";
+    if (nd.classList && nd.classList.contains("info")) return;
+    sorties.push({ texte: nd.textContent, couleur });
+  });
+  const lignes = []; let cour = [];                                      // lignes de résultat (morceaux qui se suivent sur une même ligne)
+  sorties.forEach(o => {
+    if (o.img) { if (cour.length) { lignes.push(cour); cour = []; } lignes.push({ img: o.img }); return; }
+    o.texte.split("\n").forEach((t, i, tt) => { let reste = t;
+      while (reste.length) { const dispo = maxS - cour.reduce((s, x) => s + x[0].length, 0), p = reste.slice(0, dispo); cour.push([p, o.couleur]); reste = reste.slice(p.length); if (reste.length) { lignes.push(cour); cour = []; } }
+      if (i < tt.length - 1) { lignes.push(cour); cour = []; } });
+  });
+  if (cour.length) lignes.push(cour);
+  while (lignes.length && Array.isArray(lignes[lignes.length - 1]) && !lignes[lignes.length - 1].length) lignes.pop();
+  const hauteurImg = i => Math.min(L - 2 * M, i.naturalWidth) * i.naturalHeight / i.naturalWidth + 12;
+  let HT = M + rangs.length * H + M;
+  if (lignes.length) { HT += 44; lignes.forEach(l => { HT += l.img ? hauteurImg(l.img) : H; }); HT += M; }
+  const cv = document.createElement("canvas"); cv.width = L * K; cv.height = Math.ceil(HT) * K; const c = cv.getContext("2d"); c.scale(K, K);
+  c.fillStyle = "#fff"; c.fillRect(0, 0, L, HT); c.textBaseline = "alphabetic"; c.font = police;
+  let y = M;
+  rangs.forEach(r => { y += H; c.fillStyle = "#9aa3b5"; c.textAlign = "right"; c.fillText(String(r.num), M + 40, y - 7); c.textAlign = "left"; let x = M + 60;
+    r.morceaux.forEach(([t, col]) => { c.fillStyle = col; c.fillText(t, x, y - 7); x += t.length * lc; }); });
+  if (lignes.length) {
+    y += M; c.fillStyle = "#eef1f8"; c.fillRect(0, y, L, HT - y); y += 8;
+    c.fillStyle = "#5d6679"; c.font = "600 19px system-ui, sans-serif"; c.fillText("Résultat", M, y + 22); y += 36; c.font = police;
+    lignes.forEach(l => { if (l.img) { const w = Math.min(L - 2 * M, l.img.naturalWidth), h = w * l.img.naturalHeight / l.img.naturalWidth; c.drawImage(l.img, M, y + 6, w, h); y += h + 12; return; }
+      y += H; let x = M; l.forEach(([t, col]) => { c.fillStyle = col; c.fillText(t, x, y - 7); x += t.length * lc; }); });
+  }
+  return cv.toDataURL("image/png");
+}
+$("inserer").onclick = () => { parent.postMessage({ type: "python-carte", image: imageCarte() }, location.origin); };
+$("fermer").onclick = () => parent.postMessage({ type: "python-fermer" }, location.origin);
+
+/* ---------- Démarrage ---------- */
+let voulu = null; try { voulu = localStorage.getItem("python-clavier"); } catch (e) {}
+dessinerClavier(); montrerClavier(AU_TABLEAU || (voulu === null ? false : voulu === "1"));
+majCellules(); boutons();
+if (location.protocol === "file:") echec("file"); else lancerWorker();
+window.__python = { cm, get pret() { return pret; }, get occupe() { return !!enCours || !!attenteInput; }, imageCarte };
+</script>
+<script>
+(function () { var moi = false; try { moi = localStorage.getItem("skipgc") === "t" || !!localStorage.getItem("encre-sync") || !!localStorage.getItem("encre-proprio"); } catch (e) {}
+  if (moi || location.hostname === "localhost" || location.protocol === "file:" || new URLSearchParams(location.search).get("tableau") === "1") return;
+  var s = document.createElement("script"); s.async = true; s.src = "https://gc.zgo.at/count.js"; s.setAttribute("data-goatcounter", "https://maths-moignet.goatcounter.com/count"); document.body.appendChild(s); })();
+</script>
+</body>
+</html>
