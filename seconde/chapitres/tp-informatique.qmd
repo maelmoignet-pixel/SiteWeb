@@ -31,7 +31,7 @@ Les TP se font avec **Spyder**. Téléchargez le fichier Python (`.py`), puis ou
 ::: {.eval}
 [TP 1 – Nature d'un quadrilatère]{.eval-titre}
 
-[Sujet (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf){.eval-btn .sujet} [Fichier Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction download="tp1-quadrilateres-seconde.py"}
+[Sujet (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf){.eval-btn .sujet} [Fichier Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction download="tp1-quadrilateres-seconde.py"} [Ouvrir dans le navigateur](../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction}
 :::
 
 ::::

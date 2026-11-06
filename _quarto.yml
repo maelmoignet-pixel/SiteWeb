@@ -34,6 +34,8 @@ project:
     - "copie/*"
     # QCM d'automatismes (bouton ⚡ du mode tableau)
     - "automatismes/**"
+    # Python dans le navigateur (moteur Pyodide chargé depuis cdn.jsdelivr.net)
+    - "python/**"
 
 lang: fr
 
@@ -54,6 +56,8 @@ website:
         href: terminale-spe/index.qmd
       - text: "1re tronc commun"
         href: premiere-tc/index.qmd
+      - text: "Python"
+        href: python/index.html
 
   page-footer: "Maël Moignet"
 
