@@ -1424,23 +1424,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const SERIES_AUTO = [["spe", "Sujets de spécialité"], ["ns", "Sujets sans spécialité"], ["commun", "Questions rédigées en plus"]];
     let baseAuto = null;
     const melanger = t => { for (let i = t.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [t[i], t[j]] = [t[j], t[i]]; } return t; };
-    // n questions réparties à parts égales entre les thèmes (le reste va à des thèmes tirés au sort ; un thème trop court laisse sa part aux autres)
-    function tirerAuto(pool, n) {
+    // n questions réparties à parts égales entre les thèmes (le reste va à des thèmes tirés au sort ; un thème trop court laisse sa part aux autres) ;
+    // dans chaque thème, les questions les moins faites d'abord : une question ne revient que lorsque toutes celles du thème ont été faites
+    function tirerAuto(pool, n, vues = {}) {
       const parTheme = new Map(); pool.forEach(q => { if (!parTheme.has(q.categorie)) parTheme.set(q.categorie, []); parTheme.get(q.categorie).push(q); });
-      const themes = melanger([...parTheme.values()].map(melanger)), choix = [];
+      const themes = melanger([...parTheme.values()].map(t => melanger(t).sort((a, b) => (vues[a.id] || 0) - (vues[b.id] || 0)))), choix = [];
       for (let tour = 0; choix.length < n && themes.some(t => t.length > tour); tour++)
         for (const t of themes) { if (choix.length >= n) break; if (t.length > tour) choix.push(t[tour]); }
       return melanger(choix);
     }
-    // questions déjà corrigées cette année scolaire à ce niveau, par thème : lues dans les feuilles d'exercices du niveau (synchronisées entre les appareils)
-    function compteursAuto() {
+    // questions déjà corrigées cette année scolaire à ce niveau (nombre de fois par question) : lues dans les feuilles d'exercices du niveau (synchronisées entre les appareils)
+    function vuesAuto() {
       const n = {}, d = new Date(), an = d.getMonth() >= 7 ? d.getFullYear() : d.getFullYear() - 1, debut = an + "-08-01", fin = (an + 1) + "-08-01";
-      const themeDe = new Map((baseAuto || []).map(q => [q.id, q.categorie]));
       try { for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i), m = k && k.match(/^encre:(.*)#exos-img:(\d{4}-\d{2}-\d{2})$/);
         if (!m || m[2] < debut || m[2] >= fin || (niveau && !m[1].includes("/" + niveau + "/"))) continue;
         let l = []; try { l = JSON.parse(localStorage.getItem(k)) || []; } catch (e) {}
-        l.forEach(e => { const c = e && e.auto_corr && themeDe.get(e.auto_corr); if (c) n[c] = (n[c] || 0) + 1; });
+        l.forEach(e => { if (e && e.auto_corr) n[e.auto_corr] = (n[e.auto_corr] || 0) + 1; });
       } } catch (e) {}
       return n;
     }
@@ -1452,7 +1452,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let r = {}; try { r = JSON.parse(localStorage.getItem("encre-auto") || "{}"); } catch (e) {}
       const defSeries = niveau === "premiere-spe" ? ["spe", "commun"] : niveau === "terminale-spe" ? ["spe", "ns", "commun"] : ["ns", "commun"];
       const series = r.series || defSeries, cats = r.cats || CATS_AUTO.map(c => c[0]);
-      const faites = compteursAuto();
+      const vues = vuesAuto(), faites = {}; baseAuto.forEach(q => { if (vues[q.id]) faites[q.categorie] = (faites[q.categorie] || 0) + vues[q.id]; });
       const f = document.createElement("div"); f.className = "encre-recadrage encre-auto-reglages";
       f.innerHTML = `<div class="carte"><h3>⚡ Automatismes</h3>
         <h4>Questions</h4><div class="cases">${SERIES_AUTO.map(([k, l]) => `<label><input type="checkbox" data-s="${k}" ${series.includes(k) ? "checked" : ""}> ${l}</label>`).join("")}</div>
@@ -1473,7 +1473,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const pool = baseAuto.filter(q => s2.includes(q.serie) && c2.includes(q.categorie));
           if (!pool.length) { f.querySelector(".msg").textContent = baseAuto.length ? "Aucune question pour ce choix." : "Aucune question vérifiée pour l'instant (relecture à faire)."; return; }
           try { localStorage.setItem("encre-auto", JSON.stringify({ series: s2, cats: c2, n })); } catch (x) {}
-          f.remove(); demarrerAutomatismes(tirerAuto(pool, n));
+          f.remove(); demarrerAutomatismes(tirerAuto(pool, n, vues));
         } });
     }
     function barreAuto() {
