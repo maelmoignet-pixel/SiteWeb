@@ -7,3 +7,4 @@ project:
   post-render:
     - nettoyer_sortie.py
     - offline_mathjax.py
+    - offline_donnees.py
