@@ -2027,8 +2027,12 @@
       c2.strokeStyle = "#2d4db0"; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(30, 160); c2.lineTo(W - 30, 160); c2.stroke();
     }
     c2.translate(0, bandeau);
-    if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
-    insertions.forEach(e => { dessinerCarte(c2, e); if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
+    // hors ligne, une image lue depuis un fichier bloquerait l'export : elle est remplacée par un cadre
+    const imagePdf = (im, x, y, w, h, nom) => { if (!HORS_LIGNE || /^(data|blob):/.test(im.src || "")) return c2.drawImage(im, x, y, w, h);
+      c2.save(); c2.fillStyle = "#f3f5fa"; c2.fillRect(x, y, w, h); c2.strokeStyle = "#9aa3b5"; c2.lineWidth = 2; c2.strokeRect(x, y, w, h);
+      c2.fillStyle = "#5d6679"; c2.font = "600 28px system-ui, sans-serif"; c2.fillText(nom + " (image non reprise hors ligne)", x + 20, y + Math.min(h / 2, 60)); c2.restore(); };
+    if (bf) imagePdf(fond, bf[0], bf[1], bf[2], bf[3], "Figure du cours");
+    insertions.forEach(e => { dessinerCarte(c2, e); if (e.im) imagePdf(e.im, e.x, e.y, e.w, e.h, legende(e) || "Image");
       c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText(legende(e), e.x, e.y + e.h + 30); });
     [...traits.filter(t => t.f === "repere"), ...traits.filter(t => t.h), ...traits.filter(t => t.f !== "repere" && !t.h)].forEach(t => traceTrait(c2, t, traits));
     return cv;
