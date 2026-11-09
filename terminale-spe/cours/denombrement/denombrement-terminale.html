@@ -849,6 +849,18 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-hl-progres .barre i { display: block; height: 100%; width: 0; background: #2d4db0; transition: width .3s; }
 .encre-hl-progres.ok .barre i { background: #1f7a3d; } .encre-hl-progres.ko { border-color: #b3261e; } .encre-hl-progres.ko .barre i { background: #b3261e; }
 .encre-hl-progres button { float: right; border: 0; background: none; font-size: 15px; cursor: pointer; color: #5d6679; padding: 0 2px; }
+.encre-bandeau-cle { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2147483500; background: #b35c00; color: #fff; border: 0; border-radius: 14px;
+  padding: 14px 20px; font: 700 17px system-ui, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,.25); cursor: pointer; max-width: calc(100% - 40px); }
+.encre-avertissements { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2147483500; display: flex; flex-direction: column; gap: 8px;
+  width: max-content; max-width: calc(100% - 32px); pointer-events: none; }
+.encre-avertissements > * { pointer-events: auto; }
+.encre-avertissements .encre-bandeau-cle { position: static; transform: none; max-width: none; }
+.encre-bandeau-cle.urgent, .encre-avert.rouge { background: #b3261e; }
+.encre-avert { display: flex; align-items: center; gap: 10px; background: #b35c00; color: #fff; border-radius: 14px; padding: 10px 12px 10px 18px;
+  font: 700 16px system-ui, sans-serif; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+.encre-avert span { cursor: pointer; } .encre-avert button { border: 0; background: rgba(255,255,255,.22); color: #fff; border-radius: 8px; font: 700 15px system-ui, sans-serif; padding: 6px 10px; cursor: pointer; }
+.encre-menu button.s-ok { box-shadow: inset 0 -3px 0 #1f7a3d; } .encre-menu button.s-att { background: #fff3e0; box-shadow: inset 0 -3px 0 #b35c00; }
+.encre-menu button.s-ko { background: #b3261e; color: #fff; border-color: #b3261e; }
 .encre-menu button.usb.a-faire { background: #b35c00; color: #fff; border-color: #b35c00; }
 .encre-alerte-memoire { position: fixed; top: 0; left: 0; right: 0; z-index: 2147483600; background: #b3261e; color: #fff; font: 700 18px system-ui, sans-serif; padding: 14px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
@@ -2801,22 +2813,71 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
   /* ---------- Clé USB (version hors ligne sur le Speechi) ---------- */
   // export de TOUTES les notes de la clé (toutes les pages) et des images gardées sur l'appareil : un seul fichier, réuni le soir avec Firebase
+  async function contenuExport() {
+    const notes = {}, ids = new Set();
+    let base = {}; try { base = JSON.parse(localStorage.getItem("encre-cle-base") || "{}"); } catch (e) {}   // notes recopiées depuis le site, inchangées : inutile de les renvoyer
+    for (const k of clesNotes()) { const v = localStorage.getItem(k); if (base[k] && base[k] === empreinte(v || "")) continue; notes[k] = v;
+      if (k.includes("-img:")) try { JSON.parse(v).forEach(e => { if (e && typeof e.src === "string" && e.src.startsWith("idb:")) ids.add(e.src.slice(4)); }); } catch (e) {} }
+    const images = {}; for (const id of ids) { const d = await idbGet(id).catch(() => null); if (d) images[id] = d; }
+    return JSON.stringify({ type: "export-cle", version: 1, quand: Date.now(), appareil: navigator.userAgent.slice(0, 120), notes, images });
+  }
   async function exporterCle() {
     const info = menu.querySelector(".info"); info.textContent = "Préparation de l'export…";
     try {
-      const notes = {}, ids = new Set();
-      for (const k of clesNotes()) { const v = localStorage.getItem(k); notes[k] = v;
-        if (k.includes("-img:")) try { JSON.parse(v).forEach(e => { if (e && typeof e.src === "string" && e.src.startsWith("idb:")) ids.add(e.src.slice(4)); }); } catch (e) {} }
-      const images = {}; for (const id of ids) { const d = await idbGet(id).catch(() => null); if (d) images[id] = d; }
-      const contenu = JSON.stringify({ type: "export-cle", version: 1, quand: Date.now(), appareil: navigator.userAgent.slice(0, 120), notes, images });
+      const contenu = await contenuExport(), n = Object.keys(JSON.parse(contenu).notes).length;
       const nom = "notes-cle-" + new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "") + ".json";
       if (window.showSaveFilePicker) {                                   // Edge : on choisit directement la clé USB
         const h = await window.showSaveFilePicker({ suggestedName: nom, types: [{ description: "Notes du tableau", accept: { "application/json": [".json"] } }] });
         const w = await h.createWritable(); await w.write(contenu); await w.close();
       } else { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([contenu], { type: "application/json" })); a.download = nom; a.click(); }
       localStorage.setItem("encre-export-date", String(Date.now())); rappelExport();
-      info.textContent = "✔ Exporté : " + Object.keys(notes).length + " notes, " + Object.keys(images).length + " images";
+      info.textContent = "✔ Exporté : " + n + " notes";
     } catch (e) { if (e.name !== "AbortError") info.textContent = "Export impossible (" + e.message + ")"; else info.textContent = "Export annulé"; }
+  }
+  /* Enregistrement AUTOMATIQUE sur la clé (Edge) : le dossier Kit-de-secours est choisi une fois sur ce Speechi,
+     puis, chaque jour, Edge demande une seule fois l'autorisation (au premier appui). Ensuite les notes sont écrites
+     sur la clé (Kit-de-secours/notes-cle.json) au fil du cours ; le soir, le Chromebook les réunit tout seul avec le site. */
+  let dossierCle = null, autoriseCle = false, ecritA = 0;
+  function zoneAvert() {
+    let z = document.querySelector(".encre-avertissements");
+    if (!z) { z = document.createElement("div"); z.className = "encre-avertissements"; document.body.appendChild(z); }
+    return z;
+  }
+  function bandeauCle(texte, action) {
+    let d = document.querySelector(".encre-bandeau-cle"); if (!texte) { if (d) d.remove(); return; }
+    if (!d) { d = document.createElement("button"); d.className = "encre-bandeau-cle"; zoneAvert().appendChild(d); }
+    d.textContent = texte; d.onclick = action;
+  }
+  async function verifierCle(geste) {
+    if (location.protocol !== "file:" || !window.showDirectoryPicker) return;
+    try {
+      if (!dossierCle) dossierCle = await idbGet("cle-dossier").catch(() => null);
+      if (!dossierCle) { bandeauCle("📌 Enregistrer les notes sur la clé : touchez ici, puis choisissez le dossier « Kit-de-secours » de la clé", async () => {
+          try { dossierCle = await window.showDirectoryPicker({ id: "kit-de-secours", mode: "readwrite" }); await idbPut("cle-dossier", dossierCle); autoriseCle = true; bandeauCle(null); ecrireSurCle(true); }
+          catch (e) { if (e.name !== "AbortError") bandeauCle("⚠ Dossier refusé (" + e.message + ") : touchez pour réessayer", () => verifierCle(true)); } }); return; }
+      let etat = await dossierCle.queryPermission({ mode: "readwrite" });
+      if (etat !== "granted" && geste) etat = await dossierCle.requestPermission({ mode: "readwrite" });
+      autoriseCle = etat === "granted";
+      if (autoriseCle) { bandeauCle(null); ecrireSurCle(true); }
+      else bandeauCle("📌 Touchez ici pour autoriser l'enregistrement des notes sur la clé (une fois par jour)", () => verifierCle(true));
+    } catch (e) { bandeauCle("⚠ Clé introuvable ou débranchée : touchez pour choisir à nouveau le dossier « Kit-de-secours »", async () => { dossierCle = null; await idbPut("cle-dossier", null).catch(() => {}); verifierCle(true); }); }
+  }
+  async function ecrireSurCle(forcer) {
+    if (!autoriseCle || !dossierCle) return;
+    let modif = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +localStorage.getItem(k) || 0); }); } catch (e) {}
+    if (!forcer && modif <= ecritA) return;
+    const debut = Date.now();                                            // un trait tracé pendant l'écriture sera repris au tour suivant
+    try { const f = await dossierCle.getFileHandle("notes-cle.json", { create: true }), w = await f.createWritable();
+      await w.write(await contenuExport()); await w.close(); ecritA = debut;
+      localStorage.setItem("encre-export-date", String(ecritA)); rappelExport();
+      menu.querySelector(".info").textContent = "✔ Notes enregistrées sur la clé à " + new Date(ecritA).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    } catch (e) { autoriseCle = false; verifierCle(false); if (window.__noterErreur) window.__noterErreur("écriture sur la clé : " + e.message, ""); }
+  }
+  if (location.protocol === "file:" && window.showDirectoryPicker) {
+    setTimeout(() => verifierCle(false), 1200);
+    document.addEventListener("pointerdown", () => { if (!autoriseCle && dossierCle) verifierCle(true); }, { capture: true, once: false, passive: true });
+    setInterval(() => ecrireSurCle(false), 8000);
+    addEventListener("pagehide", () => ecrireSurCle(false));
   }
   function rappelExport() {                                            // des notes écrites sur la clé n'ont pas encore été exportées
     if (location.protocol !== "file:") return;
@@ -2839,6 +2900,8 @@ document.addEventListener("DOMContentLoaded", function () {
           if (A && B) { const res = fusion(A, B, -1); if (res.length !== A.length && ecrireNote(k, JSON.stringify(res))) changees.add(k); }
         }
         for (const [id, d] of Object.entries(N.images || {})) { if (!(await idbGet(id).catch(() => null))) await idbPut(id, d).catch(() => {}); }
+        try { const base = {}; clesNotes().forEach(k => { const v = localStorage.getItem(k); if (N.notes && N.notes[k] !== undefined && v === N.notes[k]) base[k] = empreinte(v); });
+          localStorage.setItem("encre-cle-base", JSON.stringify(base)); } catch (e) {}
         try { localStorage.setItem("encre-notes-version", N.version); } catch (e) {}
         if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); majBoutonExos(); } };
       document.head.appendChild(sc); }
@@ -2850,7 +2913,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 18h51";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 19h38";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -2916,6 +2979,55 @@ document.addEventListener("DOMContentLoaded", function () {
   // (seul ce qui manque ou a changé est téléchargé) — une coupure de réseau ne doit jamais être une surprise
   setTimeout(() => { let t = 0; try { t = +localStorage.getItem("encre-hl-date") || 0; } catch (e) {}
     if (RACINE && navigator.onLine && document.visibilityState === "visible" && Date.now() - t > 20 * 3600000) preparerHorsLigne(true); }, 25000);
+  /* ---------- Avertissements : un problème doit se voir TOUT DE SUITE, jamais à la fin du cours ----------
+     iPad / en ligne : notes pas envoyées (voyant du bouton ☁ + bandeau rouge après 5 min), compte déconnecté, copie hors ligne trop vieille.
+     Clé USB : enregistrement sur la clé pas autorisé alors qu'on écrit, version de la clé pas synchronisée depuis 7 jours.
+     ✕ masque un avertissement 30 min ; il revient si le problème est toujours là. */
+  const CHARGEE = Date.now(), masques = {};
+  let attenteDepuis = 0;
+  function avert(id, texte, rouge, action, bouton) {
+    let d = document.querySelector('.encre-avert[data-id="' + id + '"]');
+    if (!texte || (masques[id] || 0) > Date.now()) { if (d) d.remove(); return; }
+    if (!d) { d = document.createElement("div"); d.className = "encre-avert"; d.dataset.id = id; d.setAttribute("role", "alert");
+      d.innerHTML = "<span></span><button data-a></button><button data-x title='Masquer 30 min'>✕</button>"; zoneAvert().appendChild(d);
+      d.querySelector("[data-x]").onclick = () => { masques[id] = Date.now() + 30 * 60000; d.remove(); }; }
+    d.classList.toggle("rouge", !!rouge); d.querySelector("span").textContent = texte;
+    const a = d.querySelector("[data-a]"); a.hidden = !action; a.textContent = bouton || "Réparer"; a.onclick = d.querySelector("span").onclick = action || null;
+  }
+  const dateCourte = t => new Date(t).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const ecritRecemment = jours => { let m = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { m = Math.max(m, +localStorage.getItem(k) || 0); }); } catch (e) {} return m > Date.now() - jours * 86400000 ? m : 0; };
+  function surveiller() {
+    try {
+      if (location.protocol === "file:") {                                // ----- clé USB -----
+        const b = document.querySelector(".encre-bandeau-cle"), m = ecritRecemment(1);
+        if (b && window.showDirectoryPicker && !autoriseCle && m > CHARGEE) {
+          b.classList.add("urgent"); if (!b.textContent.startsWith("⚠ Vos notes")) b.textContent = "⚠ Vos notes ne sont PAS enregistrées sur la clé : touchez ici" + (dossierCle ? " pour autoriser" : ", puis choisissez le dossier « Kit-de-secours »"); }
+        const N = window.__NOTES_EN_LIGNE, v = N && +N.version;
+        if (Date.now() - CHARGEE > 5000) avert("cle-vieille", !v ? "La clé n'a jamais été synchronisée avec le site : branchez-la sur le Chromebook ce soir."
+          : Date.now() - v > 7 * 86400000 ? "Clé synchronisée pour la dernière fois " + dateCourte(v) + " : les nouveautés du site manquent. Branchez-la sur le Chromebook ce soir." : null);
+        return;
+      }
+      // ----- en ligne (iPad, Chromebook, Speechi connecté) -----
+      const enAttente = SYNC.actif ? clesNotes().filter(k => k.startsWith(PAGE)).filter(k => enLigne[k] !== empreinte(localStorage.getItem(k) || "")).length : 0;
+      if (!enAttente) attenteDepuis = 0; else if (!attenteDepuis) attenteDepuis = Date.now();
+      const minutes = attenteDepuis ? Math.floor((Date.now() - attenteDepuis) / 60000) : 0;
+      bSync.classList.toggle("s-ok", SYNC.actif && !enAttente); bSync.classList.toggle("s-att", SYNC.actif && !!enAttente && minutes < 5); bSync.classList.toggle("s-ko", SYNC.actif && !!enAttente && minutes >= 5);
+      if (enAttente && SYNC.etat === "☁ À jour") bSync.textContent = "☁ Envoi en attente"; else if (bSync.textContent !== SYNC.etat) bSync.textContent = SYNC.etat;
+      bSync.title = !SYNC.actif ? "Notes non sauvegardées en ligne" : enAttente ? "Notes de cette page pas encore envoyées" + (navigator.onLine ? "" : " (pas de réseau : envoi au retour du réseau)") : "Toutes les notes de cette page sont en ligne";
+      const relancer = () => { recevoir().then(recevoirPage).then(() => envoyer(true)).catch(() => etatSync("☁ Hors ligne")); };
+      avert("envoi", SYNC.actif && enAttente && minutes >= 5 ? (navigator.onLine
+          ? "⚠ Notes de cette page PAS envoyées depuis " + minutes + " min, malgré le réseau. Elles restent sur cet appareil : ne videz rien."
+          : "Pas de réseau depuis " + minutes + " min : notes gardées sur cet appareil, envoyées au retour du réseau.") : null, navigator.onLine, navigator.onLine ? relancer : null, "Réessayer");
+      const deconnecte = !SYNC.actif && Date.now() - CHARGEE > 20000 && (SYNC.etat === "☁ Se connecter" || localStorage.getItem("encre-sync") !== "1");
+      avert("compte", deconnecte && ecritRecemment(7) ? "⚠ Non connecté : vos notes restent sur cet appareil seulement (rien n'est sauvegardé en ligne)." : null, true, fenetreConnexion, "Se connecter");
+      if (RACINE && "caches" in window && "serviceWorker" in navigator && Date.now() - CHARGEE > 120000 && !preparation) {
+        const t = +localStorage.getItem("encre-hl-date") || 0;
+        avert("hors-ligne", Date.now() - t > 3 * 86400000 ? (t ? "Copie hors ligne de cet appareil datée de " + dateCourte(t) : "Cet appareil n'a pas de copie hors ligne") + " : sans réseau, le site serait incomplet."
+          : null, false, () => preparerHorsLigne(false), "Préparer");
+      }
+    } catch (e) {}
+  }
+  setInterval(surveiller, 10000); setTimeout(surveiller, 2500); setTimeout(surveiller, 6000);
   // retour du réseau : synchro immédiate
   addEventListener("online", () => { if (SYNC.actif) recevoir().then(recevoirPage).then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")); });
   /* Versions mises de côté avant une fusion qui a retiré des traits : téléchargées en un fichier .json,
