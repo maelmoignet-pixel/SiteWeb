@@ -845,13 +845,26 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
   const IMAGES = {};
   let baseIdb = null;
+  /* Safari (iPad, application de l'écran d'accueil) perd parfois sa connexion à IndexedDB après un passage en arrière-plan :
+     les demandes ne répondent plus jamais (« without an in-progress transaction »). Chaque opération a donc un délai maximal ;
+     en cas d'échec, on ferme la connexion, on en rouvre une neuve et on réessaie une fois. */
   function idb() {
     baseIdb = baseIdb || new Promise((ok, ko) => { const r = indexedDB.open("encre-captures", 1);
-      r.onupgradeneeded = () => r.result.createObjectStore("captures"); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); });
-    return baseIdb;
+      r.onupgradeneeded = () => r.result.createObjectStore("captures");
+      r.onsuccess = () => { const db = r.result; db.onclose = () => { baseIdb = null; }; db.onversionchange = () => { try { db.close(); } catch (e) {} baseIdb = null; }; ok(db); };
+      r.onerror = () => ko(r.error); r.onblocked = () => ko(new Error("IndexedDB bloquée")); });
+    const p = baseIdb; p.catch(() => { if (baseIdb === p) baseIdb = null; });
+    return p;
   }
-  const idbPut = (id, v) => idb().then(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); }));
-  const idbGet = id => idb().then(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  function idbFaire(op, ms = 8000) {
+    const essai = () => Promise.race([idb().then(op), new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))]);
+    return essai().catch(e => { const p = baseIdb; baseIdb = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {});
+      if (window.__noterErreur) window.__noterErreur("IndexedDB relancée : " + e.message, "");
+      return essai(); });
+  }
+  const idbPut = (id, v) => idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); }));
+  const idbGet = id => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  const idbCles = () => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
   function attendreSync() {                                             // la connexion à Firebase se fait juste après l'ouverture de la page
     let k = 0; const pret = () => window.encreSync && window.encreSync.manuel;
     return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return localStorage.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
@@ -2817,7 +2830,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 19h38";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 19h52";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -2938,7 +2951,8 @@ document.addEventListener("DOMContentLoaded", function () {
      rechargeable avec « Charger des notes » (on garde, pour chaque note de cette page, la version la plus récente mise de côté) */
   async function versionsGardees() {
     const info = menu.querySelector(".info");
-    try { const db = await idb(), cles = await new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); });
+    info.textContent = "Recherche des versions gardées…";
+    try { const cles = await idbCles();
       const miennes = cles.filter(k => typeof k === "string" && k.startsWith("hist:" + PAGE)).sort();
       if (!miennes.length) { info.textContent = "Aucune version gardée pour cette page"; return; }
       const donnees = {};
@@ -2949,6 +2963,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) { info.textContent = "Versions gardées illisibles (" + e.message + ")"; }
   }
   async function diagnostic() {
+    menu.querySelector(".info").textContent = "Diagnostic en cours (quelques secondes)…";
     let total = 0, notes = 0, nb = 0, pageEnCours = 0; const parPage = {};
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ""; total += k.length + v.length;
       if (k.startsWith("encre:")) { nb++; notes += v.length; const pg = k.split("|")[0].split("#")[0]; parPage[pg] = (parPage[pg] || 0) + v.length; if (pg === PAGE) pageEnCours += v.length; } } } catch (e) {}
