@@ -25,4 +25,14 @@ if (lls / "index.json").exists():
     shutil.copytree(lls / "images", cible); shutil.copy(lls / "index.json", cible / "index.json")
     en_js(cible / "index.json", "terminale-spe/exercices-lls/"); n += 1
     print(f"[hors ligne] manuel de Terminale (privé) ajouté : {len(json.loads((lls / 'index.json').read_text()))} exercices")
+# notes prises en ligne (déposées par la synchro du soir, ~/Outils/synchro-cle) : recopiées dans la version de la clé, sans les photos de copies
+notes = Path.home() / "Outils/synchro-cle/notes-en-ligne.json"
+if notes.exists():
+    d = json.loads(notes.read_text(encoding="utf-8"))
+    for k, v in list(d.get("notes", {}).items()):
+        if "-img:" in k:
+            try: d["notes"][k] = json.dumps([e for e in json.loads(v) if not (isinstance(e, dict) and e.get("copie"))])
+            except Exception: pass
+    (out / "notes-en-ligne.js").write_text("window.__NOTES_EN_LIGNE=" + json.dumps(d) + ";", encoding="utf-8")
+    print(f"[hors ligne] notes en ligne recopiées : {len(d.get('notes', {}))} notes, {len(d.get('images', {}))} images")
 print(f"[hors ligne] {n} fichiers de données livrés aussi en .js")

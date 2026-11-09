@@ -16,3 +16,7 @@ Overleaf*/
 
 # Manuel de Terminale (privé) : seulement dans la version hors ligne, jamais dans le dépôt
 terminale-spe/exercices-lls/
+
+# Notes de Maël recopiées dans la version de la clé : jamais dans le dépôt public
+notes-en-ligne.js
+notes-en-ligne.json
