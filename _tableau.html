@@ -134,6 +134,15 @@
 @media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-calque, .encre-page-barre { display: none !important; } }
 </style>
 <script>
+/* Journal des erreurs du mode tableau, gardé sur l'appareil (bouton « Diagnostic ») */
+(() => {
+  const noter = (msg, ou) => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]");
+    l.push({ t: Date.now(), m: String(msg).slice(0, 200), o: String(ou || "").slice(0, 120), p: location.pathname.split("/").slice(-2).join("/") });
+    localStorage.setItem("encre-erreurs", JSON.stringify(l.slice(-15))); } catch (e) {} };
+  window.__noterErreur = noter;
+  addEventListener("error", e => noter(e.message, (e.filename || "").split("/").pop() + ":" + e.lineno));
+  addEventListener("unhandledrejection", e => noter("promesse : " + (e.reason && (e.reason.message || e.reason)), ""));
+})();
 (() => {
   const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
@@ -161,7 +170,7 @@
       try { localStorage.setItem(k, v); alerteMemoire(false); return true; }
       catch (e) { if (!(window.__libererPlace && window.__libererPlace(k, (v || "").length * 2 + 200000))) break; }
     }
-    alerteMemoire(true); return false;
+    alerteMemoire(true); if (window.__noterErreur) window.__noterErreur("enregistrement impossible (mémoire pleine)", k.slice(0, 100)); return false;
   }
   function alerteMemoire(oui) {
     let b = document.querySelector(".encre-alerte-memoire");
@@ -393,7 +402,8 @@
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
       try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
-      catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable"; }
+      catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable";
+        if (window.__noterErreur) window.__noterErreur("exercice n°" + n + " p." + p + " : " + e.message, MANUEL ? MANUEL.nom : ""); }
     }
     async function insererCapture(dataUrl, infos = { capture: true }, marge) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
@@ -417,7 +427,7 @@
     // copie d'élève photographiée au téléphone : déjà téléchargée en arrière-plan, elle s'affiche tout de suite
     async function insererCopieEleve(msg) {
       const C = window.encreCopies;
-      if (!C) { msg.textContent = "Connectez-vous (☁) pour recevoir les copies"; return; }
+      if (!C) { msg.textContent = "Connectez-vous (☁) pour recevoir les copies"; if (window.__noterErreur) window.__noterErreur("copie d'élève : pas de connexion (☁)", ""); return; }
       if (!C.liste.length) { msg.textContent = "Aucune copie reçue : photographiez-la avec le téléphone (page …/copie/)"; return; }
       return mettreCopie(C.liste.length === 1 ? C.liste[0] : null, msg);
     }
@@ -1534,7 +1544,7 @@
   const PAGE_NIVEAU = !!document.querySelector("main .chapitres") && !/\/chapitres\//.test(location.pathname);   // + une ardoise du niveau, hors chapitres
   if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="diag">Diagnostic</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -1997,8 +2007,8 @@
     catch (e) { return null; }
   }
   setInterval(() => { if (SYNC.actif) envoyer(); }, 4000);
-  /* Diagnostic : ouvrir n'importe quelle page du site suivie de #diagnostic (utile sur iPad, sans console) */
-  if (location.hash === "#diagnostic") setTimeout(async () => {
+  /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
+  async function diagnostic() {
     let total = 0, notes = 0, nb = 0, pageEnCours = 0; const parPage = {};
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ""; total += k.length + v.length;
       if (k.startsWith("encre:")) { nb++; notes += v.length; const pg = k.split("|")[0].split("#")[0]; parPage[pg] = (parPage[pg] || 0) + v.length; if (pg === PAGE) pageEnCours += v.length; } } } catch (e) {}
@@ -2013,10 +2023,13 @@
       "Place libre restante : environ " + mo(place * 250000) + (place >= 40 ? " ou plus" : place === 0 ? "  ⚠ PLEINE" : "") + "\n" +
       "Notes de cette page : " + mo(pageEnCours) + "\n" +
       "Stockage des images (IndexedDB) : " + idb + "\n" +
+      "Ouverture : " + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? "icône de l'écran d'accueil (application séparée de Safari)" : "navigateur") + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
-      "Pages qui prennent le plus de place :\n" + grosses);
-  }, 4000);
+      "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
+      "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
+  }
+  if (location.hash === "#diagnostic") setTimeout(diagnostic, 4000);
   setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
   document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(true); else recevoir().then(envoyer).catch(() => {}); });
   addEventListener("pagehide", () => { if (SYNC.actif) envoyer(true); });
@@ -2183,6 +2196,7 @@
       creerPdf(base + ".pdf");
     }
     if (m === "imp") fichier.click();
+    if (m === "diag") diagnostic();
   });
   fichier.addEventListener("change", async () => {
     const f = fichier.files[0]; if (!f) return;
