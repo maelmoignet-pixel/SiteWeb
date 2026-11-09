@@ -16,6 +16,7 @@
 # =========================================================================
 set -euo pipefail
 cd "$(dirname "$0")"
+python3 verifier_scripts.py || exit 1                                # garde-fou : jamais de mode tableau cassé en ligne
 
 REF_FICHIER=".derniere-publication"
 MODE="${1:-}"
@@ -31,7 +32,7 @@ else
     mapfile -t MODIFIES < <( { git diff --no-renames --name-only "$REF" --; git ls-files --others --exclude-standard; } | sort -u )
     mapfile -t SUPPRIMES < <( git diff --no-renames --name-only --diff-filter=D "$REF" -- )
 
-    if printf '%s\n' "${MODIFIES[@]}" | grep -qE '^(_quarto[^/]*\.yml|styles\.css|index\.qmd|_nouvel-onglet\.html|_tableau\.html|_ma-seance\.html|_compteur\.html)$'; then
+    if printf '%s\n' "${MODIFIES[@]}" | grep -qE '^(_quarto[^/]*\.yml|styles\.css|index\.qmd|_nouvel-onglet\.html|_tableau\.html|_ma-seance\.html|_compteur\.html|sw\.js)$'; then
         [[ "$MODE" == "--essai" ]] && { echo "Configuration ou apparence modifiée : rendu complet nécessaire."; exit 0; }
         rendu_complet
     else
@@ -62,6 +63,8 @@ else
     fi
 fi
 
+python3 liste_hors_ligne.py _site                                   # liste pour « Préparer le hors ligne » (iPad)
+[[ -f sw.js ]] && cp sw.js _site/sw.js
 echo "→ Publication sur GitHub Pages…"
 quarto publish gh-pages --no-render --no-prompt
 git rev-parse HEAD > "$REF_FICHIER"

@@ -36,6 +36,8 @@ project:
     - "automatismes/**"
     # Python dans le navigateur (moteur Pyodide chargé depuis cdn.jsdelivr.net)
     - "python/**"
+    # Mode hors ligne de l'iPad (service worker ; la liste hors-ligne.json est faite par publier.sh)
+    - "sw.js"
 
 lang: fr
 
