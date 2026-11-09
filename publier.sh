@@ -63,6 +63,7 @@ else
     fi
 fi
 
+V="$(date '+%d/%m à %Hh%M')"; grep -rl "__VERSION_TABLEAU__" _site --include=*.html | while read -r f; do sed -i "s|__VERSION_TABLEAU__|$V|g" "$f"; done   # date de la version, affichée sur l'iPad
 python3 liste_hors_ligne.py _site                                   # liste pour « Préparer le hors ligne » (iPad)
 [[ -f sw.js ]] && cp sw.js _site/sw.js
 echo "→ Publication sur GitHub Pages…"
