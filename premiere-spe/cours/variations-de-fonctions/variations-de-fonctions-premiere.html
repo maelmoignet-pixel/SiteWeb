@@ -2612,8 +2612,9 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.serviceWorker.register(RACINE + "sw.js", { scope: RACINE }).catch(e => { if (window.__noterErreur) window.__noterErreur("hors ligne : " + e.message, "sw.js"); });
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
-  async function preparerHorsLigne() {
-    const info = menu.querySelector(".info"), b = menu.querySelector('[data-m="hl"]');
+  async function preparerHorsLigne(discret) {
+    const vraiInfo = menu.querySelector(".info"), b = menu.querySelector('[data-m="hl"]');
+    const info = discret ? { set textContent(t) { if (/prêt|interrompue|manquant/.test(t)) b.title = t; } } : vraiInfo;   // en arrière-plan : aucun message pendant le cours
     if (preparation) return; if (!RACINE || !("caches" in window)) { info.textContent = "Hors ligne impossible ici"; return; }
     if (!navigator.onLine) { info.textContent = "Il faut du réseau pour préparer le hors ligne"; return; }
     preparation = true; b.disabled = true;
@@ -2645,6 +2646,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (e) { info.textContent = "Préparation interrompue (" + e.message + ") : relancer"; if (window.__noterErreur) window.__noterErreur("préparer le hors ligne : " + e.message, ""); }
     preparation = false; b.disabled = false;
   }
+  // préparation AUTOMATIQUE : à l'ouverture d'une page avec du réseau, au plus une fois par jour, en arrière-plan
+  // (seul ce qui manque ou a changé est téléchargé) — une coupure de réseau ne doit jamais être une surprise
+  setTimeout(() => { let t = 0; try { t = +localStorage.getItem("encre-hl-date") || 0; } catch (e) {}
+    if (RACINE && navigator.onLine && document.visibilityState === "visible" && Date.now() - t > 20 * 3600000) preparerHorsLigne(true); }, 25000);
   // retour du réseau : synchro immédiate
   addEventListener("online", () => { if (SYNC.actif) recevoir().then(recevoirPage).then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")); });
   /* Versions mises de côté avant une fusion qui a retiré des traits : téléchargées en un fichier .json,
@@ -2858,7 +2863,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (m === "imp") fichier.click();
     if (m === "diag") diagnostic();
-    if (m === "hl") preparerHorsLigne();
+    if (m === "hl") preparerHorsLigne(false);
     if (m === "hist") versionsGardees();
   });
   fichier.addEventListener("change", async () => {
