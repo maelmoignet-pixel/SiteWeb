@@ -3226,7 +3226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const b = menu.querySelector('[data-m="hl"]');
     const info = { set textContent(t) { b.title = t;                  // chaque étape s'affiche dans l'encadré de progression
       const m = t.match(/(\d+) \/ (\d+)/), fin = /prêt|interrompue|impossible|Il faut/.test(t);
-      progres("Hors ligne — " + t, m ? +m[1] / +m[2] : fin ? 1 : 0, fin ? (/⚠|interrompue|impossible|Il faut|non gardé/.test(t) ? "ko" : "ok") : ""); } };
+      progres("Hors ligne — " + t, m ? +m[1] / +m[2] : fin ? 1 : 0, fin ? (/⚠|interrompu|impossible|Il faut|non gardé/.test(t) ? "ko" : "ok") : ""); } };
     if (preparation) return; if (!RACINE || !("caches" in window)) { info.textContent = "Hors ligne impossible ici"; return; }
     if (!navigator.onLine) { info.textContent = "Il faut du réseau pour préparer le hors ligne"; return; }
     preparation = true; b.disabled = true;
@@ -3245,13 +3245,30 @@ document.addEventListener("DOMContentLoaded", function () {
       try { localStorage.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {}
       // manuel de Terminale (privé) : depuis le compte, gardé sur l'appareil
       let manuel = "";
+      info.textContent = "Manuel de Terminale : connexion au compte…";
       const S = await attendreSync();
-      if (S) { try { const idx = await lireManuel("_index", "manuel-tle");
-          if (idx && idx.cles) { await idbPut("manuel-index", JSON.stringify(idx.cles)); let m = 0, nouv = 0;
-            for (let i = 0; i < idx.cles.length; i += 8) await Promise.all(idx.cles.slice(i, i + 8).map(async k => { const src = "manuel:manuel-tle/" + k;
-              if (!(await idbGet(src).catch(() => null))) { const x = await lireManuel(k, "manuel-tle").catch(() => null); if (x && x.d) { await idbPut(src, x.d); nouv++; } else erreurs++; }
-              if (++m % 40 === 0) info.textContent = "Manuel de Terminale : " + m + " / " + idx.cles.length; }));
-            manuel = " · manuel de Terminale : " + idx.cles.length + " exercices"; } } catch (e) { erreurs++; } }
+      const limite = (pr, ms) => Promise.race([pr, new Promise((_, ko) => setTimeout(() => ko(new Error("pas de réponse en " + ms / 1000 + " s")), ms))]);
+      if (S) { try {
+          info.textContent = "Manuel de Terminale : lecture de la liste…";
+          const idx = await limite(lireManuel("_index", "manuel-tle"), 30000);
+          if (!idx || !idx.cles) throw new Error("liste des exercices absente du compte");
+          await limite(idbPut("manuel-index", JSON.stringify(idx.cles)), 15000);
+          let m = 0, deja = 0, echecs = 0, suite = 0, derniere = "";
+          const N = idx.cles.length; info.textContent = "Manuel de Terminale : 0 / " + N;
+          for (let i = 0; i < N; i += 8) {
+            await Promise.all(idx.cles.slice(i, i + 8).map(async k => { const src = "manuel:manuel-tle/" + k;
+              try { if (await limite(idbGet(src), 10000).catch(() => null)) { deja++; suite = 0; }
+                    else { const x = await limite(lireManuel(k, "manuel-tle"), 20000); if (!x || !x.d) throw new Error("exercice " + k + " absent");
+                           await limite(idbPut(src, x.d), 15000); suite = 0; } }
+              catch (e) { echecs++; suite++; derniere = e.message; }
+              m++; }));
+            info.textContent = "Manuel de Terminale : " + m + " / " + N;
+            if (suite >= 24) throw new Error("Firebase ne répond plus (" + derniere + ")");   // on ne reste pas bloqué : on arrête et on le dit
+          }
+          if (echecs) { erreurs += echecs; if (window.__noterErreur) window.__noterErreur("hors ligne, manuel : " + echecs + " exercice(s) non gardé(s) — " + derniere, ""); }
+          manuel = " · manuel de Terminale : " + (N - echecs) + " / " + N + " exercices";
+        } catch (e) { erreurs++; manuel = " · manuel de Terminale interrompu : " + e.message;
+          if (window.__noterErreur) window.__noterErreur("hors ligne, manuel interrompu : " + e.message, ""); } }
       else manuel = " · manuel de Terminale non gardé (connectez-vous ☁)";
       try { localStorage.setItem("encre-hl-date", String(Date.now())); } catch (e) {}
       info.textContent = (erreurs ? "⚠ Hors ligne prêt, " + erreurs + " fichier(s) manquant(s) : relancer" : "✔ Hors ligne prêt") + manuel;
