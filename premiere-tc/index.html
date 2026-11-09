@@ -391,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-hl-progres .barre i { display: block; height: 100%; width: 0; background: #2d4db0; transition: width .3s; }
 .encre-hl-progres.ok .barre i { background: #1f7a3d; } .encre-hl-progres.ko { border-color: #b3261e; } .encre-hl-progres.ko .barre i { background: #b3261e; }
 .encre-hl-progres button { float: right; border: 0; background: none; font-size: 15px; cursor: pointer; color: #5d6679; padding: 0 2px; }
+.encre-menu button.usb.a-faire { background: #b35c00; color: #fff; border-color: #b35c00; }
 .encre-alerte-memoire { position: fixed; top: 0; left: 0; right: 0; z-index: 2147483600; background: #b3261e; color: #fff; font: 700 18px system-ui, sans-serif; padding: 14px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
@@ -423,7 +424,12 @@ document.addEventListener("DOMContentLoaded", function () {
     try { localStorage.removeItem("encre-hl"); localStorage.removeItem("encre-hl-date"); } catch (e) {}
     return;
   }
-  const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
+  // version de la clé USB (file://) : les notes portent le MÊME nom qu'en ligne (« /SiteWeb/… »), pour pouvoir les réunir le soir
+  const RACINE_FICHIERS = (() => { const lib = document.querySelector('script[src*="site_libs/"]'); return lib ? new URL(lib.getAttribute("src").split("site_libs/")[0], location.href).href : null; })();
+  const nomDePage = url => { const u = new URL(url, location.href);   // nom d'une page dans les clés de notes (identique en ligne et sur la clé)
+    if (u.protocol !== "file:") return "encre:" + u.pathname;
+    return "encre:" + (RACINE_FICHIERS ? "/SiteWeb/" + u.href.split(/[?#]/)[0].slice(RACINE_FICHIERS.length) : document.title); };
+  const PAGE = nomDePage(location.href);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
   // outils de tracé : main levée, et formes « à la règle » (enregistrées comme des traits, comme le reste)
@@ -1826,7 +1832,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PAGE_NIVEAU = !!document.querySelector("main .chapitres") && !/\/chapitres\//.test(location.pathname);   // + une ardoise du niveau, hors chapitres
   if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="hl">Préparer le hors ligne</button><button data-m="diag">Diagnostic</button><button data-m="hist">Versions gardées</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button>${location.protocol === "file:" ? '<button data-m="usb" class="usb">Exporter pour le Chromebook</button>' : '<button data-m="hl">Préparer le hors ligne</button>'}<button data-m="diag">Diagnostic</button><button data-m="hist">Versions gardées</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -1842,7 +1848,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function rangerFeuillesDansLeCours() {
     if (blocs.length) return;
     const a = document.querySelector('main a[href*="cours/"][href$=".html"]'); if (!a) return;
-    let cible; try { cible = "encre:" + new URL(a.getAttribute("href"), location.href).pathname; } catch (e) { return; }
+    let cible; try { cible = nomDePage(a.getAttribute("href")); } catch (e) { return; }
     if (cible === PAGE) return;
     const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
     const cles = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:"))) cles.push(k); } } catch (e) { return; }
@@ -2335,6 +2341,50 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
     recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).then(envoyerErreurs).finally(() => { cycle = false; }); }, 4000);
   /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
+  /* ---------- Clé USB (version hors ligne sur le Speechi) ---------- */
+  // export de TOUTES les notes de la clé (toutes les pages) et des images gardées sur l'appareil : un seul fichier, réuni le soir avec Firebase
+  async function exporterCle() {
+    const info = menu.querySelector(".info"); info.textContent = "Préparation de l'export…";
+    try {
+      const notes = {}, ids = new Set();
+      for (const k of clesNotes()) { const v = localStorage.getItem(k); notes[k] = v;
+        if (k.includes("-img:")) try { JSON.parse(v).forEach(e => { if (e && typeof e.src === "string" && e.src.startsWith("idb:")) ids.add(e.src.slice(4)); }); } catch (e) {} }
+      const images = {}; for (const id of ids) { const d = await idbGet(id).catch(() => null); if (d) images[id] = d; }
+      const contenu = JSON.stringify({ type: "export-cle", version: 1, quand: Date.now(), appareil: navigator.userAgent.slice(0, 120), notes, images });
+      const nom = "notes-cle-" + new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "") + ".json";
+      if (window.showSaveFilePicker) {                                   // Edge : on choisit directement la clé USB
+        const h = await window.showSaveFilePicker({ suggestedName: nom, types: [{ description: "Notes du tableau", accept: { "application/json": [".json"] } }] });
+        const w = await h.createWritable(); await w.write(contenu); await w.close();
+      } else { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([contenu], { type: "application/json" })); a.download = nom; a.click(); }
+      localStorage.setItem("encre-export-date", String(Date.now())); rappelExport();
+      info.textContent = "✔ Exporté : " + Object.keys(notes).length + " notes, " + Object.keys(images).length + " images";
+    } catch (e) { if (e.name !== "AbortError") info.textContent = "Export impossible (" + e.message + ")"; else info.textContent = "Export annulé"; }
+  }
+  function rappelExport() {                                            // des notes écrites sur la clé n'ont pas encore été exportées
+    if (location.protocol !== "file:") return;
+    let modif = 0, exp = 0; try { exp = +localStorage.getItem("encre-export-date") || 0; clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +localStorage.getItem(k) || 0); }); } catch (e) {}
+    const b = menu.querySelector('[data-m="usb"]'); if (b) { b.classList.toggle("a-faire", modif > exp); b.textContent = modif > exp ? "⚠ Exporter pour le Chromebook" : "Exporter pour le Chromebook"; }
+  }
+  if (location.protocol === "file:") { setInterval(rappelExport, 5000); setTimeout(rappelExport, 1500);
+    if (/Firefox/.test(navigator.userAgent)) setTimeout(() => { const d = document.createElement("div"); d.className = "encre-alerte-memoire";
+      d.textContent = "⚠ Version de la clé : ouvrez-la plutôt avec EDGE. Avec Firefox, les notes de chaque page restent séparées et l'export du soir serait incomplet.";
+      d.onclick = () => d.remove(); document.body.appendChild(d); }, 1500); }
+  // notes prises en ligne, recopiées sur la clé chaque soir (notes-en-ligne.js) : ajoutées UNE fois par version (un trait effacé ici ne revient pas)
+  if (location.protocol === "file:") {
+    const lib = document.querySelector('script[src*="site_libs/"]');
+    if (lib) { const sc = document.createElement("script"); sc.src = lib.getAttribute("src").split("site_libs/")[0] + "notes-en-ligne.js";
+      sc.onload = async () => { const N = window.__NOTES_EN_LIGNE; if (!N || !N.version || localStorage.getItem("encre-notes-version") === N.version) return;
+        const changees = new Set();
+        for (const [k, v] of Object.entries(N.notes || {})) {
+          const loc = localStorage.getItem(k), A = lireTableau(loc), B = lireTableau(v);
+          if (loc === null) { if (ecrireNote(k, v)) changees.add(k); continue; }
+          if (A && B) { const res = fusion(A, B, -1); if (res.length !== A.length && ecrireNote(k, JSON.stringify(res))) changees.add(k); }
+        }
+        for (const [id, d] of Object.entries(N.images || {})) { if (!(await idbGet(id).catch(() => null))) await idbPut(id, d).catch(() => {}); }
+        try { localStorage.setItem("encre-notes-version", N.version); } catch (e) {}
+        if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); majBoutonExos(); } };
+      document.head.appendChild(sc); }
+  }
   /* ---------- Hors ligne (iPad) : le service worker sert la copie gardée quand le réseau manque ---------- */
   const RACINE = (() => { const lib = document.querySelector('script[src*="site_libs/"]'); return lib ? new URL(lib.getAttribute("src").split("site_libs/")[0], location.href).href : null; })();
   if (RACINE && (location.protocol === "https:" || location.hostname === "localhost") && "serviceWorker" in navigator)
@@ -2604,6 +2654,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (m === "imp") fichier.click();
     if (m === "diag") diagnostic();
     if (m === "hl") preparerHorsLigne(false);
+    if (m === "usb") exporterCle();
     if (m === "hist") versionsGardees();
   });
   fichier.addEventListener("change", async () => {
