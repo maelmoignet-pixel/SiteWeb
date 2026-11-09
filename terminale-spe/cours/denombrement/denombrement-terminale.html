@@ -960,8 +960,10 @@ document.addEventListener("DOMContentLoaded", function () {
   let indexManuel = null;
   function trouverExercice(n, p) {
     if (MANUEL.prive) {                                                 // manuel privé : la liste des exercices (une lecture), puis l'image à la demande
-      indexManuel = indexManuel || attendreSync().then(S => { if (!S) throw new Error("connexion"); return S.manuel("_index"); })
-        .then(d => { if (!d) throw new Error("absent"); return new Set(d.cles); });
+      // la liste des exercices : en ligne si possible (et gardée sur l'appareil), sinon la copie gardée (hors ligne, Firebase en panne)
+      const garde = () => idbGet("manuel-index").then(l => { if (!l) throw new Error(window.encreSync ? "absent" : "connexion"); return new Set(JSON.parse(l)); });
+      indexManuel = indexManuel || attendreSync().then(S => S ? Promise.race([S.manuel("_index"), new Promise((_, ko) => setTimeout(() => ko(new Error("lent")), 6000))]) : null)
+        .catch(() => null).then(d => { if (d && d.cles) { idbPut("manuel-index", JSON.stringify(d.cles)).catch(() => {}); return new Set(d.cles); } return garde(); });
       indexManuel.catch(() => { indexManuel = null; });
       return indexManuel.then(cles => { const p2 = [p, p + 1, p - 1, p + 2].find(q => cles.has(n + "@" + q));   // page à une près (énoncé sur la page voisine)
         if (p2 === undefined) throw new Error("absent"); return "manuel:" + MANUEL.prive + "/" + n + "@" + p2; });
@@ -2262,7 +2264,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PAGE_NIVEAU = !!document.querySelector("main .chapitres") && !/\/chapitres\//.test(location.pathname);   // + une ardoise du niveau, hors chapitres
   if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="diag">Diagnostic</button><button data-m="hist">Versions gardées</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="hl">Préparer le hors ligne</button><button data-m="diag">Diagnostic</button><button data-m="hist">Versions gardées</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -2771,6 +2773,47 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
     recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).then(envoyerErreurs).finally(() => { cycle = false; }); }, 4000);
   /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
+  /* ---------- Hors ligne (iPad) : le service worker sert la copie gardée quand le réseau manque ---------- */
+  const RACINE = (() => { const lib = document.querySelector('script[src*="site_libs/"]'); return lib ? new URL(lib.getAttribute("src").split("site_libs/")[0], location.href).href : null; })();
+  if (RACINE && (location.protocol === "https:" || location.hostname === "localhost") && "serviceWorker" in navigator)
+    navigator.serviceWorker.register(RACINE + "sw.js", { scope: RACINE }).catch(e => { if (window.__noterErreur) window.__noterErreur("hors ligne : " + e.message, "sw.js"); });
+  const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
+  let preparation = false;
+  async function preparerHorsLigne() {
+    const info = menu.querySelector(".info"), b = menu.querySelector('[data-m="hl"]');
+    if (preparation) return; if (!RACINE || !("caches" in window)) { info.textContent = "Hors ligne impossible ici"; return; }
+    if (!navigator.onLine) { info.textContent = "Il faut du réseau pour préparer le hors ligne"; return; }
+    preparation = true; b.disabled = true;
+    try {
+      try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); } catch (e) {}
+      info.textContent = "Liste des fichiers…";
+      const liste = await (await fetch(RACINE + "hors-ligne.json", { cache: "no-store" })).json();
+      const c = await caches.open("site-hors-ligne"); let fait = {}; try { fait = JSON.parse(localStorage.getItem("encre-hl") || "{}"); } catch (e) {}
+      const aFaire = liste.fichiers.filter(([p, t, m]) => fait[p] !== t + ":" + m).map(([p, t, m]) => [RACINE + p, p, t + ":" + m])
+        .concat(liste.externes.filter(u => !fait[u]).map(u => [u, u, "1"]));
+      let n = 0, erreurs = 0; const total = aFaire.length;
+      const un = async ([url, nom, sig]) => { try { const r = await fetch(url, { cache: "no-store", mode: url.startsWith(RACINE) ? "same-origin" : "cors" });
+          if (!r.ok) throw new Error(r.status); await c.put(cleCache(url), r); fait[nom] = sig; } catch (e) { erreurs++; }
+        if (++n % 25 === 0 || n === total) { info.textContent = "Site : " + n + " / " + total; try { localStorage.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {} } };
+      for (let i = 0; i < aFaire.length; i += 6) await Promise.all(aFaire.slice(i, i + 6).map(un));
+      try { localStorage.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {}
+      // manuel de Terminale (privé) : depuis le compte, gardé sur l'appareil
+      let manuel = "";
+      const S = await attendreSync();
+      if (S) { try { const idx = await lireManuel("_index", "manuel-tle");
+          if (idx && idx.cles) { await idbPut("manuel-index", JSON.stringify(idx.cles)); let m = 0, nouv = 0;
+            for (let i = 0; i < idx.cles.length; i += 8) await Promise.all(idx.cles.slice(i, i + 8).map(async k => { const src = "manuel:manuel-tle/" + k;
+              if (!(await idbGet(src).catch(() => null))) { const x = await lireManuel(k, "manuel-tle").catch(() => null); if (x && x.d) { await idbPut(src, x.d); nouv++; } else erreurs++; }
+              if (++m % 40 === 0) info.textContent = "Manuel de Terminale : " + m + " / " + idx.cles.length; }));
+            manuel = " · manuel de Terminale : " + idx.cles.length + " exercices"; } } catch (e) { erreurs++; } }
+      else manuel = " · manuel de Terminale non gardé (connectez-vous ☁)";
+      try { localStorage.setItem("encre-hl-date", String(Date.now())); } catch (e) {}
+      info.textContent = (erreurs ? "⚠ Hors ligne prêt, " + erreurs + " fichier(s) manquant(s) : relancer" : "✔ Hors ligne prêt") + manuel;
+    } catch (e) { info.textContent = "Préparation interrompue (" + e.message + ") : relancer"; if (window.__noterErreur) window.__noterErreur("préparer le hors ligne : " + e.message, ""); }
+    preparation = false; b.disabled = false;
+  }
+  // retour du réseau : synchro immédiate
+  addEventListener("online", () => { if (SYNC.actif) recevoir().then(recevoirPage).then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")); });
   /* Versions mises de côté avant une fusion qui a retiré des traits : téléchargées en un fichier .json,
      rechargeable avec « Charger des notes » (on garde, pour chaque note de cette page, la version la plus récente mise de côté) */
   async function versionsGardees() {
@@ -2801,6 +2844,8 @@ document.addEventListener("DOMContentLoaded", function () {
       "Notes de cette page : " + mo(pageEnCours) + "\n" +
       "Stockage des images (IndexedDB) : " + idb + "\n" +
       "Ouverture : " + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? "icône de l'écran d'accueil (application séparée de Safari)" : "navigateur") + "\n" +
+      "Date de l'appareil : " + new Date().toLocaleString("fr-FR") + "\n" +
+      "Hors ligne préparé : " + (() => { const t = +localStorage.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
       "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
@@ -2980,6 +3025,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (m === "imp") fichier.click();
     if (m === "diag") diagnostic();
+    if (m === "hl") preparerHorsLigne();
     if (m === "hist") versionsGardees();
   });
   fichier.addEventListener("change", async () => {
