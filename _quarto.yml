@@ -61,7 +61,8 @@ website:
       - text: "Python"
         href: python/index.html
 
-  page-footer: "Maël Moignet"
+  # Le petit ✎ active le mode tableau sur un nouvel appareil de Maël (sinon invisible pour les visiteurs)
+  page-footer: 'Maël Moignet <a href="/SiteWeb/index.html#prof" title="Mode tableau (professeur)" style="opacity:.3;text-decoration:none;margin-left:.4em">✎</a>' 
 
 # ---- APPARENCE ------------------------------------------------------------
 format:
