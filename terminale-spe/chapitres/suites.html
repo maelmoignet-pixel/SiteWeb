@@ -2425,11 +2425,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
+  const VERSION_TABLEAU = "09/11 à 18h51";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
       d.querySelector("button").onclick = () => d.remove(); document.body.appendChild(d); }
-    d.className = "encre-hl-progres" + (etat ? " " + etat : ""); d.querySelector("span").textContent = texte;
+    d.className = "encre-hl-progres" + (etat ? " " + etat : ""); d.querySelector("span").textContent = texte + "  (version du " + VERSION_TABLEAU + ")";
     d.querySelector("i").style.width = Math.max(0, Math.min(100, Math.round((part || 0) * 100))) + "%";
     clearTimeout(d.minuterie); if (etat === "ok") d.minuterie = setTimeout(() => d.remove(), 6000);
   }
@@ -2522,6 +2523,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Notes de cette page : " + mo(pageEnCours) + "\n" +
       "Stockage des images (IndexedDB) : " + idb + "\n" +
       "Ouverture : " + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? "icône de l'écran d'accueil (application séparée de Safari)" : "navigateur") + "\n" +
+      "Version du mode tableau : " + (typeof VERSION_TABLEAU === "string" ? VERSION_TABLEAU : "?") + "\n" +
       "Date de l'appareil : " + new Date().toLocaleString("fr-FR") + "\n" +
       "Hors ligne préparé : " + (() => { const t = +localStorage.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
