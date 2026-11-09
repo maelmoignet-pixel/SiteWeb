@@ -2287,8 +2287,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let envoye = false;
     if (SYNC.actif) try { await delai(SYNC.base.collection("diagnostics").doc("d" + Date.now()).set({ type: "diagnostic", t: Date.now(), appareil: APPAREIL, page: PAGE, rapport }), 15000); envoye = true; } catch (e) {}
     try { localStorage.setItem("encre-dernier-diagnostic", rapport); } catch (e) {}
-    alert(envoye ? ("✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ").")
-                 : "Diagnostic PAS envoyé (pas de connexion au compte) : c'est sans doute la cause du problème, vérifiez le bouton ☁.")
+    alert((envoye ? "✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ")."
+                  : "Diagnostic PAS envoyé (pas de connexion au compte) : c'est sans doute la cause du problème, vérifiez le bouton ☁.")
           + "\n(Une capture de cette fenêtre peut être donnée à Claude.)\n\n" + rapport);
   }
   if (location.hash === "#diagnostic") setTimeout(diagnostic, 4000);
