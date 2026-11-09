@@ -681,7 +681,9 @@ document.addEventListener("DOMContentLoaded", function () {
 (() => {
   const noter = (msg, ou) => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]");
     l.push({ t: Date.now(), m: String(msg).slice(0, 200), o: String(ou || "").slice(0, 120), p: location.pathname.split("/").slice(-2).join("/") });
-    localStorage.setItem("encre-erreurs", JSON.stringify(l.slice(-15))); } catch (e) {} };
+    localStorage.setItem("encre-erreurs", JSON.stringify(l.slice(-15)));
+    const f = JSON.parse(localStorage.getItem("encre-erreurs-a-envoyer") || "[]"); f.push(l[l.length - 1]);
+    localStorage.setItem("encre-erreurs-a-envoyer", JSON.stringify(f.slice(-30))); } catch (e) {} };
   window.__noterErreur = noter;
   addEventListener("error", e => noter(e.message, (e.filename || "").split("/").pop() + ":" + e.lineno));
   addEventListener("unhandledrejection", e => noter("promesse : " + (e.reason && (e.reason.message || e.reason)), ""));
@@ -2583,9 +2585,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const d = morceaux.map(x => x.data().p).join(""); await idbPut(id, d); capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); return d; }
     catch (e) { return null; }
   }
+  const APPAREIL = (/iPad|Macintosh.*Mobile|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? "iPad" : /Android/.test(navigator.userAgent) ? "Android" : /CrOS/.test(navigator.userAgent) ? "Chromebook" : /Windows/.test(navigator.userAgent) ? "Windows (tableau ?)" : "autre")
+    + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? " · icône" : " · navigateur");
+  async function envoyerErreurs() {
+    let f = []; try { f = JSON.parse(localStorage.getItem("encre-erreurs-a-envoyer") || "[]"); } catch (e) {}
+    if (!f.length || !SYNC.actif) return;
+    try { const lot = firebase.firestore().batch(), col = SYNC.base.collection("diagnostics");
+      f.forEach((x, i) => lot.set(col.doc("e" + x.t + "-" + i), Object.assign({ type: "erreur", appareil: APPAREIL }, x)));
+      await delai(lot.commit()); localStorage.removeItem("encre-erreurs-a-envoyer"); } catch (e) {}
+  }
   let cycle = false;
   setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
-    recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).finally(() => { cycle = false; }); }, 4000);
+    recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).then(envoyerErreurs).finally(() => { cycle = false; }); }, 4000);
   /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
   /* Versions mises de côté avant une fusion qui a retiré des traits : téléchargées en un fichier .json,
      rechargeable avec « Charger des notes » (on garde, pour chaque note de cette page, la version la plus récente mise de côté) */
@@ -2610,7 +2621,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let idb = "?"; try { await idbPut("encre-diag", "ok"); idb = (await idbGet("encre-diag")) === "ok" ? "oui" : "non"; } catch (e) { idb = "non (" + e.name + ")"; }
     const mo = n => (n * 2 / 1048576).toFixed(1) + " Mo";
     const grosses = Object.entries(parPage).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([p, n]) => "   " + mo(n) + "  " + decodeURIComponent(p.replace("encre:", ""))).join("\n");
-    alert("Diagnostic du mode tableau\n\n" +
+    const rapport = ("Diagnostic du mode tableau\n\n" +
       "Navigateur : " + navigator.userAgent.replace(/\(.*?\)/, "").slice(0, 80) + "\n" +
       "Mémoire utilisée : " + mo(total) + " (" + nb + " notes, " + mo(notes) + ")\n" +
       "Place libre restante : environ " + mo(place * 250000) + (place >= 40 ? " ou plus" : place === 0 ? "  ⚠ PLEINE" : "") + "\n" +
@@ -2621,6 +2632,11 @@ document.addEventListener("DOMContentLoaded", function () {
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
       "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
       "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
+    let envoye = false;
+    if (SYNC.actif) try { await delai(SYNC.base.collection("diagnostics").doc("d" + Date.now()).set({ type: "diagnostic", t: Date.now(), appareil: APPAREIL, page: PAGE, rapport }), 15000); envoye = true; } catch (e) {}
+    try { localStorage.setItem("encre-dernier-diagnostic", rapport); } catch (e) {}
+    alert(envoye ? "✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ").\nRien d'autre à faire : Claude le lira depuis le Chromebook.\nVous pouvez continuer le cours."
+                 : "Diagnostic gardé sur cet appareil, mais PAS envoyé (pas de connexion au compte).\nC'est sans doute la cause du problème : vérifiez le bouton ☁.");
   }
   if (location.hash === "#diagnostic") setTimeout(diagnostic, 4000);
   setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
