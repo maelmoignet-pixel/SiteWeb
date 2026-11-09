@@ -444,6 +444,12 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-connexion button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-connexion button[type="submit"] { background: var(--encre-accent); color: #fff; border-color: var(--encre-accent); }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
+.encre-hl-progres { position: fixed; left: 14px; bottom: 132px; z-index: 1600; width: 290px; background: #fff; border: 1px solid #c7cfe3; border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(27,34,50,.18); padding: 8px 10px; font: 13px system-ui, sans-serif; color: #1b2232; }
+.encre-hl-progres .barre { height: 8px; border-radius: 4px; background: #e3e8f4; overflow: hidden; margin-top: 6px; }
+.encre-hl-progres .barre i { display: block; height: 100%; width: 0; background: #2d4db0; transition: width .3s; }
+.encre-hl-progres.ok .barre i { background: #1f7a3d; } .encre-hl-progres.ko { border-color: #b3261e; } .encre-hl-progres.ko .barre i { background: #b3261e; }
+.encre-hl-progres button { float: right; border: 0; background: none; font-size: 15px; cursor: pointer; color: #5d6679; padding: 0 2px; }
 .encre-alerte-memoire { position: fixed; top: 0; left: 0; right: 0; z-index: 2147483600; background: #b3261e; color: #fff; font: 700 18px system-ui, sans-serif; padding: 14px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
@@ -2380,9 +2386,20 @@ document.addEventListener("DOMContentLoaded", function () {
     navigator.serviceWorker.register(RACINE + "sw.js", { scope: RACINE }).catch(e => { if (window.__noterErreur) window.__noterErreur("hors ligne : " + e.message, "sw.js"); });
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
+  // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
+  function progres(texte, part, etat) {
+    let d = document.querySelector(".encre-hl-progres");
+    if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
+      d.querySelector("button").onclick = () => d.remove(); document.body.appendChild(d); }
+    d.className = "encre-hl-progres" + (etat ? " " + etat : ""); d.querySelector("span").textContent = texte;
+    d.querySelector("i").style.width = Math.max(0, Math.min(100, Math.round((part || 0) * 100))) + "%";
+    clearTimeout(d.minuterie); if (etat === "ok") d.minuterie = setTimeout(() => d.remove(), 6000);
+  }
   async function preparerHorsLigne(discret) {
-    const vraiInfo = menu.querySelector(".info"), b = menu.querySelector('[data-m="hl"]');
-    const info = discret ? { set textContent(t) { if (/prêt|interrompue|manquant/.test(t)) b.title = t; } } : vraiInfo;   // en arrière-plan : aucun message pendant le cours
+    const b = menu.querySelector('[data-m="hl"]');
+    const info = { set textContent(t) { b.title = t;                  // chaque étape s'affiche dans l'encadré de progression
+      const m = t.match(/(\d+) \/ (\d+)/), fin = /prêt|interrompue|impossible|Il faut/.test(t);
+      progres("Hors ligne — " + t, m ? +m[1] / +m[2] : fin ? 1 : 0, fin ? (/⚠|interrompue|impossible|Il faut|non gardé/.test(t) ? "ko" : "ok") : ""); } };
     if (preparation) return; if (!RACINE || !("caches" in window)) { info.textContent = "Hors ligne impossible ici"; return; }
     if (!navigator.onLine) { info.textContent = "Il faut du réseau pour préparer le hors ligne"; return; }
     preparation = true; b.disabled = true;
