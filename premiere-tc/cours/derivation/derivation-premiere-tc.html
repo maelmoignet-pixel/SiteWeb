@@ -937,6 +937,20 @@ document.addEventListener("DOMContentLoaded", function () {
   addEventListener("unhandledrejection", e => noter("promesse : " + (e.reason && (e.reason.message || e.reason)), ""));
 })();
 (() => {
+  /* Le mode tableau n'existe que sur les appareils de Maël : ceux déjà connectés à son compte (ou au tableau par QR code),
+     ou activés une fois par « #prof » (petit ✎ en bas des pages). Un visiteur (élève…) ne voit rien et ne télécharge rien. */
+  let PROF = location.protocol === "file:";                            // version hors ligne de la clé : c'est celle de Maël
+  try {
+    if (/(^|[#&?])prof\b/.test(location.hash.slice(1) + "&" + location.search.slice(1))) localStorage.setItem("encre-prof", "1");
+    if (localStorage.getItem("encre-sync") === "1" || localStorage.getItem("encre-proprio")) localStorage.setItem("encre-prof", "1");
+    PROF = PROF || localStorage.getItem("encre-prof") === "1";
+  } catch (e) {}
+  if (!PROF) {                                                         // visiteur : on efface ce qu'une version précédente a pu garder chez lui
+    try { if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(l => l.forEach(r => r.unregister())).catch(() => {}); } catch (e) {}
+    try { if ("caches" in window) caches.delete("site-hors-ligne").catch(() => {}); } catch (e) {}
+    try { localStorage.removeItem("encre-hl"); localStorage.removeItem("encre-hl-date"); } catch (e) {}
+    return;
+  }
   const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
@@ -3642,7 +3656,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Maël Moignet</p>
+<p>Maël Moignet <a href="../../../SiteWeb/index.html#prof" title="Mode tableau (professeur)" style="opacity:.3;text-decoration:none;margin-left:.4em">✎</a></p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
