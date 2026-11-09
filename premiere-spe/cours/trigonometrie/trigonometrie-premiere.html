@@ -3254,7 +3254,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 20h17";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 20h23";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3356,8 +3356,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (enAttente && SYNC.etat === "☁ À jour") bSync.textContent = "☁ Envoi en attente"; else if (bSync.textContent !== SYNC.etat) bSync.textContent = SYNC.etat;
       bSync.title = !SYNC.actif ? "Notes non sauvegardées en ligne" : enAttente ? "Notes de cette page pas encore envoyées" + (navigator.onLine ? "" : " (pas de réseau : envoi au retour du réseau)") : "Toutes les notes de cette page sont en ligne";
       const relancer = () => { recevoir().then(recevoirPage).then(() => envoyer(true)).catch(() => etatSync("☁ Hors ligne")); };
-      // une note en attente depuis 1 min sans échec (ex. titres de la page, rangement) : on l'envoie, sans rien afficher
-      if (SYNC.actif && enAttente && minutes >= 1 && !SYNC.echec && navigator.onLine && Date.now() - relance > 60000) { relance = Date.now(); envoyer(true); }
+      // une note en attente depuis 1 min (ex. titres de la page) : on retente un envoi complet chaque minute, sans rien afficher
+      if (SYNC.actif && enAttente && minutes >= 1 && navigator.onLine && Date.now() - relance > 60000) { relance = Date.now(); envoyer(true); }
       // bandeau rouge SEULEMENT si les envois échouent vraiment depuis 5 min alors qu'il y a du réseau (sans réseau : seul le voyant orange)
       const echecMin = SYNC.echec ? Math.floor((Date.now() - SYNC.echec) / 60000) : 0;
       avert("envoi", SYNC.actif && enAttente && minutes >= 5 && echecMin >= 5 && navigator.onLine
