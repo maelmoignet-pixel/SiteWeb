@@ -2880,7 +2880,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return libere > 0;
   };
   const MORCEAU = 800000;                                               // un document Firestore : 1 Mo au plus
-  function etatSync(t) { SYNC.etat = t; bSync.textContent = t; }
+  function etatSync(t) { SYNC.etat = t; bSync.textContent = t === "☁ À jour" && bSync.classList.contains("s-att") ? "☁ Envoi en attente" : t;          // SYNC.echec : depuis quand les échanges avec Firebase ÉCHOUENT (0 = tout va bien)
+    if (t === "☁ Hors ligne") SYNC.echec = SYNC.echec || Date.now(); }      // remis à 0 seulement par un envoi réussi (ou rien à envoyer)
   const delai = (pr, ms = 20000) => Promise.race([pr, new Promise((_, ko) => setTimeout(() => ko(new Error("délai dépassé")), ms))]);   // réseau filtré : on n'attend pas indéfiniment
   function chargerScript(f) {
     const lib = document.querySelector('script[src*="site_libs/"]'), racine = lib ? lib.getAttribute("src").split("site_libs/")[0] : "";
@@ -3028,7 +3029,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const absentes = Object.keys(enLigne).filter(k => !toutes.includes(k));
     absentes.filter(k => !videesIci.has(k)).forEach(k => { delete enLigne[k]; delete dernierVu[k]; delete vuT[k]; });
     const supprimees = absentes.filter(k => videesIci.has(k));
-    if (!aEnvoyer.length && !supprimees.length) { balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
+    if (!aEnvoyer.length && !supprimees.length) { SYNC.echec = 0; balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
     envoiEnCours = true; etatSync("☁ Envoi…");
     try {
       const col = SYNC.base.collection("tableau"), maj = firebase.firestore.FieldValue.serverTimestamp();
@@ -3048,7 +3049,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const fait = Date.now();
       aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; vuT[k] = fait; }); supprimees.forEach(k => { delete enLigne[k]; videesIci.delete(k); });
       lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
-      etatSync("☁ À jour");
+      SYNC.echec = 0; etatSync("☁ À jour");
     } catch (e) { etatSync("☁ Hors ligne"); }
     envoiEnCours = false;
     envoyerCaptures();
@@ -3192,7 +3193,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 19h52";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 20h12";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3263,7 +3264,7 @@ document.addEventListener("DOMContentLoaded", function () {
      Clé USB : enregistrement sur la clé pas autorisé alors qu'on écrit, version de la clé pas synchronisée depuis 7 jours.
      ✕ masque un avertissement 30 min ; il revient si le problème est toujours là. */
   const CHARGEE = Date.now(), masques = {};
-  let attenteDepuis = 0;
+  let attenteDepuis = 0, compteDepuis = 0, relance = 0;
   function avert(id, texte, rouge, action, bouton) {
     let d = document.querySelector('.encre-avert[data-id="' + id + '"]');
     if (!texte || (masques[id] || 0) > Date.now()) { if (d) d.remove(); return; }
@@ -3294,11 +3295,15 @@ document.addEventListener("DOMContentLoaded", function () {
       if (enAttente && SYNC.etat === "☁ À jour") bSync.textContent = "☁ Envoi en attente"; else if (bSync.textContent !== SYNC.etat) bSync.textContent = SYNC.etat;
       bSync.title = !SYNC.actif ? "Notes non sauvegardées en ligne" : enAttente ? "Notes de cette page pas encore envoyées" + (navigator.onLine ? "" : " (pas de réseau : envoi au retour du réseau)") : "Toutes les notes de cette page sont en ligne";
       const relancer = () => { recevoir().then(recevoirPage).then(() => envoyer(true)).catch(() => etatSync("☁ Hors ligne")); };
-      avert("envoi", SYNC.actif && enAttente && minutes >= 5 ? (navigator.onLine
-          ? "⚠ Notes de cette page PAS envoyées depuis " + minutes + " min, malgré le réseau. Elles restent sur cet appareil : ne videz rien."
-          : "Pas de réseau depuis " + minutes + " min : notes gardées sur cet appareil, envoyées au retour du réseau.") : null, navigator.onLine, navigator.onLine ? relancer : null, "Réessayer");
+      // une note en attente depuis 1 min sans échec (ex. titres de la page, rangement) : on l'envoie, sans rien afficher
+      if (SYNC.actif && enAttente && minutes >= 1 && !SYNC.echec && navigator.onLine && Date.now() - relance > 60000) { relance = Date.now(); envoyer(true); }
+      // bandeau rouge SEULEMENT si les envois échouent vraiment depuis 5 min alors qu'il y a du réseau (sans réseau : seul le voyant orange)
+      const echecMin = SYNC.echec ? Math.floor((Date.now() - SYNC.echec) / 60000) : 0;
+      avert("envoi", SYNC.actif && enAttente && minutes >= 5 && echecMin >= 5 && navigator.onLine
+          ? "⚠ Notes de cette page PAS envoyées depuis " + minutes + " min, malgré le réseau. Elles restent sur cet appareil : ne videz rien." : null, true, relancer, "Réessayer");
       const deconnecte = !SYNC.actif && Date.now() - CHARGEE > 20000 && (SYNC.etat === "☁ Se connecter" || localStorage.getItem("encre-sync") !== "1");
-      avert("compte", deconnecte && ecritRecemment(7) ? "⚠ Non connecté : vos notes restent sur cet appareil seulement (rien n'est sauvegardé en ligne)." : null, true, fenetreConnexion, "Se connecter");
+      if (!deconnecte) compteDepuis = 0; else if (!compteDepuis) compteDepuis = Date.now();
+      avert("compte", deconnecte && Date.now() - compteDepuis > 60000 && ecritRecemment(7) ? "⚠ Non connecté : vos notes restent sur cet appareil seulement (rien n'est sauvegardé en ligne)." : null, true, fenetreConnexion, "Se connecter");
       if (RACINE && "caches" in window && "serviceWorker" in navigator && Date.now() - CHARGEE > 120000 && !preparation) {
         const t = +localStorage.getItem("encre-hl-date") || 0;
         avert("hors-ligne", Date.now() - t > 3 * 86400000 ? (t ? "Copie hors ligne de cet appareil datée de " + dateCourte(t) : "Cet appareil n'a pas de copie hors ligne") + " : sans réseau, le site serait incomplet."
