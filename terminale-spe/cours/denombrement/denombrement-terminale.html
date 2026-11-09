@@ -2259,7 +2259,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PAGE_NIVEAU = !!document.querySelector("main .chapitres") && !/\/chapitres\//.test(location.pathname);   // + une ardoise du niveau, hors chapitres
   if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="diag">Diagnostic</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="diag">Diagnostic</button><button data-m="hist">Versions gardées</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -2759,6 +2759,20 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
     recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).finally(() => { cycle = false; }); }, 4000);
   /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
+  /* Versions mises de côté avant une fusion qui a retiré des traits : téléchargées en un fichier .json,
+     rechargeable avec « Charger des notes » (on garde, pour chaque note de cette page, la version la plus récente mise de côté) */
+  async function versionsGardees() {
+    const info = menu.querySelector(".info");
+    try { const db = await idb(), cles = await new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); });
+      const miennes = cles.filter(k => typeof k === "string" && k.startsWith("hist:" + PAGE)).sort();
+      if (!miennes.length) { info.textContent = "Aucune version gardée pour cette page"; return; }
+      const donnees = {};
+      for (const k of miennes) { const note = k.slice(5, k.lastIndexOf(":")); try { donnees[note] = JSON.parse(await idbGet(k)); } catch (e) {} }
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(donnees)], { type: "application/json" }));
+      a.download = "versions-gardees-" + chapitre.replace(/[^\wÀ-ÿ-]+/g, "-") + ".json"; a.click();
+      info.textContent = miennes.length + " version(s) gardée(s) : fichier téléchargé";
+    } catch (e) { info.textContent = "Versions gardées illisibles (" + e.message + ")"; }
+  }
   async function diagnostic() {
     let total = 0, notes = 0, nb = 0, pageEnCours = 0; const parPage = {};
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ""; total += k.length + v.length;
@@ -2948,6 +2962,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     if (m === "imp") fichier.click();
     if (m === "diag") diagnostic();
+    if (m === "hist") versionsGardees();
   });
   fichier.addEventListener("change", async () => {
     const f = fichier.files[0]; if (!f) return;
