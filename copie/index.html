@@ -317,14 +317,23 @@ $("b-attente").onclick = () => envoyer(false);
 async function envoyer(affiche) {
   if (!copie || !copie.pages.length) return;
   $("b-envoyer").disabled = $("b-attente").disabled = true; msg("Envoi…");
+  const c = copie, debut = Date.now(); let abandon = false;
+  // connexion trop lente : au bout de 30 s, on ABANDONNE (la copie ne doit pas surgir au tableau plus tard)
+  const minuterie = setTimeout(() => { abandon = true;
+    col.doc(c.id).delete().catch(() => {});                          // si l'annonce était en route, elle est retirée juste après
+    msg("Envoi abandonné : la connexion est trop lente. La copie n'apparaîtra pas au tableau. Vous pouvez réessayer.", "err");
+    $("b-envoyer").disabled = $("b-attente").disabled = false; }, 30000);
   try {
-    const morceaux = await Promise.all(copie.pages.map(p => p.envoi.catch(() => envoyerPage(p))));   // une page ratée : renvoyée
+    const morceaux = await Promise.all(c.pages.map(p => p.envoi.catch(() => envoyerPage(p))));   // une page ratée : renvoyée
+    if (abandon) return;
     const titre = $("titre").value.trim().slice(0, 80);
-    await col.doc(copie.id).set({ t: Date.now(), pages: morceaux, vignette: await vignette(copie.pages[0].img), titre, affiche, pret: true });   // le tableau la voit à cet instant
-    const n = copie.pages.length, quoi = `${titre ? " « " + titre + " »" : ""} (${n} page${n > 1 ? "s" : ""})`;
+    await col.doc(c.id).set({ t: debut, pages: morceaux, vignette: await vignette(c.pages[0].img), titre, affiche, pret: true });   // le tableau la voit à cet instant
+    if (abandon) { col.doc(c.id).delete().catch(() => {}); return; }
+    clearTimeout(minuterie);
+    const n = c.pages.length, quoi = `${titre ? " « " + titre + " »" : ""} (${n} page${n > 1 ? "s" : ""})`;
     msg(affiche ? `✓ Envoyée${quoi} : elle s'affiche sur la feuille d'exercices ouverte au tableau.` : `✓ Envoyée${quoi} : elle attend dans « 📥 Copie élève ».`, "ok");
     copie = null; $("titre").value = ""; dessinerPages();
-  } catch (e) { msg("Envoi impossible : " + (e.message || e) + ". Réessayez.", "err"); $("b-envoyer").disabled = $("b-attente").disabled = false; }
+  } catch (e) { clearTimeout(minuterie); if (abandon) return; msg("Envoi impossible : " + (e.message || e) + ". Réessayez.", "err"); $("b-envoyer").disabled = $("b-attente").disabled = false; }
 }
 function vignette(d) {                                              // pour choisir entre plusieurs copies au tableau
   return new Promise(ok => { const im = new Image(); im.onload = () => { const c = document.createElement("canvas"), k = 160 / im.naturalHeight;

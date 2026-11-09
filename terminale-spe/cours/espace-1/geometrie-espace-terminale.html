@@ -1999,9 +1999,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (bCopie) {
         arretZone = new AbortController();
         const maj = () => { const C = window.encreCopies, n = C ? C.liste.length : 0; bCopie.classList.toggle("recue", n > 0); bCopie.querySelector(".nb").textContent = n || "";
-          // copie envoyée avec « Afficher au tableau » : elle s'affiche d'elle-même (sur l'écran qu'on regarde, si elle a moins de 3 minutes)
+          // copie envoyée avec « Afficher au tableau » : elle s'affiche d'elle-même, seulement si elle arrive vite (moins de 40 s après l'appui
+          // sur le téléphone) ; arrivée en retard, elle attend dans « 📥 Copie élève » sans surgir au milieu d'autre chose
           if (!C || document.visibilityState !== "visible") return;
-          C.liste.filter(c => c.affiche && !C.vues.has(c.id) && Date.now() - c.t < 180000).reverse()
+          C.liste.filter(c => c.affiche && !C.vues.has(c.id) && Math.abs(Date.now() - c.t) < 40000).reverse()
             .forEach(c => { C.vues.add(c.id); mettreCopie(c, zone.querySelector(".m-msg")); }); };
         maj(); document.addEventListener("encre-copies", maj, { signal: arretZone.signal });
       }
@@ -3461,8 +3462,9 @@ document.addEventListener("DOMContentLoaded", function () {
     let envoye = false;
     if (SYNC.actif) try { await delai(SYNC.base.collection("diagnostics").doc("d" + Date.now()).set({ type: "diagnostic", t: Date.now(), appareil: APPAREIL, page: PAGE, rapport }), 15000); envoye = true; } catch (e) {}
     try { localStorage.setItem("encre-dernier-diagnostic", rapport); } catch (e) {}
-    alert(envoye ? "✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ").\nRien d'autre à faire : Claude le lira depuis le Chromebook.\nVous pouvez continuer le cours."
-                 : "Diagnostic gardé sur cet appareil, mais PAS envoyé (pas de connexion au compte).\nC'est sans doute la cause du problème : vérifiez le bouton ☁.");
+    alert(envoye ? ("✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ").")
+                 : "Diagnostic PAS envoyé (pas de connexion au compte) : c'est sans doute la cause du problème, vérifiez le bouton ☁.")
+          + "\n(Une capture de cette fenêtre peut être donnée à Claude.)\n\n" + rapport);
   }
   if (location.hash === "#diagnostic") setTimeout(diagnostic, 4000);
   setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
