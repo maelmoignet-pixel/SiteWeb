@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
      si c'est encore impossible, un bandeau rouge le dit (jamais de perte silencieuse). */
   function ecrireNote(k, v) {
     for (let essai = 0; essai < 3; essai++) {
-      try { localStorage.setItem(k, v); alerteMemoire(false); return true; }
+      try { ST.setItem(k, v); alerteMemoire(false); return true; }
       catch (e) { if (!(window.__libererPlace && window.__libererPlace(k, (v || "").length * 2 + 200000))) break; }
     }
     alerteMemoire(true); if (window.__noterErreur) window.__noterErreur("enregistrement impossible (mémoire pleine)", k.slice(0, 100)); return false;
@@ -490,9 +490,125 @@ document.addEventListener("DOMContentLoaded", function () {
   const idbPut = (id, v) => idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); }));
   const idbGet = id => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
   const idbCles = () => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  /* ---------- Rangement des notes : grande mémoire (IndexedDB « encre-notes ») + petite mémoire (localStorage) ----------
+     Safari limite localStorage à environ 10 Mo par site : trop peu pour un trimestre de notes. Désormais :
+     - TOUTES les notes sont écrites dans IndexedDB (des centaines de Mo possibles) ;
+     - localStorage garde TOUJOURS les notes de la page ouverte, et toute note qui n'est pas encore en sécurité
+       des deux côtés (confirmée dans IndexedDB ET déjà envoyée en ligne / identique à la copie de la clé) :
+       si IndexedDB se bloque (défaut de Safari), rien n'est perdu ;
+     - les notes des autres pages, en sécurité, quittent localStorage (elles restent dans IndexedDB et en ligne).
+     ST imite localStorage (getItem, setItem, removeItem, key, length) : le reste du mode tableau lit et écrit par lui. */
+  const hashST = s => { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
+  const pageDeCle = k => k.split("|")[0].split("#")[0];
+  let baseNotes = null;
+  function ouvrirNotes() {
+    baseNotes = baseNotes || new Promise((ok, ko) => { const r = indexedDB.open("encre-notes", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("notes");
+      r.onsuccess = () => { const db = r.result; db.onclose = () => { baseNotes = null; }; db.onversionchange = () => { try { db.close(); } catch (e) {} baseNotes = null; }; ok(db); };
+      r.onerror = () => ko(r.error); r.onblocked = () => ko(new Error("IndexedDB bloquée")); });
+    const p = baseNotes; p.catch(() => { if (baseNotes === p) baseNotes = null; });
+    return p;
+  }
+  function idbNotes(op, mode, ms = 10000) {                             // op(magasin, transaction) ; terminé quand la transaction est validée
+    const essai = () => Promise.race([ouvrirNotes().then(db => new Promise((ok, ko) => { const t = db.transaction("notes", mode || "readonly"); let res;
+        Promise.resolve(op(t.objectStore("notes"))).then(x => { res = x; }); t.oncomplete = () => ok(res); t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); })),
+      new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))]);
+    return essai().catch(e => { const p = baseNotes; baseNotes = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {}); return essai(); });
+  }
+  const ST = (() => {
+    const mem = new Map(), confirme = new Map(), aEcrire = new Map(), auDepart = new Set();
+    let liste = null, minuterie = null, idbOk = false;
+    const TOMBES = "encre-st-supprimees";                                // notes effacées pas encore effacées dans IndexedDB
+    const tombes = (() => { try { return JSON.parse(localStorage.getItem(TOMBES) || "{}"); } catch (e) { return {}; } })();
+    const garderTombes = () => { try { localStorage.setItem(TOMBES, JSON.stringify(tombes)); } catch (e) {} };
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) { mem.set(k, localStorage.getItem(k)); auDepart.add(k); } } } catch (e) {}
+    const noter = m => { if (window.__noterErreur) window.__noterErreur(m, ""); };
+    async function vider() {
+      minuterie = null; if (!aEcrire.size) return;
+      const lot = [...aEcrire]; aEcrire.clear();
+      try {
+        await idbNotes(st => { for (const [k, v] of lot) { if (v === null) st.delete(k); else st.put(v, k); } }, "readwrite");
+        let t = false; for (const [k, v] of lot) { if (v === null) { confirme.delete(k); if (tombes[k]) { delete tombes[k]; t = true; } } else confirme.set(k, hashST(v)); }
+        if (t) garderTombes();
+        ranger(lot.map(x => x[0]));
+      } catch (e) { for (const [k, v] of lot) if (!aEcrire.has(k)) aEcrire.set(k, v);
+        noter("grande mémoire (IndexedDB) : écriture reportée (" + e.message + ")"); minuterie = setTimeout(vider, 30000); }
+    }
+    const planifier = () => { if (!minuterie) minuterie = setTimeout(vider, 1500); };
+    // retire de localStorage les notes d'AUTRES pages qui sont en sécurité (dans IndexedDB, à l'identique, et en ligne / sur la clé)
+    function ranger(cles) {
+      if (!idbOk) return 0; let n = 0;
+      const l = cles || (() => { const r = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) r.push(k); } } catch (e) {} return r; })();
+      for (const k of l) {
+        if (pageDeCle(k) === PAGE || !mem.has(k)) continue;
+        const v = mem.get(k), h = hashST(v);
+        if (confirme.get(k) !== h || !ST.propre(k, v)) continue;
+        try { if (localStorage.getItem(k) !== null) { localStorage.removeItem(k); n++; } } catch (e) {}
+      }
+      return n;
+    }
+    const ST = {
+      propre: () => false,                                                // remplacé par la synchro (déjà en ligne) ou par la clé (identique à la copie du site)
+      getItem(k) { if (typeof k === "string" && k.startsWith("encre:")) return mem.has(k) ? mem.get(k) : null; return localStorage.getItem(k); },
+      setItem(k, v) {
+        v = String(v); liste = null;
+        if (!k.startsWith("encre:")) return localStorage.setItem(k, v);
+        mem.set(k, v); aEcrire.set(k, v); planifier(); if (tombes[k]) { delete tombes[k]; garderTombes(); }
+        try { localStorage.setItem(k, v); }
+        catch (e) {
+          ranger();                                                        // place pleine : on range d'abord ce qui est en sécurité
+          try { localStorage.setItem(k, v); }
+          catch (e2) { if (idbOk && pageDeCle(k) !== PAGE) { try { localStorage.removeItem(k); } catch (x) {} return; }   // autre page (reçue du site) : la grande mémoire suffit
+            throw e2; }
+        }
+      },
+      removeItem(k) {
+        liste = null;
+        if (!k.startsWith("encre:")) return localStorage.removeItem(k);
+        mem.delete(k); aEcrire.set(k, null); tombes[k] = Date.now(); garderTombes(); planifier();
+        try { localStorage.removeItem(k); } catch (e) {}
+      },
+      key(i) { if (!liste) { liste = [...mem.keys()]; try { for (let j = 0; j < localStorage.length; j++) { const k = localStorage.key(j); if (k && !k.startsWith("encre:")) liste.push(k); } } catch (e) {} } return liste[i] === undefined ? null : liste[i]; },
+      get length() { this.key(0); return liste.length; },
+      // place pleine (ancienne protection) : sortir de localStorage une note déjà dans IndexedDB, sans l'effacer
+      sortirDeLaPetite(k) { if (!idbOk || !mem.has(k) || confirme.get(k) !== hashST(mem.get(k))) return false; try { localStorage.removeItem(k); } catch (e) {} return true; },
+      ranger: () => ranger(),
+      get idbOk() { return idbOk; },
+      vider,
+      etat: () => ({ idbOk, enAttente: aEcrire.size, petite: (() => { let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) n++; } } catch (e) {} return n; })(), total: mem.size }),
+      fusionner: null,                                                    // (local, grande mémoire) -> réunion des traits
+      surChargement: null                                                 // (clés de la page arrivées de la grande mémoire) -> recharger l'affichage
+    };
+    // chargement de la grande mémoire : la petite (plus récente) a priorité ; ce qui manque d'un côté est recopié de l'autre
+    ST.pret = (async () => {
+      if (!("indexedDB" in window)) return false;
+      try {
+        const tout = await idbNotes(st => new Promise((ok, ko) => { const r = st.openCursor(), res = []; r.onsuccess = () => { const c = r.result; if (c) { res.push([c.key, c.value]); c.continue(); } else ok(res); }; r.onerror = () => ko(r.error); }), "readonly", 12000);
+        const arrivees = [];
+        for (const [k, v] of tout) {
+          if (tombes[k]) { aEcrire.set(k, null); continue; }                // effacée ici pendant que la grande mémoire ne répondait pas
+          confirme.set(k, hashST(v));
+          if (!mem.has(k)) { mem.set(k, v); if (pageDeCle(k) === PAGE) arrivees.push(k); }
+          else if (!auDepart.has(k) && mem.get(k) !== v && ST.fusionner) {   // page touchée avant la fin du chargement : on réunit les deux
+            const m = ST.fusionner(mem.get(k), v); if (m !== null && m !== mem.get(k)) { mem.set(k, m); arrivees.push(k); } }
+        }
+        for (const [k, v] of mem) if (confirme.get(k) !== hashST(v)) aEcrire.set(k, v);   // première fois : tout est recopié
+        for (const k of Object.keys(tombes)) if (!aEcrire.has(k)) { delete tombes[k]; }
+        garderTombes(); liste = null; idbOk = true; planifier();
+        for (const k of arrivees) { try { localStorage.setItem(k, mem.get(k)); } catch (e) {} }   // la page ouverte revient dans la petite mémoire
+        if (arrivees.length && ST.surChargement) ST.surChargement(arrivees);
+        return true;
+      } catch (e) { noter("grande mémoire (IndexedDB) indisponible : " + e.message); return false; }
+    })();
+    setInterval(() => ranger(), 60000);
+    addEventListener("pagehide", () => { if (aEcrire.size) vider(); });
+    return ST;
+  })();
   function attendreSync() {                                             // la connexion à Firebase se fait juste après l'ouverture de la page
     let k = 0; const pret = () => window.encreSync && window.encreSync.manuel;
-    return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return localStorage.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
+    return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return ST.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
   }
   function chargerImage(src) {
     if (src.startsWith("manuel:")) {                                    // exercice du manuel privé : gardé sur l'appareil après la première lecture
@@ -620,13 +736,13 @@ document.addEventListener("DOMContentLoaded", function () {
   /* opts.flottant : zone « Exercices » ouverte par le bouton fixe (pas de bouton dans le cours, toujours plein écran) */
   function Zone(bloc, cle, type, opts = {}) {
     const z = this;
-    let traits = []; try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+    let traits = []; try { traits = JSON.parse(ST.getItem(cle) || "[]"); } catch (e) {}
     // heure de chaque trait (t.d, en ms) : le cahier de texte retrouve ainsi ce qui a été écrit pendant une séance ; 0 = heure inconnue (traits plus anciens)
     const sansHeure = () => traits.forEach(t => { if (t.d === undefined) t.d = 0; });
     sansHeure();
     let annules = [], hauteur = Math.max(PAS * 1.3, ...traits.map(t => maxY(t) + PAS));
     let fondImg = null;
-    let exos = []; try { exos = JSON.parse(localStorage.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
+    let exos = []; try { exos = JSON.parse(ST.getItem(opts.cleExos || "") || "[]"); } catch (e) {}   // [{n, p, src, x, y, w, h}]
     const imgExos = new Map();
     const nouvelId = l => l + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     exos.forEach(e => { if (!e.id) e.id = nouvelId("i"); });           // chaque image a un identifiant (pour y rattacher l'écriture)
@@ -647,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
     const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
     if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
-    const sauverExos = () => { try { if (exos.length) ecrireNote(opts.cleExos, JSON.stringify(exos)); else { localStorage.removeItem(opts.cleExos); if (window.__videe) window.__videe(opts.cleExos); }
+    const sauverExos = () => { try { if (exos.length) ecrireNote(opts.cleExos, JSON.stringify(exos)); else { ST.removeItem(opts.cleExos); if (window.__videe) window.__videe(opts.cleExos); }
                                      ecrireNote(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
     const basContenu = () => Math.max(opts.entete ? 190 : 0, ...traits.map(t => maxY(t) + t.w), ...exos.map(e => e.y + e.h + 50));
     const estImage = o => exos.includes(o);
@@ -753,10 +869,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // questions déjà corrigées cette année scolaire à ce niveau (nombre de fois par question) : lues dans les feuilles d'exercices du niveau (synchronisées entre les appareils)
     function vuesAuto() {
       const n = {}, d = new Date(), an = d.getMonth() >= 7 ? d.getFullYear() : d.getFullYear() - 1, debut = an + "-08-01", fin = (an + 1) + "-08-01";
-      try { for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i), m = k && k.match(/^encre:(.*)#exos-img:(\d{4}-\d{2}-\d{2})$/);
+      try { for (let i = 0; i < ST.length; i++) {
+        const k = ST.key(i), m = k && k.match(/^encre:(.*)#exos-img:(\d{4}-\d{2}-\d{2})$/);
         if (!m || m[2] < debut || m[2] >= fin || (niveau && !m[1].includes("/" + niveau + "/"))) continue;
-        let l = []; try { l = JSON.parse(localStorage.getItem(k)) || []; } catch (e) {}
+        let l = []; try { l = JSON.parse(ST.getItem(k)) || []; } catch (e) {}
         l.forEach(e => { if (e && e.auto_corr) n[e.auto_corr] = (n[e.auto_corr] || 0) + 1; });
       } } catch (e) {}
       return n;
@@ -766,7 +882,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const msg = zone.querySelector(".m-msg");
       try { baseAuto = baseAuto || (await lireDonnees(BASE_AUTO + "qcm.json", "automatismes/")).filter(q => q.verifie && !q.exclu); }
       catch (e) { msg.textContent = "Questions d'automatismes introuvables (réseau ?)"; return; }
-      let r = {}; try { r = JSON.parse(localStorage.getItem("encre-auto") || "{}"); } catch (e) {}
+      let r = {}; try { r = JSON.parse(ST.getItem("encre-auto") || "{}"); } catch (e) {}
       const defSeries = niveau === "premiere-spe" ? ["spe", "commun"] : niveau === "terminale-spe" ? ["spe", "ns", "commun"] : ["ns", "commun"];
       const series = r.series || defSeries, cats = r.cats || CATS_AUTO.map(c => c[0]);
       const vues = vuesAuto(), faites = {}; baseAuto.forEach(q => { if (vues[q.id]) faites[q.categorie] = (faites[q.categorie] || 0) + vues[q.id]; });
@@ -789,7 +905,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const s2 = choisies("s"), c2 = choisies("c"), n = Math.max(1, Math.min(30, +f.querySelector("input[type=number]").value || 6));
           const pool = baseAuto.filter(q => s2.includes(q.serie) && c2.includes(q.categorie));
           if (!pool.length) { f.querySelector(".msg").textContent = baseAuto.length ? "Aucune question pour ce choix." : "Aucune question vérifiée pour l'instant (relecture à faire)."; return; }
-          try { localStorage.setItem("encre-auto", JSON.stringify({ series: s2, cats: c2, n })); } catch (x) {}
+          try { ST.setItem("encre-auto", JSON.stringify({ series: s2, cats: c2, n })); } catch (x) {}
           f.remove(); demarrerAutomatismes(tirerAuto(pool, n, vues));
         } });
     }
@@ -1182,14 +1298,14 @@ document.addEventListener("DOMContentLoaded", function () {
     function sauver() {
       setTimeout(majTitres, 0);
       const maintenant = Date.now(); traits.forEach(t => { if (t.d === undefined) t.d = maintenant; });   // traits nouveaux depuis le dernier enregistrement
-      try { if (traits.length) ecrireNote(cle, JSON.stringify(traits)); else { localStorage.removeItem(cle); if (window.__videe) window.__videe(cle); }
+      try { if (traits.length) ecrireNote(cle, JSON.stringify(traits)); else { ST.removeItem(cle); if (window.__videe) window.__videe(cle); }
             ecrireNote(PAGE + "#modifie", String(Date.now())); } catch (e) {}
       majInfo();
     }
     /* Nature d'un contact. Certains écrans (Firefox sous Windows, cadres infrarouges) signalent le stylet comme un doigt :
        on le reconnaît alors à la petite taille du contact ; une paume (très grand contact) est ignorée. */
     function natureContact(e) {
-      if (e.pointerType === "pen") { if (!STYLET_VU) { STYLET_VU = true; try { localStorage.setItem("encre-stylet-vu", "1"); } catch (x) {} } return "stylet"; }
+      if (e.pointerType === "pen") { if (!STYLET_VU) { STYLET_VU = true; try { ST.setItem("encre-stylet-vu", "1"); } catch (x) {} } return "stylet"; }
       if (e.pointerType !== "touch") return "souris";
       const t = Math.max(e.width || 0, e.height || 0);                // taille du contact (pixels CSS), 0 ou 1 si inconnue
       if (reglages.doigt === "ecrit") return t > 140 ? "paume" : "stylet";   // mode Doigt : seul un contact énorme est ignoré
@@ -1452,9 +1568,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     z.exporter = () => traits;
     z.recharger = () => {                       // notes arrivées d'un autre appareil
-      try { traits = JSON.parse(localStorage.getItem(cle) || "[]"); } catch (e) {}
+      try { traits = JSON.parse(ST.getItem(cle) || "[]"); } catch (e) {}
       sansHeure();
-      if (opts.cleExos) { try { const l = JSON.parse(localStorage.getItem(opts.cleExos) || "[]"); if (l.length || !opts.fond) { exos.splice(0, exos.length, ...l); chargerExos(); } } catch (e) {} }
+      if (opts.cleExos) { try { const l = JSON.parse(ST.getItem(opts.cleExos) || "[]"); if (l.length || !opts.fond) { exos.splice(0, exos.length, ...l); chargerExos(); } } catch (e) {} }
       annules = []; etats = []; selLasso = null; selObj = null;
       hauteur = Math.max(hauteur, ...traits.map(t => maxY(t) + PAS), ...exos.map(e => e.y + e.h + PAS));
       if (zone) dimensionner(); libelle();
@@ -1862,18 +1978,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const a = document.querySelector('main a[href*="cours/"][href$=".html"]'); if (!a) return;
     let cible; try { cible = nomDePage(a.getAttribute("href")); } catch (e) { return; }
     if (cible === PAGE) return;
-    const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
-    const cles = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:"))) cles.push(k); } } catch (e) { return; }
+    const lire = k => { try { return JSON.parse(ST.getItem(k) || "[]"); } catch (e) { return []; } };
+    const cles = []; try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:"))) cles.push(k); } } catch (e) { return; }
     cles.forEach(k => {
       const k2 = cible + k.slice(PAGE.length), deja = lire(k2), vus = new Set(deja.map(x => JSON.stringify(x)));
       const tout = deja.concat(lire(k).filter(x => !vus.has(JSON.stringify(x))));
-      try { localStorage.setItem(k2, JSON.stringify(tout)); localStorage.setItem(cible + "#modifie", String(Date.now())); localStorage.removeItem(k); } catch (e) {}
+      try { ST.setItem(k2, JSON.stringify(tout)); ST.setItem(cible + "#modifie", String(Date.now())); ST.removeItem(k); } catch (e) {}
     });
   }
   rangerFeuillesDansLeCours();
   function majBoutonExos() {
     if (bExos.isConnected) return;
-    let deja = false; try { for (let i = 0; i < localStorage.length && !deja; i++) { const k = localStorage.key(i); deja = !!k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:")); } } catch (e) {}
+    let deja = false; try { for (let i = 0; i < ST.length && !deja; i++) { const k = ST.key(i); deja = !!k && (k.startsWith(PREFIXE_EXOS) || k.startsWith(PAGE + "#exos-img:")); } } catch (e) {}
     if (blocs.length || deja) document.body.appendChild(bExos);
   }
   majBoutonExos();
@@ -1958,7 +2074,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function ouvrirExos(iso) {
     const auj = isoJour(new Date());
     const dates = new Set([auj]);
-    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIXE_EXOS)) dates.add(k.slice(PREFIXE_EXOS.length));
+    try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && k.startsWith(PREFIXE_EXOS)) dates.add(k.slice(PREFIXE_EXOS.length));
                                                            if (k && k.startsWith(PAGE + "#exos-img:")) dates.add(k.slice((PAGE + "#exos-img:").length)); } } catch (e) {}
     const liste = [...dates].sort().reverse().map(d => [d, d === auj ? "Aujourd'hui" : dateLongue(d)]);
     bExos.hidden = true; menu.hidden = true;
@@ -1985,17 +2101,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (m) ardoises.unshift(creerArdoise("", "niveau", b => { if (h) h.before(b); else m.appendChild(b); })); }
   function majArdoises() {                      // ● : quelque chose est écrit sur l'ardoise du jour
     const auj = isoJour(new Date());
-    ardoises.forEach(a => { let ecrit = false; try { ecrit = (JSON.parse(localStorage.getItem(a.cle + auj) || "[]")).length > 0; } catch (e) {}
+    ardoises.forEach(a => { let ecrit = false; try { ecrit = (JSON.parse(ST.getItem(a.cle + auj) || "[]")).length > 0; } catch (e) {}
       a.bouton.textContent = a.sec === "niveau" ? "✎ Ardoise du niveau" : "✎ Ardoise"; a.bouton.classList.toggle("ecrit", ecrit); });
   }
   majArdoises();
   const titreArdoise = a => a.sec === "niveau" ? "" : a.sec === "cours" ? chapitre : chapitre + " — " + a.nom;   // cours : le chapitre seul ; niveau : la date et l'heure seules
   function ouvrirArdoise(a, iso) {
     const auj = isoJour(new Date()), dates = new Set([auj]);
-    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(a.cle)) dates.add(k.slice(a.cle.length));
+    try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && k.startsWith(a.cle)) dates.add(k.slice(a.cle.length));
                                                            if (k && k.startsWith(a.img)) dates.add(k.slice(a.img.length)); } } catch (e) {}
     const liste = [...dates].sort().reverse().map(d => [d, d === auj ? "Aujourd'hui" : dateLongue(d)]);
-    let debut = 0; try { JSON.parse(localStorage.getItem(a.cle + iso) || "[]").forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; }); } catch (e) {}
+    let debut = 0; try { JSON.parse(ST.getItem(a.cle + iso) || "[]").forEach(t => { if (t.d && (!debut || t.d < debut)) debut = t.d; }); } catch (e) {}
     if (!debut && iso === auj) debut = Date.now();                       // heure : celle du premier trait (ou de l'ouverture, si rien n'est encore écrit)
     bExos.hidden = true; menu.hidden = true;
     const z = new Zone(null, a.cle + iso, "exos", { flottant: true, entete: [dateLongue(iso) + (debut ? " — " + hhmm(debut) : ""), titreArdoise(a)], date: iso, dates: liste,
@@ -2006,13 +2122,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function majTitres() {                       // { clé de zone : [« Application 3 — Section », extrait avec formules $…$] } pour les zones écrites
     const t = {};
     Zone.toutes.forEach(z => { if (!z.titre || !z.cle.startsWith(PAGE + "|") || z.cle.includes("|exos:") || z.cle.includes("|ardoise:")) return;
-      try { if ((JSON.parse(localStorage.getItem(z.cle) || "[]")).length) t[z.cle.slice(PAGE.length + 1)] = z.titre; } catch (e) {} });
+      try { if ((JSON.parse(ST.getItem(z.cle) || "[]")).length) t[z.cle.slice(PAGE.length + 1)] = z.titre; } catch (e) {} });
     const v = Object.keys(t).length ? JSON.stringify(t) : null;
-    try { if (v !== localStorage.getItem(PAGE + "#titres")) { if (v) ecrireNote(PAGE + "#titres", v); else localStorage.removeItem(PAGE + "#titres"); } } catch (e) {}
+    try { if (v !== ST.getItem(PAGE + "#titres")) { if (v) ecrireNote(PAGE + "#titres", v); else ST.removeItem(PAGE + "#titres"); } } catch (e) {}
   }
   setTimeout(majTitres, 1500);
   function majInfo() {
-    let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PAGE + "|")) n++; } } catch (e) {}
+    let n = 0; try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && k.startsWith(PAGE + "|")) n++; } } catch (e) {}
     menu.querySelector(".info").textContent = n ? n + (n > 1 ? " zones écrites" : " zone écrite") : "Aucune note";
   }
   majInfo();
@@ -2115,8 +2231,8 @@ document.addEventListener("DOMContentLoaded", function () {
                      storageBucket: "cahier-de-texte-45228.firebasestorage.app", messagingSenderId: "658368948237", appId: "1:658368948237:web:7973bbb9c69470ee104d44" };
   const SYNC = { actif: false, base: null, etat: "", maj: 0 };
   const bSync = menu.querySelector('[data-m="sync"]');
-  const lsJson = (k, d) => { try { return JSON.parse(localStorage.getItem(k) || "") || d; } catch (e) { return d; } };
-  const lsEcrire = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const lsJson = (k, d) => { try { return JSON.parse(ST.getItem(k) || "") || d; } catch (e) { return d; } };
+  const lsEcrire = (k, v) => { try { ST.setItem(k, JSON.stringify(v)); } catch (e) {} };
   const empreinte = s => { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
     h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
@@ -2124,19 +2240,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const vuT = lsJson("encre-sync-vuT", {});                            // heure de la dernière synchro de chaque clé sur cet appareil
   const videesIci = new Set();                                         // clés effacées volontairement pendant cette visite (seules à pouvoir être effacées en ligne)
   window.__videe = k => videesIci.add(k);
-  SYNC.maj = +localStorage.getItem("encre-sync-maj") || 0;
-  const clesNotes = () => { const l = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) l.push(k); } } catch (e) {} return l; };
+  SYNC.maj = +ST.getItem("encre-sync-maj") || 0;
+  const clesNotes = () => { const l = []; try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && k.startsWith("encre:")) l.push(k); } } catch (e) {} return l; };
   const versId = k => encodeURIComponent(k).replace(/\./g, "%2E"), deId = id => decodeURIComponent(id);
   // Place pleine : on retire les notes d'AUTRES pages déjà identiques en ligne (les plus grosses d'abord).
   // Elles ne sont pas effacées de Firebase : elles reviennent quand on rouvre leur page (recevoirPage).
   window.__libererPlace = (garder, besoin) => {
     if (!SYNC.actif) return false;
     const pageDe = k => k.split("|")[0].split("#")[0];
-    const candidates = clesNotes().filter(k => pageDe(k) !== PAGE && k !== garder).map(k => [k, localStorage.getItem(k) || ""])
+    const candidates = clesNotes().filter(k => pageDe(k) !== PAGE && k !== garder).map(k => [k, ST.getItem(k) || ""])
       .filter(([k, v]) => enLigne[k] === empreinte(v)).sort((a, b) => b[1].length - a[1].length);
     let libere = 0;
     for (const [k, v] of candidates) {
-      localStorage.removeItem(k); delete enLigne[k]; delete dernierVu[k]; delete heures[k]; delete vuT[k]; libere += v.length * 2;
+      if (ST.sortirDeLaPetite(k)) { libere += v.length * 2; if (libere >= besoin) break; continue; }   // gardée dans la grande mémoire
+      ST.removeItem(k); delete enLigne[k]; delete dernierVu[k]; delete heures[k]; delete vuT[k]; libere += v.length * 2;
       if (libere >= besoin) break;
     }
     if (libere) { lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); }
@@ -2172,11 +2289,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }, () => { SYNC.attente = null; etatSync("☁ Se connecter"); });
   }
   function lancerSync(uid) {
-    SYNC.base = firebase.firestore().collection("utilisateurs").doc(uid); SYNC.actif = true;
-    try { localStorage.setItem("encre-sync", "1"); localStorage.setItem("encre-proprio", uid); } catch (e) {}
+    SYNC.base = firebase.firestore().collection("utilisateurs").doc(uid);
+    try { ST.setItem("encre-sync", "1"); ST.setItem("encre-proprio", uid); } catch (e) {}
     window.encreSync = { capture: lireCapture, manuel: lireManuel };
-    recevoir().then(recevoirPage).then(envoyer).catch(() => etatSync("☁ Hors ligne"));
-    ecouterCopies();
+    // la synchro attend que toutes les notes soient chargées (grande mémoire), sinon elle les croirait absentes
+    Promise.race([ST.pret, new Promise(ok => setTimeout(ok, 25000))]).then(() => {
+      SYNC.actif = true;
+      recevoir().then(recevoirPage).then(envoyer).catch(() => etatSync("☁ Hors ligne"));
+      ecouterCopies();
+    });
   }
   // --- copies d'élèves photographiées au téléphone (page copie/) : « boîte de réception » écoutée en continu ;
   //     les pages sont téléchargées dès l'arrivée, pour qu'un appui sur « 📥 Copie élève » les affiche aussitôt ---
@@ -2218,7 +2339,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   // applique la version reçue d'une clé ; renvoie true si la copie locale a changé
   function appliquer(k, valeur, t) {
-    const loc = localStorage.getItem(k);
+    const loc = ST.getItem(k);
     if (valeur === loc) { if (valeur !== null) enLigne[k] = empreinte(valeur); vuT[k] = Date.now(); return false; }
     const modifieeIci = dernierVu[k] !== undefined && loc !== null && dernierVu[k] !== empreinte(loc);   // changée ici depuis le dernier envoi
     const A = lireTableau(loc), B = lireTableau(valeur), plusRecente = (t || 0) > (heures[k] || 0) && !modifieeIci;
@@ -2226,14 +2347,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const depuis = vuT[k] || 0, res = plusRecente ? fusion(B, A, depuis) : fusion(A, B, depuis);
       const texte = res.length ? JSON.stringify(res) : null;
       if (A.length && res.length < A.length) garderCopie(k, loc);
-      if (texte !== loc) { try { if (texte === null) localStorage.removeItem(k); else if (!ecrireNote(k, texte)) return false; } catch (e) { return false; } }
+      if (texte !== loc) { try { if (texte === null) ST.removeItem(k); else if (!ecrireNote(k, texte)) return false; } catch (e) { return false; } }
       enLigne[k] = valeur === null ? "" : empreinte(valeur); dernierVu[k] = texte === null ? undefined : empreinte(texte);
       if (texte !== valeur) heures[k] = Date.now(); else heures[k] = t || 0;   // la réunion n'est pas encore en ligne : elle partira au prochain envoi
       vuT[k] = Date.now();
       return texte !== loc;
     }
     if (!plusRecente) return false;                                     // autre donnée (#titres, #modifie) : la plus récente gagne
-    try { if (valeur === null) localStorage.removeItem(k); else if (!ecrireNote(k, valeur)) return false; } catch (e) { return false; }
+    try { if (valeur === null) ST.removeItem(k); else if (!ecrireNote(k, valeur)) return false; } catch (e) { return false; }
     if (valeur === null) { delete enLigne[k]; delete dernierVu[k]; } else enLigne[k] = dernierVu[k] = empreinte(valeur);
     heures[k] = t || 0; vuT[k] = Date.now(); return true;
   }
@@ -2251,7 +2372,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n) continue;   // morceaux incomplets : on attendra
       if (appliquer(k, valeur, d.t)) changees.add(k);
     }
-    SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
+    SYNC.maj = max; try { ST.setItem("encre-sync-maj", String(max)); } catch (e) {}
     lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
     if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); rangerFeuillesDansLeCours(); majBoutonExos(); }
     SYNC.recuA = Date.now(); etatSync("☁ À jour");
@@ -2265,7 +2386,7 @@ document.addEventListener("DOMContentLoaded", function () {
     q.forEach(d => { const v = d.data(), i = d.id.indexOf("~"); if (i >= 0) (parts[d.id.slice(0, i)] = parts[d.id.slice(0, i)] || [])[+d.id.slice(i + 1)] = v.p; else docs[d.id] = v; });
     const changees = new Set();
     for (const [id, d] of Object.entries(docs)) {
-      const k = deId(id); if (d.del || localStorage.getItem(k) !== null) continue;
+      const k = deId(id); if (d.del || ST.getItem(k) !== null) continue;
       const valeur = d.n ? (parts[id] || []).join("") : d.v;
       if (typeof valeur !== "string" || (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n)) continue;
       if (appliquer(k, valeur, d.t)) changees.add(k);
@@ -2273,24 +2394,33 @@ document.addEventListener("DOMContentLoaded", function () {
     if (changees.size) { lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
       Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); rangerFeuillesDansLeCours(); majBoutonExos(); }
   }
+  // --- grande mémoire : quelles notes peuvent quitter la petite, comment réunir, quoi réafficher ---
+  ST.propre = (k, v) => {
+    if (location.protocol === "file:") { try { const b = JSON.parse(ST.getItem("encre-cle-base") || "{}"); return b[k] === empreinte(v); } catch (e) { return false; } }
+    return enLigne[k] === empreinte(v);                                 // déjà en ligne, à l'identique
+  };
+  ST.fusionner = (a, b) => { const A = lireTableau(a), B = lireTableau(b); return A && B ? JSON.stringify(fusion(A, B, -1)) : null; };
+  ST.surChargement = cles => { try { Zone.toutes.forEach(z => { if (cles.includes(z.cle) || cles.includes(z.cleExos)) z.recharger(); }); } catch (e) {} };
+  ST.pret.then(() => { try { rangerFeuillesDansLeCours(); majInfo(); majTitres(); majBoutonExos(); majArdoises(); } catch (e) {} });
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
   let envoiEnCours = false;
   let balayageComplet = false, dernierModifie = null;
   async function envoyer(force) {
     if (!SYNC.actif || envoiEnCours) return;
     // léger pendant le cours : après un premier passage complet, seulement les notes de cette page, et seulement si elles ont changé
-    const modifie = localStorage.getItem(PAGE + "#modifie");
-    if (balayageComplet && !force && modifie === dernierModifie && !Object.keys(enLigne).some(k => localStorage.getItem(k) === null)) return;
+    const modifie = ST.getItem(PAGE + "#modifie");
+    if (balayageComplet && !force && modifie === dernierModifie && !Object.keys(enLigne).some(k => ST.getItem(k) === null)) return;
     const maintenant = Date.now(), toutes = clesNotes(), cles = balayageComplet && !force ? toutes.filter(k => k.startsWith(PAGE)) : toutes, aEnvoyer = [];
     for (const k of cles) {
-      const v = localStorage.getItem(k), e = empreinte(v);
+      const v = ST.getItem(k), e = empreinte(v);
       if (dernierVu[k] !== undefined && dernierVu[k] !== e) heures[k] = maintenant;          // modifiée pendant cette visite
       dernierVu[k] = e;
-      if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +localStorage.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
+      if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +ST.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
     }
     // une clé absente ici n'est effacée en ligne que si on l'a effacée volontairement ; sinon (place libérée, mémoire perdue) on la récupérera
     const absentes = Object.keys(enLigne).filter(k => !toutes.includes(k));
-    absentes.filter(k => !videesIci.has(k)).forEach(k => { delete enLigne[k]; delete dernierVu[k]; delete vuT[k]; });
+    // (grande mémoire indisponible : une note absente n'est peut-être qu'inaccessible ; on ne l'oublie pas, sinon elle serait renvoyée plus tard, ancienne, par-dessus le site)
+    if (ST.idbOk) absentes.filter(k => !videesIci.has(k)).forEach(k => { delete enLigne[k]; delete dernierVu[k]; delete vuT[k]; });
     const supprimees = absentes.filter(k => videesIci.has(k));
     if (!aEnvoyer.length && !supprimees.length) { SYNC.echec = 0; balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
     envoiEnCours = true; etatSync("☁ Envoi…");
@@ -2345,11 +2475,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const APPAREIL = (/iPad|Macintosh.*Mobile|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? "iPad" : /Android/.test(navigator.userAgent) ? "Android" : /CrOS/.test(navigator.userAgent) ? "Chromebook" : /Windows/.test(navigator.userAgent) ? "Windows (tableau ?)" : "autre")
     + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? " · icône" : " · navigateur");
   async function envoyerErreurs() {
-    let f = []; try { f = JSON.parse(localStorage.getItem("encre-erreurs-a-envoyer") || "[]"); } catch (e) {}
+    let f = []; try { f = JSON.parse(ST.getItem("encre-erreurs-a-envoyer") || "[]"); } catch (e) {}
     if (!f.length || !SYNC.actif) return;
     try { const lot = firebase.firestore().batch(), col = SYNC.base.collection("diagnostics");
       f.forEach((x, i) => lot.set(col.doc("e" + x.t + "-" + i), Object.assign({ type: "erreur", appareil: APPAREIL }, x)));
-      await delai(lot.commit()); localStorage.removeItem("encre-erreurs-a-envoyer"); } catch (e) {}
+      await delai(lot.commit()); ST.removeItem("encre-erreurs-a-envoyer"); } catch (e) {}
   }
   let cycle = false;
   setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
@@ -2359,8 +2489,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // export de TOUTES les notes de la clé (toutes les pages) et des images gardées sur l'appareil : un seul fichier, réuni le soir avec Firebase
   async function contenuExport() {
     const notes = {}, ids = new Set();
-    let base = {}; try { base = JSON.parse(localStorage.getItem("encre-cle-base") || "{}"); } catch (e) {}   // notes recopiées depuis le site, inchangées : inutile de les renvoyer
-    for (const k of clesNotes()) { const v = localStorage.getItem(k); if (base[k] && base[k] === empreinte(v || "")) continue; notes[k] = v;
+    let base = {}; try { base = JSON.parse(ST.getItem("encre-cle-base") || "{}"); } catch (e) {}   // notes recopiées depuis le site, inchangées : inutile de les renvoyer
+    for (const k of clesNotes()) { const v = ST.getItem(k); if (base[k] && base[k] === empreinte(v || "")) continue; notes[k] = v;
       if (k.includes("-img:")) try { JSON.parse(v).forEach(e => { if (e && typeof e.src === "string" && e.src.startsWith("idb:")) ids.add(e.src.slice(4)); }); } catch (e) {} }
     const images = {}; for (const id of ids) { const d = await idbGet(id).catch(() => null); if (d) images[id] = d; }
     return JSON.stringify({ type: "export-cle", version: 1, quand: Date.now(), appareil: navigator.userAgent.slice(0, 120), notes, images });
@@ -2374,7 +2504,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const h = await window.showSaveFilePicker({ suggestedName: nom, types: [{ description: "Notes du tableau", accept: { "application/json": [".json"] } }] });
         const w = await h.createWritable(); await w.write(contenu); await w.close();
       } else { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([contenu], { type: "application/json" })); a.download = nom; a.click(); }
-      localStorage.setItem("encre-export-date", String(Date.now())); rappelExport();
+      ST.setItem("encre-export-date", String(Date.now())); rappelExport();
       info.textContent = "✔ Exporté : " + n + " notes";
     } catch (e) { if (e.name !== "AbortError") info.textContent = "Export impossible (" + e.message + ")"; else info.textContent = "Export annulé"; }
   }
@@ -2408,12 +2538,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   async function ecrireSurCle(forcer) {
     if (!autoriseCle || !dossierCle) return;
-    let modif = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +localStorage.getItem(k) || 0); }); } catch (e) {}
+    let modif = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +ST.getItem(k) || 0); }); } catch (e) {}
     if (!forcer && modif <= ecritA) return;
     const debut = Date.now();                                            // un trait tracé pendant l'écriture sera repris au tour suivant
     try { const f = await dossierCle.getFileHandle("notes-cle.json", { create: true }), w = await f.createWritable();
       await w.write(await contenuExport()); await w.close(); ecritA = debut;
-      localStorage.setItem("encre-export-date", String(ecritA)); rappelExport();
+      ST.setItem("encre-export-date", String(ecritA)); rappelExport();
       menu.querySelector(".info").textContent = "✔ Notes enregistrées sur la clé à " + new Date(ecritA).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
     } catch (e) { autoriseCle = false; verifierCle(false); if (window.__noterErreur) window.__noterErreur("écriture sur la clé : " + e.message, ""); }
   }
@@ -2425,7 +2555,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function rappelExport() {                                            // des notes écrites sur la clé n'ont pas encore été exportées
     if (location.protocol !== "file:") return;
-    let modif = 0, exp = 0; try { exp = +localStorage.getItem("encre-export-date") || 0; clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +localStorage.getItem(k) || 0); }); } catch (e) {}
+    let modif = 0, exp = 0; try { exp = +ST.getItem("encre-export-date") || 0; clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { modif = Math.max(modif, +ST.getItem(k) || 0); }); } catch (e) {}
     const b = menu.querySelector('[data-m="usb"]'); if (b) { b.classList.toggle("a-faire", modif > exp); b.textContent = modif > exp ? "⚠ Exporter pour le Chromebook" : "Exporter pour le Chromebook"; }
   }
   if (location.protocol === "file:") { setInterval(rappelExport, 5000); setTimeout(rappelExport, 1500);
@@ -2436,17 +2566,18 @@ document.addEventListener("DOMContentLoaded", function () {
   if (location.protocol === "file:") {
     const lib = document.querySelector('script[src*="site_libs/"]');
     if (lib) { const sc = document.createElement("script"); sc.src = lib.getAttribute("src").split("site_libs/")[0] + "notes-en-ligne.js";
-      sc.onload = async () => { const N = window.__NOTES_EN_LIGNE; if (!N || !N.version || localStorage.getItem("encre-notes-version") === N.version) return;
+      sc.onload = async () => { await Promise.race([ST.pret, new Promise(ok => setTimeout(ok, 25000))]);
+        const N = window.__NOTES_EN_LIGNE; if (!N || !N.version || ST.getItem("encre-notes-version") === N.version) return;
         const changees = new Set();
         for (const [k, v] of Object.entries(N.notes || {})) {
-          const loc = localStorage.getItem(k), A = lireTableau(loc), B = lireTableau(v);
+          const loc = ST.getItem(k), A = lireTableau(loc), B = lireTableau(v);
           if (loc === null) { if (ecrireNote(k, v)) changees.add(k); continue; }
           if (A && B) { const res = fusion(A, B, -1); if (res.length !== A.length && ecrireNote(k, JSON.stringify(res))) changees.add(k); }
         }
         for (const [id, d] of Object.entries(N.images || {})) { if (!(await idbGet(id).catch(() => null))) await idbPut(id, d).catch(() => {}); }
-        try { const base = {}; clesNotes().forEach(k => { const v = localStorage.getItem(k); if (N.notes && N.notes[k] !== undefined && v === N.notes[k]) base[k] = empreinte(v); });
-          localStorage.setItem("encre-cle-base", JSON.stringify(base)); } catch (e) {}
-        try { localStorage.setItem("encre-notes-version", N.version); } catch (e) {}
+        try { const base = {}; clesNotes().forEach(k => { const v = ST.getItem(k); if (N.notes && N.notes[k] !== undefined && v === N.notes[k]) base[k] = empreinte(v); });
+          ST.setItem("encre-cle-base", JSON.stringify(base)); } catch (e) {}
+        try { ST.setItem("encre-notes-version", N.version); } catch (e) {}
         if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); majBoutonExos(); } };
       document.head.appendChild(sc); }
   }
@@ -2457,7 +2588,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 20h23";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 20h48";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -2478,15 +2609,15 @@ document.addEventListener("DOMContentLoaded", function () {
       try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); } catch (e) {}
       info.textContent = "Liste des fichiers…";
       const liste = await (await fetch(RACINE + "hors-ligne.json", { cache: "no-store" })).json();
-      const c = await caches.open("site-hors-ligne"); let fait = {}; try { fait = JSON.parse(localStorage.getItem("encre-hl") || "{}"); } catch (e) {}
+      const c = await caches.open("site-hors-ligne"); let fait = {}; try { fait = JSON.parse(ST.getItem("encre-hl") || "{}"); } catch (e) {}
       const aFaire = liste.fichiers.filter(([p, t, m]) => fait[p] !== t + ":" + m).map(([p, t, m]) => [RACINE + p, p, t + ":" + m])
         .concat(liste.externes.filter(u => !fait[u]).map(u => [u, u, "1"]));
       let n = 0, erreurs = 0; const total = aFaire.length;
       const un = async ([url, nom, sig]) => { try { const r = await fetch(url, { cache: "no-store", mode: url.startsWith(RACINE) ? "same-origin" : "cors" });
           if (!r.ok) throw new Error(r.status); await c.put(cleCache(url), r); fait[nom] = sig; } catch (e) { erreurs++; }
-        if (++n % 25 === 0 || n === total) { info.textContent = "Site : " + n + " / " + total; try { localStorage.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {} } };
+        if (++n % 25 === 0 || n === total) { info.textContent = "Site : " + n + " / " + total; try { ST.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {} } };
       for (let i = 0; i < aFaire.length; i += 6) await Promise.all(aFaire.slice(i, i + 6).map(un));
-      try { localStorage.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {}
+      try { ST.setItem("encre-hl", JSON.stringify(fait)); } catch (e) {}
       // manuel de Terminale (privé) : depuis le compte, gardé sur l'appareil
       let manuel = "";
       info.textContent = "Manuel de Terminale : connexion au compte…";
@@ -2514,14 +2645,14 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (e) { erreurs++; manuel = " · manuel de Terminale interrompu : " + e.message;
           if (window.__noterErreur) window.__noterErreur("hors ligne, manuel interrompu : " + e.message, ""); } }
       else manuel = " · manuel de Terminale non gardé (connectez-vous ☁)";
-      try { localStorage.setItem("encre-hl-date", String(Date.now())); } catch (e) {}
+      try { ST.setItem("encre-hl-date", String(Date.now())); } catch (e) {}
       info.textContent = (erreurs ? "⚠ Hors ligne prêt, " + erreurs + " fichier(s) manquant(s) : relancer" : "✔ Hors ligne prêt") + manuel;
     } catch (e) { info.textContent = "Préparation interrompue (" + e.message + ") : relancer"; if (window.__noterErreur) window.__noterErreur("préparer le hors ligne : " + e.message, ""); }
     preparation = false; b.disabled = false;
   }
   // préparation AUTOMATIQUE : à l'ouverture d'une page avec du réseau, au plus une fois par jour, en arrière-plan
   // (seul ce qui manque ou a changé est téléchargé) — une coupure de réseau ne doit jamais être une surprise
-  setTimeout(() => { let t = 0; try { t = +localStorage.getItem("encre-hl-date") || 0; } catch (e) {}
+  setTimeout(() => { let t = 0; try { t = +ST.getItem("encre-hl-date") || 0; } catch (e) {}
     if (RACINE && navigator.onLine && document.visibilityState === "visible" && Date.now() - t > 20 * 3600000) preparerHorsLigne(true); }, 25000);
   /* ---------- Avertissements : un problème doit se voir TOUT DE SUITE, jamais à la fin du cours ----------
      iPad / en ligne : notes pas envoyées (voyant du bouton ☁ + bandeau rouge après 5 min), compte déconnecté, copie hors ligne trop vieille.
@@ -2539,7 +2670,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const a = d.querySelector("[data-a]"); a.hidden = !action; a.textContent = bouton || "Réparer"; a.onclick = d.querySelector("span").onclick = action || null;
   }
   const dateCourte = t => new Date(t).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  const ecritRecemment = jours => { let m = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { m = Math.max(m, +localStorage.getItem(k) || 0); }); } catch (e) {} return m > Date.now() - jours * 86400000 ? m : 0; };
+  const ecritRecemment = jours => { let m = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { m = Math.max(m, +ST.getItem(k) || 0); }); } catch (e) {} return m > Date.now() - jours * 86400000 ? m : 0; };
   function surveiller() {
     try {
       if (location.protocol === "file:") {                                // ----- clé USB -----
@@ -2552,7 +2683,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       // ----- en ligne (iPad, Chromebook, Speechi connecté) -----
-      const enAttente = SYNC.actif ? clesNotes().filter(k => k.startsWith(PAGE)).filter(k => enLigne[k] !== empreinte(localStorage.getItem(k) || "")).length : 0;
+      const enAttente = SYNC.actif ? clesNotes().filter(k => k.startsWith(PAGE)).filter(k => enLigne[k] !== empreinte(ST.getItem(k) || "")).length : 0;
       if (!enAttente) attenteDepuis = 0; else if (!attenteDepuis) attenteDepuis = Date.now();
       const minutes = attenteDepuis ? Math.floor((Date.now() - attenteDepuis) / 60000) : 0;
       bSync.classList.toggle("s-ok", SYNC.actif && !enAttente); bSync.classList.toggle("s-att", SYNC.actif && !!enAttente && minutes < 5); bSync.classList.toggle("s-ko", SYNC.actif && !!enAttente && minutes >= 5);
@@ -2565,11 +2696,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const echecMin = SYNC.echec ? Math.floor((Date.now() - SYNC.echec) / 60000) : 0;
       avert("envoi", SYNC.actif && enAttente && minutes >= 5 && echecMin >= 5 && navigator.onLine
           ? "⚠ Notes de cette page PAS envoyées depuis " + minutes + " min, malgré le réseau. Elles restent sur cet appareil : ne videz rien." : null, true, relancer, "Réessayer");
-      const deconnecte = !SYNC.actif && Date.now() - CHARGEE > 20000 && (SYNC.etat === "☁ Se connecter" || localStorage.getItem("encre-sync") !== "1");
+      const deconnecte = !SYNC.actif && Date.now() - CHARGEE > 20000 && (SYNC.etat === "☁ Se connecter" || ST.getItem("encre-sync") !== "1");
       if (!deconnecte) compteDepuis = 0; else if (!compteDepuis) compteDepuis = Date.now();
       avert("compte", deconnecte && Date.now() - compteDepuis > 60000 && ecritRecemment(7) ? "⚠ Non connecté : vos notes restent sur cet appareil seulement (rien n'est sauvegardé en ligne)." : null, true, fenetreConnexion, "Se connecter");
       if (RACINE && "caches" in window && "serviceWorker" in navigator && Date.now() - CHARGEE > 120000 && !preparation) {
-        const t = +localStorage.getItem("encre-hl-date") || 0;
+        const t = +ST.getItem("encre-hl-date") || 0;
         avert("hors-ligne", Date.now() - t > 3 * 86400000 ? (t ? "Copie hors ligne de cet appareil datée de " + dateCourte(t) : "Cet appareil n'a pas de copie hors ligne") + " : sans réseau, le site serait incomplet."
           : null, false, () => preparerHorsLigne(false), "Préparer");
       }
@@ -2596,33 +2727,34 @@ document.addEventListener("DOMContentLoaded", function () {
   async function diagnostic() {
     menu.querySelector(".info").textContent = "Diagnostic en cours (quelques secondes)…";
     let total = 0, notes = 0, nb = 0, pageEnCours = 0; const parPage = {};
-    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ""; total += k.length + v.length;
+    try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i), v = ST.getItem(k) || ""; total += k.length + v.length;
       if (k.startsWith("encre:")) { nb++; notes += v.length; const pg = k.split("|")[0].split("#")[0]; parPage[pg] = (parPage[pg] || 0) + v.length; if (pg === PAGE) pageEnCours += v.length; } } } catch (e) {}
-    let place = 0; try { const essai = "x".repeat(250000); for (; place < 40; place++) localStorage.setItem("encre-diag-" + place, essai); } catch (e) {}
-    for (let i = 0; i < 40; i++) try { localStorage.removeItem("encre-diag-" + i); } catch (e) {}
+    let place = 0; try { const essai = "x".repeat(250000); for (; place < 40; place++) ST.setItem("encre-diag-" + place, essai); } catch (e) {}
+    for (let i = 0; i < 40; i++) try { ST.removeItem("encre-diag-" + i); } catch (e) {}
     let idb = "?"; try { await idbPut("encre-diag", "ok"); idb = (await idbGet("encre-diag")) === "ok" ? "oui" : "non"; } catch (e) { idb = "non (" + e.name + ")"; }
     const mo = n => (n * 2 / 1048576).toFixed(1) + " Mo";
     const grosses = Object.entries(parPage).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([p, n]) => "   " + mo(n) + "  " + decodeURIComponent(p.replace("encre:", ""))).join("\n");
     const rapport = ("Diagnostic du mode tableau\n\n" +
       "Navigateur : " + navigator.userAgent.replace(/\(.*?\)/, "").slice(0, 80) + "\n" +
       "Mémoire utilisée : " + mo(total) + " (" + nb + " notes, " + mo(notes) + ")\n" +
-      "Place libre restante : environ " + mo(place * 250000) + (place >= 40 ? " ou plus" : place === 0 ? "  ⚠ PLEINE" : "") + "\n" +
+      "Place libre (petite mémoire) : environ " + mo(place * 250000) + (place >= 40 ? " ou plus" : place === 0 ? "  ⚠ PLEINE" : "") + "\n" +
       "Notes de cette page : " + mo(pageEnCours) + "\n" +
       "Stockage des images (IndexedDB) : " + idb + "\n" +
+      (() => { const e = ST.etat(); return "Grande mémoire des notes : " + (e.idbOk ? "active" : "⚠ PAS disponible (tout reste dans la petite mémoire)") + " — " + e.total + " notes, dont " + e.petite + " aussi dans la petite mémoire" + (e.enAttente ? ", " + e.enAttente + " écriture(s) en attente" : "") + "\n"; })() +
       "Ouverture : " + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? "icône de l'écran d'accueil (application séparée de Safari)" : "navigateur") + "\n" +
       "Version du mode tableau : " + (typeof VERSION_TABLEAU === "string" ? VERSION_TABLEAU : "?") + "\n" +
       "Date de l'appareil : " + new Date().toLocaleString("fr-FR") + "\n" +
-      "Hors ligne préparé : " + (() => { const t = +localStorage.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
+      "Hors ligne préparé : " + (() => { const t = +ST.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
-      "En attente d'envoi (cette page) : " + (() => { try { const l = clesNotes().filter(k => k.startsWith(PAGE) && enLigne[k] !== empreinte(localStorage.getItem(k) || ""));
-        return l.length ? l.map(k => k.slice(PAGE.length) + " (" + Math.round((localStorage.getItem(k) || "").length / 1024) + " ko)").join(", ") : "rien"; } catch (e) { return "?"; } })() +
+      "En attente d'envoi (cette page) : " + (() => { try { const l = clesNotes().filter(k => k.startsWith(PAGE) && enLigne[k] !== empreinte(ST.getItem(k) || ""));
+        return l.length ? l.map(k => k.slice(PAGE.length) + " (" + Math.round((ST.getItem(k) || "").length / 1024) + " ko)").join(", ") : "rien"; } catch (e) { return "?"; } })() +
         (SYNC.echec ? " — envois en échec depuis " + new Date(SYNC.echec).toLocaleTimeString("fr-FR") : "") + (SYNC.erreurEnvoi ? " — dernière erreur : " + SYNC.erreurEnvoi : "") + "\n" +
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
       "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
-      "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
+      "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(ST.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
     let envoye = false;
     if (SYNC.actif) try { await delai(SYNC.base.collection("diagnostics").doc("d" + Date.now()).set({ type: "diagnostic", t: Date.now(), appareil: APPAREIL, page: PAGE, rapport }), 15000); envoye = true; } catch (e) {}
-    try { localStorage.setItem("encre-dernier-diagnostic", rapport); } catch (e) {}
+    try { ST.setItem("encre-dernier-diagnostic", rapport); } catch (e) {}
     alert((envoye ? "✔ Diagnostic enregistré dans votre compte (" + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) + ")."
                   : "Diagnostic PAS envoyé (pas de connexion au compte) : c'est sans doute la cause du problème, vérifiez le bouton ☁.")
           + "\n(Une capture de cette fenêtre peut être donnée à Claude.)\n\n" + rapport);
@@ -2641,7 +2773,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div><button type="submit">Se connecter</button></div></details>
       <p class="err"></p><div><button type="button" data-x>Fermer</button></div></form>`;
     document.body.appendChild(f);
-    const [em, mdp] = f.querySelectorAll("input"); em.value = localStorage.getItem("encre-sync-email") || "";
+    const [em, mdp] = f.querySelectorAll("input"); em.value = ST.getItem("encre-sync-email") || "";
     f.querySelector("[data-x]").onclick = () => f.remove();
     document.addEventListener("encre-appaire", () => f.remove(), { once: true });
     const code = f.querySelector(".code");
@@ -2656,7 +2788,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }).catch(x => { code.textContent = x && /operation-not-allowed|admin-restricted-operation/.test(x.code || "") ? "QR code : activer « Anonyme » dans Firebase." : "QR code indisponible (réseau ?)."; });
     f.querySelector("form").onsubmit = e => { e.preventDefault(); f.querySelector(".err").textContent = "Connexion…";
       chargerFirebase().then(() => firebase.auth().signInWithEmailAndPassword(em.value.trim(), mdp.value))
-        .then(() => { try { localStorage.setItem("encre-sync-email", em.value.trim()); } catch (x) {} f.remove(); },
+        .then(() => { try { ST.setItem("encre-sync-email", em.value.trim()); } catch (x) {} f.remove(); },
               x => { f.querySelector(".err").textContent = { "auth/invalid-credential": "E-mail ou mot de passe incorrect.", "auth/wrong-password": "Mot de passe incorrect.",
                 "auth/too-many-requests": "Trop d'essais : réessayez dans quelques minutes.", "auth/network-request-failed": "Pas de connexion internet." }[x && x.code] || "Connexion impossible (" + (x && (x.code || x.message)) + ")."; }); };
   }
@@ -2669,10 +2801,10 @@ document.addEventListener("DOMContentLoaded", function () {
     f.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
       if (b.dataset.c === "sync") { f.remove(); recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne")); }
       else if (b.dataset.c === "deco") { if (!sur) { sur = true; b.textContent = "Toucher encore pour confirmer la déconnexion"; b.style.background = "#b3261e"; b.style.color = "#fff"; return; }
-        f.remove(); firebase.auth().signOut(); try { localStorage.removeItem("encre-sync"); } catch (x) {} }
+        f.remove(); firebase.auth().signOut(); try { ST.removeItem("encre-sync"); } catch (x) {} }
       else f.remove(); });
   });
-  if (localStorage.getItem("encre-sync") === "1") { etatSync("☁ …"); chargerFirebase().catch(() => etatSync("☁ Hors ligne")); }
+  if (ST.getItem("encre-sync") === "1") { etatSync("☁ …"); chargerFirebase().catch(() => etatSync("☁ Hors ligne")); }
 
   /* ---------- PDF : notes de cours, puis feuilles d'exercices (une par séance) ---------- */
   function chargerJsPdf() {
@@ -2751,10 +2883,10 @@ document.addEventListener("DOMContentLoaded", function () {
           y += morceau * ech + 5; depuis += morceau; vide = false;
         }
       };
-      const lire = k => { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (e) { return []; } };
+      const lire = k => { try { return JSON.parse(ST.getItem(k) || "[]"); } catch (e) { return []; } };
       const notes = Zone.toutes.filter(z => z.titre && lire(z.cle).length);
       const feuilles = [];
-      try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i);
+      try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i);
         if (k && k.startsWith(PREFIXE_EXOS) && lire(k).length) feuilles.push(k);
         if (k && k.startsWith(BASE_ARDOISE + "|ardoise:") && lire(k).length) feuilles.push(k);
         if (k && k.startsWith(PAGE + "#exos-img:") && lire(k).length && !feuilles.includes(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length))) feuilles.push(PREFIXE_EXOS + k.slice((PAGE + "#exos-img:").length)); } } catch (e) {}
@@ -2785,8 +2917,8 @@ document.addEventListener("DOMContentLoaded", function () {
   menu.addEventListener("click", e => {
     const m = e.target.dataset.m;
     if (m === "exp") {
-      const donnees = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.startsWith(PAGE + "|") || k.startsWith(PAGE + "#exos-img:"))) donnees[k] = JSON.parse(localStorage.getItem(k)); } } catch (x) {}
-      let quand = new Date(); try { const t = +localStorage.getItem(PAGE + "#modifie"); if (t) quand = new Date(t); } catch (x) {}
+      const donnees = {}; try { for (let i = 0; i < ST.length; i++) { const k = ST.key(i); if (k && (k.startsWith(PAGE + "|") || k.startsWith(PAGE + "#exos-img:"))) donnees[k] = JSON.parse(ST.getItem(k)); } } catch (x) {}
+      let quand = new Date(); try { const t = +ST.getItem(PAGE + "#modifie"); if (t) quand = new Date(t); } catch (x) {}
       const base = "notes-" + chapitre.replace(/[^\wÀ-ÿ-]+/g, "-") + "-" + isoJour(quand);
       const a = document.createElement("a");
       a.href = URL.createObjectURL(new Blob([JSON.stringify(donnees)], { type: "application/json" }));
@@ -2801,7 +2933,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   fichier.addEventListener("change", async () => {
     const f = fichier.files[0]; if (!f) return;
-    try { const d = JSON.parse(await f.text()); Object.entries(d).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v))); location.reload(); }
+    try { const d = JSON.parse(await f.text()); Object.entries(d).forEach(([k, v]) => ST.setItem(k, JSON.stringify(v))); location.reload(); }
     catch (e) { menu.querySelector(".info").textContent = "Fichier de notes illisible"; }
   });
 })();
