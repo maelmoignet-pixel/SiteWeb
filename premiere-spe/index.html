@@ -391,11 +391,21 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-connexion button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-connexion button[type="submit"] { background: var(--encre-accent); color: #fff; border-color: var(--encre-accent); }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
+.encre-alerte-memoire { position: fixed; top: 0; left: 0; right: 0; z-index: 2147483600; background: #b3261e; color: #fff; font: 700 18px system-ui, sans-serif; padding: 14px 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 @media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-calque, .encre-page-barre { display: none !important; } }
 </style>
 <script>
+/* Journal des erreurs du mode tableau, gardé sur l'appareil (bouton « Diagnostic ») */
+(() => {
+  const noter = (msg, ou) => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]");
+    l.push({ t: Date.now(), m: String(msg).slice(0, 200), o: String(ou || "").slice(0, 120), p: location.pathname.split("/").slice(-2).join("/") });
+    localStorage.setItem("encre-erreurs", JSON.stringify(l.slice(-15))); } catch (e) {} };
+  window.__noterErreur = noter;
+  addEventListener("error", e => noter(e.message, (e.filename || "").split("/").pop() + ":" + e.lineno));
+  addEventListener("unhandledrejection", e => noter("promesse : " + (e.reason && (e.reason.message || e.reason)), ""));
+})();
 (() => {
   const PAGE = "encre:" + (location.protocol === "file:" ? document.title : location.pathname);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
@@ -415,6 +425,25 @@ document.addEventListener("DOMContentLoaded", function () {
   let reglages = { coul: COULEURS[0], ep: EPAISSEURS[1], doigt: "defile" };
   try { Object.assign(reglages, JSON.parse(localStorage.getItem("encre-reglages") || "{}")); } catch (e) {}
   let STYLET_VU = false; try { STYLET_VU = localStorage.getItem("encre-stylet-vu") === "1"; } catch (e) {}
+  /* Écriture d'une note : si la mémoire du navigateur est pleine (Safari sur iPad : quelques Mo seulement),
+     on libère la place prise par les notes d'autres pages déjà en sécurité dans Firebase, puis on réessaie ;
+     si c'est encore impossible, un bandeau rouge le dit (jamais de perte silencieuse). */
+  function ecrireNote(k, v) {
+    for (let essai = 0; essai < 3; essai++) {
+      try { localStorage.setItem(k, v); alerteMemoire(false); return true; }
+      catch (e) { if (!(window.__libererPlace && window.__libererPlace(k, (v || "").length * 2 + 200000))) break; }
+    }
+    alerteMemoire(true); if (window.__noterErreur) window.__noterErreur("enregistrement impossible (mémoire pleine)", k.slice(0, 100)); return false;
+  }
+  function alerteMemoire(oui) {
+    let b = document.querySelector(".encre-alerte-memoire");
+    if (!oui) { if (b) b.remove(); return; }
+    if (b) return;
+    b = document.createElement("div"); b.className = "encre-alerte-memoire"; b.setAttribute("role", "alert");
+    b.textContent = "⚠ Mémoire du navigateur pleine : les dernières notes ne sont PAS enregistrées. " +
+      (window.encreSync ? "Les notes déjà envoyées ont été libérées, mais cela ne suffit pas." : "Connectez-vous (☁) pour que les notes soient gardées en ligne et que la place se libère.");
+    document.body.appendChild(b);
+  }
   const garderReglages = () => { try { localStorage.setItem("encre-reglages", JSON.stringify(reglages)); } catch (e) {} };
 
   /* Figures : chargement (une fois) et place dans la zone, centrée en haut, 80 % de la largeur */
@@ -461,6 +490,14 @@ document.addEventListener("DOMContentLoaded", function () {
                                        prive: "manuel-tle" } };   // exercices découpés dans le Firebase de Maël (droits d'auteur : jamais sur le site)
   const niveau = window.ENCRE_NIVEAU || (location.pathname.match(/\/(seconde|premiere-spe|premiere-tc|terminale-spe)\//) || [])[1];
   const MANUEL = MANUELS[niveau] ? Object.assign({}, MANUELS[niveau]) : null;
+  const HORS_LIGNE = location.protocol === "file:";                   // version hors ligne (clé USB, kit de secours)
+  if (MANUEL && MANUEL.prive && HORS_LIGNE) { MANUEL.dossier = "terminale-spe/exercices-lls/"; delete MANUEL.prive; }   // copie privée, présente seulement dans la version hors ligne
+  // Hors ligne, le navigateur refuse fetch() sur les fichiers : les données y sont aussi livrées en .js (variable globale), chargées par <script>
+  const lireDonnees = (url, nom) => HORS_LIGNE
+    ? new Promise((ok, ko) => { window.__DONNEES = window.__DONNEES || {}; if (window.__DONNEES[nom]) return ok(window.__DONNEES[nom]);
+        const sc = document.createElement("script"); sc.src = url.replace(/\.json$/, ".js");
+        sc.onload = () => window.__DONNEES[nom] ? ok(window.__DONNEES[nom]) : ko(new Error("absent")); sc.onerror = () => ko(new Error("absent")); document.head.appendChild(sc); })
+    : fetch(url, { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error("absent"); return r.json(); });
   if (MANUEL && MANUEL.dossier) {
     const lib = document.querySelector('script[src*="site_libs/"]');
     MANUEL.base = lib ? lib.getAttribute("src").split("site_libs/")[0] + MANUEL.dossier
@@ -475,7 +512,8 @@ document.addEventListener("DOMContentLoaded", function () {
       return indexManuel.then(cles => { const p2 = [p, p + 1, p - 1, p + 2].find(q => cles.has(n + "@" + q));   // page à une près (énoncé sur la page voisine)
         if (p2 === undefined) throw new Error("absent"); return "manuel:" + MANUEL.prive + "/" + n + "@" + p2; });
     }
-    indexManuel = indexManuel || fetch(MANUEL.base + "index.json").then(r => r.json());
+    indexManuel = indexManuel || lireDonnees(MANUEL.base + "index.json", MANUEL.dossier);
+    indexManuel.catch(() => { indexManuel = null; });
     return indexManuel.then(idx => { const q = [p, p + 1, p - 1, p + 2].find(x => idx[n + "@" + x]);   // page à une près (énoncé sur la page voisine)
       if (q === undefined) throw new Error("absent"); return MANUEL.base + idx[n + "@" + q]; });
   }
@@ -573,8 +611,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }            // mode « Ajuster les images » : sélectionner, déplacer, redimensionner
     const chargerExos = () => exos.forEach(e => chargerImage(e.src).then(im => { imgExos.set(e.src, im); if (zone) dessiner(); }, () => {}));
     if (opts.cleExos) { chargerExos(); hauteur = Math.max(hauteur, ...exos.map(e => e.y + e.h + PAS)); }
-    const sauverExos = () => { try { if (exos.length) localStorage.setItem(opts.cleExos, JSON.stringify(exos)); else localStorage.removeItem(opts.cleExos);
-                                     localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
+    const sauverExos = () => { try { if (exos.length) ecrireNote(opts.cleExos, JSON.stringify(exos)); else { localStorage.removeItem(opts.cleExos); if (window.__videe) window.__videe(opts.cleExos); }
+                                     ecrireNote(PAGE + "#modifie", String(Date.now())); } catch (e) {} };
     const basContenu = () => Math.max(opts.entete ? 190 : 0, ...traits.map(t => maxY(t) + t.w), ...exos.map(e => e.y + e.h + 50));
     const estImage = o => exos.includes(o);
     function boite(o) {                                  // [x, y, largeur, hauteur] d'une image ou d'un repère
@@ -627,7 +665,8 @@ document.addEventListener("DOMContentLoaded", function () {
     async function insererExercice(n, p, msg) {
       msg.textContent = "Recherche…";
       try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
-      catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable"; }
+      catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable";
+        if (window.__noterErreur) window.__noterErreur("exercice n°" + n + " p." + p + " : " + e.message, MANUEL ? MANUEL.nom : ""); }
     }
     async function insererCapture(dataUrl, infos = { capture: true }, marge) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
@@ -651,7 +690,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // copie d'élève photographiée au téléphone : déjà téléchargée en arrière-plan, elle s'affiche tout de suite
     async function insererCopieEleve(msg) {
       const C = window.encreCopies;
-      if (!C) { msg.textContent = "Connectez-vous (☁) pour recevoir les copies"; return; }
+      if (!C) { msg.textContent = "Connectez-vous (☁) pour recevoir les copies"; if (window.__noterErreur) window.__noterErreur("copie d'élève : pas de connexion (☁)", ""); return; }
       if (!C.liste.length) { msg.textContent = "Aucune copie reçue : photographiez-la avec le téléphone (page …/copie/)"; return; }
       return mettreCopie(C.liste.length === 1 ? C.liste[0] : null, msg);
     }
@@ -689,7 +728,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const ECHELLE_AUTO = 0.97;                                          // images recomposées à 2,2 px/pt : 17 cm de texte ≈ 1 060 unités
     async function reglagesAutomatismes() {
       const msg = zone.querySelector(".m-msg");
-      try { baseAuto = baseAuto || (await (await fetch(BASE_AUTO + "qcm.json", { cache: "no-cache" })).json()).filter(q => q.verifie && !q.exclu); }
+      try { baseAuto = baseAuto || (await lireDonnees(BASE_AUTO + "qcm.json", "automatismes/")).filter(q => q.verifie && !q.exclu); }
       catch (e) { msg.textContent = "Questions d'automatismes introuvables (réseau ?)"; return; }
       let r = {}; try { r = JSON.parse(localStorage.getItem("encre-auto") || "{}"); } catch (e) {}
       const defSeries = niveau === "premiere-spe" ? ["spe", "commun"] : niveau === "terminale-spe" ? ["spe", "ns", "commun"] : ["ns", "commun"];
@@ -1106,8 +1145,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function sauver() {
       setTimeout(majTitres, 0);
       const maintenant = Date.now(); traits.forEach(t => { if (t.d === undefined) t.d = maintenant; });   // traits nouveaux depuis le dernier enregistrement
-      try { if (traits.length) localStorage.setItem(cle, JSON.stringify(traits)); else localStorage.removeItem(cle);
-            localStorage.setItem(PAGE + "#modifie", String(Date.now())); } catch (e) {}
+      try { if (traits.length) ecrireNote(cle, JSON.stringify(traits)); else { localStorage.removeItem(cle); if (window.__videe) window.__videe(cle); }
+            ecrireNote(PAGE + "#modifie", String(Date.now())); } catch (e) {}
       majInfo();
     }
     /* Nature d'un contact. Certains écrans (Firefox sous Windows, cadres infrarouges) signalent le stylet comme un doigt :
@@ -1768,7 +1807,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PAGE_NIVEAU = !!document.querySelector("main .chapitres") && !/\/chapitres\//.test(location.pathname);   // + une ardoise du niveau, hors chapitres
   if (!blocs.length && !titresArdoise.length && !PAGE_NIVEAU) return;
   const menu = document.createElement("div"); menu.className = "encre-menu";
-  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><input type="file" accept=".json" hidden>`;
+  menu.innerHTML = `<span class="info"></span><button data-m="sync" class="sync">☁ Se connecter</button><button data-m="exp">Enregistrer les notes</button><button data-m="imp">Charger des notes</button><button data-m="diag">Diagnostic</button><input type="file" accept=".json" hidden>`;
   document.body.appendChild(menu);
   /* Bouton fixe « Exercices » : une feuille d'exercices par jour (date du jour + nom du chapitre en tête) */
   const JOURS = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
@@ -1932,7 +1971,7 @@ document.addEventListener("DOMContentLoaded", function () {
     Zone.toutes.forEach(z => { if (!z.titre || !z.cle.startsWith(PAGE + "|") || z.cle.includes("|exos:") || z.cle.includes("|ardoise:")) return;
       try { if ((JSON.parse(localStorage.getItem(z.cle) || "[]")).length) t[z.cle.slice(PAGE.length + 1)] = z.titre; } catch (e) {} });
     const v = Object.keys(t).length ? JSON.stringify(t) : null;
-    try { if (v !== localStorage.getItem(PAGE + "#titres")) { if (v) localStorage.setItem(PAGE + "#titres", v); else localStorage.removeItem(PAGE + "#titres"); } } catch (e) {}
+    try { if (v !== localStorage.getItem(PAGE + "#titres")) { if (v) ecrireNote(PAGE + "#titres", v); else localStorage.removeItem(PAGE + "#titres"); } } catch (e) {}
   }
   setTimeout(majTitres, 1500);
   function majInfo() {
@@ -2045,9 +2084,27 @@ document.addEventListener("DOMContentLoaded", function () {
     h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
   let dernierVu = {}, enLigne = lsJson("encre-sync-vu", {}), heures = lsJson("encre-sync-t", {}), capturesEnvoyees = lsJson("encre-sync-cap", {});
+  const vuT = lsJson("encre-sync-vuT", {});                            // heure de la dernière synchro de chaque clé sur cet appareil
+  const videesIci = new Set();                                         // clés effacées volontairement pendant cette visite (seules à pouvoir être effacées en ligne)
+  window.__videe = k => videesIci.add(k);
   SYNC.maj = +localStorage.getItem("encre-sync-maj") || 0;
   const clesNotes = () => { const l = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) l.push(k); } } catch (e) {} return l; };
   const versId = k => encodeURIComponent(k).replace(/\./g, "%2E"), deId = id => decodeURIComponent(id);
+  // Place pleine : on retire les notes d'AUTRES pages déjà identiques en ligne (les plus grosses d'abord).
+  // Elles ne sont pas effacées de Firebase : elles reviennent quand on rouvre leur page (recevoirPage).
+  window.__libererPlace = (garder, besoin) => {
+    if (!SYNC.actif) return false;
+    const pageDe = k => k.split("|")[0].split("#")[0];
+    const candidates = clesNotes().filter(k => pageDe(k) !== PAGE && k !== garder).map(k => [k, localStorage.getItem(k) || ""])
+      .filter(([k, v]) => enLigne[k] === empreinte(v)).sort((a, b) => b[1].length - a[1].length);
+    let libere = 0;
+    for (const [k, v] of candidates) {
+      localStorage.removeItem(k); delete enLigne[k]; delete dernierVu[k]; delete heures[k]; delete vuT[k]; libere += v.length * 2;
+      if (libere >= besoin) break;
+    }
+    if (libere) { lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); }
+    return libere > 0;
+  };
   const MORCEAU = 800000;                                               // un document Firestore : 1 Mo au plus
   function etatSync(t) { SYNC.etat = t; bSync.textContent = t; }
   const delai = (pr, ms = 20000) => Promise.race([pr, new Promise((_, ko) => setTimeout(() => ko(new Error("délai dépassé")), ms))]);   // réseau filtré : on n'attend pas indéfiniment
@@ -2080,7 +2137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     SYNC.base = firebase.firestore().collection("utilisateurs").doc(uid); SYNC.actif = true;
     try { localStorage.setItem("encre-sync", "1"); localStorage.setItem("encre-proprio", uid); } catch (e) {}
     window.encreSync = { capture: lireCapture, manuel: lireManuel };
-    recevoir().then(envoyer).catch(() => etatSync("☁ Hors ligne"));
+    recevoir().then(recevoirPage).then(envoyer).catch(() => etatSync("☁ Hors ligne"));
     ecouterCopies();
   }
   // --- copies d'élèves photographiées au téléphone (page copie/) : « boîte de réception » écoutée en continu ;
@@ -2106,6 +2163,42 @@ document.addEventListener("DOMContentLoaded", function () {
       document.dispatchEvent(new CustomEvent("encre-copies"));
     }, () => { arretCopies = null; setTimeout(() => { if (SYNC.actif) ecouterCopies(); }, 15000); });
   }
+  /* --- fusion : deux versions d'une même feuille sont RÉUNIES, jamais remplacées l'une par l'autre ---
+     Un élément (trait ou image) est reconnu par son heure de création et son début. « depuis » = dernière synchro de cette clé ici :
+     un élément absent d'un côté mais créé APRÈS « depuis » est nouveau, on le garde ; créé avant, c'est qu'il a été effacé, on ne le ressuscite pas. */
+  const idElt = x => x && typeof x === "object" ? (x.id ? "i:" + x.id : "t:" + (x.d || 0) + ":" + (Array.isArray(x.p) ? x.p.slice(0, 4).join(",") + ":" + x.p.length : JSON.stringify(x).slice(0, 80))) : JSON.stringify(x);
+  const dateElt = x => { if (!x || typeof x !== "object") return 0; if (x.d) return x.d;
+    if (typeof x.id === "string" && /^[a-z][0-9a-z]{9,}$/.test(x.id)) { const n = parseInt(x.id.slice(1, -4), 36); return isFinite(n) ? n : 0; } return 0; };
+  function fusion(base, autre, depuis) {
+    const vus = new Set(base.map(idElt)), res = base.slice();
+    autre.forEach(x => { if (!vus.has(idElt(x)) && dateElt(x) > depuis) { res.push(x); vus.add(idElt(x)); } });
+    return res;
+  }
+  const lireTableau = v => { if (v === null || v === undefined) return []; try { const j = JSON.parse(v); return Array.isArray(j) ? j : null; } catch (e) { return null; } };
+  function garderCopie(k, v) {                                          // filet de sécurité : l'ancienne version est gardée sur l'appareil
+    if (!v) return; idbPut("hist:" + k + ":" + Date.now(), v).catch(() => {});
+  }
+  // applique la version reçue d'une clé ; renvoie true si la copie locale a changé
+  function appliquer(k, valeur, t) {
+    const loc = localStorage.getItem(k);
+    if (valeur === loc) { if (valeur !== null) enLigne[k] = empreinte(valeur); vuT[k] = Date.now(); return false; }
+    const modifieeIci = dernierVu[k] !== undefined && loc !== null && dernierVu[k] !== empreinte(loc);   // changée ici depuis le dernier envoi
+    const A = lireTableau(loc), B = lireTableau(valeur), plusRecente = (t || 0) > (heures[k] || 0) && !modifieeIci;
+    if (A && B) {                                                       // traits ou images : on réunit
+      const depuis = vuT[k] || 0, res = plusRecente ? fusion(B, A, depuis) : fusion(A, B, depuis);
+      const texte = res.length ? JSON.stringify(res) : null;
+      if (A.length && res.length < A.length) garderCopie(k, loc);
+      if (texte !== loc) { try { if (texte === null) localStorage.removeItem(k); else if (!ecrireNote(k, texte)) return false; } catch (e) { return false; } }
+      enLigne[k] = valeur === null ? "" : empreinte(valeur); dernierVu[k] = texte === null ? undefined : empreinte(texte);
+      if (texte !== valeur) heures[k] = Date.now(); else heures[k] = t || 0;   // la réunion n'est pas encore en ligne : elle partira au prochain envoi
+      vuT[k] = Date.now();
+      return texte !== loc;
+    }
+    if (!plusRecente) return false;                                     // autre donnée (#titres, #modifie) : la plus récente gagne
+    try { if (valeur === null) localStorage.removeItem(k); else if (!ecrireNote(k, valeur)) return false; } catch (e) { return false; }
+    if (valeur === null) { delete enLigne[k]; delete dernierVu[k]; } else enLigne[k] = dernierVu[k] = empreinte(valeur);
+    heures[k] = t || 0; vuT[k] = Date.now(); return true;
+  }
   // --- réception : seulement ce qui a changé depuis la dernière fois ---
   async function recevoir() {
     if (!SYNC.actif) return;
@@ -2118,18 +2211,29 @@ document.addEventListener("DOMContentLoaded", function () {
     for (const [id, d] of Object.entries(docs)) {
       const k = deId(id), valeur = d.del ? null : d.n ? (parts[id] || []).join("") : d.v;
       if (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n) continue;   // morceaux incomplets : on attendra
-      const loc = localStorage.getItem(k);
-      if (valeur === loc) { if (valeur !== null) enLigne[k] = empreinte(valeur); continue; }
-      if ((d.t || 0) > (heures[k] || 0)) {                              // la version en ligne est plus récente
-        try { if (valeur === null) localStorage.removeItem(k); else localStorage.setItem(k, valeur); } catch (e) { continue; }
-        if (valeur === null) { delete enLigne[k]; delete dernierVu[k]; } else enLigne[k] = dernierVu[k] = empreinte(valeur);   // pas pris pour une modification locale
-        heures[k] = d.t || 0; changees.add(k);
-      }
+      if (appliquer(k, valeur, d.t)) changees.add(k);
     }
     SYNC.maj = max; try { localStorage.setItem("encre-sync-maj", String(max)); } catch (e) {}
-    lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
+    lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
     if (changees.size) { Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); rangerFeuillesDansLeCours(); majBoutonExos(); }
-    etatSync("☁ À jour");
+    SYNC.recuA = Date.now(); etatSync("☁ À jour");
+  }
+  // --- notes de la page ouverte : on récupère celles qui manquent sur cet appareil (libérées faute de place, ou jamais reçues) ---
+  async function recevoirPage() {
+    if (!SYNC.actif) return;
+    const a = versId(PAGE), ID = firebase.firestore.FieldPath.documentId();
+    const q = await delai(SYNC.base.collection("tableau").where(ID, ">=", a).where(ID, "<", a + "\uf8ff").get());
+    const docs = {}, parts = {};
+    q.forEach(d => { const v = d.data(), i = d.id.indexOf("~"); if (i >= 0) (parts[d.id.slice(0, i)] = parts[d.id.slice(0, i)] || [])[+d.id.slice(i + 1)] = v.p; else docs[d.id] = v; });
+    const changees = new Set();
+    for (const [id, d] of Object.entries(docs)) {
+      const k = deId(id); if (d.del || localStorage.getItem(k) !== null) continue;
+      const valeur = d.n ? (parts[id] || []).join("") : d.v;
+      if (typeof valeur !== "string" || (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n)) continue;
+      if (appliquer(k, valeur, d.t)) changees.add(k);
+    }
+    if (changees.size) { lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
+      Zone.toutes.forEach(z => { if (changees.has(z.cle) || changees.has(z.cleExos)) z.recharger(); }); majInfo(); majTitres(); rangerFeuillesDansLeCours(); majBoutonExos(); }
   }
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
   let envoiEnCours = false;
@@ -2146,7 +2250,10 @@ document.addEventListener("DOMContentLoaded", function () {
       dernierVu[k] = e;
       if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +localStorage.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
     }
-    const supprimees = Object.keys(enLigne).filter(k => !toutes.includes(k));
+    // une clé absente ici n'est effacée en ligne que si on l'a effacée volontairement ; sinon (place libérée, mémoire perdue) on la récupérera
+    const absentes = Object.keys(enLigne).filter(k => !toutes.includes(k));
+    absentes.filter(k => !videesIci.has(k)).forEach(k => { delete enLigne[k]; delete dernierVu[k]; delete vuT[k]; });
+    const supprimees = absentes.filter(k => videesIci.has(k));
     if (!aEnvoyer.length && !supprimees.length) { balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
     envoiEnCours = true; etatSync("☁ Envoi…");
     try {
@@ -2164,8 +2271,9 @@ document.addEventListener("DOMContentLoaded", function () {
       for (const k of supprimees) await ecrire(col.doc(versId(k)), { del: true, t: maintenant, maj });
       if (n) await delai(lot.commit());
       balayageComplet = true; dernierModifie = modifie;
-      aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; }); supprimees.forEach(k => { delete enLigne[k]; });
-      lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures);
+      const fait = Date.now();
+      aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; vuT[k] = fait; }); supprimees.forEach(k => { delete enLigne[k]; videesIci.delete(k); });
+      lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
       etatSync("☁ À jour");
     } catch (e) { etatSync("☁ Hors ligne"); }
     envoiEnCours = false;
@@ -2195,9 +2303,34 @@ document.addEventListener("DOMContentLoaded", function () {
       const d = morceaux.map(x => x.data().p).join(""); await idbPut(id, d); capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); return d; }
     catch (e) { return null; }
   }
-  setInterval(() => { if (SYNC.actif) envoyer(); }, 4000);
+  let cycle = false;
+  setInterval(() => { if (!SYNC.actif || cycle) return; cycle = true;      // toujours recevoir (et réunir) AVANT d'envoyer
+    recevoir().then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")).finally(() => { cycle = false; }); }, 4000);
+  /* Diagnostic (bouton du menu, ou adresse suivie de #diagnostic) : utile sur iPad, où il n'y a pas de console */
+  async function diagnostic() {
+    let total = 0, notes = 0, nb = 0, pageEnCours = 0; const parPage = {};
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i), v = localStorage.getItem(k) || ""; total += k.length + v.length;
+      if (k.startsWith("encre:")) { nb++; notes += v.length; const pg = k.split("|")[0].split("#")[0]; parPage[pg] = (parPage[pg] || 0) + v.length; if (pg === PAGE) pageEnCours += v.length; } } } catch (e) {}
+    let place = 0; try { const essai = "x".repeat(250000); for (; place < 40; place++) localStorage.setItem("encre-diag-" + place, essai); } catch (e) {}
+    for (let i = 0; i < 40; i++) try { localStorage.removeItem("encre-diag-" + i); } catch (e) {}
+    let idb = "?"; try { await idbPut("encre-diag", "ok"); idb = (await idbGet("encre-diag")) === "ok" ? "oui" : "non"; } catch (e) { idb = "non (" + e.name + ")"; }
+    const mo = n => (n * 2 / 1048576).toFixed(1) + " Mo";
+    const grosses = Object.entries(parPage).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([p, n]) => "   " + mo(n) + "  " + decodeURIComponent(p.replace("encre:", ""))).join("\n");
+    alert("Diagnostic du mode tableau\n\n" +
+      "Navigateur : " + navigator.userAgent.replace(/\(.*?\)/, "").slice(0, 80) + "\n" +
+      "Mémoire utilisée : " + mo(total) + " (" + nb + " notes, " + mo(notes) + ")\n" +
+      "Place libre restante : environ " + mo(place * 250000) + (place >= 40 ? " ou plus" : place === 0 ? "  ⚠ PLEINE" : "") + "\n" +
+      "Notes de cette page : " + mo(pageEnCours) + "\n" +
+      "Stockage des images (IndexedDB) : " + idb + "\n" +
+      "Ouverture : " + (navigator.standalone || matchMedia("(display-mode: standalone)").matches ? "icône de l'écran d'accueil (application séparée de Safari)" : "navigateur") + "\n" +
+      "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
+      "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
+      "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
+      "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
+  }
+  if (location.hash === "#diagnostic") setTimeout(diagnostic, 4000);
   setInterval(() => { if (SYNC.actif) recevoir().catch(() => etatSync("☁ Hors ligne")); }, 60000);
-  document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(true); else recevoir().then(envoyer).catch(() => {}); });
+  document.addEventListener("visibilitychange", () => { if (!SYNC.actif) return; if (document.hidden) envoyer(true); else recevoir().then(recevoirPage).then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")); });
   addEventListener("pagehide", () => { if (SYNC.actif) envoyer(true); });
   // --- connexion ---
   function fenetreConnexion() {
@@ -2281,8 +2414,12 @@ document.addEventListener("DOMContentLoaded", function () {
       c2.strokeStyle = "#2d4db0"; c2.lineWidth = 3; c2.beginPath(); c2.moveTo(30, 160); c2.lineTo(W - 30, 160); c2.stroke();
     }
     c2.translate(0, bandeau);
-    if (bf) c2.drawImage(fond, bf[0], bf[1], bf[2], bf[3]);
-    insertions.forEach(e => { dessinerCarte(c2, e); if (e.im) c2.drawImage(e.im, e.x, e.y, e.w, e.h);
+    // hors ligne, une image lue depuis un fichier bloquerait l'export : elle est remplacée par un cadre
+    const imagePdf = (im, x, y, w, h, nom) => { if (!HORS_LIGNE || /^(data|blob):/.test(im.src || "")) return c2.drawImage(im, x, y, w, h);
+      c2.save(); c2.fillStyle = "#f3f5fa"; c2.fillRect(x, y, w, h); c2.strokeStyle = "#9aa3b5"; c2.lineWidth = 2; c2.strokeRect(x, y, w, h);
+      c2.fillStyle = "#5d6679"; c2.font = "600 28px system-ui, sans-serif"; c2.fillText(nom + " (image non reprise hors ligne)", x + 20, y + Math.min(h / 2, 60)); c2.restore(); };
+    if (bf) imagePdf(fond, bf[0], bf[1], bf[2], bf[3], "Figure du cours");
+    insertions.forEach(e => { dessinerCarte(c2, e); if (e.im) imagePdf(e.im, e.x, e.y, e.w, e.h, legende(e) || "Image");
       c2.fillStyle = "#5d6679"; c2.font = "italic 24px system-ui, sans-serif"; c2.fillText(legende(e), e.x, e.y + e.h + 30); });
     [...traits.filter(t => t.f === "repere"), ...traits.filter(t => t.h), ...traits.filter(t => t.f !== "repere" && !t.h)].forEach(t => traceTrait(c2, t, traits));
     return cv;
@@ -2358,6 +2495,7 @@ document.addEventListener("DOMContentLoaded", function () {
       creerPdf(base + ".pdf");
     }
     if (m === "imp") fichier.click();
+    if (m === "diag") diagnostic();
   });
   fichier.addEventListener("change", async () => {
     const f = fichier.files[0]; if (!f) return;
