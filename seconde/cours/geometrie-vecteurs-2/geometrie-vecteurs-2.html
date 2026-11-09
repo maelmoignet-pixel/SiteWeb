@@ -889,8 +889,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Safari (iPad, application de l'écran d'accueil) perd parfois sa connexion à IndexedDB après un passage en arrière-plan :
      les demandes ne répondent plus jamais (« without an in-progress transaction »). Chaque opération a donc un délai maximal ;
      en cas d'échec, on ferme la connexion, on en rouvre une neuve et on réessaie une fois. */
+  let NOM_IMAGES = (() => { try { return localStorage.getItem("encre-idb-images") || "encre-captures"; } catch (e) { return "encre-captures"; } })();
   function idb() {
-    baseIdb = baseIdb || new Promise((ok, ko) => { const r = indexedDB.open("encre-captures", 1);
+    baseIdb = baseIdb || new Promise((ok, ko) => { const r = indexedDB.open(NOM_IMAGES, 1);
       r.onupgradeneeded = () => r.result.createObjectStore("captures");
       r.onsuccess = () => { const db = r.result; db.onclose = () => { baseIdb = null; }; db.onversionchange = () => { try { db.close(); } catch (e) {} baseIdb = null; }; ok(db); };
       r.onerror = () => ko(r.error); r.onblocked = () => ko(new Error("IndexedDB bloquée")); });
@@ -901,7 +902,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const essai = () => Promise.race([idb().then(op), new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))]);
     return essai().catch(e => { const p = baseIdb; baseIdb = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {});
       if (window.__noterErreur) window.__noterErreur("IndexedDB relancée : " + e.message, "");
-      return essai(); });
+      return essai().catch(e2 => {                                          // même une connexion neuve ne répond pas : base abîmée -> base neuve
+        if (NOM_IMAGES !== "encre-captures") throw e2;
+        NOM_IMAGES = "encre-images-2"; baseIdb = null; try { localStorage.setItem("encre-idb-images", NOM_IMAGES); } catch (x) {}
+        if (window.__noterErreur) window.__noterErreur("mémoire des images abîmée : passage à une mémoire neuve (" + e2.message + ")", "");
+        return essai(); }); });
   }
   const idbPut = (id, v) => idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); }));
   const idbGet = id => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
@@ -954,13 +959,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     const planifier = () => { if (!minuterie) minuterie = setTimeout(vider, 1500); };
     // retire de localStorage les notes d'AUTRES pages qui sont en sécurité (dans IndexedDB, à l'identique, et en ligne / sur la clé)
-    function ranger(cles) {
-      if (!idbOk) return 0; let n = 0;
+    // forcer : la petite mémoire est (presque) pleine -> on sort aussi les notes pas encore confirmées en ligne,
+    // du moment qu'elles sont dans la grande mémoire à l'identique (elles y restent et seront envoyées depuis elle)
+    const petiteChargee = () => { let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); n += k.length + (localStorage.getItem(k) || "").length; } } catch (e) {} return n > 2500000; };
+    function ranger(cles, forcer) {
+      if (!idbOk) return 0; let n = 0; if (forcer === undefined) forcer = petiteChargee();
       const l = cles || (() => { const r = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) r.push(k); } } catch (e) {} return r; })();
       for (const k of l) {
         if (pageDeCle(k) === PAGE || !mem.has(k)) continue;
         const v = mem.get(k), h = hashST(v);
-        if (confirme.get(k) !== h || !ST.propre(k, v)) continue;
+        if (confirme.get(k) !== h || (!forcer && !ST.propre(k, v))) continue;
         try { if (localStorage.getItem(k) !== null) { localStorage.removeItem(k); n++; } } catch (e) {}
       }
       return n;
@@ -974,7 +982,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mem.set(k, v); aEcrire.set(k, v); planifier(); if (tombes[k]) { delete tombes[k]; garderTombes(); }
         try { localStorage.setItem(k, v); }
         catch (e) {
-          ranger();                                                        // place pleine : on range d'abord ce qui est en sécurité
+          ranger(null, true);                                              // place pleine : on range d'abord ce qui est dans la grande mémoire
           try { localStorage.setItem(k, v); }
           catch (e2) { if (idbOk && pageDeCle(k) !== PAGE) { try { localStorage.removeItem(k); } catch (x) {} return; }   // autre page (reçue du site) : la grande mémoire suffit
             throw e2; }
@@ -1012,7 +1020,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         for (const [k, v] of mem) if (confirme.get(k) !== hashST(v)) aEcrire.set(k, v);   // première fois : tout est recopié
         for (const k of Object.keys(tombes)) if (!aEcrire.has(k)) { delete tombes[k]; }
-        garderTombes(); liste = null; idbOk = true; planifier();
+        garderTombes(); liste = null; idbOk = true; planifier(); ranger();
         for (const k of arrivees) { try { localStorage.setItem(k, mem.get(k)); } catch (e) {} }   // la page ouverte revient dans la petite mémoire
         if (arrivees.length && ST.surChargement) ST.surChargement(arrivees);
         return true;
@@ -3004,7 +3012,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 20h48";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "09/11 à 20h58";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3147,7 +3155,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (k.startsWith("encre:")) { nb++; notes += v.length; const pg = k.split("|")[0].split("#")[0]; parPage[pg] = (parPage[pg] || 0) + v.length; if (pg === PAGE) pageEnCours += v.length; } } } catch (e) {}
     let place = 0; try { const essai = "x".repeat(250000); for (; place < 40; place++) ST.setItem("encre-diag-" + place, essai); } catch (e) {}
     for (let i = 0; i < 40; i++) try { ST.removeItem("encre-diag-" + i); } catch (e) {}
-    let idb = "?"; try { await idbPut("encre-diag", "ok"); idb = (await idbGet("encre-diag")) === "ok" ? "oui" : "non"; } catch (e) { idb = "non (" + e.name + ")"; }
+    let idb = "?"; try { await idbPut("encre-diag", "ok"); idb = (await idbGet("encre-diag")) === "ok" ? "oui" : "non"; } catch (e) { idb = "non (" + e.name + " : " + e.message + ")"; }
+    idb += " [" + NOM_IMAGES + "]";
     const mo = n => (n * 2 / 1048576).toFixed(1) + " Mo";
     const grosses = Object.entries(parPage).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([p, n]) => "   " + mo(n) + "  " + decodeURIComponent(p.replace("encre:", ""))).join("\n");
     const rapport = ("Diagnostic du mode tableau\n\n" +
