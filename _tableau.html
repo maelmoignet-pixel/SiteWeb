@@ -2069,7 +2069,8 @@
       aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; vuT[k] = fait; }); supprimees.forEach(k => { delete enLigne[k]; videesIci.delete(k); });
       lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
       SYNC.echec = 0; etatSync("☁ À jour");
-    } catch (e) { etatSync("☁ Hors ligne"); }
+    } catch (e) { etatSync("☁ Hors ligne"); SYNC.erreurEnvoi = (e && (e.code || e.message)) || String(e);
+      if (window.__noterErreur) window.__noterErreur("envoi des notes : " + SYNC.erreurEnvoi + " (" + aEnvoyer.length + " note(s), " + Math.round(aEnvoyer.reduce((n, x) => n + (x[1] || "").length, 0) / 1024) + " ko)", ""); }
     envoiEnCours = false;
     envoyerCaptures();
   }
@@ -2369,6 +2370,9 @@
       "Date de l'appareil : " + new Date().toLocaleString("fr-FR") + "\n" +
       "Hors ligne préparé : " + (() => { const t = +localStorage.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
+      "En attente d'envoi (cette page) : " + (() => { try { const l = clesNotes().filter(k => k.startsWith(PAGE) && enLigne[k] !== empreinte(localStorage.getItem(k) || ""));
+        return l.length ? l.map(k => k.slice(PAGE.length) + " (" + Math.round((localStorage.getItem(k) || "").length / 1024) + " ko)").join(", ") : "rien"; } catch (e) { return "?"; } })() +
+        (SYNC.echec ? " — envois en échec depuis " + new Date(SYNC.echec).toLocaleTimeString("fr-FR") : "") + (SYNC.erreurEnvoi ? " — dernière erreur : " + SYNC.erreurEnvoi : "") + "\n" +
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
       "Pages qui prennent le plus de place :\n" + grosses + "\n\n" +
       "Dernières erreurs :\n" + (() => { try { const l = JSON.parse(localStorage.getItem("encre-erreurs") || "[]"); return l.length ? l.slice(-8).map(x => "   " + new Date(x.t).toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" }) + " · " + x.p + " · " + x.m + (x.o ? " (" + x.o + ")" : "")).join("\n") : "   aucune"; } catch (e) { return "   illisibles"; } })());
