@@ -1286,10 +1286,14 @@ document.addEventListener("DOMContentLoaded", function () {
        si IndexedDB se bloque (défaut de Safari), rien n'est perdu ;
      - les notes des autres pages, en sécurité, quittent localStorage (elles restent dans IndexedDB et en ligne).
      ST imite localStorage (getItem, setItem, removeItem, key, length) : le reste du mode tableau lit et écrit par lui. */
-  const hashST = s => { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
-    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-    return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
   const pageDeCle = k => k.split("|")[0].split("#")[0];
+  /* Détecteur de gel : si l'écran ne répond plus pendant plus d'une seconde (application au premier plan), c'est noté au journal
+     avec l'opération en cours (window.__tache), pour savoir exactement quoi alléger. */
+  window.__tache = "";
+  (() => { let dernier = performance.now();
+    document.addEventListener("visibilitychange", () => { dernier = performance.now(); });
+    setInterval(() => { const t = performance.now(), gel = t - dernier - 500; dernier = t;
+      if (gel > 1000 && !document.hidden && window.__noterErreur) window.__noterErreur("écran figé " + (gel / 1000).toFixed(1) + " s" + (window.__tache ? " pendant : " + window.__tache : ""), ""); }, 500); })();
   let baseNotes = null;
   function ouvrirNotes() {
     baseNotes = baseNotes || new Promise((ok, ko) => { const r = indexedDB.open("encre-notes", 1);
@@ -1314,17 +1318,17 @@ document.addEventListener("DOMContentLoaded", function () {
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) { mem.set(k, localStorage.getItem(k)); auDepart.add(k); } } } catch (e) {}
     const noter = m => { if (window.__noterErreur) window.__noterErreur(m, ""); };
     async function vider() {
-      minuterie = null; if (!aEcrire.size) return;
+      minuterie = null; if (!aEcrire.size) return; window.__tache = "rangement dans la grande mémoire";
       const lot = [...aEcrire]; aEcrire.clear();
       try {
         await idbNotes(st => { for (const [k, v] of lot) { if (v === null) st.delete(k); else st.put(v, k); } }, "readwrite");
-        let t = false; for (const [k, v] of lot) { if (v === null) { confirme.delete(k); if (tombes[k]) { delete tombes[k]; t = true; } } else confirme.set(k, hashST(v)); }
+        let t = false; for (const [k, v] of lot) { if (v === null) { confirme.delete(k); if (tombes[k]) { delete tombes[k]; t = true; } } else confirme.set(k, v); }
         if (t) garderTombes();
-        ranger(lot.map(x => x[0]));
+        ranger(lot.map(x => x[0]), false); window.__tache = "";
       } catch (e) { for (const [k, v] of lot) if (!aEcrire.has(k)) aEcrire.set(k, v);
         noter("grande mémoire (IndexedDB) : écriture reportée (" + e.message + ")"); minuterie = setTimeout(vider, 30000); }
     }
-    const planifier = () => { if (!minuterie) minuterie = setTimeout(vider, 1500); };
+    const planifier = () => { if (!minuterie) minuterie = setTimeout(vider, 8000); };   // la page ouverte est aussi dans la petite mémoire : rien ne presse
     // retire de localStorage les notes d'AUTRES pages qui sont en sécurité (dans IndexedDB, à l'identique, et en ligne / sur la clé)
     // forcer : la petite mémoire est (presque) pleine -> on sort aussi les notes pas encore confirmées en ligne,
     // du moment qu'elles sont dans la grande mémoire à l'identique (elles y restent et seront envoyées depuis elle)
@@ -1334,8 +1338,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const l = cles || (() => { const r = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) r.push(k); } } catch (e) {} return r; })();
       for (const k of l) {
         if (pageDeCle(k) === PAGE || !mem.has(k)) continue;
-        const v = mem.get(k), h = hashST(v);
-        if (confirme.get(k) !== h || (!forcer && !ST.propre(k, v))) continue;
+        const v = mem.get(k);
+        if (confirme.get(k) !== v || (!forcer && !ST.propre(k, v))) continue;
         try { if (localStorage.getItem(k) !== null) { localStorage.removeItem(k); n++; } } catch (e) {}
       }
       return n;
@@ -1364,7 +1368,7 @@ document.addEventListener("DOMContentLoaded", function () {
       key(i) { if (!liste) { liste = [...mem.keys()]; try { for (let j = 0; j < localStorage.length; j++) { const k = localStorage.key(j); if (k && !k.startsWith("encre:")) liste.push(k); } } catch (e) {} } return liste[i] === undefined ? null : liste[i]; },
       get length() { this.key(0); return liste.length; },
       // place pleine (ancienne protection) : sortir de localStorage une note déjà dans IndexedDB, sans l'effacer
-      sortirDeLaPetite(k) { if (!idbOk || !mem.has(k) || confirme.get(k) !== hashST(mem.get(k))) return false; try { localStorage.removeItem(k); } catch (e) {} return true; },
+      sortirDeLaPetite(k) { if (!idbOk || !mem.has(k) || confirme.get(k) !== mem.get(k)) return false; try { localStorage.removeItem(k); } catch (e) {} return true; },
       ranger: () => ranger(),
       get idbOk() { return idbOk; },
       vider,
@@ -1375,26 +1379,27 @@ document.addEventListener("DOMContentLoaded", function () {
     // chargement de la grande mémoire : la petite (plus récente) a priorité ; ce qui manque d'un côté est recopié de l'autre
     ST.pret = (async () => {
       if (!("indexedDB" in window)) return false;
-      try {
+      try { window.__tache = "chargement de la grande mémoire";
         const tout = await idbNotes(st => new Promise((ok, ko) => { const r = st.openCursor(), res = []; r.onsuccess = () => { const c = r.result; if (c) { res.push([c.key, c.value]); c.continue(); } else ok(res); }; r.onerror = () => ko(r.error); }), "readonly", 12000);
         const arrivees = [];
         for (const [k, v] of tout) {
           if (tombes[k]) { aEcrire.set(k, null); continue; }                // effacée ici pendant que la grande mémoire ne répondait pas
-          confirme.set(k, hashST(v));
+          confirme.set(k, v);
           if (!mem.has(k)) { mem.set(k, v); if (pageDeCle(k) === PAGE) arrivees.push(k); }
           else if (!auDepart.has(k) && mem.get(k) !== v && ST.fusionner) {   // page touchée avant la fin du chargement : on réunit les deux
             const m = ST.fusionner(mem.get(k), v); if (m !== null && m !== mem.get(k)) { mem.set(k, m); arrivees.push(k); } }
         }
-        for (const [k, v] of mem) if (confirme.get(k) !== hashST(v)) aEcrire.set(k, v);   // première fois : tout est recopié
+        for (const [k, v] of mem) if (confirme.get(k) !== v) aEcrire.set(k, v);   // première fois : tout est recopié
         for (const k of Object.keys(tombes)) if (!aEcrire.has(k)) { delete tombes[k]; }
         garderTombes(); liste = null; idbOk = true; planifier(); ranger();
         for (const k of arrivees) { try { localStorage.setItem(k, mem.get(k)); } catch (e) {} }   // la page ouverte revient dans la petite mémoire
-        if (arrivees.length && ST.surChargement) ST.surChargement(arrivees);
-        return true;
+        window.__tache = "réaffichage des notes"; if (arrivees.length && ST.surChargement) ST.surChargement(arrivees);
+        window.__tache = ""; return true;
       } catch (e) { noter("grande mémoire (IndexedDB) indisponible : " + e.message); return false; }
     })();
     setInterval(() => ranger(), 60000);
     addEventListener("pagehide", () => { if (aEcrire.size) vider(); });
+    document.addEventListener("visibilitychange", () => { if (document.hidden && aEcrire.size) { clearTimeout(minuterie); vider(); } });
     return ST;
   })();
   function attendreSync() {                                             // la connexion à Firebase se fait juste après l'ouverture de la page
@@ -3025,6 +3030,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const bSync = menu.querySelector('[data-m="sync"]');
   const lsJson = (k, d) => { try { return JSON.parse(ST.getItem(k) || "") || d; } catch (e) { return d; } };
   const lsEcrire = (k, v) => { try { ST.setItem(k, JSON.stringify(v)); } catch (e) {} };
+  const memoE = new Map();                                             // note -> {v, e} : une seule version gardée par note (pas de mémoire en plus)
+  const empreinteDe = (k, v) => { v = v || ""; const m = memoE.get(k); if (m && m.v === v) return m.e; const e = empreinte(v); memoE.set(k, { v, e }); return e; };
   const empreinte = s => { let h1 = 0xdeadbeef, h2 = 0x41c6ce57; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
     h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909); h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36) + ":" + s.length; };
@@ -3041,7 +3048,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!SYNC.actif) return false;
     const pageDe = k => k.split("|")[0].split("#")[0];
     const candidates = clesNotes().filter(k => pageDe(k) !== PAGE && k !== garder).map(k => [k, ST.getItem(k) || ""])
-      .filter(([k, v]) => enLigne[k] === empreinte(v)).sort((a, b) => b[1].length - a[1].length);
+      .filter(([k, v]) => enLigne[k] === empreinteDe(k, v)).sort((a, b) => b[1].length - a[1].length);
     let libere = 0;
     for (const [k, v] of candidates) {
       if (ST.sortirDeLaPetite(k)) { libere += v.length * 2; if (libere >= besoin) break; continue; }   // gardée dans la grande mémoire
@@ -3153,6 +3160,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- réception : seulement ce qui a changé depuis la dernière fois ---
   async function recevoir() {
     if (!SYNC.actif) return;
+    window.__tache = "réception des notes";
+    try { return await recevoirSuite(); } finally { window.__tache = ""; }
+  }
+  async function recevoirSuite() {
     const ts = firebase.firestore.Timestamp.fromMillis(SYNC.maj);
     const q = await delai(SYNC.base.collection("tableau").where("maj", ">", ts).get());
     const docs = {}, parts = {}; let max = SYNC.maj;
@@ -3189,7 +3200,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // --- grande mémoire : quelles notes peuvent quitter la petite, comment réunir, quoi réafficher ---
   ST.propre = (k, v) => {
     if (location.protocol === "file:") { try { const b = JSON.parse(ST.getItem("encre-cle-base") || "{}"); return b[k] === empreinte(v); } catch (e) { return false; } }
-    return enLigne[k] === empreinte(v);                                 // déjà en ligne, à l'identique
+    return enLigne[k] === empreinteDe(k, v);                            // déjà en ligne, à l'identique
   };
   ST.fusionner = (a, b) => { const A = lireTableau(a), B = lireTableau(b); return A && B ? JSON.stringify(fusion(A, B, -1)) : null; };
   ST.surChargement = cles => { try { Zone.toutes.forEach(z => { if (cles.includes(z.cle) || cles.includes(z.cleExos)) z.recharger(); }); } catch (e) {} };
@@ -3199,12 +3210,16 @@ document.addEventListener("DOMContentLoaded", function () {
   let balayageComplet = false, dernierModifie = null;
   async function envoyer(force) {
     if (!SYNC.actif || envoiEnCours) return;
+    window.__tache = force ? "envoi complet des notes" : "envoi des notes";
+    try { return await envoyerSuite(force); } finally { window.__tache = ""; }
+  }
+  async function envoyerSuite(force) {
     // léger pendant le cours : après un premier passage complet, seulement les notes de cette page, et seulement si elles ont changé
     const modifie = ST.getItem(PAGE + "#modifie");
     if (balayageComplet && !force && modifie === dernierModifie && !Object.keys(enLigne).some(k => ST.getItem(k) === null)) return;
     const maintenant = Date.now(), toutes = clesNotes(), cles = balayageComplet && !force ? toutes.filter(k => k.startsWith(PAGE)) : toutes, aEnvoyer = [];
     for (const k of cles) {
-      const v = ST.getItem(k), e = empreinte(v);
+      const v = ST.getItem(k), e = empreinteDe(k, v);
       if (dernierVu[k] !== undefined && dernierVu[k] !== e) heures[k] = maintenant;          // modifiée pendant cette visite
       dernierVu[k] = e;
       if (enLigne[k] !== e) { if (!heures[k]) heures[k] = +ST.getItem(k.split("|")[0].split("#")[0] + "#modifie") || maintenant; aEnvoyer.push([k, v, e]); }
@@ -3380,7 +3395,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "10/11 à 11h47";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "10/11 à 17h05";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3464,6 +3479,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const dateCourte = t => new Date(t).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
   const ecritRecemment = jours => { let m = 0; try { clesNotes().filter(k => k.endsWith("#modifie")).forEach(k => { m = Math.max(m, +ST.getItem(k) || 0); }); } catch (e) {} return m > Date.now() - jours * 86400000 ? m : 0; };
   function surveiller() {
+    window.__tache = "voyant d'envoi";
     try {
       if (location.protocol === "file:") {                                // ----- clé USB -----
         const b = document.querySelector(".encre-bandeau-cle"), m = ecritRecemment(1);
@@ -3475,7 +3491,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       // ----- en ligne (iPad, Chromebook, Speechi connecté) -----
-      const enAttente = SYNC.actif ? clesNotes().filter(k => k.startsWith(PAGE)).filter(k => enLigne[k] !== empreinte(ST.getItem(k) || "")).length : 0;
+      const enAttente = SYNC.actif ? clesNotes().filter(k => k.startsWith(PAGE)).filter(k => enLigne[k] !== empreinteDe(k, ST.getItem(k))).length : 0;
       if (!enAttente) attenteDepuis = 0; else if (!attenteDepuis) attenteDepuis = Date.now();
       const minutes = attenteDepuis ? Math.floor((Date.now() - attenteDepuis) / 60000) : 0;
       bSync.classList.toggle("s-ok", SYNC.actif && !enAttente); bSync.classList.toggle("s-att", SYNC.actif && !!enAttente && minutes < 5); bSync.classList.toggle("s-ko", SYNC.actif && !!enAttente && minutes >= 5);
@@ -3498,6 +3514,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (e) {}
   }
+  const surveiller0 = surveiller; surveiller = () => { surveiller0(); window.__tache = ""; };
   setInterval(surveiller, 10000); setTimeout(surveiller, 2500); setTimeout(surveiller, 6000);
   // retour du réseau : synchro immédiate
   addEventListener("online", () => { if (SYNC.actif) recevoir().then(recevoirPage).then(() => envoyer()).catch(() => etatSync("☁ Hors ligne")); });
@@ -3539,7 +3556,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Date de l'appareil : " + new Date().toLocaleString("fr-FR") + "\n" +
       "Hors ligne préparé : " + (() => { const t = +ST.getItem("encre-hl-date"); return t ? new Date(t).toLocaleString("fr-FR") : "jamais"; })() + "\n" +
       "Synchronisation : " + (SYNC.actif ? "active (" + (SYNC.etat || "") + ")" : "NON connectée") + (SYNC.anonyme ? " — tableau connecté par QR code" : "") + "\n" +
-      "En attente d'envoi (cette page) : " + (() => { try { const l = clesNotes().filter(k => k.startsWith(PAGE) && enLigne[k] !== empreinte(ST.getItem(k) || ""));
+      "En attente d'envoi (cette page) : " + (() => { try { const l = clesNotes().filter(k => k.startsWith(PAGE) && enLigne[k] !== empreinteDe(k, ST.getItem(k)));
         return l.length ? l.map(k => k.slice(PAGE.length) + " (" + Math.round((ST.getItem(k) || "").length / 1024) + " ko)").join(", ") : "rien"; } catch (e) { return "?"; } })() +
         (SYNC.echec ? " — envois en échec depuis " + new Date(SYNC.echec).toLocaleTimeString("fr-FR") : "") + (SYNC.erreurEnvoi ? " — dernière erreur : " + SYNC.erreurEnvoi : "") + "\n" +
       "Manuel privé et copies : " + (window.encreSync ? "accessibles" : "inaccessibles (pas de connexion)") + "\n\n" +
