@@ -1141,19 +1141,41 @@ document.addEventListener("DOMContentLoaded", function () {
     const p = baseIdb; p.catch(() => { if (baseIdb === p) baseIdb = null; });
     return p;
   }
-  function idbFaire(op, ms = 8000) {
-    const essai = () => Promise.race([idb().then(op), new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))]);
-    return essai().catch(e => { const p = baseIdb; baseIdb = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {});
-      if (window.__noterErreur) window.__noterErreur("IndexedDB relancée : " + e.message, "");
-      return essai().catch(e2 => {                                          // même une connexion neuve ne répond pas : base abîmée -> base neuve
-        if (NOM_IMAGES !== "encre-captures") throw e2;
-        NOM_IMAGES = "encre-images-2"; baseIdb = null; try { localStorage.setItem("encre-idb-images", NOM_IMAGES); } catch (x) {}
-        if (window.__noterErreur) window.__noterErreur("mémoire des images abîmée : passage à une mémoire neuve (" + e2.message + ")", "");
-        return essai(); }); });
+  /* La mémoire des images (IndexedDB) n'est JAMAIS sur le chemin de l'affichage : Safari la bloque parfois (iPad, après la veille).
+     - toute image lue ou créée pendant la séance reste en mémoire vive (MEM_IMG) : affichage immédiat ;
+     - chaque accès à IndexedDB a 2,5 s au plus ; au premier blocage, IndexedDB est mise de côté 2 min (aucune attente, aucune boucle),
+       puis réessayée ; ce qui n'a pas pu y être rangé attend en mémoire vive (et, pour les captures, dans la petite mémoire) ;
+     - la connexion est fermée quand l'application passe en arrière-plan et rouverte au retour (remède au défaut de Safari). */
+  const MEM_IMG = new Map(), A_RANGER = new Map();
+  let idbPause = 0, idbSignale = 0;
+  function idbFermer() { const p = baseIdb; baseIdb = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {}); }
+  function idbFaire(op, ms = 2500) {
+    if (Date.now() < idbPause) return Promise.reject(new Error("IndexedDB en pause"));
+    return Promise.race([idb().then(op), new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))])
+      .then(r => { if (A_RANGER.size) setTimeout(rangerEnAttente, 0); return r; },
+            e => { idbPause = Date.now() + 120000; idbFermer();
+              if (window.__noterErreur && Date.now() - idbSignale > 600000) { idbSignale = Date.now(); window.__noterErreur("mémoire des images en pause 2 min : " + e.message, ""); }
+              throw e; });
   }
-  const idbPut = (id, v) => idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); }));
-  const idbGet = id => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  function rangerEnAttente() {
+    for (const [id, v] of [...A_RANGER]) { A_RANGER.delete(id);
+      idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); }))
+        .then(() => { try { localStorage.removeItem("encre-cap:" + id); } catch (e) {} }, () => { A_RANGER.set(id, v); }); }
+  }
+  const idbPut = (id, v) => {
+    if (typeof v === "string" && !String(id).startsWith("manuel:") && !String(id).startsWith("hist:")) MEM_IMG.set(id, v);
+    return idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").put(v, id); t.oncomplete = ok; t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); }))
+      .catch(e => { if (MEM_IMG.has(id)) A_RANGER.set(id, v); throw e; });
+  };
+  const idbGet = id => MEM_IMG.has(id) ? Promise.resolve(MEM_IMG.get(id))
+    : idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }))
+        .catch(() => undefined);                                         // indisponible = absente : on passe par le site
   const idbCles = () => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
+  // captures pas encore rangées lors d'une séance précédente (gardées dans la petite mémoire) : de retour en mémoire vive
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre-cap:")) { const v = localStorage.getItem(k); MEM_IMG.set(k.slice(10), v); A_RANGER.set(k.slice(10), v); } } } catch (e) {}
+  if (A_RANGER.size) setTimeout(rangerEnAttente, 3000);
+  document.addEventListener("visibilitychange", () => { if (document.hidden) { idbFermer(); if (typeof baseNotes !== "undefined") { const p = baseNotes; baseNotes = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {}); } }
+    else { idbPause = 0; if (A_RANGER.size) setTimeout(rangerEnAttente, 1500); } });
   /* ---------- Rangement des notes : grande mémoire (IndexedDB « encre-notes ») + petite mémoire (localStorage) ----------
      Safari limite localStorage à environ 10 Mo par site : trop peu pour un trimestre de notes. Désormais :
      - TOUTES les notes sont écrites dans IndexedDB (des centaines de Mo possibles) ;
@@ -1489,7 +1511,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     async function insererCapture(dataUrl, infos = { capture: true }, marge) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
-      await idbPut(id, dataUrl);
+      MEM_IMG.set(id, dataUrl);
+      idbPut(id, dataUrl).catch(() => { if (!capturesEnvoyees[id]) try { ST.setItem("encre-cap:" + id, dataUrl); } catch (e) {} });   // IndexedDB bloquée et pas encore en ligne : gardée dans la petite mémoire
       const src = "idb:" + id; IMAGES[src] = chargerImage(dataUrl);
       placerImage(src, await IMAGES[src], infos, marge);
     }
@@ -3125,7 +3148,7 @@ document.addEventListener("DOMContentLoaded", function () {
       try { const col = SYNC.base.collection("captures"), m = Math.ceil(d.length / MORCEAU), lot = firebase.firestore().batch();
         for (let i = 0; i < m; i++) lot.set(col.doc(id + "~" + i), { p: d.slice(i * MORCEAU, (i + 1) * MORCEAU) });
         lot.set(col.doc(id), { n: m }); await lot.commit();
-        capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); } catch (e) { return; }
+        capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); try { ST.removeItem("encre-cap:" + id); } catch (e) {} } catch (e) { return; }   // en ligne : plus besoin de la copie de secours
     }
   }
   async function lireManuel(cle, col = MANUEL && MANUEL.prive) {        // manuel privé : un document par exercice ({ d: image }), et « _index »
@@ -3136,7 +3159,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!SYNC.actif) return null;
     try { const col = SYNC.base.collection("captures"), t = await col.doc(id).get(); if (!t.exists) return null;
       const n = t.data().n, morceaux = await Promise.all([...Array(n)].map((_, i) => col.doc(id + "~" + i).get()));
-      const d = morceaux.map(x => x.data().p).join(""); await idbPut(id, d); capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); return d; }
+      const d = morceaux.map(x => x.data().p).join(""); MEM_IMG.set(id, d); idbPut(id, d).catch(() => {}); capturesEnvoyees[id] = 1; lsEcrire("encre-sync-cap", capturesEnvoyees); return d; }
     catch (e) { return null; }
   }
   const APPAREIL = (/iPad|Macintosh.*Mobile|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? "iPad" : /Android/.test(navigator.userAgent) ? "Android" : /CrOS/.test(navigator.userAgent) ? "Chromebook" : /Windows/.test(navigator.userAgent) ? "Windows (tableau ?)" : "autre")
@@ -3255,7 +3278,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "09/11 à 20h58";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "10/11 à 11h47";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
