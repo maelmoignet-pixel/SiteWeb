@@ -216,7 +216,12 @@ ul.task-list li input[type="checkbox"] {
      2. Ajoute ici une ligne sur ce modèle :
         - [Titre affiché](../2026-DS-eval/suites/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
-<p><em>Documents bientôt disponibles.</em> <!-- ← supprime cette phrase quand tu ajoutes un document --></p>
+<div class="evals">
+<div class="eval">
+<p><span class="eval-titre">Évaluation n°3</span></p>
+<p><a href="../2026-DS-eval/suites/suites-premiere-2026-eval3-sujet.pdf" class="eval-btn sujet">Sujet</a> <a href="../2026-DS-eval/suites/suites-premiere-2026-eval3-correction.pdf" class="eval-btn correction">Correction</a></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2619,7 +2624,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "10/11 à 11h47";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "10/11 à 16h53";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
