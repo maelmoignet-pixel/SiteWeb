@@ -494,6 +494,9 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-tex.incomplet .rendu { opacity: .45; }
 .encre-tex .bas { display: flex; gap: 6px; align-items: center; }
 .encre-tex .aide { font: 12px system-ui, sans-serif; color: #5d6679; margin-right: auto; }
+.encre-tex .couleurs { display: flex; gap: 4px; }
+.encre-tex .couleurs button { width: 30px; height: 30px; padding: 0; border-radius: 50%; background: var(--c); border: 3px solid #fff; box-shadow: 0 0 0 1px #c7cfe3; }
+.encre-tex .couleurs button.choisie { box-shadow: 0 0 0 3px #2d4db0; }
 .encre-tex button { font: 600 14px system-ui, sans-serif; border: 1px solid #c7cfe3; background: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
 .encre-tex button.ok { background: #2d4db0; color: #fff; border-color: #2d4db0; }
 .encre-manuel button.actif { background: #2d4db0; color: #fff; }
@@ -821,9 +824,20 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   // source -> lignes de SVG (null si le code est incomplet ou faux : on garde alors le dernier rendu correct)
   async function texEnSvg(source) {
     const MJ = await chargerMathJax(), lignes = [];
-    for (const l of listesEnLignes(String(source).replace(/\r/g, "")).split("\n")) {
-      if (!l.trim()) { lignes.push(null); continue; }
-      const seul = l.trim().match(/^\$\$([\s\S]*)\$\$$/), tex = seul ? seul[1] : texDeLigne(l);
+    // un environnement (\begin{align*} … \end{align*}) ou un $$ … $$ écrit sur plusieurs lignes forme un seul bloc centré
+    const brutes = listesEnLignes(String(source).replace(/\r/g, "")).split("\n"), blocs = [];
+    for (let i = 0; i < brutes.length; i++) {
+      const l = brutes[i], t = l.trim(), env = t.match(/^\\begin\{([A-Za-z]+\*?)\}/);
+      if (env || t === "$$" || (t.startsWith("$$") && !/\$\$$/.test(t.slice(2)))) {
+        const fin = env ? "\\end{" + env[1] + "}" : "$$"; let j = i, txt = env ? l : t.slice(2);
+        while (!(env ? txt.includes(fin) : j > i && brutes[j].includes("$$"))) { if (++j >= brutes.length) return null; txt += "\n" + (env ? brutes[j] : brutes[j].replace("$$", "")); }
+        blocs.push({ bloc: txt }); i = j; continue; }
+      blocs.push({ ligne: l });
+    }
+    for (const B of blocs) {
+      const l = B.ligne;
+      if (B.bloc === undefined && !l.trim()) { lignes.push(null); continue; }
+      const seul = B.bloc !== undefined ? [0, B.bloc] : l.trim().match(/^\$\$([\s\S]*)\$\$$/), tex = seul ? seul[1] : texDeLigne(l);
       if (tex === null) return null;
       let svg; try { svg = MJ.tex2svg(tex, { display: !!seul }).querySelector("svg"); } catch (e) { return null; }
       if (!svg || svg.querySelector('[data-mml-node="merror"]')) return null;
@@ -1089,11 +1103,15 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       fermerTex(false);
       const ed = document.createElement("div"); ed.className = "encre-tex";
       ed.innerHTML = '<textarea spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Soit $f$ la fonction définie sur $\\R$ par $f(x)=x^2$."></textarea>'
-        + '<div class="rendu"></div><div class="bas"><span class="aide">$…$ formule · $$…$$ seule sur sa ligne : centrée · toucher ailleurs : poser</span>'
+        + '<div class="rendu"></div><div class="bas"><span class="couleurs">' + COULEURS.map(c => '<button data-c="' + c + '" style="--c:' + c + '" aria-label="Couleur"></button>').join("") + '</span>'
+        + '<span class="aide">$…$ formule · $$…$$ seule sur sa ligne : centrée · toucher ailleurs : poser</span>'
         + '<button data-t="non">Annuler</button><button data-t="ok" class="ok">✓ Poser</button></div>';
       zone.appendChild(ed);
-      const ta = ed.querySelector("textarea"), rendu = ed.querySelector(".rendu"), coul = reglages.coul || COULEURS[0];
+      const ta = ed.querySelector("textarea"), rendu = ed.querySelector(".rendu");
+      let coul = (ancien && ancien.texCoul) || reglages.coulTex || COULEURS[0];            // noir par défaut ; le dernier choix est retenu
       editeurTex = { ed, ta, x, y, ancien, coul, valide: null };
+      const majCouleurs = () => ed.querySelectorAll(".couleurs button").forEach(b => b.classList.toggle("choisie", b.dataset.c === coul));
+      majCouleurs();
       const zr = zone.getBoundingClientRect(), dr = defile.getBoundingClientRect();
       const L = Math.min(zr.width - 24, Math.max(360, zr.width * 0.6));
       ed.style.width = L + "px";
@@ -1108,13 +1126,22 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         ed.classList.remove("incomplet"); editeurTex.valide = ta.value; rendu.innerHTML = "";
         (l || []).forEach(x => { const d = document.createElement("div"); if (!x) { d.style.height = (0.8 * EM_TEX * echelle) + "px"; rendu.appendChild(d); return; }
           const s = x.svg.cloneNode(true); s.removeAttribute("style"); s.setAttribute("width", x.w * EM_TEX * echelle); s.setAttribute("height", x.h * EM_TEX * echelle);
-          s.style.color = coul; d.style.textAlign = x.centre ? "center" : "left"; d.appendChild(s); rendu.appendChild(d); }); recaler(); };
+          s.style.color = editeurTex.coul; d.style.textAlign = x.centre ? "center" : "left"; d.appendChild(s); rendu.appendChild(d); }); recaler(); };
       let minut = null;
       const grandir = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 4, innerHeight * 0.3) + "px"; recaler(); };
-      ta.addEventListener("input", () => { grandir(); clearTimeout(minut); minut = setTimeout(majRendu, 120); });
+      const fermerEnv = () => {                                           // \begin{x} tapé : \end{x} deux lignes plus bas, curseur entre les deux
+        const c = ta.selectionStart, av = ta.value.slice(0, c), ap = ta.value.slice(c), m = av.match(/\\begin\{([A-Za-z]+\*?)\}$/);
+        if (!m || new RegExp("^\\s*\\\\end\\{" + m[1].replace("*", "\\*") + "\\}").test(ap)) return;
+        const milieu = /^(enumerate|itemize)$/.test(m[1]) ? "\\item " : "";
+        ta.value = av + "\n" + milieu + "\n\\end{" + m[1] + "}" + ap; const k = c + 1 + milieu.length; ta.setSelectionRange(k, k); };
+      ta.addEventListener("input", e => { if (e.data === "}" || (e.inputType === "insertText" && /\}$/.test(e.data || ""))) fermerEnv();
+        grandir(); clearTimeout(minut); minut = setTimeout(majRendu, 120); });
       ta.addEventListener("keydown", e => { if (e.key === "Escape") { e.preventDefault(); fermerTex(true); } });
       ed.addEventListener("pointerdown", e => e.stopPropagation());
-      ed.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; fermerTex(b.dataset.t === "ok"); });
+      ed.addEventListener("click", e => { e.stopPropagation(); const b = e.target.closest("button"); if (!b) return;   // (ne touche pas aux outils de la feuille)
+        if (b.dataset.c) { coul = editeurTex.coul = b.dataset.c; reglages.coulTex = coul; garderReglages(); majCouleurs();
+          rendu.querySelectorAll("svg").forEach(s => s.style.color = coul); ta.focus(); return; }
+        fermerTex(b.dataset.t === "ok"); });
       if (ancien && ancien.tex) { ta.value = ancien.tex; grandir(); majRendu(); }
       chargerMathJax().then(() => { if (editeurTex && editeurTex.ed === ed) majRendu(); },
                             () => { rendu.textContent = "⚠ Le moteur LaTeX n'a pas pu se charger (réseau ?)."; });
@@ -1139,12 +1166,12 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         // le texte tel qu'il est à la fermeture ; s'il est incomplet, le dernier état correct
         let source = E.ta.value, l = source.trim() ? await texEnSvg(source).catch(() => null) : null;
         if (source.trim() && !l && E.valide !== null && E.valide.trim()) { source = E.valide; l = await texEnSvg(source).catch(() => null); }
-        if (E.ancien && source === E.ancien.tex) return;                 // rien n'a changé
+        if (E.ancien && source === E.ancien.tex && E.coul === (E.ancien.texCoul || COULEURS[0])) return;   // rien n'a changé
         if (!source.trim()) { if (E.ancien) retirerImage(E.ancien); return; }   // code effacé : le rendu part
         if (!l) { if (msg) msg.textContent = "Code LaTeX incomplet : rien n'a été posé"; return; }
         const png = await svgEnImage(l, E.coul, EM_TEX * ECH_TEX);
         if (E.ancien) retirerImage(E.ancien);
-        await insererCapture(png, { capture: true, tex: source, legende: "", x: E.x, y: E.y }, 0, 1 / ECH_TEX);
+        await insererCapture(png, { capture: true, tex: source, texCoul: E.coul, legende: "", x: E.x, y: E.y }, 0, 1 / ECH_TEX);
         if (msg) msg.textContent = "";
       } catch (e) { if (msg) msg.textContent = "Rendu LaTeX impossible (" + e.message + ")"; if (window.__noterErreur) window.__noterErreur("éditeur TeX : " + e.message, ""); }
     }
@@ -2931,7 +2958,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 12h41";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 12h52";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
