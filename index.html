@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-tex .suggestions[hidden] { display: none; }
 .encre-tex .suggestions button { font: 15px ui-monospace, "DejaVu Sans Mono", monospace; padding: 5px 10px; border: 1px solid #c7cfe3; border-radius: 8px; background: #fff; color: #1b2232; }
 .encre-tex .suggestions button.choisie { background: #2d4db0; color: #fff; border-color: #2d4db0; }
-.encre-tex .rendu svg { display: inline-block; max-width: none; }
+.encre-tex .rendu svg { display: block; max-width: none; }
 .encre-tex.incomplet .rendu { opacity: .45; }
 .encre-tex .bas { display: flex; gap: 6px; align-items: center; }
 .encre-tex .aide { font: 12px system-ui, sans-serif; color: #5d6679; margin-right: auto; }
@@ -740,10 +740,6 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     }
     return mathjaxPret;
   }
-  const texDeLigne = l => {                                              // « Soit $f$ définie sur $\R$ » -> \text{Soit }f\text{ définie sur }\R
-    const m = l.split("$"); if (m.length % 2 === 0) return null;         // $ pas refermé : on attend la suite
-    return m.map((x, i) => i % 2 ? "{" + x + "}" : (x ? "\\text{" + x.replace(/[#%&]/g, c => "\\" + c) + "}" : "")).join("");
-  };
   /* Listes (texte LaTeX, que MathJax ne connaît pas) : enumerate -> « 1. », « a. » (en gras, comme dans les cours), itemize -> « • ».
      Dans une liste, un retour à la ligne ne compte pas (comme en LaTeX) : chaque \item commence une ligne. */
   function listesEnLignes(src) {
@@ -765,9 +761,37 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     vider();
     return lignes.join("\n");
   }
-  // source -> lignes de SVG (null si le code est incomplet ou faux : on garde alors le dernier rendu correct)
-  async function texEnSvg(source) {
-    const MJ = await chargerMathJax(), lignes = [];
+  /* Mise en page du rendu (MathJax ne coupe jamais les lignes) : chaque ligne de texte est découpée en morceaux
+     (mots, formules $…$ — une formule n'est jamais coupée, la ponctuation collée reste avec elle), mesurés puis placés
+     à la suite, avec passage à la ligne à la largeur maximale. Les mesures sont gardées : seuls les morceaux nouveaux sont calculés. */
+  const MESURES_TEX = new Map();
+  function mesurerTex(MJ, tex, display) {
+    const cle = (display ? "D" : "I") + tex; let r = MESURES_TEX.get(cle);
+    if (r !== undefined) return r;
+    let svg = null; try { svg = MJ.tex2svg(tex, { display }).querySelector("svg"); } catch (e) {}
+    if (!svg || svg.querySelector('[data-mml-node="merror"]')) r = null;
+    else { const vb = svg.viewBox.baseVal; r = { svg, w: vb.width / 1000, a: -vb.y / 1000, h: vb.height / 1000 }; }   // en « em », a = hauteur au-dessus de la ligne de base
+    if (MESURES_TEX.size > 800) MESURES_TEX.clear();
+    MESURES_TEX.set(cle, r); return r;
+  }
+  const echTexte = x => x.replace(/[#%&]/g, c => "\\" + c);
+  function morceauxDeLigne(l) {                                         // « Soit $f$ définie, » -> ["\text{Soit}", "{f}", "\text{définie,}"]
+    const p = l.split("$"); if (p.length % 2 === 0) return null;          // $ pas refermé : on attend la suite
+    const res = []; let cur = "";
+    p.forEach((x, i) => {
+      if (i % 2) { cur += "{" + x + "}"; return; }
+      const parts = []; let prof = 0, mot = "";                           // coupé aux espaces HORS accolades (\textbf{deux mots} reste entier)
+      for (const ch of x) { if (ch === "{") prof++; else if (ch === "}") prof = Math.max(0, prof - 1);
+        if (/\s/.test(ch) && !prof) { if (mot) parts.push(mot); parts.push(" "); mot = ""; } else mot += ch; }
+      if (mot) parts.push(mot);
+      parts.forEach(t => { if (!t) return; if (/^\s+$/.test(t)) { if (cur) res.push(cur); cur = ""; } else cur += "\\text{" + echTexte(t) + "}"; });
+    });
+    if (cur) res.push(cur);
+    return res;
+  }
+  // source -> lignes mises en page (null si le code est incomplet ou faux : on garde alors le dernier rendu correct) ; maxEm : largeur maximale
+  async function texEnSvg(source, maxEm = 30) {
+    const MJ = await chargerMathJax(), lignes = [], ESP = 0.3;
     // un environnement (\begin{align*} … \end{align*}) ou un $$ … $$ écrit sur plusieurs lignes forme un seul bloc centré
     const brutes = listesEnLignes(String(source).replace(/\r/g, "")).split("\n"), blocs = [];
     for (let i = 0; i < brutes.length; i++) {
@@ -781,18 +805,28 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     for (const B of blocs) {
       const l = B.ligne;
       if (B.bloc === undefined && !l.trim()) { lignes.push(null); continue; }
-      const seul = B.bloc !== undefined ? [0, B.bloc] : l.trim().match(/^\$\$([\s\S]*)\$\$$/), tex = seul ? seul[1] : texDeLigne(l);
-      if (tex === null) return null;
-      let svg; try { svg = MJ.tex2svg(tex, { display: !!seul }).querySelector("svg"); } catch (e) { return null; }
-      if (!svg || svg.querySelector('[data-mml-node="merror"]')) return null;
-      const vb = svg.viewBox.baseVal; lignes.push({ svg, centre: !!seul, w: vb.width / 1000, h: vb.height / 1000 });   // en « em »
+      const seul = B.bloc !== undefined ? B.bloc : (l.trim().match(/^\$\$([\s\S]*)\$\$$/) || [])[1];
+      if (seul !== undefined) {                                         // formule centrée : un seul morceau
+        const m = mesurerTex(MJ, seul, true); if (!m) return null;
+        lignes.push({ centre: true, w: m.w, a: m.a, d: m.h - m.a, items: [{ m, dx: 0 }] }); continue; }
+      const mor = morceauxDeLigne(l); if (!mor) return null;
+      const mes = []; for (const t of mor) { const m = mesurerTex(MJ, t, false); if (!m) return null; mes.push(m); }
+      // liste (« $\quad$ 1. … ») : les lignes suivantes s'alignent après le numéro
+      const retrait = /^\{\\quad/.test(mor[0] || "") && mes.length > 1 ? mes[0].w + ESP : 0;
+      let L = { centre: false, w: 0, a: 0.75, d: 0.25, items: [] }, x = 0;
+      mes.forEach((m, i) => {
+        if (L.items.length && x + ESP + m.w > maxEm) { lignes.push(L); L = { centre: false, w: 0, a: 0.75, d: 0.25, items: [] }; x = retrait; }
+        else if (L.items.length) x += ESP;
+        L.items.push({ m, dx: x }); x += m.w; L.w = x; L.a = Math.max(L.a, m.a); L.d = Math.max(L.d, m.h - m.a);
+      });
+      lignes.push(L);
     }
     while (lignes.length && !lignes[lignes.length - 1]) lignes.pop();
     return lignes.length ? lignes : null;
   }
-  // lignes de SVG -> image PNG (fond transparent), taille en « em » : 1 em = em px dans l'image
+  // lignes mises en page -> image PNG (carte), 1 em = em px dans l'image
   async function svgEnImage(lignes, couleur, em) {
-    const ecart = 0.3, vide = 0.8, W = Math.max(...lignes.map(l => l ? l.w : 0)), H = lignes.reduce((h, l, i) => h + (l ? l.h : vide) + (i ? ecart : 0), 0);
+    const ecart = 0.25, vide = 0.8, W = Math.max(...lignes.map(l => l ? l.w : 0)), H = lignes.reduce((h, l, i) => h + (l ? l.a + l.d : vide) + (i ? ecart : 0), 0);
     // carte (style des encadrés du site) : marge pour l'ombre, liseré à gauche, fond blanc, coins arrondis
     const m = 0.3 * em, lis = 0.14 * em, pad = 0.45 * em, r = 0.28 * em;
     const cw = Math.ceil(W * em + lis + 2 * pad), ch = Math.ceil(H * em + 2 * pad);
@@ -800,15 +834,17 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     const carte = () => { g.beginPath(); g.moveTo(m + r, m); g.arcTo(m + cw, m, m + cw, m + ch, r); g.arcTo(m + cw, m + ch, m, m + ch, r); g.arcTo(m, m + ch, m, m, r); g.arcTo(m, m, m + cw, m, r); g.closePath(); };
     g.save(); g.shadowColor = "rgba(27,34,50,.22)"; g.shadowBlur = 0.3 * em; g.shadowOffsetY = 0.06 * em; carte(); g.fillStyle = "#fff"; g.fill(); g.restore();
     g.save(); carte(); g.clip(); g.fillStyle = couleur; g.fillRect(m, m, lis, ch); g.restore();
-    const x0 = m + lis + pad;
+    const x0 = m + lis + pad, images = new Map();
+    const image = async mm => { let im = images.get(mm); if (im) return im;                // dessiné à sa taille réelle : net partout (Safari compris)
+      const s = mm.svg.cloneNode(true); s.setAttribute("xmlns", "http://www.w3.org/2000/svg"); s.removeAttribute("style"); s.setAttribute("color", couleur); s.style.color = couleur;
+      s.setAttribute("width", mm.w * em); s.setAttribute("height", mm.h * em);
+      im = new Image(); im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(s)); await im.decode(); images.set(mm, im); return im; };
     let y = m + pad;
     for (const l of lignes) {
       if (!l) { y += (vide + ecart) * em; continue; }
-      const s = l.svg.cloneNode(true); s.setAttribute("xmlns", "http://www.w3.org/2000/svg"); s.setAttribute("width", l.w * em); s.setAttribute("height", l.h * em);
-      s.removeAttribute("style"); s.setAttribute("color", couleur); s.style.color = couleur;
-      const im = new Image(); im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(s));
-      await im.decode();
-      g.drawImage(im, x0 + (l.centre ? (W - l.w) * em / 2 : 0), y, l.w * em, l.h * em); y += (l.h + ecart) * em;
+      const dec = l.centre ? (W - l.w) / 2 : 0;
+      for (const it of l.items) g.drawImage(await image(it.m), x0 + (dec + it.dx) * em, y + (l.a - it.m.a) * em, it.m.w * em, it.m.h * em);
+      y += (l.a + l.d + ecart) * em;
     }
     return c.toDataURL("image/png");
   }
@@ -1063,12 +1099,12 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     function corrigerMotTex(w) {                                          // mot -> correction, ou null
       const m = w.toLowerCase(), { v, sans, ss, liste } = VOC_TEX;
       if (m.length < 4 || v.has(m)) return null;
-      const s0 = ss(m), acc = sans.get(s0);
-      let c = acc && acc.length === 1 ? acc[0] : null;                   // accents oubliés : derivee -> dérivée
+      const s0 = ss(m), avecAccents = s0 !== m, acc = avecAccents ? null : sans.get(s0);
+      let c = acc && acc.length === 1 ? acc[0] : null;                   // accents oubliés (AUCUN accent tapé) : derivee -> dérivée ; « considéré » n'est jamais touché
       if (!c && m.length >= 5) {
         const proches = new Set();
         for (const x of liste) { const sx = ss(x); if (Math.abs(sx.length - s0.length) > 1) continue;
-          if (uneFaute(s0, sx)) { proches.add(x); if (proches.size > 1) return null; } }
+          if (avecAccents ? uneFaute(m, x) : uneFaute(s0, sx)) { proches.add(x); if (proches.size > 1) return null; } }   // mot accentué : faute comptée accents compris
         c = proches.size === 1 ? [...proches][0] : null;
       }
       if (!c || c === m) return null;
@@ -1113,13 +1149,20 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       const recaler = () => { ed.style.top = Math.max(8, Math.min(zr.height - ed.offsetHeight - 70, haut0)) + "px"; };   // toujours entier à l'écran (au-dessus des outils du bas)
       recaler();
       let tour = 0;
-      const majRendu = async () => { const k = ++tour, l = ta.value.trim() ? await texEnSvg(ta.value).catch(() => null) : [];
+      const largeurEm = () => Math.max(8, (rendu.clientWidth - 30) / (EM_TEX * echelle));   // le rendu passe à la ligne à la largeur du rectangle
+      editeurTex.maxEm = largeurEm();
+      const majRendu = async () => { const k = ++tour, l = ta.value.trim() ? await texEnSvg(ta.value, editeurTex.maxEm).catch(() => null) : [];
         if (k !== tour || !editeurTex || editeurTex.ed !== ed) return;
         if (l === null) { ed.classList.add("incomplet"); return; }           // code incomplet : le dernier rendu correct reste affiché
         ed.classList.remove("incomplet"); editeurTex.valide = ta.value; rendu.innerHTML = "";
-        (l || []).forEach(x => { const d = document.createElement("div"); if (!x) { d.style.height = (0.8 * EM_TEX * echelle) + "px"; rendu.appendChild(d); return; }
-          const s = x.svg.cloneNode(true); s.removeAttribute("style"); s.setAttribute("width", x.w * EM_TEX * echelle); s.setAttribute("height", x.h * EM_TEX * echelle);
-          s.style.color = editeurTex.coul; d.style.textAlign = x.centre ? "center" : "left"; d.appendChild(s); rendu.appendChild(d); }); recaler(); };
+        const u = EM_TEX * echelle, W = Math.max(0, ...(l || []).map(x => x ? x.w : 0));
+        (l || []).forEach(x => { const d = document.createElement("div"); d.style.position = "relative";
+          if (!x) { d.style.height = (0.8 * u) + "px"; rendu.appendChild(d); return; }
+          d.style.height = ((x.a + x.d) * u) + "px"; d.style.marginBottom = (0.25 * u) + "px"; d.style.width = (W * u) + "px";
+          const dec = x.centre ? (W - x.w) / 2 : 0;
+          x.items.forEach(it => { const s = it.m.svg.cloneNode(true); s.removeAttribute("style"); s.setAttribute("width", it.m.w * u); s.setAttribute("height", it.m.h * u);
+            s.style.cssText = "position:absolute;left:" + ((dec + it.dx) * u) + "px;top:" + ((x.a - it.m.a) * u) + "px;color:" + editeurTex.coul; d.appendChild(s); });
+          rendu.appendChild(d); }); recaler(); };
       let minut = null;
       const grandir = () => {};                                          // zone de saisie fixe (3 lignes, on fait défiler) : plus de place pour le rendu
       const inserer = txt => {                                          // insère txt à la place de la sélection ; « ‸ » = place du curseur
@@ -1222,8 +1265,8 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       if (!poser) return;
       try {
         // le texte tel qu'il est à la fermeture ; s'il est incomplet, le dernier état correct
-        let source = E.ta.value, l = source.trim() ? await texEnSvg(source).catch(() => null) : null;
-        if (source.trim() && !l && E.valide !== null && E.valide.trim()) { source = E.valide; l = await texEnSvg(source).catch(() => null); }
+        let source = E.ta.value, l = source.trim() ? await texEnSvg(source, E.maxEm).catch(() => null) : null;
+        if (source.trim() && !l && E.valide !== null && E.valide.trim()) { source = E.valide; l = await texEnSvg(source, E.maxEm).catch(() => null); }
         if (E.ancien && source === E.ancien.tex && E.coul === (E.ancien.texCoul || COULEURS[0])) return;   // rien n'a changé
         if (!source.trim()) { if (E.ancien) retirerImage(E.ancien); return; }   // code effacé : le rendu part
         if (!l) { if (msg) msg.textContent = "Code LaTeX incomplet : rien n'a été posé"; return; }
@@ -3016,7 +3059,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h22";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 13h31";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
