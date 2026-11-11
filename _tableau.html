@@ -2490,7 +2490,7 @@
       if (!enAttente) attenteDepuis = 0; else if (!attenteDepuis) attenteDepuis = Date.now();
       const minutes = attenteDepuis ? Math.floor((Date.now() - attenteDepuis) / 60000) : 0;
       bSync.classList.toggle("s-ok", SYNC.actif && !enAttente); bSync.classList.toggle("s-att", SYNC.actif && !!enAttente && minutes < 5); bSync.classList.toggle("s-ko", SYNC.actif && !!enAttente && minutes >= 5);
-      if (enAttente && SYNC.etat === "☁ À jour") bSync.textContent = "☁ Envoi en attente"; else if (bSync.textContent !== SYNC.etat) bSync.textContent = SYNC.etat;
+      if (enAttente && SYNC.etat === "☁ À jour") bSync.textContent = "☁ Envoi en attente"; else if (SYNC.etat && bSync.textContent !== SYNC.etat) bSync.textContent = SYNC.etat;   // (pas encore d'état : on garde « ☁ Se connecter »)
       bSync.title = !SYNC.actif ? "Notes non sauvegardées en ligne" : enAttente ? "Notes de cette page pas encore envoyées" + (navigator.onLine ? "" : " (pas de réseau : envoi au retour du réseau)") : "Toutes les notes de cette page sont en ligne";
       const relancer = () => { recevoir().then(recevoirPage).then(() => envoyer(true)).catch(() => etatSync("☁ Hors ligne")); };
       // une note en attente depuis 1 min (ex. titres de la page) : on retente un envoi complet chaque minute, sans rien afficher

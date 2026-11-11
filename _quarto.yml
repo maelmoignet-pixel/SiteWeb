@@ -70,8 +70,15 @@ format:
     theme: cosmo        # thème de base (d'autres : flatly, journal, litera...)
     css: styles.css     # notre fichier d'apparence
     toc: true           # sommaire à droite des pages (désactivé sur l'accueil)
+    grid:               # colonne du cours plus large sur les grands écrans (Speechi) ; téléphones et tablettes : inchangé
+      body-width: 1150px
+      sidebar-width: 220px
+      margin-width: 260px
+    include-in-header:
+      - _taille-tete.html   # taille du texte choisie (A− / A+), appliquée avant l'affichage
     # Ouvre les PDF dans un nouvel onglet
     include-after-body:
+      - _taille.html        # boutons A− / A+ dans la barre du haut
       - _nouvel-onglet.html
       # Mode tableau (écran tactile) : zones d'écriture au stylet sous les exemples, applications et démonstrations.
       # Pour revenir en arrière : supprimer la ligne ci-dessous.

@@ -4,7 +4,7 @@ Une faute de syntaxe y casse tout le mode tableau : dans ce cas la publication e
 import re, subprocess, sys, tempfile
 from pathlib import Path
 NODE = Path.home() / ".local/node/bin/node"
-FICHIERS = ["_tableau.html", "_ma-seance.html", "_compteur.html", "_nouvel-onglet.html", "copie/index.html", "python/index.html", "sw.js", "python/worker.js"]
+FICHIERS = ["_tableau.html", "_taille.html", "_taille-tete.html", "_ma-seance.html", "_compteur.html", "_nouvel-onglet.html", "copie/index.html", "python/index.html", "sw.js", "python/worker.js"]
 if not NODE.exists(): print("[vérification] node absent : vérification sautée"); sys.exit(0)
 erreurs = 0
 for f in FICHIERS:
