@@ -434,6 +434,8 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-tex button { font: 600 14px system-ui, sans-serif; border: 1px solid #c7cfe3; background: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
 .encre-tex button.ok { background: #2d4db0; color: #fff; border-color: #2d4db0; }
 .encre-manuel button.actif { background: #2d4db0; color: #fff; }
+.encre-tex-modif { position: absolute; z-index: 40; font: 700 15px system-ui, sans-serif; background: #2d4db0; color: #fff; border: 0; border-radius: 10px; padding: 8px 14px;
+  box-shadow: 0 4px 12px rgba(27,34,50,.3); cursor: pointer; }
 .encre-hl-progres { position: fixed; left: 14px; bottom: 132px; z-index: 1600; width: 290px; background: #fff; border: 1px solid #c7cfe3; border-radius: 12px;
   box-shadow: 0 4px 14px rgba(27,34,50,.18); padding: 8px 10px; font: 13px system-ui, sans-serif; color: #1b2232; }
 .encre-hl-progres .barre { height: 8px; border-radius: 4px; background: #e3e8f4; overflow: hidden; margin-top: 6px; }
@@ -732,10 +734,31 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     const m = l.split("$"); if (m.length % 2 === 0) return null;         // $ pas refermé : on attend la suite
     return m.map((x, i) => i % 2 ? "{" + x + "}" : (x ? "\\text{" + x.replace(/[#%&]/g, c => "\\" + c) + "}" : "")).join("");
   };
+  /* Listes (texte LaTeX, que MathJax ne connaît pas) : enumerate -> « 1. », « a. » (en gras, comme dans les cours), itemize -> « • ».
+     Dans une liste, un retour à la ligne ne compte pas (comme en LaTeX) : chaque \item commence une ligne. */
+  function listesEnLignes(src) {
+    if (!/\\begin\{(enumerate|itemize)\}|\\item\b/.test(src)) return src;
+    const morceaux = src.split(/(\\begin\{(?:enumerate|itemize)\}(?:\[[^\]]*\])?|\\end\{(?:enumerate|itemize)\}|\\item\b\s*)/), pile = [], lignes = [];
+    let cur = "";
+    const vider = () => { if (cur.trim()) lignes.push(cur.replace(/\s+$/, "")); cur = ""; };
+    for (const m of morceaux) {
+      if (!m) continue;
+      const deb = m.match(/^\\begin\{(enumerate|itemize)\}/), fin = /^\\end\{/.test(m);
+      if (deb) { vider(); pile.push({ type: deb[1], n: 0 }); continue; }
+      if (fin) { vider(); pile.pop(); continue; }
+      if (/^\\item\b/.test(m)) { vider(); const h = pile[pile.length - 1] || { type: "itemize", n: 0 }; h.n++;
+        const prof = Math.max(1, pile.length), marque = h.type === "enumerate" ? (prof % 2 ? h.n + "." : String.fromCharCode(96 + h.n) + ".") : "•";
+        cur = "$" + "\\quad".repeat(prof) + "$" + (marque === "•" ? "– " : "\\textbf{" + marque + "} "); continue; }
+      if (pile.length) cur += m.replace(/\s*\n\s*/g, " ");                 // dans une liste : la ligne continue
+      else { const l = (cur + m).split("\n"); cur = l.pop(); lignes.push(...l); }
+    }
+    vider();
+    return lignes.join("\n");
+  }
   // source -> lignes de SVG (null si le code est incomplet ou faux : on garde alors le dernier rendu correct)
   async function texEnSvg(source) {
     const MJ = await chargerMathJax(), lignes = [];
-    for (const l of String(source).replace(/\r/g, "").split("\n")) {
+    for (const l of listesEnLignes(String(source).replace(/\r/g, "")).split("\n")) {
       if (!l.trim()) { lignes.push(null); continue; }
       const seul = l.trim().match(/^\$\$([\s\S]*)\$\$$/), tex = seul ? seul[1] : texDeLigne(l);
       if (tex === null) return null;
@@ -1033,6 +1056,17 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       chargerMathJax().then(() => { if (editeurTex && editeurTex.ed === ed) majRendu(); },
                             () => { rendu.textContent = "⚠ Le moteur LaTeX n'a pas pu se charger (réseau ?)."; });
       setTimeout(() => ta.focus(), 50);
+    }
+    function cacherModifierTex() { const b = zone && zone.querySelector(".encre-tex-modif"); if (b) b.remove(); }
+    function montrerModifierTex(c) {                                     // outil ✥ : un toucher sur un rendu TeX montre « ✎ Modifier »
+      cacherModifierTex();
+      const b = document.createElement("button"); b.className = "encre-tex-modif"; b.textContent = "✎ Modifier le TeX";
+      const zr = zone.getBoundingClientRect(), dr = defile.getBoundingClientRect();
+      b.style.left = Math.max(8, dr.left - zr.left + c.x * echelle) + "px";
+      b.style.top = Math.max(8, dr.top - zr.top + c.y * echelle - (defile.scrollTop || 0) - 44) + "px";
+      b.addEventListener("pointerdown", e => e.stopPropagation());
+      b.addEventListener("click", () => { cacherModifierTex(); if (exos.includes(c)) ouvrirTex(c.x, c.y, c); });
+      zone.appendChild(b); setTimeout(() => { if (b.isConnected) b.remove(); }, 5000);
     }
     async function fermerTex(poser) {
       const E = editeurTex; if (!E) return; editeurTex = null; E.ed.remove();
@@ -1571,10 +1605,17 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         if (attenteTex) { if (e.cancelable) e.preventDefault(); attenteTex = false;
           const bt = zone.querySelector('[data-a="tex"]'), m = zone.querySelector(".m-msg"); if (bt) bt.classList.remove("actif"); if (m) m.textContent = "";
           const [x, y] = pos(e); ouvrirTex(x, y, null); return; }
-        if (ajuster || reglages.outil === "deplacer") { const [x, y] = pos(e);
-          const c = [...exos].reverse().find(i => i.tex && x >= i.x && x <= i.x + i.w && y >= i.y && y <= i.y + i.h);
-          if (c) { if (dernierTex && dernierTex.id === c.id && Date.now() - dernierTex.t < 450) { dernierTex = null; if (e.cancelable) e.preventDefault(); ouvrirTex(c.x, c.y, c); return; }
-                   dernierTex = { id: c.id, t: Date.now() }; } }
+        { const [x, y] = pos(e), c = [...exos].reverse().find(i => i.tex && x >= i.x && x <= i.x + i.w && y >= i.y && y <= i.y + i.h);
+          if (c) {
+            if (dernierTex && dernierTex.id === c.id && Date.now() - dernierTex.t < 500) {   // double-touche sur un rendu TeX (tout outil) : son code revient
+              const n = dernierTex.n; dernierTex = null;
+              if (traits.length === n + 1 && !courant) { const t = traits[n], p = t.p || [];   // le petit point laissé par la 1re touche part
+                let a = Infinity, b = -Infinity, u = Infinity, v = -Infinity; for (let i = 0; i < p.length; i += 2) { a = Math.min(a, p[i]); b = Math.max(b, p[i]); u = Math.min(u, p[i + 1]); v = Math.max(v, p[i + 1]); }
+                if (!t.f && p.length && b - a < 15 && v - u < 15) { traits.splice(n, 1); sauver(); dessiner(); } }
+              if (e.cancelable) e.preventDefault(); ouvrirTex(c.x, c.y, c); return; }
+            dernierTex = { id: c.id, t: Date.now(), n: traits.length };
+            if (ajuster || reglages.outil === "deplacer") montrerModifierTex(c);
+          } else { dernierTex = null; cacherModifierTex(); } }
         if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
           if (e.pointerType === "touch") doigts.set(e.pointerId, e.clientY);
           if (e.cancelable) e.preventDefault();
@@ -2827,7 +2868,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 12h26";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 12h41";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
