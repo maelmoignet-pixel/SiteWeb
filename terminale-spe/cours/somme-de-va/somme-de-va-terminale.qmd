@@ -240,7 +240,7 @@ $$E(X)=\sum \limits_{i=1}^n X(\omega_i)P(\lbrace \omega_i \rbrace)$$
 :::
 
 ::: {.application}
-Dans le cadre d'un lancer de dé cubique équilibré, on gagne 2  si on obtient un nombre pair et on perd 6  si on obtient un nombre impair. On note $X$ la variable aléatoire correspondant au gain remporté. Calculer l'espérance de $X$.
+Dans le cadre d'un lancer de dé cubique équilibré, on gagne 2 € si on obtient un nombre pair et on perd 6 € si on obtient un nombre impair. On note $X$ la variable aléatoire correspondant au gain remporté. Calculer l'espérance de $X$.
 :::
 
 ::: {.callout-caution collapse="true"}
@@ -273,13 +273,13 @@ Soient $X$ et $Y$ deux variables aléatoires définies sur le même univers $\Om
 -   Pour $a=0$ la propriété est évidente.\
     Considérons maintenant $a \neq 0$.
 
-    En notant $x_1; ... x_n$, les valeurs prises par $X$, alors $aX$ prend les valeurs $ax_1; ... ax_n$.
+    En notant $x_1; \dots ; x_p$ les valeurs prises par $X$, alors $aX$ prend les valeurs $ax_1; \dots ; ax_p$.
 
-    Par définition $E(aX) = \sum \limits_{i=1}^n ax_iP(aX=ax_i)$.
+    Par définition $E(aX) = \sum \limits_{i=1}^p ax_iP(aX=ax_i)$.
 
     Or $aX=ax_i$ si, et seulement si, $X=x_i$ donc $P(aX=ax_i)=P(X=x_i)$.
 
-    Ainsi, $E(aX) = \sum \limits_{i=1}^n ax_iP(X=x_i) = a \times \sum \limits_{i=1}^n x_iP(X=x_i) = aE(X)$
+    Ainsi, $E(aX) = \sum \limits_{i=1}^p ax_iP(X=x_i) = a \times \sum \limits_{i=1}^p x_iP(X=x_i) = aE(X)$
 :::
 
 ::: {.remarque}
@@ -291,7 +291,7 @@ Soient $X$ et $Y$ deux variables aléatoires définies sur le même univers $\Om
 ::: {.application}
 
 Dans une fête foraine, un jeu de hasard se déroule en deux temps.\
-Le joueur fait d'abord tourner la roue ci-dessous et gagne le montant indiqué dans le secteur obtenu. Puis, il pioche un jeton bonus dans un sac qui contient 25 jetons marqués 0 euros, 20 jetons marqués 2 euros et 5 jetons marqués 5 euros.
+Le joueur fait d'abord tourner la roue ci-dessous et gagne le montant indiqué dans le secteur obtenu. Puis, il pioche un jeton bonus dans un sac qui contient 25 jetons marqués 0 euro, 20 jetons marqués 2 euros et 5 jetons marqués 5 euros.
 
 ![](images-cours/fete_foraine.png){fig-alt="Roue de la fête foraine partagée en secteurs de gains" width="35%" fig-align="center"}
 
@@ -328,12 +328,12 @@ Le joueur fait d'abord tourner la roue ci-dessous et gagne le montant indiqué d
 ## Variance
 
 ::: {.definition}
-$V(X) = \sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i)$.
+$V(X) = \sum \limits_{i=1}^p (x_i-E(X))^2 P(X=x_i)$.
 :::
 
 ::: {.definition}
-Soient $X_1, X_2, ... , X_n$, $n$ variables aléatoires à valeurs respectivement dans $E_1, ...E_n$.\
-On dit que $X_1, X_2, ... , X_n$ sont indépendantes lorsque, pour tous $x_1 \in E_1, ..., x_n \in E_n$ : $$P(X_1=x_1 \cap X_2=x_2 \cap ... \cap X_n=x_n) = P(X_1=x_1) \times P(X_2=x_2) \times ... \times P(X_n=x_n)$$
+Soient $X_1, X_2, \dots, X_n$, $n$ variables aléatoires à valeurs respectivement dans $F_1, \dots, F_n$.\
+On dit que $X_1, X_2, \dots, X_n$ sont indépendantes lorsque, pour tous $x_1 \in F_1, \dots, x_n \in F_n$ : $$P(\{X_1=x_1\} \cap \{X_2=x_2\} \cap \dots \cap \{X_n=x_n\}) = P(X_1=x_1) \times P(X_2=x_2) \times \dots \times P(X_n=x_n)$$
 :::
 
 ::: {.remarque}
@@ -358,13 +358,13 @@ Soient $X$ et $Y$ deux variables aléatoires définies sur un même univers fini
 -   Si $a=0$, la propriété est évidente.\
     On suppose que $a\neq 0$.
 
-    En notant $x_1;...x_n$ les valeurs prises par $X$, alors $aX$ prend les valeurs $ax_1;...ax_n$.
+    En notant $x_1; \dots ; x_p$ les valeurs prises par $X$, alors $aX$ prend les valeurs $ax_1; \dots ; ax_p$.
 
-    Par définition, $V(aX) = \sum \limits_{i=1}^n (ax_i-E(aX))^2 P(aX=ax_i)$
+    Par définition, $V(aX) = \sum \limits_{i=1}^p (ax_i-E(aX))^2 P(aX=ax_i)$
 
-    Donc $V(aX) = \sum \limits_{i=1}^n a^2(x_i-E(X))^2 P(X=x_i)$
+    Donc $V(aX) = \sum \limits_{i=1}^p a^2(x_i-E(X))^2 P(X=x_i)$
 
-    Ainsi $V(aX) = a^2\sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i) = a^2V(X)$
+    Ainsi $V(aX) = a^2\sum \limits_{i=1}^p (x_i-E(X))^2 P(X=x_i) = a^2V(X)$
 
 -   $\sigma(aX)=\sqrt{V(aX)}=\sqrt{a^2V(X)}=|a|\sqrt{V(X)}=|a|\sigma(X)$.
 :::
@@ -378,7 +378,7 @@ On reprend l'exemple précédent. Calculer la variance de $Z$.
 
 $V(X)=(0-5)^2 \times \frac{1}{2} + (5-5)^2 \times \frac{1}{4}+(10-5)^2 \times \frac{1}{8} + (20-5)^2 \times \frac{1}{8} = 43{,}75$\
 $V(Y)=(0-1{,}3)^2 \times \frac{1}{2} + (2-1{,}3)^2 \times \frac{2}{5}+ (5-1{,}3)^2 \times \frac{1}{10}=2{,}41$\
-Les variables aléatoires $X$ et $Y$ sont indépendantes.\
+Les variables aléatoires $X$ et $Y$ sont indépendantes (le résultat de la roue n'a aucune influence sur le jeton pioché).\
 $V(Z)=V(X)+V(Y)=43{,}75+2{,}41=46{,}16$
 :::
 
@@ -412,11 +412,11 @@ Si $X$ suit une loi binomiale de paramètres $n$ et $p$, alors :
 
 -   Soit $X$ une variable aléatoire suivant la loi binomiale de paramètres $n$ et $p$. Alors, il existe $n$ variables aléatoires de Bernoulli indépendantes, de paramètre $p$, telles que $X=X_1+...+X_n$.
 
-    Ainsi, pour tout $k \in \left\lbrace1;...;n \right\rbrace$, $E(X_k)=p$ et $V(X_k)=p(1-p)$.
+    Pour tout $k \in \left\lbrace1;...;n \right\rbrace$, $E(X_k)=p$ et $V(X_k)=p(1-p)$.
 
-    Or, $E(X)=E(X_1+...+X_n)=E(X_1)+...+E(X_n)=p+...+p=np$
+    Donc $E(X)=E(X_1+...+X_n)=E(X_1)+...+E(X_n)=p+...+p=np$
 
--   Les variables aléatoires $X_1, ... X_n$ étant indépendantes, par définition du schéma de Bernoulli, on a : $V(X)=V(X_1)+...+V(X_n)=p(1-p)+...+p(1-p)=np(1-p)$
+-   Les variables aléatoires $X_1, \dots, X_n$ étant indépendantes, par définition du schéma de Bernoulli, on a : $V(X)=V(X_1)+...+V(X_n)=p(1-p)+...+p(1-p)=np(1-p)$
 
 -   $\sigma(X)=\displaystyle \sqrt{V(X)} = \displaystyle \sqrt{np(1-p)}$
 :::
@@ -443,7 +443,7 @@ On effectue 40 lancers d'une pièce équilibrée. Pour $i \in \llbracket 1;40\rr
 
 ## Échantillons de $n$ variables aléatoires indépendantes et identiquement distribuées
 
-On considère un entier naturel $n$ non nul et $X_1, ... X_n$, $n$ variables aléatoires définies sur $\Omega$ supposées indépendantes et identiquement distribuées.
+On considère un entier naturel $n$ non nul et $X_1, \dots, X_n$, $n$ variables aléatoires définies sur $\Omega$ supposées indépendantes et identiquement distribuées.
 
 On note $S_n=X_1+... + X_n$ la somme de ces $n$ variables aléatoires et $M_n=\dfrac{X_1+...+X_n}{n}$ la moyenne de ces $n$ variables aléatoires.
 
@@ -464,7 +464,7 @@ Pour tout $k \in \left\lbrace 1;...;n \right\rbrace$, on a :
     Or ces variables aléatoires suivent la même loi. Elles ont donc la même espérance.\
     D'où, pour tout $k \in\lbrace 1;...;n \rbrace$, $E(S_n)=nE(X_k)$
 
--   De la même manière, les variables aléatoires $X_1, ... X_n$ étant indépendantes, on a, pour tout $k \in\lbrace 1;...;n \rbrace$, $V(S_n)=V(X_1)+...+V(X_n) = nV(X_k)$
+-   De la même manière, les variables aléatoires $X_1, \dots, X_n$ étant indépendantes, on a, pour tout $k \in\lbrace 1;...;n \rbrace$, $V(S_n)=V(X_1)+...+V(X_n) = nV(X_k)$
 
 -   $\sigma(S_n)=\displaystyle\sqrt{V(S_n)} = \displaystyle\sqrt{nV(X_k)}=\displaystyle\sqrt{n}\sqrt{V(X_k)}= \displaystyle\sqrt{n}\sigma(X_k)$
 :::
@@ -514,5 +514,5 @@ On note $S$ la variable aléatoire donnant le nombre de tartines mangées par Ca
     Donc, $E(S)=7E(X_1)=7(1 \times 0{,}25+2 \times 0{,}62 + 3 \times 0{,}13)=7 \times 1{,}88 = 13{,}16$\
     Sur un grand nombre de semaines, Carla va manger environ 13,16 tartines en moyenne durant chaque semaine.\
     $V(X_1) = (1^2 \times 0{,}25+2^2 \times 0{,}62 + 3^2 \times 0{,}13) - 1{,}88^2 \simeq 0{,}3656$\
-    $\sigma(S)=\sqrt{7}\sigma(X_1) \simeq 1{,}600$
+    $\sigma(S)=\sqrt{7}\sigma(X_1) \simeq 1{,}60$
 :::
