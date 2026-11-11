@@ -1446,12 +1446,11 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
 .encre-tex { position: absolute; z-index: 40; background: #fff; border: 2px solid #2d4db0; border-radius: 12px; box-shadow: 0 6px 22px rgba(27,34,50,.25);
   padding: 8px; display: flex; flex-direction: column; gap: 6px; }
-.encre-tex textarea { font: 18px/1.4 ui-monospace, "DejaVu Sans Mono", monospace; min-height: 3.4em; resize: vertical; border: 1px solid #c7cfe3; border-radius: 8px; padding: 6px 8px; color: #1b2232; background: #fbfcff; }
+.encre-tex textarea { font: 18px/1.4 ui-monospace, "DejaVu Sans Mono", monospace; height: calc(4.2em + 14px); overflow-y: auto; resize: none; border: 1px solid #c7cfe3; border-radius: 8px; padding: 6px 8px; color: #1b2232; background: #fbfcff; }
 .encre-tex .rendu { min-height: 1.6em; max-height: 45vh; overflow: auto; padding: 8px 12px; background: #fff; border-radius: 8px;
   border-left: 5px solid var(--coul, #1b2232); box-shadow: 0 2px 8px rgba(27,34,50,.18); margin: 2px 2px 4px; }
 .encre-tex .palette { display: flex; flex-wrap: wrap; gap: 4px; }
 .encre-tex .palette button, .encre-tex .palette select { font: 600 15px system-ui, "DejaVu Sans", sans-serif; min-width: 38px; padding: 5px 8px; border: 1px solid #c7cfe3; border-radius: 8px; background: #f3f6ff; color: #1b2232; }
-.encre-tex .palette select { min-width: 0; }
 .encre-tex .suggestions { display: flex; flex-wrap: wrap; gap: 4px; margin: -2px 0 2px; }
 .encre-tex .suggestions[hidden] { display: none; }
 .encre-tex .suggestions button { font: 15px ui-monospace, "DejaVu Sans Mono", monospace; padding: 5px 10px; border: 1px solid #c7cfe3; border-radius: 8px; background: #fff; color: #1b2232; }
@@ -2075,7 +2074,34 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     const PALETTE_TEX = [["\\", "\\", "barre oblique inverse (aussi : touche §)"], ["{ }", "{‸}"], ["[ ]", "[‸]"], ["$ $", "$‸$", "formule"], ["x²", "^{‸}", "exposant"], ["xₙ", "_{‸}", "indice"],
       ["a/b", "\\frac{‸}{}", "fraction"], ["√", "\\sqrt{‸}", "racine"], ["AB→", "\\vect{‸}", "vecteur"], ["lim", "\\lim\\limits_{x \\to ‸}", "limite"], ["∞", "\\infty"],
       ["ℝ", "\\R"], ["⩽", "\\leq "], ["⩾", "\\geq "], ["×", "\\times "], ["∈", "\\in "], ["≠", "\\neq "]];
-    const ENVS_TEX = ["align*", "cases", "enumerate", "itemize", "array"];
+    /* Correction automatique (comme sous Word) : à la fin d'un mot du TEXTE (jamais dans $…$ ni dans \commande),
+       une seule faute de frappe sur un mot de 5 lettres ou plus, corrigée seulement s'il n'y a qu'une correction possible ; accents oubliés remis.
+       Retour arrière juste après : le mot tapé revient. Vocabulaire des cours + mots courants (pluriels en « s » ajoutés). */
+    const VOC_TEX = (() => { const v = new Set(), sans = new Map(), base = "a abscisse absurde additionne admet admettant admettent admettre affectation affiche afficher ainsi aire ajoute ajoutons algorithme alors aléatoire aléatoires angle angles antécédent antécédents appartenant appartiennent appartient appelle appelons application applications applique appliquer appliquons approchée approximativement après arbre arithmétique arrondi arrondie arrondir assez associe associer associé associée asymptote au aucun aucune augmentation aussi autre autres aux avant avec avoir axiome baisse bien binomiale bissectrice borne bornes bornée boucle boucles calcul calcule calculer calculons calculs calculé canonique car carré carrés cas case cases ce ceci cela celle celles cellule celui centaine centre cercle certain certaine certaines certains ces cette ceux chacun chacune change changent chapitre chaque cherche cherchons chez chiffre cinquième classe coefficient coefficients colinéaire colinéaires colonne colonnes combien comme comment comparaison compare comparer comparons comprend compris comprise concave concluons conclure conclusion conclut condition conditionnelle conditions considère considérons constant constante construction construire construisons construit contient continue continuité contraire contraposée contre contrôle converge convergente convexe coordonnée coordonnées coplanaires corollaire correction correspond correspondant correspondante corrigé cosinus couple couples courbe cours croissant croissante croît cube côté côtés dans de degré demi depuis dernier dernière des deuxième deviennent devient devoir diagonale diagonales diamètre différence diminution dire directeur discriminant disque distance dit dite diverge divergente divise divisons dizaine doit doivent domaine donc donne donner donnons donnée données dont droite droites du dès décimal décimaux décroissant décroissante décroît déduire déduisons déduit défini définie définir définit définition définitions déjà démonstration démontrer démontrons dénominateur dérivable dérivation dérive dériver dérivons dérivée détermine déterminer déterminons développe développement développer développons développée effectif effectifs elle elles encore enfin ensemble ensuite entier entiers entre entrée environ espace espérance est et eux exact exacte exactement exemple exemples exercice exercices existe existent exponentielle exposant expérience extrema extremum factorise factoriser factorisons factorisée faire fait faite faites faits fallait fausse faut faux fermé fermée figure finale fonction fonctionne fonctionnement forme formule formules fraction fréquence fréquences graphe graphique graphiquement géométrique hausse hauteur horizontale hypothèse hypothèses hérédité il ils image implique inclus incompatibles indépendantes indépendants infini infinie inflexion inférieur inférieure initiale initialisation instruction intersection intervalle intègre intégrale inverse inégalité inéquation inéquations issue issues jamais justifier justifions la laquelle largeur le lecture lemme lequel les lesquels leur leurs ligne lignes limite limites lire lisons liste listes lit logarithme loi longueur lorsqu lorsque losange lui ma mais majorant majorée mal manuel mathématique mathématiques maximum mes mesure met mettons mettre mieux milieu minimum minorant minorée mis mise moins mon monotone montre montrer montrons moyenne multiplicateur multiplie multiplions médiane médiatrice méthode méthodes même mêmes naturel naturels ne ni nombre nombres non nos notant notation notations note notons notre nous nul nulle numérateur négatif négative népérien oblique obtenons obtenu obtenue obtient on ont opposé or ordonnée origine orthogonal orthogonale orthogonaux orthonormal orthonormé ou oui ouvert ouverte où page pages par parallèle parallèles parallélogramme paramètre paramètres parfois parmi partie parties partir pas pendant perpendiculaire perpendiculaires peut peuvent physique place placer plan plans plaçons plus point points polynôme polynômes pondéré posant pose positif positive posons pour pourcentage pourcentages pourquoi pouvoir pouvons premier première prend prendre prenons primitive principale pris prise probabilité probabilités produit programme proportionnalité proportionnelle propriété propriétés près précision précédent précédente puis puisque puissance puissances périmètre quand quartile quartiles quatrième que quel quelle quelles quels question questions qui quoi quotient racine racines radian radians raison raisonnement rang rappel rappelle rappelons rappels rationnel rationnels rayon rectangle relatif relatifs remarque remarquer remarques remarquons remplace remplaçons renvoie renvoyer représentation représentative représente représenté repère respectivement reste restent retourne réciproque réciproquement récurrence réduire réduisons réduit réduite réel réelle réelles réels réponse réponses résolution résolvons résoudre résout résultat résultats réunion sa sachant sachons sait sans savoir savons schéma science sciences se second seconde segment selon sera seront ses seulement si signe signes simplifie simplifier simplifions sinon sinus soit solution solutions somme sommet sommets son sont sortie sous soustrait souvent spécialité statistique statistiques strict stricte strictement substitue suite suites suivant suivante supposant suppose supposons supposé supérieur supérieure sur système séance sécante série ta tableau tableur tangente taux tel telle telles tels tend tendant tendre terme termes terminale tes théorème théorèmes ton toujours tous tout toute toutes trace tracer trapèze traçons triangle triangles trigonométrique trinôme troisième trop trouve trouver trouvons très type un une unicité unique uniquement unité univers utilise utiliser utilisons utilisé utilisée valable valent valeur valeurs variable variables variance variation variations vaut vecteur vecteurs vers verticale vide voir voit volume vos votre voulons vous voyons vrai vraie vu vue vérifiant vérifie vérifient vérifier vérifions écart écrit écrivons égal égale également égales égalité égaux élève élèves élément éléments énoncé énoncés épreuve équation équations équivalent équivalente équivaut était étant étude étudie étudier étudions évaluation évolution évolutions évènement évènements événement événements être".split(" ");
+      const ss = w => w.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      base.forEach(w => { [w, /[sxz]$/.test(w) ? null : w + "s"].forEach(x => { if (!x || v.has(x)) return; v.add(x); const k = ss(x); sans.set(k, (sans.get(k) || []).concat(x)); }); });
+      return { v, sans, ss, liste: [...v] }; })();
+    function corrigerMotTex(w) {                                          // mot -> correction, ou null
+      const m = w.toLowerCase(), { v, sans, ss, liste } = VOC_TEX;
+      if (m.length < 4 || v.has(m)) return null;
+      const s0 = ss(m), acc = sans.get(s0);
+      let c = acc && acc.length === 1 ? acc[0] : null;                   // accents oubliés : derivee -> dérivée
+      if (!c && m.length >= 5) {
+        const proches = new Set();
+        for (const x of liste) { const sx = ss(x); if (Math.abs(sx.length - s0.length) > 1) continue;
+          if (uneFaute(s0, sx)) { proches.add(x); if (proches.size > 1) return null; } }
+        c = proches.size === 1 ? [...proches][0] : null;
+      }
+      if (!c || c === m) return null;
+      return w[0] !== w[0].toLowerCase() ? c[0].toUpperCase() + c.slice(1) : c;
+    }
+    function uneFaute(a, b) {                                             // exactement une lettre oubliée, en trop, remplacée, ou deux lettres inversées
+      if (a === b) return false;
+      if (a.length === b.length) { const d = []; for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) { d.push(i); if (d.length > 2) return false; }
+        return d.length === 1 || (d.length === 2 && d[1] === d[0] + 1 && a[d[0]] === b[d[1]] && a[d[1]] === b[d[0]]); }
+      const [c, l] = a.length < b.length ? [a, b] : [b, a]; let i = 0; while (i < c.length && c[i] === l[i]) i++;
+      return c.slice(i) === l.slice(i + 1);
+    }
     const COMMANDES_TEX = [
       "dfrac{‸}{}", "frac{‸}{}", "sqrt{‸}", "vect{‸}", "R", "N", "Z", "Q", "C", "D", "e", "infty", "lim\\limits_{‸}", "limits_{‸}", "times", "cdot", "leq", "geq", "neq", "approx",
       "in", "notin", "subset", "cup", "cap", "varnothing", "emptyset", "ln", "exp", "cos", "sin", "tan", "int_{‸}^{}", "dint_{‸}^{}", "sum_{‸}^{}", "dsum_{‸}^{}", "prod_{‸}^{}",
@@ -2089,10 +2115,10 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       fermerTex(false);
       const ed = document.createElement("div"); ed.className = "encre-tex";
       ed.innerHTML = '<div class="palette">' + PALETTE_TEX.map(([l, , t], i) => '<button type="button" data-p="' + i + '" title="' + (t || "") + '">' + l + '</button>').join("")
-        + '<select data-env title="Insérer un environnement"><option value="">Environnement…</option>' + ENVS_TEX.map(e => '<option>' + e + '</option>').join("") + '</select></div>'
+        + '</div>'
         + '<textarea spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Soit $f$ la fonction définie sur $\\R$ par $f(x)=x^2$."></textarea>'
         + '<div class="suggestions" hidden></div><div class="rendu"></div><div class="bas"><span class="couleurs">' + COULEURS.map(c => '<button data-c="' + c + '" style="--c:' + c + '" aria-label="Couleur"></button>').join("") + '</span>'
-        + '<span class="aide">$…$ formule · $$…$$ seule sur sa ligne : centrée · toucher ailleurs : poser</span>'
+        + '<span class="aide"></span>'
         + '<button data-t="non">Annuler</button><button data-t="ok" class="ok">✓ Poser</button></div>';
       zone.appendChild(ed);
       const ta = ed.querySelector("textarea"), rendu = ed.querySelector(".rendu");
@@ -2116,7 +2142,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
           const s = x.svg.cloneNode(true); s.removeAttribute("style"); s.setAttribute("width", x.w * EM_TEX * echelle); s.setAttribute("height", x.h * EM_TEX * echelle);
           s.style.color = editeurTex.coul; d.style.textAlign = x.centre ? "center" : "left"; d.appendChild(s); rendu.appendChild(d); }); recaler(); };
       let minut = null;
-      const grandir = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 4, innerHeight * 0.3) + "px"; recaler(); };
+      const grandir = () => {};                                          // zone de saisie fixe (3 lignes, on fait défiler) : plus de place pour le rendu
       const inserer = txt => {                                          // insère txt à la place de la sélection ; « ‸ » = place du curseur
         const k = txt.indexOf("‸"), propre = txt.replace("‸", ""), a = ta.selectionStart, z = ta.selectionEnd;
         ta.setRangeText(propre, a, z, "end"); if (k >= 0) ta.setSelectionRange(a + k, a + k);
@@ -2124,12 +2150,24 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       ed.querySelectorAll(".palette button").forEach(b => {
         b.addEventListener("pointerdown", e => e.preventDefault());       // le clavier de l'iPad reste ouvert
         b.addEventListener("click", e => { e.stopPropagation(); inserer(PALETTE_TEX[+b.dataset.p][1]); }); });
-      ed.querySelector("select[data-env]").addEventListener("change", e => { const v = e.target.value; e.target.value = ""; if (!v) return;
-        const liste = v === "enumerate" || v === "itemize", debut = ta.value.slice(0, ta.selectionStart);
-        inserer((debut && !debut.endsWith("\n") ? "\n" : "") + "\\begin{" + v + "}" + (v === "array" ? "{cc}" : "") + "\n" + (liste ? "\\item ‸" : "‸") + "\n\\end{" + v + "}\n"); });
       // au clavier : § donne \ ; { et $ se referment tout seuls ; taper } ou $ devant celui déjà là passe simplement par-dessus
-      let envPose = null;
+      let envPose = null, corrige = null;
+      const corrigerAvant = () => {                                       // le mot juste avant le curseur, s'il est dans le texte (hors $…$ et hors \commande)
+        const a = ta.selectionStart; if (a !== ta.selectionEnd) return false;
+        const av = ta.value.slice(0, a), m = av.match(/([A-Za-zÀ-ÖØ-öø-ÿœŒ]+)$/); if (!m) return false;
+        const d = a - m[1].length; if (av[d - 1] === "\\") return false;
+        if (((av.slice(0, d).match(/(^|[^\\])\$/g) || []).length) % 2) return false;   // dans une formule
+        const c = corrigerMotTex(m[1]); if (!c) return false;
+        ta.setRangeText(c, d, a, "end"); corrige = { avant: m[1], apres: c };
+        return true; };
       ta.addEventListener("beforeinput", e => {
+        // Retour arrière juste après une correction : le mot tapé revient
+        if (e.inputType === "deleteContentBackward" && corrige && ta.selectionStart === ta.selectionEnd && ta.value.slice(0, ta.selectionStart).endsWith(corrige.apres + corrige.sep)) {
+          e.preventDefault(); const a = ta.selectionStart, l = corrige.apres.length + corrige.sep.length; ta.setRangeText(corrige.avant + corrige.sep, a - l, a, "end");
+          corrige = null; ta.dispatchEvent(new Event("input")); return; }
+        corrige = null;
+        if (e.inputType === "insertText" && /^[ .,;:!?)]$/.test(e.data || "") && corrigerAvant()) {
+          e.preventDefault(); corrige.sep = e.data; ta.setRangeText(e.data, ta.selectionStart, ta.selectionStart, "end"); ta.dispatchEvent(new Event("input")); return; }
         const juste = envPose && ta.selectionStart === envPose.k && ta.value === envPose.v; envPose = null;
         if ((e.inputType === "insertLineBreak" || e.inputType === "insertParagraph") && juste) { e.preventDefault(); return; }   // l'environnement vient d'être fermé
         if ((e.inputType === "insertLineBreak" || e.inputType === "insertParagraph") && ta.selectionStart === ta.selectionEnd) {   // Entrée après \begin{nom} : \end{nom} deux lignes plus bas
@@ -3999,7 +4037,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h13";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 13h22";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
