@@ -227,40 +227,39 @@ ul.task-list li input[type="checkbox"] {
 .navbar .navbar-title, .navbar .navbar-brand { font-size: 20px; }
 .navbar .nav-link { font-size: 16px; padding-top: 8px; padding-bottom: 8px; }
 .navbar .dropdown-menu { font-size: 15px; }
+@media (max-width: 575px) {                    /* téléphone : le titre se réduit juste ce qu'il faut pour tenir en entier */
+  .navbar .navbar-title, .navbar .navbar-brand { font-size: clamp(13px, calc((100vw - 190px) / 11.8), 20px); }
+  .navbar .navbar-brand-container { max-width: none; overflow: visible; }
+}
 .taille-texte { display: inline-flex; align-items: center; gap: 2px; margin: 0 6px; font-size: 15px; }
+.taille-texte .nom { display: none; }
 .taille-texte button { border: 1px solid rgba(255,255,255,.55); background: transparent; color: #fff; white-space: nowrap; border-radius: 6px; padding: 1px 7px; line-height: 1.4;
   font: 600 15px system-ui, sans-serif; cursor: pointer; min-width: 30px; }
 .taille-texte button:hover { background: rgba(255,255,255,.15); }
 .taille-texte .valeur { min-width: 50px; font-weight: 400; font-size: 13px; border-color: transparent; }
 .taille-texte button:disabled { opacity: .35; cursor: default; }
-.taille-texte { position: relative; }
-.taille-texte .reglages { display: inline-flex; align-items: center; gap: 2px; }
-.taille-texte .aa { display: none; }
-@media (max-width: 991px) {                                   /* tablette et téléphone : posés juste à gauche de la loupe (position calculée) */
+@media (max-width: 991px) {                    /* tablette : posés juste à gauche de la loupe (position calculée) */
   .navbar-container { position: relative; }
-  .taille-texte { position: absolute; top: 50%; transform: translateY(-50%); margin: 0; }
+  .taille-texte.barre { position: absolute; top: 50%; transform: translateY(-50%); margin: 0; }
 }
-@media (max-width: 575px) {                                   /* téléphone : un seul bouton « Aa » qui ouvre les réglages */
-  .navbar .navbar-title { font-size: 17px; }
-
-  .taille-texte .aa { display: inline-block; min-width: 32px; padding: 1px 4px; }
-  .taille-texte .reglages { display: none; position: absolute; right: -50px; top: calc(100% + 10px); z-index: 2000; padding: 6px; border-radius: 10px;
-    background: var(--taille-fond, #1b2b45); box-shadow: 0 4px 14px rgba(0,0,0,.3); }
-  .taille-texte.ouvert .reglages { display: inline-flex; }
-}
+/* téléphone : rangés dans le menu ☰, sur une ligne « Taille du texte », pour laisser le titre entier */
+.taille-texte.menu { display: flex; margin: 10px 0 6px; padding: 8px 0 2px; border-top: 1px solid rgba(255,255,255,.2); gap: 6px; color: #fff; }
+.taille-texte.menu .nom { display: inline; font: 16px system-ui, sans-serif; opacity: .85; margin-right: auto; }
+.taille-texte.menu button { font-size: 17px; padding: 4px 12px; }
 @media print { .taille-texte { display: none; } }
 </style>
 <script>
 /* Boutons A− / A+ : agrandissent ou réduisent le texte du site (titres, formules, tableaux), de 80 % à 200 %.
-   Toucher la valeur revient à 100 %. Réglage gardé sur l'appareil (localStorage « site-taille »), pour tout visiteur. */
+   Toucher la valeur revient à 100 %. Réglage gardé sur l'appareil (localStorage « site-taille »), pour tout visiteur.
+   Ordinateur et tablette : à gauche de la loupe. Téléphone (< 576 px) : dans le menu ☰. */
 (() => {
   const MIN = 0.8, MAX = 2, PAS = 0.1;
   let t = 1; try { t = parseFloat(localStorage.getItem("site-taille")) || 1; } catch (e) {}
   const g = document.createElement("span"); g.className = "taille-texte"; g.setAttribute("role", "group"); g.setAttribute("aria-label", "Taille du texte");
-  g.innerHTML = '<button type="button" class="aa" title="Taille du texte" aria-label="Taille du texte" aria-expanded="false">Aa</button><span class="reglages">'
+  g.innerHTML = '<span class="nom">Taille du texte</span>'
     + '<button type="button" data-t="-" title="Texte plus petit" aria-label="Texte plus petit">A−</button>'
     + '<button type="button" class="valeur" data-t="0" title="Revenir à la taille normale"></button>'
-    + '<button type="button" data-t="+" title="Texte plus grand" aria-label="Texte plus grand">A+</button></span>';
+    + '<button type="button" data-t="+" title="Texte plus grand" aria-label="Texte plus grand">A+</button>';
   const appliquer = () => {
     t = Math.min(MAX, Math.max(MIN, Math.round(t * 10) / 10));
     document.documentElement.style.fontSize = (t * 100) + "%";
@@ -270,17 +269,19 @@ ul.task-list li input[type="checkbox"] {
     window.dispatchEvent(new Event("resize"));                          // sommaire, zones d'écriture : recalcul de la mise en page
   };
   g.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
-    if (b.classList.contains("aa")) { const o = g.classList.toggle("ouvert"); b.setAttribute("aria-expanded", o); return; }
     t = b.dataset.t === "+" ? t + PAS : b.dataset.t === "-" ? t - PAS : 1; appliquer(); });
-  document.addEventListener("click", e => { if (!g.contains(e.target)) { g.classList.remove("ouvert"); g.querySelector(".aa").setAttribute("aria-expanded", "false"); } });
-  // à côté de la loupe, HORS du menu repliable : visible aussi sur téléphone
-  const loupe = document.querySelector("#quarto-search"), outils = document.querySelector(".quarto-navbar-tools");
-  const barre = document.querySelector(".navbar"); if (barre) g.style.setProperty("--taille-fond", getComputedStyle(barre).backgroundColor);
-  if (loupe) { loupe.before(g); g.style.order = getComputedStyle(loupe).order; }   // même rang que la loupe dans la barre : juste à sa gauche
-  else if (outils) outils.prepend(g); else (document.querySelector(".navbar .container-fluid") || document.body).appendChild(g);
-  const placer = () => { if (!loupe || innerWidth > 991) { g.style.right = ""; return; }
-    const c = g.offsetParent; if (!c) return;
-    g.style.right = (c.getBoundingClientRect().right - loupe.getBoundingClientRect().left + 4) + "px"; };
+  const loupe = document.querySelector("#quarto-search"), menu = document.querySelector("#navbarCollapse");
+  const placer = () => {
+    if (innerWidth < 576 && menu) {                                       // téléphone : dans le menu
+      if (g.parentElement !== menu) { menu.appendChild(g); g.className = "taille-texte menu"; g.style.order = ""; g.style.right = ""; }
+      return;
+    }
+    if (loupe && g.nextElementSibling !== loupe) { loupe.before(g); g.style.order = getComputedStyle(loupe).order; }
+    else if (!loupe && !g.parentElement) (document.querySelector(".navbar .container-fluid") || document.body).appendChild(g);
+    g.className = "taille-texte barre";
+    if (loupe && innerWidth <= 991 && g.offsetParent) g.style.right = (g.offsetParent.getBoundingClientRect().right - loupe.getBoundingClientRect().left + 4) + "px";
+    else g.style.right = "";
+  };
   addEventListener("resize", placer); placer(); setTimeout(placer, 500);
   appliquer();
 })();
@@ -2694,7 +2695,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 11h59";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 12h04";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
