@@ -597,7 +597,7 @@ Solution
 <span class="math display">E(X)=\sum \limits_{i=1}^n X(\omega_i)P(\lbrace \omega_i \rbrace)</span></p>
 </div>
 <div class="application">
-<p>Dans le cadre d’un lancer de dé cubique équilibré, on gagne 2&nbsp; si on obtient un nombre pair et on perd 6&nbsp; si on obtient un nombre impair. On note <span class="math inline">X</span> la variable aléatoire correspondant au gain remporté. Calculer l’espérance de <span class="math inline">X</span>.</p>
+<p>Dans le cadre d’un lancer de dé cubique équilibré, on gagne 2&nbsp;€ si on obtient un nombre pair et on perd 6&nbsp;€ si on obtient un nombre impair. On note <span class="math inline">X</span> la variable aléatoire correspondant au gain remporté. Calculer l’espérance de <span class="math inline">X</span>.</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
@@ -642,10 +642,10 @@ Solution
 <p>D’où <span class="math inline">E(X+Y)=E(X)+E(Y)</span> en identifiant les deux sommes précédentes à <span class="math inline">E(X)</span> et <span class="math inline">E(Y)</span>.</p></li>
 <li><p>Pour <span class="math inline">a=0</span> la propriété est évidente.<br>
 Considérons maintenant <span class="math inline">a \neq 0</span>.</p>
-<p>En notant <span class="math inline">x_1; ... x_n</span>, les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1; ... ax_n</span>.</p>
-<p>Par définition <span class="math inline">E(aX) = \sum \limits_{i=1}^n ax_iP(aX=ax_i)</span>.</p>
+<p>En notant <span class="math inline">x_1; \dots ; x_p</span> les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1; \dots ; ax_p</span>.</p>
+<p>Par définition <span class="math inline">E(aX) = \sum \limits_{i=1}^p ax_iP(aX=ax_i)</span>.</p>
 <p>Or <span class="math inline">aX=ax_i</span> si, et seulement si, <span class="math inline">X=x_i</span> donc <span class="math inline">P(aX=ax_i)=P(X=x_i)</span>.</p>
-<p>Ainsi, <span class="math inline">E(aX) = \sum \limits_{i=1}^n ax_iP(X=x_i) = a \times \sum \limits_{i=1}^n x_iP(X=x_i) = aE(X)</span></p></li>
+<p>Ainsi, <span class="math inline">E(aX) = \sum \limits_{i=1}^p ax_iP(X=x_i) = a \times \sum \limits_{i=1}^p x_iP(X=x_i) = aE(X)</span></p></li>
 </ul>
 </div>
 </div>
@@ -658,7 +658,7 @@ Considérons maintenant <span class="math inline">a \neq 0</span>.</p>
 </div>
 <div class="application">
 <p>Dans une fête foraine, un jeu de hasard se déroule en deux temps.<br>
-Le joueur fait d’abord tourner la roue ci-dessous et gagne le montant indiqué dans le secteur obtenu. Puis, il pioche un jeton bonus dans un sac qui contient 25 jetons marqués 0 euros, 20 jetons marqués 2 euros et 5 jetons marqués 5 euros.</p>
+Le joueur fait d’abord tourner la roue ci-dessous et gagne le montant indiqué dans le secteur obtenu. Puis, il pioche un jeton bonus dans un sac qui contient 25 jetons marqués 0 euro, 20 jetons marqués 2 euros et 5 jetons marqués 5 euros.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images-cours/fete_foraine.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%" alt="Roue de la fête foraine partagée en secteurs de gains"></p>
@@ -744,11 +744,11 @@ Sur un grand nombre de joueurs, le gain moyen par joueur est de <span class="mat
 <section id="variance" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="variance"><span class="header-section-number">1.3</span> Variance</h2>
 <div class="definition">
-<p><span class="math inline">V(X) = \sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i)</span>.</p>
+<p><span class="math inline">V(X) = \sum \limits_{i=1}^p (x_i-E(X))^2 P(X=x_i)</span>.</p>
 </div>
 <div class="definition">
-<p>Soient <span class="math inline">X_1, X_2, ... , X_n</span>, <span class="math inline">n</span> variables aléatoires à valeurs respectivement dans <span class="math inline">E_1, ...E_n</span>.<br>
-On dit que <span class="math inline">X_1, X_2, ... , X_n</span> sont indépendantes lorsque, pour tous <span class="math inline">x_1 \in E_1, ..., x_n \in E_n</span> : <span class="math display">P(X_1=x_1 \cap X_2=x_2 \cap ... \cap X_n=x_n) = P(X_1=x_1) \times P(X_2=x_2) \times ... \times P(X_n=x_n)</span></p>
+<p>Soient <span class="math inline">X_1, X_2, \dots, X_n</span>, <span class="math inline">n</span> variables aléatoires à valeurs respectivement dans <span class="math inline">F_1, \dots, F_n</span>.<br>
+On dit que <span class="math inline">X_1, X_2, \dots, X_n</span> sont indépendantes lorsque, pour tous <span class="math inline">x_1 \in F_1, \dots, x_n \in F_n</span> : <span class="math display">P(\{X_1=x_1\} \cap \{X_2=x_2\} \cap \dots \cap \{X_n=x_n\}) = P(X_1=x_1) \times P(X_2=x_2) \times \dots \times P(X_n=x_n)</span></p>
 </div>
 <div class="remarque">
 <p>De manière intuitive, deux variables aléatoires sont indépendantes si les résultats de l’une n’ont pas d’influence sur les résultats de l’autre.</p>
@@ -777,10 +777,10 @@ Solution
 <li><p>Ce premier point est admis.</p></li>
 <li><p>Si <span class="math inline">a=0</span>, la propriété est évidente.<br>
 On suppose que <span class="math inline">a\neq 0</span>.</p>
-<p>En notant <span class="math inline">x_1;...x_n</span> les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1;...ax_n</span>.</p>
-<p>Par définition, <span class="math inline">V(aX) = \sum \limits_{i=1}^n (ax_i-E(aX))^2 P(aX=ax_i)</span></p>
-<p>Donc <span class="math inline">V(aX) = \sum \limits_{i=1}^n a^2(x_i-E(X))^2 P(X=x_i)</span></p>
-<p>Ainsi <span class="math inline">V(aX) = a^2\sum \limits_{i=1}^n (x_i-E(X))^2 P(X=x_i) = a^2V(X)</span></p></li>
+<p>En notant <span class="math inline">x_1; \dots ; x_p</span> les valeurs prises par <span class="math inline">X</span>, alors <span class="math inline">aX</span> prend les valeurs <span class="math inline">ax_1; \dots ; ax_p</span>.</p>
+<p>Par définition, <span class="math inline">V(aX) = \sum \limits_{i=1}^p (ax_i-E(aX))^2 P(aX=ax_i)</span></p>
+<p>Donc <span class="math inline">V(aX) = \sum \limits_{i=1}^p a^2(x_i-E(X))^2 P(X=x_i)</span></p>
+<p>Ainsi <span class="math inline">V(aX) = a^2\sum \limits_{i=1}^p (x_i-E(X))^2 P(X=x_i) = a^2V(X)</span></p></li>
 <li><p><span class="math inline">\sigma(aX)=\sqrt{V(aX)}=\sqrt{a^2V(X)}=|a|\sqrt{V(X)}=|a|\sigma(X)</span>.</p></li>
 </ul>
 </div>
@@ -803,7 +803,7 @@ Solution
 <div class="callout-body-container callout-body">
 <p><span class="math inline">V(X)=(0-5)^2 \times \frac{1}{2} + (5-5)^2 \times \frac{1}{4}+(10-5)^2 \times \frac{1}{8} + (20-5)^2 \times \frac{1}{8} = 43{,}75</span><br>
 <span class="math inline">V(Y)=(0-1{,}3)^2 \times \frac{1}{2} + (2-1{,}3)^2 \times \frac{2}{5}+ (5-1{,}3)^2 \times \frac{1}{10}=2{,}41</span><br>
-Les variables aléatoires <span class="math inline">X</span> et <span class="math inline">Y</span> sont indépendantes.<br>
+Les variables aléatoires <span class="math inline">X</span> et <span class="math inline">Y</span> sont indépendantes (le résultat de la roue n’a aucune influence sur le jeton pioché).<br>
 <span class="math inline">V(Z)=V(X)+V(Y)=43{,}75+2{,}41=46{,}16</span></p>
 </div>
 </div>
@@ -844,9 +844,9 @@ Solution
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>Soit <span class="math inline">X</span> une variable aléatoire suivant la loi binomiale de paramètres <span class="math inline">n</span> et <span class="math inline">p</span>. Alors, il existe <span class="math inline">n</span> variables aléatoires de Bernoulli indépendantes, de paramètre <span class="math inline">p</span>, telles que <span class="math inline">X=X_1+...+X_n</span>.</p>
-<p>Ainsi, pour tout <span class="math inline">k \in \left\lbrace1;...;n \right\rbrace</span>, <span class="math inline">E(X_k)=p</span> et <span class="math inline">V(X_k)=p(1-p)</span>.</p>
-<p>Or, <span class="math inline">E(X)=E(X_1+...+X_n)=E(X_1)+...+E(X_n)=p+...+p=np</span></p></li>
-<li><p>Les variables aléatoires <span class="math inline">X_1, ... X_n</span> étant indépendantes, par définition du schéma de Bernoulli, on a : <span class="math inline">V(X)=V(X_1)+...+V(X_n)=p(1-p)+...+p(1-p)=np(1-p)</span></p></li>
+<p>Pour tout <span class="math inline">k \in \left\lbrace1;...;n \right\rbrace</span>, <span class="math inline">E(X_k)=p</span> et <span class="math inline">V(X_k)=p(1-p)</span>.</p>
+<p>Donc <span class="math inline">E(X)=E(X_1+...+X_n)=E(X_1)+...+E(X_n)=p+...+p=np</span></p></li>
+<li><p>Les variables aléatoires <span class="math inline">X_1, \dots, X_n</span> étant indépendantes, par définition du schéma de Bernoulli, on a : <span class="math inline">V(X)=V(X_1)+...+V(X_n)=p(1-p)+...+p(1-p)=np(1-p)</span></p></li>
 <li><p><span class="math inline">\sigma(X)=\displaystyle \sqrt{V(X)} = \displaystyle \sqrt{np(1-p)}</span></p></li>
 </ul>
 </div>
@@ -883,7 +883,7 @@ Solution
 </section>
 <section id="échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="échantillons-de-n-variables-aléatoires-indépendantes-et-identiquement-distribuées"><span class="header-section-number">2.2</span> Échantillons de <span class="math inline">n</span> variables aléatoires indépendantes et identiquement distribuées</h2>
-<p>On considère un entier naturel <span class="math inline">n</span> non nul et <span class="math inline">X_1, ... X_n</span>, <span class="math inline">n</span> variables aléatoires définies sur <span class="math inline">\Omega</span> supposées indépendantes et identiquement distribuées.</p>
+<p>On considère un entier naturel <span class="math inline">n</span> non nul et <span class="math inline">X_1, \dots, X_n</span>, <span class="math inline">n</span> variables aléatoires définies sur <span class="math inline">\Omega</span> supposées indépendantes et identiquement distribuées.</p>
 <p>On note <span class="math inline">S_n=X_1+... + X_n</span> la somme de ces <span class="math inline">n</span> variables aléatoires et <span class="math inline">M_n=\dfrac{X_1+...+X_n}{n}</span> la moyenne de ces <span class="math inline">n</span> variables aléatoires.</p>
 <div class="proposition">
 <p>Pour tout <span class="math inline">k \in \left\lbrace 1;...;n \right\rbrace</span>, on a :</p>
@@ -909,7 +909,7 @@ Solution
 <li><p>La linéarité de l’espérance donne <span class="math inline">E(S_n)=E(X_1)+...+E(X_n)</span>.<br>
 Or ces variables aléatoires suivent la même loi. Elles ont donc la même espérance.<br>
 D’où, pour tout <span class="math inline">k \in\lbrace 1;...;n \rbrace</span>, <span class="math inline">E(S_n)=nE(X_k)</span></p></li>
-<li><p>De la même manière, les variables aléatoires <span class="math inline">X_1, ... X_n</span> étant indépendantes, on a, pour tout <span class="math inline">k \in\lbrace 1;...;n \rbrace</span>, <span class="math inline">V(S_n)=V(X_1)+...+V(X_n) = nV(X_k)</span></p></li>
+<li><p>De la même manière, les variables aléatoires <span class="math inline">X_1, \dots, X_n</span> étant indépendantes, on a, pour tout <span class="math inline">k \in\lbrace 1;...;n \rbrace</span>, <span class="math inline">V(S_n)=V(X_1)+...+V(X_n) = nV(X_k)</span></p></li>
 <li><p><span class="math inline">\sigma(S_n)=\displaystyle\sqrt{V(S_n)} = \displaystyle\sqrt{nV(X_k)}=\displaystyle\sqrt{n}\sqrt{V(X_k)}= \displaystyle\sqrt{n}\sigma(X_k)</span></p></li>
 </ul>
 </div>
@@ -990,7 +990,7 @@ La loi de probabilité de <span class="math inline">X_k</span> est donnée par :
 Donc, <span class="math inline">E(S)=7E(X_1)=7(1 \times 0{,}25+2 \times 0{,}62 + 3 \times 0{,}13)=7 \times 1{,}88 = 13{,}16</span><br>
 Sur un grand nombre de semaines, Carla va manger environ 13,16 tartines en moyenne durant chaque semaine.<br>
 <span class="math inline">V(X_1) = (1^2 \times 0{,}25+2^2 \times 0{,}62 + 3^2 \times 0{,}13) - 1{,}88^2 \simeq 0{,}3656</span><br>
-<span class="math inline">\sigma(S)=\sqrt{7}\sigma(X_1) \simeq 1{,}600</span></p></li>
+<span class="math inline">\sigma(S)=\sqrt{7}\sigma(X_1) \simeq 1{,}60</span></p></li>
 </ol>
 </div>
 </div>
@@ -3860,7 +3860,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h41";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 13h54";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
