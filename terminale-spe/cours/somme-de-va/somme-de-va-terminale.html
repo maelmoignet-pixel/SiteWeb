@@ -1220,6 +1220,10 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-tex .palette { display: flex; flex-wrap: wrap; gap: 4px; }
 .encre-tex .palette button, .encre-tex .palette select { font: 600 15px system-ui, "DejaVu Sans", sans-serif; min-width: 38px; padding: 5px 8px; border: 1px solid #c7cfe3; border-radius: 8px; background: #f3f6ff; color: #1b2232; }
 .encre-tex .palette select { min-width: 0; }
+.encre-tex .suggestions { display: flex; flex-wrap: wrap; gap: 4px; margin: -2px 0 2px; }
+.encre-tex .suggestions[hidden] { display: none; }
+.encre-tex .suggestions button { font: 15px ui-monospace, "DejaVu Sans Mono", monospace; padding: 5px 10px; border: 1px solid #c7cfe3; border-radius: 8px; background: #fff; color: #1b2232; }
+.encre-tex .suggestions button.choisie { background: #2d4db0; color: #fff; border-color: #2d4db0; }
 .encre-tex .rendu svg { display: inline-block; max-width: none; }
 .encre-tex.incomplet .rendu { opacity: .45; }
 .encre-tex .bas { display: flex; gap: 6px; align-items: center; }
@@ -1839,7 +1843,15 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     const PALETTE_TEX = [["\\", "\\", "barre oblique inverse (aussi : touche §)"], ["{ }", "{‸}"], ["[ ]", "[‸]"], ["$ $", "$‸$", "formule"], ["x²", "^{‸}", "exposant"], ["xₙ", "_{‸}", "indice"],
       ["a/b", "\\frac{‸}{}", "fraction"], ["√", "\\sqrt{‸}", "racine"], ["AB→", "\\vect{‸}", "vecteur"], ["lim", "\\lim\\limits_{x \\to ‸}", "limite"], ["∞", "\\infty"],
       ["ℝ", "\\R"], ["⩽", "\\leq "], ["⩾", "\\geq "], ["×", "\\times "], ["∈", "\\in "], ["≠", "\\neq "]];
-    const ENVS_TEX = ["align*", "cases", "enumerate", "itemize", "array"];                                     // 1 em = 40 unités de la feuille ; image rendue 2 fois plus fine
+    const ENVS_TEX = ["align*", "cases", "enumerate", "itemize", "array"];
+    const COMMANDES_TEX = [
+      "dfrac{‸}{}", "frac{‸}{}", "sqrt{‸}", "vect{‸}", "R", "N", "Z", "Q", "C", "D", "e", "infty", "lim\\limits_{‸}", "limits_{‸}", "times", "cdot", "leq", "geq", "neq", "approx",
+      "in", "notin", "subset", "cup", "cap", "varnothing", "emptyset", "ln", "exp", "cos", "sin", "tan", "int_{‸}^{}", "dint_{‸}^{}", "sum_{‸}^{}", "dsum_{‸}^{}", "prod_{‸}^{}",
+      "left(‸\\right)", "left[‸\\right]", "left\\{‸\\right.", "right", "text{‸}", "textbf{‸}", "mathbb{‸}", "mathrm{‸}", "overline{‸}", "underline{‸}", "overrightarrow{‸}",
+      "begin{align*}\n‸\n\\end{align*}", "begin{cases}\n‸\n\\end{cases}", "begin{enumerate}\n\\item ‸\n\\end{enumerate}", "begin{itemize}\n\\item ‸\n\\end{itemize}",
+      "begin{array}{cc}\n‸\n\\end{array}", "end{", "item ", "binom{‸}{}", "dbinom{‸}{}", "to", "mapsto", "Rightarrow", "Leftrightarrow", "iff", "forall", "exists", "pm", "ldots", "cdots",
+      "quad", "qquad", "displaystyle", "alpha", "beta", "gamma", "Gamma", "delta", "Delta", "varepsilon", "epsilon", "theta", "lambda", "mu", "pi", "rho", "sigma", "Sigma",
+      "tau", "varphi", "phi", "omega", "Omega", "hat{‸}", "bar{‸}", "vec{‸}", "widehat{‸}", "dx", "dt", "ep", "ph", "vide", "vct", "p", "lb", "rb", "limit", "limitx", "nstar", "impl", "ds", "dis"];                                     // 1 em = 40 unités de la feuille ; image rendue 2 fois plus fine
     let editeurTex = null, attenteTex = false, dernierTex = null;
     function ouvrirTex(x, y, ancien) {
       fermerTex(false);
@@ -1847,7 +1859,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       ed.innerHTML = '<div class="palette">' + PALETTE_TEX.map(([l, , t], i) => '<button type="button" data-p="' + i + '" title="' + (t || "") + '">' + l + '</button>').join("")
         + '<select data-env title="Insérer un environnement"><option value="">Environnement…</option>' + ENVS_TEX.map(e => '<option>' + e + '</option>').join("") + '</select></div>'
         + '<textarea spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Soit $f$ la fonction définie sur $\\R$ par $f(x)=x^2$."></textarea>'
-        + '<div class="rendu"></div><div class="bas"><span class="couleurs">' + COULEURS.map(c => '<button data-c="' + c + '" style="--c:' + c + '" aria-label="Couleur"></button>').join("") + '</span>'
+        + '<div class="suggestions" hidden></div><div class="rendu"></div><div class="bas"><span class="couleurs">' + COULEURS.map(c => '<button data-c="' + c + '" style="--c:' + c + '" aria-label="Couleur"></button>').join("") + '</span>'
         + '<span class="aide">$…$ formule · $$…$$ seule sur sa ligne : centrée · toucher ailleurs : poser</span>'
         + '<button data-t="non">Annuler</button><button data-t="ok" class="ok">✓ Poser</button></div>';
       zone.appendChild(ed);
@@ -1898,6 +1910,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         if (e.inputType !== "insertText" || !e.data) return;
         const a = ta.selectionStart, z = ta.selectionEnd, apres = ta.value[z];
         if (e.data === "§") { e.preventDefault(); inserer("\\"); return; }
+        if (e.data === "{" && a === z && apres === "{") { e.preventDefault(); ta.setSelectionRange(a + 1, a + 1); ta.dispatchEvent(new Event("input")); return; }   // \dfrac{1}{ : on entre dans l'accolade déjà là
         if (e.data === "{") { e.preventDefault(); const sel = ta.value.slice(a, z); inserer("{" + sel + "‸}"); return; }
         if ((e.data === "}" || e.data === "$") && a === z && apres === e.data) { e.preventDefault(); ta.setSelectionRange(a + 1, a + 1); if (e.data === "}") fermerEnv(); ta.dispatchEvent(new Event("input")); return; }
         if (e.data === "$" && a === z && ta.value[a - 1] !== "$" && ta.value[a - 1] !== "\\") { e.preventDefault(); inserer("$‸$"); return; }
@@ -1910,7 +1923,29 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         envPose = { k, v: ta.value }; };                                  // une Entrée tapée juste après (par habitude) sera ignorée
       ta.addEventListener("input", e => { if (e.data === "}" || (e.inputType === "insertText" && /\}$/.test(e.data || ""))) fermerEnv();
         grandir(); clearTimeout(minut); minut = setTimeout(majRendu, 120); });
-      ta.addEventListener("keydown", e => { if (e.key === "Escape") { e.preventDefault(); fermerTex(true); } });
+      // ----- autocomplétion : \dfr -> \dfrac{}{} ; Entrée/Tab valide, ↑/↓ choisit, Échap ferme la liste -----
+      const sug = ed.querySelector(".suggestions"); let props = [], choix = 0, debutCmd = -1;
+      const cacherSug = () => { sug.hidden = true; props = []; };
+      const afficherSug = () => { sug.innerHTML = props.map((x, i) => '<button type="button" data-i="' + i + '" class="' + (i === choix ? "choisie" : "") + '">\\' + x.replace("‸", "").replace(/\n/g, " ").replace(/</g, "&lt;") + '</button>').join("");
+        sug.hidden = !props.length; };
+      const majSug = () => {
+        const c = ta.selectionStart, m = ta.selectionStart === ta.selectionEnd && ta.value.slice(0, c).match(/\\([A-Za-z]{2,})$/);
+        if (!m) return cacherSug();
+        const pref = m[1];
+        props = COMMANDES_TEX.filter(x => x.startsWith(pref) && x !== pref).slice(0, 7);   // (commande déjà tapée en entier et sans argument : rien à proposer)
+        if (!props.length) return cacherSug();
+        debutCmd = c - pref.length - 1; choix = 0; afficherSug(); };
+      const valider = i => { const x = props[i]; if (!x) return; const c = ta.selectionStart; ta.setSelectionRange(debutCmd, c); cacherSug(); inserer("\\" + (x.includes("‸") ? x : x + (/[A-Za-z]$/.test(x) ? " " : "") + "‸")); };
+      sug.addEventListener("pointerdown", e => e.preventDefault());
+      sug.addEventListener("click", e => { e.stopPropagation(); const b = e.target.closest("button"); if (b) valider(+b.dataset.i); });
+      ta.addEventListener("keydown", e => {
+        if (!sug.hidden && props.length) {
+          if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); choix = (choix + (e.key === "ArrowDown" ? 1 : props.length - 1)) % props.length; afficherSug(); return; }
+          if (e.key === "Enter" || e.key === "Tab") { e.preventDefault(); valider(choix); return; }
+          if (e.key === "Escape") { e.preventDefault(); cacherSug(); return; }
+        }
+        if (e.key === "Escape") { e.preventDefault(); fermerTex(true); } });
+      ta.addEventListener("input", majSug); ta.addEventListener("click", majSug);
       ed.addEventListener("pointerdown", e => e.stopPropagation());
       ed.addEventListener("click", e => { e.stopPropagation(); const b = e.target.closest("button"); if (!b) return;   // (ne touche pas aux outils de la feuille)
         if (b.dataset.c) { coul = editeurTex.coul = b.dataset.c; reglages.coulTex = coul; garderReglages(); majCouleurs();
@@ -3732,7 +3767,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h02";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 13h13";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
