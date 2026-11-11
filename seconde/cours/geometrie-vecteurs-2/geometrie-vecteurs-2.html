@@ -856,6 +856,17 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-connexion button { font: 600 16px system-ui, sans-serif; min-height: 46px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--encre-trait); background: #fff; cursor: pointer; }
 .encre-connexion button[type="submit"] { background: var(--encre-accent); color: #fff; border-color: var(--encre-accent); }
 .encre-menu { position: fixed; right: 14px; bottom: 14px; z-index: 1500; display: flex; gap: 6px; }
+.encre-tex { position: absolute; z-index: 40; background: #fff; border: 2px solid #2d4db0; border-radius: 12px; box-shadow: 0 6px 22px rgba(27,34,50,.25);
+  padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+.encre-tex textarea { font: 18px/1.4 ui-monospace, "DejaVu Sans Mono", monospace; min-height: 3.4em; resize: vertical; border: 1px solid #c7cfe3; border-radius: 8px; padding: 6px 8px; color: #1b2232; background: #fbfcff; }
+.encre-tex .rendu { min-height: 1.6em; max-height: 45vh; overflow: auto; padding: 2px 4px; }
+.encre-tex .rendu svg { display: inline-block; max-width: none; }
+.encre-tex.incomplet .rendu { opacity: .45; }
+.encre-tex .bas { display: flex; gap: 6px; align-items: center; }
+.encre-tex .aide { font: 12px system-ui, sans-serif; color: #5d6679; margin-right: auto; }
+.encre-tex button { font: 600 14px system-ui, sans-serif; border: 1px solid #c7cfe3; background: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.encre-tex button.ok { background: #2d4db0; color: #fff; border-color: #2d4db0; }
+.encre-manuel button.actif { background: #2d4db0; color: #fff; }
 .encre-hl-progres { position: fixed; left: 14px; bottom: 132px; z-index: 1600; width: 290px; background: #fff; border: 1px solid #c7cfe3; border-radius: 12px;
   box-shadow: 0 4px 14px rgba(27,34,50,.18); padding: 8px 10px; font: 13px system-ui, sans-serif; color: #1b2232; }
 .encre-hl-progres .barre { height: 8px; border-radius: 4px; background: #e3e8f4; overflow: hidden; margin-top: 6px; }
@@ -867,6 +878,7 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-avertissements { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2147483500; display: flex; flex-direction: column; gap: 8px;
   width: max-content; max-width: calc(100% - 32px); pointer-events: none; }
 .encre-avertissements > * { pointer-events: auto; }
+body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }   /* feuille d'exercices ouverte : les bandeaux ne cachent pas sa barre d'outils */
 .encre-avertissements .encre-bandeau-cle { position: static; transform: none; max-width: none; }
 .encre-bandeau-cle.urgent, .encre-avert.rouge { background: #b3261e; }
 .encre-avert { display: flex; align-items: center; gap: 10px; background: #b35c00; color: #fff; border-radius: 14px; padding: 10px 12px 10px 18px;
@@ -1125,6 +1137,63 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("visibilitychange", () => { if (document.hidden && aEcrire.size) { clearTimeout(minuterie); vider(); } });
     return ST;
   })();
+  /* ---------- Éditeur TeX : du LaTeX rendu par MathJax (dessin vectoriel), transformé en image posée sur la feuille ----------
+     Chargé seulement à la première utilisation (ressources/mathjax-tex-svg.js, dans le site : marche hors ligne).
+     Texte libre hors des $…$, formules en $…$, formule centrée seule sur sa ligne en $$…$$. Macros reprises des fichiers .tex de Maël. */
+  const MACROS_TEX = {
+    R: "\\mathbb{R}", N: "\\mathbb{N}", Z: "\\mathbb{Z}", Q: "\\mathbb{Q}", C: "\\mathbb{C}", D: "\\mathbb{D}", K: "\\mathbb{K}", U: "\\mathbb{U}", V: "\\mathbb{V}",
+    p: "\\mathbb{P}", pp: "\\mathscr{P}", CC: "\\mathscr{C}", DD: "\\mathscr{D}", FF: "\\mathscr{F}", GG: "\\mathscr{G}", BB: "\\mathscr{B}", VV: "\\mathscr{V}", SSS: "\\mathscr{S}",
+    vect: ["\\overrightarrow{#1}", 1], vct: "\\overrightarrow", e: "\\text{e}", ep: "\\varepsilon", ph: "\\varphi", vide: "\\varnothing", emptyset: "\\varnothing",
+    leq: "\\leqslant", geq: "\\geqslant", le: "\\leqslant", ge: "\\geqslant",
+    dx: "\\,\\mathrm{d}x", dt: "\\,\\mathrm{d}t", du: "\\,\\mathrm{d}u", dy: "\\,\\mathrm{d}y", dd: "\\,\\mathrm{d}",
+    ds: "\\displaystyle", dis: "\\displaystyle", dint: "\\displaystyle\\int", dsum: "\\displaystyle\\sum", dprod: "\\displaystyle\\prod",
+    impl: "\\;\\Rightarrow\\;", eq: "\\;\\Leftrightarrow\\;", ou: "\\;\\text{ou}\\;", lr: "\\longrightarrow",
+    lb: "[\\![", rb: "]\\!]", nn: "[\\![1,n]\\!]", n: "_{n\\in\\mathbb{N}}", nstar: "_{n\\in\\mathbb{N}^*}",
+    limit: "\\underset{n\\rightarrow +\\infty}{\\longrightarrow}", limitx: "\\underset{x\\rightarrow +\\infty}{\\longrightarrow}", limitt: "\\underset{t\\rightarrow +\\infty}{\\longrightarrow}"
+  };
+  let mathjaxPret = null;
+  function chargerMathJax() {
+    if (!mathjaxPret) {
+      window.MathJax = { tex: { packages: { "[+]": ["textmacros"] }, macros: MACROS_TEX }, svg: { fontCache: "none" },
+                         startup: { typeset: false }, options: { enableMenu: false } };
+      mathjaxPret = chargerScript("mathjax-tex-svg.js").then(() => window.MathJax.startup.promise).then(() => window.MathJax)
+        .catch(e => { mathjaxPret = null; throw new Error("MathJax indisponible"); });
+    }
+    return mathjaxPret;
+  }
+  const texDeLigne = l => {                                              // « Soit $f$ définie sur $\R$ » -> \text{Soit }f\text{ définie sur }\R
+    const m = l.split("$"); if (m.length % 2 === 0) return null;         // $ pas refermé : on attend la suite
+    return m.map((x, i) => i % 2 ? "{" + x + "}" : (x ? "\\text{" + x.replace(/[#%&]/g, c => "\\" + c) + "}" : "")).join("");
+  };
+  // source -> lignes de SVG (null si le code est incomplet ou faux : on garde alors le dernier rendu correct)
+  async function texEnSvg(source) {
+    const MJ = await chargerMathJax(), lignes = [];
+    for (const l of String(source).replace(/\r/g, "").split("\n")) {
+      if (!l.trim()) { lignes.push(null); continue; }
+      const seul = l.trim().match(/^\$\$([\s\S]*)\$\$$/), tex = seul ? seul[1] : texDeLigne(l);
+      if (tex === null) return null;
+      let svg; try { svg = MJ.tex2svg(tex, { display: !!seul }).querySelector("svg"); } catch (e) { return null; }
+      if (!svg || svg.querySelector('[data-mml-node="merror"]')) return null;
+      const vb = svg.viewBox.baseVal; lignes.push({ svg, centre: !!seul, w: vb.width / 1000, h: vb.height / 1000 });   // en « em »
+    }
+    while (lignes.length && !lignes[lignes.length - 1]) lignes.pop();
+    return lignes.length ? lignes : null;
+  }
+  // lignes de SVG -> image PNG (fond transparent), taille en « em » : 1 em = em px dans l'image
+  async function svgEnImage(lignes, couleur, em) {
+    const ecart = 0.3, vide = 0.8, W = Math.max(...lignes.map(l => l ? l.w : 0)), H = lignes.reduce((h, l, i) => h + (l ? l.h : vide) + (i ? ecart : 0), 0);
+    const c = document.createElement("canvas"); c.width = Math.ceil(W * em) + 8; c.height = Math.ceil(H * em) + 8; const g = c.getContext("2d");
+    let y = 4;
+    for (const l of lignes) {
+      if (!l) { y += (vide + ecart) * em; continue; }
+      const s = l.svg.cloneNode(true); s.setAttribute("xmlns", "http://www.w3.org/2000/svg"); s.setAttribute("width", l.w * em); s.setAttribute("height", l.h * em);
+      s.removeAttribute("style"); s.setAttribute("color", couleur); s.style.color = couleur;
+      const im = new Image(); im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(s));
+      await im.decode();
+      g.drawImage(im, 4 + (l.centre ? (W - l.w) * em / 2 : 0), y, l.w * em, l.h * em); y += (l.h + ecart) * em;
+    }
+    return c.toDataURL("image/png");
+  }
   function attendreSync() {                                             // la connexion à Firebase se fait juste après l'ouverture de la page
     let k = 0; const pret = () => window.encreSync && window.encreSync.manuel;
     return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return ST.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
@@ -1325,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const y = basContenu() + marge, e = Object.assign({ id: nouvelId("i"), src, x: 30, y, w, h }, infos);
       exos.push(e); imgExos.set(src, im); sauverExos();
       hauteur = Math.max(hauteur, y + h + PAS); dimensionner();
-      if (e.carte) centrerSur(y - 62, h + 88); else centrerSur(y, h);   // une carte : son bandeau reste visible
+      if (e.carte) centrerSur(y - 62, h + 88); else if (e.tex) dessiner(); else centrerSur(y, h);   // une carte : son bandeau reste visible ; un rendu TeX reste où on l'a posé
       return e;
     }
     function centrerSur(y, h) {                                         // l'image insérée au milieu de l'écran (son haut visible si elle est plus grande que l'écran)
@@ -1339,12 +1408,12 @@ document.addEventListener("DOMContentLoaded", function () {
       catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable";
         if (window.__noterErreur) window.__noterErreur("exercice n°" + n + " p." + p + " : " + e.message, MANUEL ? MANUEL.nom : ""); }
     }
-    async function insererCapture(dataUrl, infos = { capture: true }, marge) {   // capture recadrée : enregistrée sur l'appareil
+    async function insererCapture(dataUrl, infos = { capture: true }, marge, taille) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
       MEM_IMG.set(id, dataUrl);
       idbPut(id, dataUrl).catch(() => { if (!capturesEnvoyees[id]) try { ST.setItem("encre-cap:" + id, dataUrl); } catch (e) {} });   // IndexedDB bloquée et pas encore en ligne : gardée dans la petite mémoire
       const src = "idb:" + id; IMAGES[src] = chargerImage(dataUrl);
-      placerImage(src, await IMAGES[src], infos, marge);
+      return placerImage(src, await IMAGES[src], infos, marge, undefined, taille);
     }
     /* Python : l'outil de python/ dans un cadre plein écran, gardé ouvert pour la séance (rouverture immédiate) ; « Mettre dans la feuille » y pose une carte */
     function ouvrirPython() {
@@ -1358,6 +1427,67 @@ document.addEventListener("DOMContentLoaded", function () {
         else if (e.data.type === "python-carte" && typeof e.data.image === "string" && e.data.image.startsWith("data:image/png")) { c.hidden = true;
           await insererCapture(e.data.image, { capture: true, legende: "", python: true, x: 54, carte: { t: "Python", c: "#3776ab" } }, 96); } };
       window.addEventListener("message", ecoute); window.__arretPython = () => window.removeEventListener("message", ecoute);
+    }
+    /* Éditeur TeX : un rectangle posé à l'endroit touché ; rendu en direct sous le code ; en quittant, seul le rendu reste (image + source gardée).
+       Double-touche sur un rendu avec l'outil ✥ : le code revient. */
+    const EM_TEX = 40, ECH_TEX = 2;                                     // 1 em = 40 unités de la feuille ; image rendue 2 fois plus fine
+    let editeurTex = null, attenteTex = false, dernierTex = null;
+    function ouvrirTex(x, y, ancien) {
+      fermerTex(false);
+      const ed = document.createElement("div"); ed.className = "encre-tex";
+      ed.innerHTML = '<textarea spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="Soit $f$ la fonction définie sur $\\R$ par $f(x)=x^2$."></textarea>'
+        + '<div class="rendu"></div><div class="bas"><span class="aide">$…$ formule · $$…$$ seule sur sa ligne : centrée · toucher ailleurs : poser</span>'
+        + '<button data-t="non">Annuler</button><button data-t="ok" class="ok">✓ Poser</button></div>';
+      zone.appendChild(ed);
+      const ta = ed.querySelector("textarea"), rendu = ed.querySelector(".rendu"), coul = reglages.coul || COULEURS[0];
+      editeurTex = { ed, ta, x, y, ancien, coul, valide: null };
+      const zr = zone.getBoundingClientRect(), dr = defile.getBoundingClientRect();
+      const L = Math.min(zr.width - 24, Math.max(360, zr.width * 0.6));
+      ed.style.width = L + "px";
+      ed.style.left = Math.max(8, Math.min(zr.width - L - 8, dr.left - zr.left + x * echelle)) + "px";
+      const haut0 = dr.top - zr.top + y * echelle - (defile.scrollTop || 0);
+      const recaler = () => { ed.style.top = Math.max(8, Math.min(zr.height - ed.offsetHeight - 70, haut0)) + "px"; };   // toujours entier à l'écran (au-dessus des outils du bas)
+      recaler();
+      let tour = 0;
+      const majRendu = async () => { const k = ++tour, l = ta.value.trim() ? await texEnSvg(ta.value).catch(() => null) : [];
+        if (k !== tour || !editeurTex || editeurTex.ed !== ed) return;
+        if (l === null) { ed.classList.add("incomplet"); return; }           // code incomplet : le dernier rendu correct reste affiché
+        ed.classList.remove("incomplet"); editeurTex.valide = ta.value; rendu.innerHTML = "";
+        (l || []).forEach(x => { const d = document.createElement("div"); if (!x) { d.style.height = (0.8 * EM_TEX * echelle) + "px"; rendu.appendChild(d); return; }
+          const s = x.svg.cloneNode(true); s.removeAttribute("style"); s.setAttribute("width", x.w * EM_TEX * echelle); s.setAttribute("height", x.h * EM_TEX * echelle);
+          s.style.color = coul; d.style.textAlign = x.centre ? "center" : "left"; d.appendChild(s); rendu.appendChild(d); }); recaler(); };
+      let minut = null;
+      const grandir = () => { ta.style.height = "auto"; ta.style.height = Math.min(ta.scrollHeight + 4, innerHeight * 0.3) + "px"; recaler(); };
+      ta.addEventListener("input", () => { grandir(); clearTimeout(minut); minut = setTimeout(majRendu, 120); });
+      ta.addEventListener("keydown", e => { if (e.key === "Escape") { e.preventDefault(); fermerTex(true); } });
+      ed.addEventListener("pointerdown", e => e.stopPropagation());
+      ed.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; fermerTex(b.dataset.t === "ok"); });
+      if (ancien && ancien.tex) { ta.value = ancien.tex; grandir(); majRendu(); }
+      chargerMathJax().then(() => { if (editeurTex && editeurTex.ed === ed) majRendu(); },
+                            () => { rendu.textContent = "⚠ Le moteur LaTeX n'a pas pu se charger (réseau ?)."; });
+      setTimeout(() => ta.focus(), 50);
+    }
+    async function fermerTex(poser) {
+      const E = editeurTex; if (!E) return; editeurTex = null; E.ed.remove();
+      const msg = zone && zone.querySelector(".m-msg");
+      if (!poser) return;
+      try {
+        // le texte tel qu'il est à la fermeture ; s'il est incomplet, le dernier état correct
+        let source = E.ta.value, l = source.trim() ? await texEnSvg(source).catch(() => null) : null;
+        if (source.trim() && !l && E.valide !== null && E.valide.trim()) { source = E.valide; l = await texEnSvg(source).catch(() => null); }
+        if (E.ancien && source === E.ancien.tex) return;                 // rien n'a changé
+        if (!source.trim()) { if (E.ancien) retirerImage(E.ancien); return; }   // code effacé : le rendu part
+        if (!l) { if (msg) msg.textContent = "Code LaTeX incomplet : rien n'a été posé"; return; }
+        const png = await svgEnImage(l, E.coul, EM_TEX * ECH_TEX);
+        if (E.ancien) retirerImage(E.ancien);
+        await insererCapture(png, { capture: true, tex: source, legende: "", x: E.x, y: E.y }, 0, 1 / ECH_TEX);
+        if (msg) msg.textContent = "";
+      } catch (e) { if (msg) msg.textContent = "Rendu LaTeX impossible (" + e.message + ")"; if (window.__noterErreur) window.__noterErreur("éditeur TeX : " + e.message, ""); }
+    }
+    function retirerImage(im) {
+      const i = exos.indexOf(im); if (i < 0) return;
+      exos.splice(i, 1); traits = traits.filter(t => t.lien !== im.id); if (selObj === im) selObj = null; if (selImg === im) selImg = null;
+      sauverExos(); sauver(); dessiner();
     }
     // copie d'élève photographiée au téléphone : déjà téléchargée en arrière-plan, elle s'affiche tout de suite
     async function insererCopieEleve(msg) {
@@ -1520,6 +1650,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
             <button data-a="auto" title="QCM d'automatismes de l'épreuve anticipée (APMEP 2026), avec correction">⚡ Automatismes</button>
             <button data-a="python" title="Écrire et exécuter un programme Python, puis le mettre dans la feuille">🐍 Python</button>
+            <button data-a="tex" title="Écrire en LaTeX au clavier : le rendu s'affiche en direct, puis reste sur la feuille">TeX</button>
             <button data-a="copie" class="b-copie" title="Copie d'élève photographiée avec le téléphone (page …/copie/)">📥 Copie élève<span class="nb"></span></button>
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
@@ -1582,7 +1713,7 @@ document.addEventListener("DOMContentLoaded", function () {
       while (p && (p.classList.contains("encre-ouvrir") || p.classList.contains("encre-zone"))) p = p.previousElementSibling;
       return p && !p.classList.contains("callout-caution") && (estBloc(p) || [...p.classList].some(c => ENONCES[c])) ? p : null;   // application, ou propriété démontrée
     }
-    function fermer() { if (!zone) return; arreterAuto(); if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
+    function fermer() { if (!zone) return; attenteTex = false; if (editeurTex) fermerTex(true); arreterAuto(); if (arretZone) { arretZone.abort(); arretZone = null; } zone.remove(); zone = null; libelle(); if (barreOuv) barreOuv.scrollIntoView({ block: "nearest" }); if (opts.onFermer) opts.onFermer(); }
     z.ouvrir = ouvrir; z.fermer = fermer; z.ouverte = () => !!zone;
     let confirmeEff = false;
     function clicBarre(e) {
@@ -1659,6 +1790,8 @@ document.addEventListener("DOMContentLoaded", function () {
         case "copie": insererCopieEleve(zone.querySelector(".m-msg")); return;
         case "auto": reglagesAutomatismes(); return;
         case "python": ouvrirPython(); return;
+        case "tex": { const m = zone.querySelector(".m-msg"); attenteTex = !attenteTex; b.classList.toggle("actif", attenteTex);
+          if (m) m.textContent = attenteTex ? "Touchez l'endroit de la feuille où écrire" : ""; return; }
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
       }
       garderReglages(); etatBarre(); dessiner();
@@ -1752,7 +1885,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       }
       exos.forEach(e => { const im = imgExos.get(e.src); if (!garder(e) || !im || e.y + e.h + 40 < haut || e.y - 70 > haut + vh) return;
-        dessinerCarte(ctx, e); ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); ctx.drawImage(im, e.x, e.y, e.w, e.h);
+        dessinerCarte(ctx, e); if (!e.tex) { ctx.fillStyle = "#fff"; ctx.fillRect(e.x, e.y, e.w, e.h); } ctx.drawImage(im, e.x, e.y, e.w, e.h);   // rendu TeX : transparent, les lignes restent visibles
         ctx.fillStyle = "#5d6679"; ctx.font = "italic 24px system-ui, sans-serif";
         ctx.fillText(legende(e), e.x, e.y + e.h + 30);
         });
@@ -1866,6 +1999,15 @@ document.addEventListener("DOMContentLoaded", function () {
       let manip = null, laser = null, lassoId = null, glisse = null, presentateur = null;
       try { if (navigator.ink && navigator.ink.requestPresenter) navigator.ink.requestPresenter({ presentationArea: canvas }).then(p => { presentateur = p; }, () => {}); } catch (x) {}
       canvas.addEventListener("pointerdown", e => {
+        // éditeur TeX : toucher ailleurs pose le rendu ; après « TeX », le toucher choisit l'endroit ; double-touche ✥ sur un rendu : son code revient
+        if (editeurTex) { if (e.cancelable) e.preventDefault(); fermerTex(true); return; }
+        if (attenteTex) { if (e.cancelable) e.preventDefault(); attenteTex = false;
+          const bt = zone.querySelector('[data-a="tex"]'), m = zone.querySelector(".m-msg"); if (bt) bt.classList.remove("actif"); if (m) m.textContent = "";
+          const [x, y] = pos(e); ouvrirTex(x, y, null); return; }
+        if (ajuster || reglages.outil === "deplacer") { const [x, y] = pos(e);
+          const c = [...exos].reverse().find(i => i.tex && x >= i.x && x <= i.x + i.w && y >= i.y && y <= i.y + i.h);
+          if (c) { if (dernierTex && dernierTex.id === c.id && Date.now() - dernierTex.t < 450) { dernierTex = null; if (e.cancelable) e.preventDefault(); ouvrirTex(c.x, c.y, c); return; }
+                   dernierTex = { id: c.id, t: Date.now() }; } }
         if (ajuster && (e.pointerType !== "touch" || doigts.size === 0)) {
           if (e.pointerType === "touch") doigts.set(e.pointerId, e.clientY);
           if (e.cancelable) e.preventDefault();
@@ -3118,7 +3260,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 12h04";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 12h26";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3183,7 +3325,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // préparation AUTOMATIQUE : à l'ouverture d'une page avec du réseau, au plus une fois par jour, en arrière-plan
   // (seul ce qui manque ou a changé est téléchargé) — une coupure de réseau ne doit jamais être une surprise
   setTimeout(() => { let t = 0; try { t = +ST.getItem("encre-hl-date") || 0; } catch (e) {}
-    if (RACINE && navigator.onLine && document.visibilityState === "visible" && Date.now() - t > 20 * 3600000) preparerHorsLigne(true); }, 25000);
+    if (RACINE && location.protocol !== "file:" && navigator.onLine && document.visibilityState === "visible" && Date.now() - t > 20 * 3600000) preparerHorsLigne(true); }, 25000);   // (sur la clé : inutile)
   /* ---------- Avertissements : un problème doit se voir TOUT DE SUITE, jamais à la fin du cours ----------
      iPad / en ligne : notes pas envoyées (voyant du bouton ☁ + bandeau rouge après 5 min), compte déconnecté, copie hors ligne trop vieille.
      Clé USB : enregistrement sur la clé pas autorisé alors qu'on écrit, version de la clé pas synchronisée depuis 7 jours.
