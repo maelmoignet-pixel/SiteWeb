@@ -1584,7 +1584,8 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       let tour = 0;
       const largeurEm = () => Math.max(8, (rendu.clientWidth - 30) / (EM_TEX * echelle));   // le rendu passe à la ligne à la largeur du rectangle
       editeurTex.maxEm = ancien && ancien.texLargeur ? ancien.texLargeur : largeurEm();   // un rendu redimensionné garde sa largeur
-      const majRendu = async () => { const k = ++tour, l = ta.value.trim() ? await texEnSvg(ta.value, editeurTex.maxEm).catch(() => null) : [];
+      const majRendu = async () => { const E0 = editeurTex; if (!E0 || E0.ed !== ed) return;   // rectangle déjà fermé : rien à faire
+        const k = ++tour, l = ta.value.trim() ? await texEnSvg(ta.value, E0.maxEm).catch(() => null) : [];
         if (k !== tour || !editeurTex || editeurTex.ed !== ed) return;
         if (l === null) { ed.classList.add("incomplet"); return; }           // code incomplet : le dernier rendu correct reste affiché
         ed.classList.remove("incomplet"); editeurTex.valide = ta.value; rendu.innerHTML = "";
@@ -3503,7 +3504,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h37";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "11/11 à 13h41";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
