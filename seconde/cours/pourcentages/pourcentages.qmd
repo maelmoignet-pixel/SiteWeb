@@ -188,7 +188,7 @@ Cette proportion peut s'exprimer en pourcentage : $p=22{,}5\%$.
 ## Pourcentage d'un nombre
 
 ::: {.exemple}
-Reprenons l'exemple précédent. On sait de plus que parmi les $480$ élèves de Seconde, $45\%$ sont des garçons. Il y a $216$ garçons en Seconde. $45\%$ de $480$ sont des garçons, soit : $$45\%\times480=\frac{45}{100}\times480=216$$
+Reprenons l'exemple précédent. On sait de plus que parmi les $480$ élèves de Seconde, $45\%$ sont des garçons. Le nombre de garçons est égal à $45\%$ de $480$ : $$45\%\times480=\frac{45}{100}\times480=216$$ Il y a donc $216$ garçons en Seconde.
 :::
 
 ::: {.application}
@@ -233,7 +233,7 @@ Soient $A$, $B$ et $C$ trois ensembles tels que $A\subset B\subset C$. On note $
 :::
 
 ::: {.application}
-Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de travailler ($15-64$ ans). La population active représente $70\%$ de la population en âge de travailler.
+Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de travailler (de 15 à 64 ans). La population active représente $70\%$ de la population en âge de travailler.
 
 1.  Calculer la proportion de population active par rapport à la population totale.
 
@@ -250,7 +250,7 @@ Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de 
 2.  Combien de Français compte la population active ?
 
     ::: solution
-    $$0{,}462\times67 \text{ millions} \approx 30{,}954 \text{ millions}$$ La France compte environ $31$ millions d'actifs.
+    $$0{,}462\times67 \text{ millions} = 30{,}954 \text{ millions}$$ La France compte environ $31$ millions d'actifs.
     :::
 :::
 
@@ -258,14 +258,22 @@ Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de 
 
 ## Évolution exprimée en pourcentage
 
+Dans tout ce chapitre, $t$ désigne un nombre **positif**.
+
 ::: {.proposition}
-Dire qu'il y a eu une évolution de $t\%$ entre une valeur initiale $V_{0}$ non nulle et une valeur finale $V_{1}$ signifie que $V_{1}=V_{0}+V_{0}\times\frac{t}{100}$, c'est-à-dire : $$V_{1}=V_{0}\left(1+\frac{t}{100}\right)$$
+Soit $V_{0}$ une valeur initiale non nulle et $V_{1}$ une valeur finale.
+
+-   Dire que $V_{0}$ **augmente** de $t\%$ signifie que $V_{1}=V_{0}+V_{0}\times\frac{t}{100}$, c'est-à-dire : $$V_{1}=V_{0}\left(1+\frac{t}{100}\right)$$
+
+-   Dire que $V_{0}$ **diminue** de $t\%$ signifie que $V_{1}=V_{0}-V_{0}\times\frac{t}{100}$, c'est-à-dire : $$V_{1}=V_{0}\left(1-\frac{t}{100}\right)$$
 :::
 
-Le **coefficient multiplicateur** de $V_{0}$ à $V_{1}$, noté $\text{CM}$, est le rapport $$\text{CM}=\frac{V_{1}}{V_{0}}=1+\frac{t}{100}$$
+::: {.definition}
+Le **coefficient multiplicateur** de $V_{0}$ à $V_{1}$, noté $\text{CM}$, est le rapport $\text{CM}=\frac{V_{1}}{V_{0}}$.
 
-::: {.remarque}
-$t$ est un nombre positif s'il s'agit d'une augmentation, et négatif s'il s'agit d'une diminution.
+-   Pour une augmentation de $t\%$ : $\text{CM}=1+\frac{t}{100}$.
+
+-   Pour une diminution de $t\%$ : $\text{CM}=1-\frac{t}{100}$.
 :::
 
 ## Coefficient multiplicateur, augmentation et diminution
@@ -277,31 +285,27 @@ $t$ est un nombre positif s'il s'agit d'une augmentation, et négatif s'il s'agi
 :::
 
 ::: {.remarque}
-Le coefficient multiplicateur permet de passer de la valeur initiale à la valeur finale d'une évolution.
-:::
-
-::: {.remarque}
-Soit $V_{0}$ la valeur initiale et $V_{1}$ la valeur finale d'une évolution. $$V_{0} \xrightarrow{\times\left(1+\frac{t}{100}\right)} V_{1} \quad \text{Augmentation de } t\%$$ $$V_{0} \xrightarrow{\times\left(1-\frac{t}{100}\right)} V_{1} \quad \text{Diminution de } t\%$$
+Soient $V_{0}$ la valeur initiale et $V_{1}$ la valeur finale d'une évolution. $$V_{0} \xrightarrow{\times\left(1+\frac{t}{100}\right)} V_{1} \quad \text{Augmentation de } t\%$$ $$V_{0} \xrightarrow{\times\left(1-\frac{t}{100}\right)} V_{1} \quad \text{Diminution de } t\%$$
 :::
 
 ::: {.exemple}
-Lors d'une vente aux enchères, le prix initial d'un tableau est de $1200$ euros. Il augmente de $20\%$ au cours des enchères. Quel est son nouveau prix ?
+Lors d'une vente aux enchères, le prix initial d'un tableau est de $1\,200$ euros. Il augmente de $20\%$ au cours des enchères. Quel est son nouveau prix ?
 :::
 
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-$$V_{1}=V_{0}\left(1+\frac{t}{100}\right)=1200\times1{,}20=1440$$ Son prix final est donc de $1440$ euros.
+$$V_{1}=V_{0}\left(1+\frac{20}{100}\right)=1\,200\times1{,}20=1\,440$$ Son prix final est donc de $1\,440$ euros.
 :::
 
 ::: {.application}
-En 2009, un village comptait $3000$ habitants. En 2015, on constate que sa population a diminué de $15\%$. Combien y a-t-il d'habitants dans ce village en 2015 ?
+En 2009, un village comptait $3\,000$ habitants. En 2015, on constate que sa population a diminué de $15\%$. Combien y a-t-il d'habitants dans ce village en 2015 ?
 :::
 
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-$$V_{1}=V_{0}\left(1-\frac{15}{100}\right)=3000\times0{,}85=2550$$
+$$V_{1}=V_{0}\left(1-\frac{15}{100}\right)=3\,000\times0{,}85=2\,550$$ Le village compte $2\,550$ habitants en 2015.
 :::
 
 ## Expression d'une évolution en pourcentage
@@ -311,7 +315,11 @@ La **variation absolue** d'une valeur initiale $V_{0}$ à une valeur finale $V_{
 :::
 
 ::: {.definition}
-Le **taux d'évolution** (appelé également variation relative) d'une valeur initiale $V_{0}$ non nulle à une valeur finale $V_{1}$ est $\frac{V_{1}-V_{0}}{V_{0}}$. En pourcentage, le taux d'évolution se note $t\%$ avec $t=100\times\frac{V_{1}-V_{0}}{V_{0}}.$
+Le **taux d'évolution** (appelé également variation relative) d'une valeur initiale $V_{0}$ non nulle à une valeur finale $V_{1}$ est le nombre $\frac{V_{1}-V_{0}}{V_{0}}$.
+
+-   S'il est positif, l'évolution est une augmentation de $t\%$ avec $t=100\times\frac{V_{1}-V_{0}}{V_{0}}$.
+
+-   S'il est négatif, l'évolution est une diminution de $t\%$ avec $t=100\times\frac{V_{0}-V_{1}}{V_{0}}$.
 :::
 
 ::: {.application}
@@ -331,7 +339,7 @@ Le cours d'une action est passé de $80$ euros le lundi à $32$ euros le vendred
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-Le taux d'évolution est de $$\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.$$ Le prix a donc subi une baisse de $60\%$.
+Le taux d'évolution est de $$\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.$$ Il est négatif : le cours de l'action a donc baissé de $60\%$.
 :::
 
 # Évolutions successives, évolution réciproque
@@ -342,20 +350,32 @@ Le taux d'évolution est de $$\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.$$ Le prix 
 Entre janvier 2012 et juillet 2012, le salaire minimum en France a augmenté de $2\%$. Ensuite, entre juillet 2012 et janvier 2013, il a augmenté de $0{,}3\%$. Quel a été le taux d'évolution global $t\%$ du SMIC entre janvier 2012 et janvier 2013 ? Justifier.
 :::
 
+::: {.callout-caution collapse="true"}
+## Solution
+
+On note $V_{0}$, $V_{1}$ et $V_{2}$ le SMIC en janvier 2012, en juillet 2012 et en janvier 2013. $$V_{1}=V_{0}\times\left(1+\frac{2}{100}\right)=V_{0}\times1{,}02 \qquad V_{2}=V_{1}\times\left(1+\frac{0{,}3}{100}\right)=V_{1}\times1{,}003$$ Donc $V_{2}=V_{0}\times1{,}02\times1{,}003=V_{0}\times1{,}02306$. Or $1{,}02306=1+\frac{2{,}306}{100}$ : le SMIC a augmenté de $2{,}306\%$, soit environ $2{,}31\%$, entre janvier 2012 et janvier 2013.
+
+Attention : ce n'est pas $2\%+0{,}3\%=2{,}3\%$. Les pourcentages d'évolutions successives ne s'additionnent pas.
+:::
+
 ::: {.proposition}
-Si le taux d'évolution d'une valeur $V_{0}$ non nulle à une valeur $V_{1}$ est $t_{1}\%$, et le taux d'évolution de la valeur $V_{1}$ à une valeur $V_{2}$ est $t_{2}\%$ alors le taux d'évolution global $t\%$ de $V_0$ à $V_{2}$ est tel que: $$1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)$$
+Si une valeur $V_{0}$ non nulle subit une première évolution de coefficient multiplicateur $\text{CM}_{1}$ jusqu'à une valeur $V_{1}$, puis une seconde évolution de coefficient multiplicateur $\text{CM}_{2}$ jusqu'à une valeur $V_{2}$, alors le coefficient multiplicateur global de $V_{0}$ à $V_{2}$ est : $$\text{CM}=\text{CM}_{1}\times\text{CM}_{2}$$
 :::
 
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-On a $V_{1}=V_{0}(1+\frac{t_{1}}{100})$ et $V_{2}=V_{1}(1+\frac{t_{2}}{100})$. Ainsi $$V_{2}=V_{0}\left(1+\frac{t_{1}}{100}\right)\times\left(1+\frac{t_{2}}{100}\right)$$ D'autre part, par définition du taux global, $V_{2}=V_{0}(1+\frac{t}{100})$. Par identification de ces deux relations, on obtient : $$1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)$$
+On a $V_{1}=V_{0}\times\text{CM}_{1}$ et $V_{2}=V_{1}\times\text{CM}_{2}$. Ainsi $V_{2}=V_{0}\times\text{CM}_{1}\times\text{CM}_{2}$, donc $$\text{CM}=\frac{V_{2}}{V_{0}}=\text{CM}_{1}\times\text{CM}_{2}$$
+:::
+
+::: {.exemple}
+Une augmentation de $t_{1}\%$ suivie d'une diminution de $t_{2}\%$ correspond au coefficient multiplicateur global $$\text{CM}=\left(1+\frac{t_{1}}{100}\right)\left(1-\frac{t_{2}}{100}\right)$$
 :::
 
 ## Évolution réciproque
 
 ::: {.definition}
-Le taux d'évolution d'une valeur $V_{0}$ non nulle à une valeur $V_{1}$ est $t\%$. Le **taux d'évolution réciproque** de ce taux de $t\%$ est celui qui fait passer de la valeur $V_{1}$ à la valeur $V_{0}$.
+Une valeur $V_{0}$ non nulle évolue jusqu'à une valeur $V_{1}$ non nulle. L'**évolution réciproque** est celle qui fait passer de la valeur $V_{1}$ à la valeur $V_{0}$.
 :::
 
 ::: {.application}
@@ -365,9 +385,9 @@ D'avril 2014 à septembre 2014, le prix du gaz a diminué de $4{,}2\%$. Quel est
 ::: {.callout-caution collapse="true"}
 ## Solution
 
-On note $V_{0}$ le prix du gaz en avril 2014 et $V_{1}$ celui de septembre 2014. Le coefficient multiplicateur pour passer de $V_0$ à $V_1$ est : $$\text{CM} = 1 - \frac{4{,}2}{100} = 0{,}958$$ On a donc $V_{1}=V_{0}\times0{,}958$. Le taux réciproque $t'\%$ est celui qui fait passer de $V_1$ à $V_0$. Son coefficient multiplicateur $\text{CM}'$ est tel que $V_0 = V_1 \times \text{CM}'$. $$\text{CM}' = \frac{V_0}{V_1} = \frac{1}{0{,}958} \approx 1{,}0438$$ On a $\text{CM}' = 1+\frac{t'}{100}$. $$\frac{t^{\prime}}{100}\approx 1{,}0438 - 1 = 0{,}0438$$ $$\mathbf{t' \approx 4{,}38}$$ Cela signifie que pour revenir à sa valeur d'avril 2014, le prix du gaz devrait, à partir de septembre 2014, augmenter d'environ $4{,}38\%$.
+On note $V_{0}$ le prix du gaz en avril 2014 et $V_{1}$ celui de septembre 2014. Le coefficient multiplicateur pour passer de $V_0$ à $V_1$ est : $$\text{CM} = 1 - \frac{4{,}2}{100} = 0{,}958$$ On a donc $V_{1}=V_{0}\times0{,}958$. L'évolution réciproque fait passer de $V_1$ à $V_0$. Son coefficient multiplicateur $\text{CM}'$ est tel que $V_0 = V_1 \times \text{CM}'$. $$\text{CM}' = \frac{V_0}{V_1} = \frac{1}{0{,}958} \approx 1{,}0438$$ $\text{CM}'>1$ : c'est une augmentation, et $\text{CM}' = 1+\frac{t'}{100}$. $$\frac{t'}{100}\approx 1{,}0438 - 1 = 0{,}0438 \qquad\text{donc}\qquad t' \approx 4{,}38$$ Cela signifie que pour revenir à sa valeur d'avril 2014, le prix du gaz devrait, à partir de septembre 2014, augmenter d'environ $4{,}38\%$.
 :::
 
 ::: {.proposition}
-Le taux d'évolution réciproque $t'\%$ d'un taux de $t\%$ est tel que: $$1+\frac{t^{\prime}}{100}=\frac{1}{1+\frac{t}{100}}$$
+Si $\text{CM}$ est le coefficient multiplicateur d'une évolution, le coefficient multiplicateur de l'évolution réciproque est : $$\text{CM}'=\frac{1}{\text{CM}}$$
 :::
