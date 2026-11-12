@@ -421,7 +421,7 @@ div.callout-caution .callout-title::before {
 <section id="pourcentage-dun-nombre" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="pourcentage-dun-nombre"><span class="header-section-number">1.2</span> Pourcentage d’un nombre</h2>
 <div class="exemple">
-<p>Reprenons l’exemple précédent. On sait de plus que parmi les <span class="math inline">480</span> élèves de Seconde, <span class="math inline">45\%</span> sont des garçons. Il y a <span class="math inline">216</span> garçons en Seconde. <span class="math inline">45\%</span> de <span class="math inline">480</span> sont des garçons, soit : <span class="math display">45\%\times480=\frac{45}{100}\times480=216</span></p>
+<p>Reprenons l’exemple précédent. On sait de plus que parmi les <span class="math inline">480</span> élèves de Seconde, <span class="math inline">45\%</span> sont des garçons. Le nombre de garçons est égal à <span class="math inline">45\%</span> de <span class="math inline">480</span> : <span class="math display">45\%\times480=\frac{45}{100}\times480=216</span> Il y a donc <span class="math inline">216</span> garçons en Seconde.</p>
 </div>
 <div class="application">
 <p>Une société de <span class="math inline">75</span> employés compte <span class="math inline">12\%</span> de cadres et le reste d’ouvriers. <span class="math inline">35</span> employés de cette société sont des femmes et <span class="math inline">5</span> d’entre elles sont cadres.</p>
@@ -458,7 +458,7 @@ div.callout-caution .callout-title::before {
 Soient <span class="math inline">A</span>, <span class="math inline">B</span> et <span class="math inline">C</span> trois ensembles tels que <span class="math inline">A\subset B\subset C</span>. On note <span class="math inline">p_1</span> la proportion de <span class="math inline">A</span> dans <span class="math inline">B</span> et <span class="math inline">p_2</span> la proportion de <span class="math inline">B</span> dans <span class="math inline">C</span>. La proportion de <span class="math inline">A</span> dans <span class="math inline">C</span> est: <span class="math display">p=p_{1}\times p_{2}</span></p>
 </div>
 <div class="application">
-<p>Sur <span class="math inline">67</span> millions d’habitants en France, <span class="math inline">66\%</span> de la population est en âge de travailler (<span class="math inline">15-64</span> ans). La population active représente <span class="math inline">70\%</span> de la population en âge de travailler.</p>
+<p>Sur <span class="math inline">67</span> millions d’habitants en France, <span class="math inline">66\%</span> de la population est en âge de travailler (de 15 à 64 ans). La population active représente <span class="math inline">70\%</span> de la population en âge de travailler.</p>
 <ol type="1">
 <li><p>Calculer la proportion de population active par rapport à la population totale.</p>
 <div class="proof solution">
@@ -471,7 +471,7 @@ Soient <span class="math inline">A</span>, <span class="math inline">B</span> et
 </div></li>
 <li><p>Combien de Français compte la population active ?</p>
 <div class="proof solution">
-<p><span class="proof-title"><em>Solution</em>. </span><span class="math display">0{,}462\times67 \text{ millions} \approx 30{,}954 \text{ millions}</span> La France compte environ <span class="math inline">31</span> millions d’actifs.</p>
+<p><span class="proof-title"><em>Solution</em>. </span><span class="math display">0{,}462\times67 \text{ millions} = 30{,}954 \text{ millions}</span> La France compte environ <span class="math inline">31</span> millions d’actifs.</p>
 </div></li>
 </ol>
 </div>
@@ -480,12 +480,20 @@ Soient <span class="math inline">A</span>, <span class="math inline">B</span> et
 <h1 data-number="3"><span class="header-section-number">3</span> Lien entre évolution et pourcentages</h1>
 <section id="évolution-exprimée-en-pourcentage" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="évolution-exprimée-en-pourcentage"><span class="header-section-number">3.1</span> Évolution exprimée en pourcentage</h2>
+<p>Dans tout ce chapitre, <span class="math inline">t</span> désigne un nombre <strong>positif</strong>.</p>
 <div class="proposition">
-<p>Dire qu’il y a eu une évolution de <span class="math inline">t\%</span> entre une valeur initiale <span class="math inline">V_{0}</span> non nulle et une valeur finale <span class="math inline">V_{1}</span> signifie que <span class="math inline">V_{1}=V_{0}+V_{0}\times\frac{t}{100}</span>, c’est-à-dire : <span class="math display">V_{1}=V_{0}\left(1+\frac{t}{100}\right)</span></p>
+<p>Soit <span class="math inline">V_{0}</span> une valeur initiale non nulle et <span class="math inline">V_{1}</span> une valeur finale.</p>
+<ul>
+<li><p>Dire que <span class="math inline">V_{0}</span> <strong>augmente</strong> de <span class="math inline">t\%</span> signifie que <span class="math inline">V_{1}=V_{0}+V_{0}\times\frac{t}{100}</span>, c’est-à-dire : <span class="math display">V_{1}=V_{0}\left(1+\frac{t}{100}\right)</span></p></li>
+<li><p>Dire que <span class="math inline">V_{0}</span> <strong>diminue</strong> de <span class="math inline">t\%</span> signifie que <span class="math inline">V_{1}=V_{0}-V_{0}\times\frac{t}{100}</span>, c’est-à-dire : <span class="math display">V_{1}=V_{0}\left(1-\frac{t}{100}\right)</span></p></li>
+</ul>
 </div>
-<p>Le <strong>coefficient multiplicateur</strong> de <span class="math inline">V_{0}</span> à <span class="math inline">V_{1}</span>, noté <span class="math inline">\text{CM}</span>, est le rapport <span class="math display">\text{CM}=\frac{V_{1}}{V_{0}}=1+\frac{t}{100}</span></p>
-<div class="remarque">
-<p><span class="math inline">t</span> est un nombre positif s’il s’agit d’une augmentation, et négatif s’il s’agit d’une diminution.</p>
+<div class="definition">
+<p>Le <strong>coefficient multiplicateur</strong> de <span class="math inline">V_{0}</span> à <span class="math inline">V_{1}</span>, noté <span class="math inline">\text{CM}</span>, est le rapport <span class="math inline">\text{CM}=\frac{V_{1}}{V_{0}}</span>.</p>
+<ul>
+<li><p>Pour une augmentation de <span class="math inline">t\%</span> : <span class="math inline">\text{CM}=1+\frac{t}{100}</span>.</p></li>
+<li><p>Pour une diminution de <span class="math inline">t\%</span> : <span class="math inline">\text{CM}=1-\frac{t}{100}</span>.</p></li>
+</ul>
 </div>
 </section>
 <section id="coefficient-multiplicateur-augmentation-et-diminution" class="level2" data-number="3.2">
@@ -497,13 +505,10 @@ Soient <span class="math inline">A</span>, <span class="math inline">B</span> et
 </ul>
 </div>
 <div class="remarque">
-<p>Le coefficient multiplicateur permet de passer de la valeur initiale à la valeur finale d’une évolution.</p>
-</div>
-<div class="remarque">
-<p>Soit <span class="math inline">V_{0}</span> la valeur initiale et <span class="math inline">V_{1}</span> la valeur finale d’une évolution. <span class="math display">V_{0} \xrightarrow{\times\left(1+\frac{t}{100}\right)} V_{1} \quad \text{Augmentation de } t\%</span> <span class="math display">V_{0} \xrightarrow{\times\left(1-\frac{t}{100}\right)} V_{1} \quad \text{Diminution de } t\%</span></p>
+<p>Soient <span class="math inline">V_{0}</span> la valeur initiale et <span class="math inline">V_{1}</span> la valeur finale d’une évolution. <span class="math display">V_{0} \xrightarrow{\times\left(1+\frac{t}{100}\right)} V_{1} \quad \text{Augmentation de } t\%</span> <span class="math display">V_{0} \xrightarrow{\times\left(1-\frac{t}{100}\right)} V_{1} \quad \text{Diminution de } t\%</span></p>
 </div>
 <div class="exemple">
-<p>Lors d’une vente aux enchères, le prix initial d’un tableau est de <span class="math inline">1200</span> euros. Il augmente de <span class="math inline">20\%</span> au cours des enchères. Quel est son nouveau prix ?</p>
+<p>Lors d’une vente aux enchères, le prix initial d’un tableau est de <span class="math inline">1\,200</span> euros. Il augmente de <span class="math inline">20\%</span> au cours des enchères. Quel est son nouveau prix ?</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -517,12 +522,12 @@ Solution
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math display">V_{1}=V_{0}\left(1+\frac{t}{100}\right)=1200\times1{,}20=1440</span> Son prix final est donc de <span class="math inline">1440</span> euros.</p>
+<p><span class="math display">V_{1}=V_{0}\left(1+\frac{20}{100}\right)=1\,200\times1{,}20=1\,440</span> Son prix final est donc de <span class="math inline">1\,440</span> euros.</p>
 </div>
 </div>
 </div>
 <div class="application">
-<p>En 2009, un village comptait <span class="math inline">3000</span> habitants. En 2015, on constate que sa population a diminué de <span class="math inline">15\%</span>. Combien y a-t-il d’habitants dans ce village en 2015 ?</p>
+<p>En 2009, un village comptait <span class="math inline">3\,000</span> habitants. En 2015, on constate que sa population a diminué de <span class="math inline">15\%</span>. Combien y a-t-il d’habitants dans ce village en 2015 ?</p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
@@ -536,7 +541,7 @@ Solution
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><span class="math display">V_{1}=V_{0}\left(1-\frac{15}{100}\right)=3000\times0{,}85=2550</span></p>
+<p><span class="math display">V_{1}=V_{0}\left(1-\frac{15}{100}\right)=3\,000\times0{,}85=2\,550</span> Le village compte <span class="math inline">2\,550</span> habitants en 2015.</p>
 </div>
 </div>
 </div>
@@ -547,7 +552,11 @@ Solution
 <p>La <strong>variation absolue</strong> d’une valeur initiale <span class="math inline">V_{0}</span> à une valeur finale <span class="math inline">V_{1}</span> est <span class="math inline">V_{1}-V_{0}</span>.</p>
 </div>
 <div class="definition">
-<p>Le <strong>taux d’évolution</strong> (appelé également variation relative) d’une valeur initiale <span class="math inline">V_{0}</span> non nulle à une valeur finale <span class="math inline">V_{1}</span> est <span class="math inline">\frac{V_{1}-V_{0}}{V_{0}}</span>. En pourcentage, le taux d’évolution se note <span class="math inline">t\%</span> avec <span class="math inline">t=100\times\frac{V_{1}-V_{0}}{V_{0}}.</span></p>
+<p>Le <strong>taux d’évolution</strong> (appelé également variation relative) d’une valeur initiale <span class="math inline">V_{0}</span> non nulle à une valeur finale <span class="math inline">V_{1}</span> est le nombre <span class="math inline">\frac{V_{1}-V_{0}}{V_{0}}</span>.</p>
+<ul>
+<li><p>S’il est positif, l’évolution est une augmentation de <span class="math inline">t\%</span> avec <span class="math inline">t=100\times\frac{V_{1}-V_{0}}{V_{0}}</span>.</p></li>
+<li><p>S’il est négatif, l’évolution est une diminution de <span class="math inline">t\%</span> avec <span class="math inline">t=100\times\frac{V_{0}-V_{1}}{V_{0}}</span>.</p></li>
+</ul>
 </div>
 <div class="application">
 <p>Le prix d’un article est passé de <span class="math inline">150</span> euros à <span class="math inline">180</span> euros. Quel est le taux d’évolution ?</p>
@@ -583,7 +592,7 @@ Solution
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Le taux d’évolution est de <span class="math display">\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.</span> Le prix a donc subi une baisse de <span class="math inline">60\%</span>.</p>
+<p>Le taux d’évolution est de <span class="math display">\frac{32-80}{80}=\frac{-48}{80}=-0{,}6.</span> Il est négatif : le cours de l’action a donc baissé de <span class="math inline">60\%</span>.</p>
 </div>
 </div>
 </div>
@@ -595,9 +604,6 @@ Solution
 <h2 data-number="4.1" class="anchored" data-anchor-id="évolutions-successives"><span class="header-section-number">4.1</span> Évolutions successives</h2>
 <div class="application">
 <p>Entre janvier 2012 et juillet 2012, le salaire minimum en France a augmenté de <span class="math inline">2\%</span>. Ensuite, entre juillet 2012 et janvier 2013, il a augmenté de <span class="math inline">0{,}3\%</span>. Quel a été le taux d’évolution global <span class="math inline">t\%</span> du SMIC entre janvier 2012 et janvier 2013 ? Justifier.</p>
-</div>
-<div class="proposition">
-<p>Si le taux d’évolution d’une valeur <span class="math inline">V_{0}</span> non nulle à une valeur <span class="math inline">V_{1}</span> est <span class="math inline">t_{1}\%</span>, et le taux d’évolution de la valeur <span class="math inline">V_{1}</span> à une valeur <span class="math inline">V_{2}</span> est <span class="math inline">t_{2}\%</span> alors le taux d’évolution global <span class="math inline">t\%</span> de <span class="math inline">V_0</span> à <span class="math inline">V_{2}</span> est tel que: <span class="math display">1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)</span></p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
@@ -611,18 +617,13 @@ Solution
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>On a <span class="math inline">V_{1}=V_{0}(1+\frac{t_{1}}{100})</span> et <span class="math inline">V_{2}=V_{1}(1+\frac{t_{2}}{100})</span>. Ainsi <span class="math display">V_{2}=V_{0}\left(1+\frac{t_{1}}{100}\right)\times\left(1+\frac{t_{2}}{100}\right)</span> D’autre part, par définition du taux global, <span class="math inline">V_{2}=V_{0}(1+\frac{t}{100})</span>. Par identification de ces deux relations, on obtient : <span class="math display">1+\frac{t}{100}=\left(1+\frac{t_{1}}{100}\right)\left(1+\frac{t_{2}}{100}\right)</span></p>
+<p>On note <span class="math inline">V_{0}</span>, <span class="math inline">V_{1}</span> et <span class="math inline">V_{2}</span> le SMIC en janvier 2012, en juillet 2012 et en janvier 2013. <span class="math display">V_{1}=V_{0}\times\left(1+\frac{2}{100}\right)=V_{0}\times1{,}02 \qquad V_{2}=V_{1}\times\left(1+\frac{0{,}3}{100}\right)=V_{1}\times1{,}003</span> Donc <span class="math inline">V_{2}=V_{0}\times1{,}02\times1{,}003=V_{0}\times1{,}02306</span>. Or <span class="math inline">1{,}02306=1+\frac{2{,}306}{100}</span> : le SMIC a augmenté de <span class="math inline">2{,}306\%</span>, soit environ <span class="math inline">2{,}31\%</span>, entre janvier 2012 et janvier 2013.</p>
+<p>Attention : ce n’est pas <span class="math inline">2\%+0{,}3\%=2{,}3\%</span>. Les pourcentages d’évolutions successives ne s’additionnent pas.</p>
 </div>
 </div>
 </div>
-</section>
-<section id="évolution-réciproque" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="évolution-réciproque"><span class="header-section-number">4.2</span> Évolution réciproque</h2>
-<div class="definition">
-<p>Le taux d’évolution d’une valeur <span class="math inline">V_{0}</span> non nulle à une valeur <span class="math inline">V_{1}</span> est <span class="math inline">t\%</span>. Le <strong>taux d’évolution réciproque</strong> de ce taux de <span class="math inline">t\%</span> est celui qui fait passer de la valeur <span class="math inline">V_{1}</span> à la valeur <span class="math inline">V_{0}</span>.</p>
-</div>
-<div class="application">
-<p>D’avril 2014 à septembre 2014, le prix du gaz a diminué de <span class="math inline">4{,}2\%</span>. Quel est le taux d’évolution réciproque <span class="math inline">t'\%</span> ? Justifier.</p>
+<div class="proposition">
+<p>Si une valeur <span class="math inline">V_{0}</span> non nulle subit une première évolution de coefficient multiplicateur <span class="math inline">\text{CM}_{1}</span> jusqu’à une valeur <span class="math inline">V_{1}</span>, puis une seconde évolution de coefficient multiplicateur <span class="math inline">\text{CM}_{2}</span> jusqu’à une valeur <span class="math inline">V_{2}</span>, alors le coefficient multiplicateur global de <span class="math inline">V_{0}</span> à <span class="math inline">V_{2}</span> est : <span class="math display">\text{CM}=\text{CM}_{1}\times\text{CM}_{2}</span></p>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
@@ -636,12 +637,40 @@ Solution
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>On note <span class="math inline">V_{0}</span> le prix du gaz en avril 2014 et <span class="math inline">V_{1}</span> celui de septembre 2014. Le coefficient multiplicateur pour passer de <span class="math inline">V_0</span> à <span class="math inline">V_1</span> est : <span class="math display">\text{CM} = 1 - \frac{4{,}2}{100} = 0{,}958</span> On a donc <span class="math inline">V_{1}=V_{0}\times0{,}958</span>. Le taux réciproque <span class="math inline">t'\%</span> est celui qui fait passer de <span class="math inline">V_1</span> à <span class="math inline">V_0</span>. Son coefficient multiplicateur <span class="math inline">\text{CM}'</span> est tel que <span class="math inline">V_0 = V_1 \times \text{CM}'</span>. <span class="math display">\text{CM}' = \frac{V_0}{V_1} = \frac{1}{0{,}958} \approx 1{,}0438</span> On a <span class="math inline">\text{CM}' = 1+\frac{t'}{100}</span>. <span class="math display">\frac{t^{\prime}}{100}\approx 1{,}0438 - 1 = 0{,}0438</span> <span class="math display">\mathbf{t' \approx 4{,}38}</span> Cela signifie que pour revenir à sa valeur d’avril 2014, le prix du gaz devrait, à partir de septembre 2014, augmenter d’environ <span class="math inline">4{,}38\%</span>.</p>
+<p>On a <span class="math inline">V_{1}=V_{0}\times\text{CM}_{1}</span> et <span class="math inline">V_{2}=V_{1}\times\text{CM}_{2}</span>. Ainsi <span class="math inline">V_{2}=V_{0}\times\text{CM}_{1}\times\text{CM}_{2}</span>, donc <span class="math display">\text{CM}=\frac{V_{2}}{V_{0}}=\text{CM}_{1}\times\text{CM}_{2}</span></p>
+</div>
+</div>
+</div>
+<div class="exemple">
+<p>Une augmentation de <span class="math inline">t_{1}\%</span> suivie d’une diminution de <span class="math inline">t_{2}\%</span> correspond au coefficient multiplicateur global <span class="math display">\text{CM}=\left(1+\frac{t_{1}}{100}\right)\left(1-\frac{t_{2}}{100}\right)</span></p>
+</div>
+</section>
+<section id="évolution-réciproque" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="évolution-réciproque"><span class="header-section-number">4.2</span> Évolution réciproque</h2>
+<div class="definition">
+<p>Une valeur <span class="math inline">V_{0}</span> non nulle évolue jusqu’à une valeur <span class="math inline">V_{1}</span> non nulle. L’<strong>évolution réciproque</strong> est celle qui fait passer de la valeur <span class="math inline">V_{1}</span> à la valeur <span class="math inline">V_{0}</span>.</p>
+</div>
+<div class="application">
+<p>D’avril 2014 à septembre 2014, le prix du gaz a diminué de <span class="math inline">4{,}2\%</span>. Quel est le taux d’évolution réciproque <span class="math inline">t'\%</span> ? Justifier.</p>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On note <span class="math inline">V_{0}</span> le prix du gaz en avril 2014 et <span class="math inline">V_{1}</span> celui de septembre 2014. Le coefficient multiplicateur pour passer de <span class="math inline">V_0</span> à <span class="math inline">V_1</span> est : <span class="math display">\text{CM} = 1 - \frac{4{,}2}{100} = 0{,}958</span> On a donc <span class="math inline">V_{1}=V_{0}\times0{,}958</span>. L’évolution réciproque fait passer de <span class="math inline">V_1</span> à <span class="math inline">V_0</span>. Son coefficient multiplicateur <span class="math inline">\text{CM}'</span> est tel que <span class="math inline">V_0 = V_1 \times \text{CM}'</span>. <span class="math display">\text{CM}' = \frac{V_0}{V_1} = \frac{1}{0{,}958} \approx 1{,}0438</span> <span class="math inline">\text{CM}'&gt;1</span> : c’est une augmentation, et <span class="math inline">\text{CM}' = 1+\frac{t'}{100}</span>. <span class="math display">\frac{t'}{100}\approx 1{,}0438 - 1 = 0{,}0438 \qquad\text{donc}\qquad t' \approx 4{,}38</span> Cela signifie que pour revenir à sa valeur d’avril 2014, le prix du gaz devrait, à partir de septembre 2014, augmenter d’environ <span class="math inline">4{,}38\%</span>.</p>
 </div>
 </div>
 </div>
 <div class="proposition">
-<p>Le taux d’évolution réciproque <span class="math inline">t'\%</span> d’un taux de <span class="math inline">t\%</span> est tel que: <span class="math display">1+\frac{t^{\prime}}{100}=\frac{1}{1+\frac{t}{100}}</span></p>
+<p>Si <span class="math inline">\text{CM}</span> est le coefficient multiplicateur d’une évolution, le coefficient multiplicateur de l’évolution réciproque est : <span class="math display">\text{CM}'=\frac{1}{\text{CM}}</span></p>
 </div>
 
 
@@ -3508,7 +3537,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h41";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "12/11 à 08h22";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
