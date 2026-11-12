@@ -623,7 +623,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   (() => { let dernier = performance.now();
     document.addEventListener("visibilitychange", () => { dernier = performance.now(); });
     setInterval(() => { const t = performance.now(), gel = t - dernier - 500; dernier = t;
-      if (gel > 1000 && !document.hidden && window.__noterErreur) window.__noterErreur("écran figé " + (gel / 1000).toFixed(1) + " s" + (window.__tache ? " pendant : " + window.__tache : ""), ""); }, 500); })();
+      if (gel > 1000 && gel < 60000 && !document.hidden && window.__noterErreur) window.__noterErreur("écran figé " + (gel / 1000).toFixed(1) + " s" + (window.__tache ? " pendant : " + window.__tache : ""), ""); }, 500); })();
   let baseNotes = null;
   function ouvrirNotes() {
     baseNotes = baseNotes || new Promise((ok, ko) => { const r = indexedDB.open("encre-notes", 1);
@@ -635,30 +635,39 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   }
   function idbNotes(op, mode, ms = 10000) {                             // op(magasin, transaction) ; terminé quand la transaction est validée
     const essai = () => Promise.race([ouvrirNotes().then(db => new Promise((ok, ko) => { const t = db.transaction("notes", mode || "readonly"); let res;
-        Promise.resolve(op(t.objectStore("notes"))).then(x => { res = x; }); t.oncomplete = () => ok(res); t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); })),
+        Promise.resolve(op(t.objectStore("notes"))).then(x => { res = x; }, e => { try { t.abort(); } catch (x) {} ko(e); }); t.oncomplete = () => ok(res); t.onerror = () => ko(t.error); t.onabort = () => ko(t.error || new Error("annulée")); })),
       new Promise((_, ko) => setTimeout(() => ko(new Error("IndexedDB ne répond pas")), ms))]);
     return essai().catch(e => { const p = baseNotes; baseNotes = null; if (p) p.then(db => { try { db.close(); } catch (x) {} }, () => {}); return essai(); });
   }
   const ST = (() => {
     const mem = new Map(), confirme = new Map(), aEcrire = new Map(), auDepart = new Set();
-    let liste = null, minuterie = null, idbOk = false;
+    let liste = null, minuterie = null, idbOk = false, enCours = false, attente = 0;   // attente : grande mémoire en panne -> 30 s, 1 min, puis 2 min entre deux essais
+    // petite mémoire : une grosse feuille (plus de 100 000 caractères) y est recopiée 2 s après le dernier trait, pas à chaque trait
+    const differe = new Map(); let minPetite = null, petitePleine = false;
+    const ecritesIci = new Set();                                        // notes écrites pendant cette visite : toujours gardées dans la petite mémoire
+    const AUJ = (d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"))(new Date());
+    // notes de la page ouverte gardées dans la petite mémoire : le cours annoté, la feuille du jour, ce qu'on a touché ; les feuilles des autres jours restent dans la grande
+    const aGarder = k => pageDeCle(k) === PAGE && (ecritesIci.has(k) || k.includes(AUJ) || !/\d{4}-\d{2}-\d{2}/.test(k));
     const TOMBES = "encre-st-supprimees";                                // notes effacées pas encore effacées dans IndexedDB
     const tombes = (() => { try { return JSON.parse(localStorage.getItem(TOMBES) || "{}"); } catch (e) { return {}; } })();
     const garderTombes = () => { try { localStorage.setItem(TOMBES, JSON.stringify(tombes)); } catch (e) {} };
     try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) { mem.set(k, localStorage.getItem(k)); auDepart.add(k); } } } catch (e) {}
     const noter = m => { if (window.__noterErreur) window.__noterErreur(m, ""); };
     async function vider() {
-      minuterie = null; if (!aEcrire.size) return; window.__tache = "rangement dans la grande mémoire";
+      minuterie = null; if (!aEcrire.size || enCours) return; enCours = true; window.__tache = "rangement dans la grande mémoire";
       const lot = [...aEcrire]; aEcrire.clear();
       try {
         await idbNotes(st => { for (const [k, v] of lot) { if (v === null) st.delete(k); else st.put(v, k); } }, "readwrite");
         let t = false; for (const [k, v] of lot) { if (v === null) { confirme.delete(k); if (tombes[k]) { delete tombes[k]; t = true; } } else confirme.set(k, v); }
         if (t) garderTombes();
-        ranger(lot.map(x => x[0]), false); window.__tache = "";
+        ranger(lot.map(x => x[0]), false); window.__tache = ""; attente = 0;
       } catch (e) { for (const [k, v] of lot) if (!aEcrire.has(k)) aEcrire.set(k, v);
-        noter("grande mémoire (IndexedDB) : écriture reportée (" + e.message + ")"); minuterie = setTimeout(vider, 30000); }
+        if (!attente) noter("grande mémoire (IndexedDB) : écriture reportée (" + e.message + ")");   // noté une fois par panne, pas à chaque essai
+        attente = Math.min(attente ? attente * 2 : 30000, 120000); }
+      finally { enCours = false; window.__tache = ""; }
+      if (aEcrire.size && !minuterie) minuterie = setTimeout(vider, attente || 8000);
     }
-    const planifier = () => { if (!minuterie) minuterie = setTimeout(vider, 8000); };   // la page ouverte est aussi dans la petite mémoire : rien ne presse
+    const planifier = () => { if (!minuterie && !enCours) minuterie = setTimeout(vider, attente || 8000); };   // la page ouverte est aussi dans la petite mémoire : rien ne presse
     // retire de localStorage les notes d'AUTRES pages qui sont en sécurité (dans IndexedDB, à l'identique, et en ligne / sur la clé)
     // forcer : la petite mémoire est (presque) pleine -> on sort aussi les notes pas encore confirmées en ligne,
     // du moment qu'elles sont dans la grande mémoire à l'identique (elles y restent et seront envoyées depuis elle)
@@ -667,12 +676,24 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       if (!idbOk) return 0; let n = 0; if (forcer === undefined) forcer = petiteChargee();
       const l = cles || (() => { const r = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) r.push(k); } } catch (e) {} return r; })();
       for (const k of l) {
-        if (pageDeCle(k) === PAGE || !mem.has(k)) continue;
+        if (aGarder(k) || !mem.has(k) || differe.has(k)) continue;
         const v = mem.get(k);
         if (confirme.get(k) !== v || (!forcer && !ST.propre(k, v))) continue;
         try { if (localStorage.getItem(k) !== null) { localStorage.removeItem(k); n++; } } catch (e) {}
       }
       return n;
+    }
+    function ecrirePetite() {
+      clearTimeout(minPetite); minPetite = null; if (!differe.size) return;
+      const lot = [...differe]; differe.clear(); window.__tache = "copie dans la petite mémoire";
+      for (const [k, v] of lot) {
+        if (mem.get(k) !== v) continue;
+        try { localStorage.setItem(k, v); }
+        catch (e) { ranger(null, true);
+          try { localStorage.setItem(k, v); }
+          catch (e2) { petitePleine = true; if (ST.surPetitePleine) ST.surPetitePleine(k, v); } }   // les écritures suivantes redeviennent immédiates (bandeau si plein)
+      }
+      window.__tache = "";
     }
     const ST = {
       propre: () => false,                                                // remplacé par la synchro (déjà en ligne) ou par la clé (identique à la copie du site)
@@ -680,8 +701,10 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       setItem(k, v) {
         v = String(v); liste = null;
         if (!k.startsWith("encre:")) return localStorage.setItem(k, v);
-        mem.set(k, v); aEcrire.set(k, v); planifier(); if (tombes[k]) { delete tombes[k]; garderTombes(); }
-        try { localStorage.setItem(k, v); }
+        mem.set(k, v); aEcrire.set(k, v); ecritesIci.add(k); planifier(); if (tombes[k]) { delete tombes[k]; garderTombes(); }
+        if (v.length > 100000 && !petitePleine) { differe.set(k, v); if (!minPetite) minPetite = setTimeout(ecrirePetite, 2000); return; }
+        differe.delete(k);
+        try { localStorage.setItem(k, v); petitePleine = false; }
         catch (e) {
           ranger(null, true);                                              // place pleine : on range d'abord ce qui est dans la grande mémoire
           try { localStorage.setItem(k, v); }
@@ -692,7 +715,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       removeItem(k) {
         liste = null;
         if (!k.startsWith("encre:")) return localStorage.removeItem(k);
-        mem.delete(k); aEcrire.set(k, null); tombes[k] = Date.now(); garderTombes(); planifier();
+        mem.delete(k); differe.delete(k); aEcrire.set(k, null); tombes[k] = Date.now(); garderTombes(); planifier();
         try { localStorage.removeItem(k); } catch (e) {}
       },
       key(i) { if (!liste) { liste = [...mem.keys()]; try { for (let j = 0; j < localStorage.length; j++) { const k = localStorage.key(j); if (k && !k.startsWith("encre:")) liste.push(k); } } catch (e) {} } return liste[i] === undefined ? null : liste[i]; },
@@ -700,6 +723,8 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       // place pleine (ancienne protection) : sortir de localStorage une note déjà dans IndexedDB, sans l'effacer
       sortirDeLaPetite(k) { if (!idbOk || !mem.has(k) || confirme.get(k) !== mem.get(k)) return false; try { localStorage.removeItem(k); } catch (e) {} return true; },
       ranger: () => ranger(),
+      ecrirePetite: () => ecrirePetite(),
+      surPetitePleine: null,                                              // (clé, texte) -> réécriture par ecrireNote (libère de la place, bandeau si impossible)
       get idbOk() { return idbOk; },
       vider,
       etat: () => ({ idbOk, enAttente: aEcrire.size, petite: (() => { let n = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre:")) n++; } } catch (e) {} return n; })(), total: mem.size }),
@@ -707,10 +732,11 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       surChargement: null                                                 // (clés de la page arrivées de la grande mémoire) -> recharger l'affichage
     };
     // chargement de la grande mémoire : la petite (plus récente) a priorité ; ce qui manque d'un côté est recopié de l'autre
-    ST.pret = (async () => {
+    let essaisChargement = 0;
+    const charger = async () => {
       if (!("indexedDB" in window)) return false;
       try { window.__tache = "chargement de la grande mémoire";
-        const tout = await idbNotes(st => new Promise((ok, ko) => { const r = st.openCursor(), res = []; r.onsuccess = () => { const c = r.result; if (c) { res.push([c.key, c.value]); c.continue(); } else ok(res); }; r.onerror = () => ko(r.error); }), "readonly", 12000);
+        const tout = await idbNotes(st => new Promise((ok, ko) => { const r = st.openCursor(), res = []; r.onsuccess = () => { const c = r.result; if (c) { res.push([c.key, c.value]); c.continue(); } else ok(res); }; r.onerror = () => ko(r.error); }), "readonly", 30000);
         const arrivees = [];
         for (const [k, v] of tout) {
           if (tombes[k]) { aEcrire.set(k, null); continue; }                // effacée ici pendant que la grande mémoire ne répondait pas
@@ -722,14 +748,22 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         for (const [k, v] of mem) if (confirme.get(k) !== v) aEcrire.set(k, v);   // première fois : tout est recopié
         for (const k of Object.keys(tombes)) if (!aEcrire.has(k)) { delete tombes[k]; }
         garderTombes(); liste = null; idbOk = true; planifier(); ranger();
-        for (const k of arrivees) { try { localStorage.setItem(k, mem.get(k)); } catch (e) {} }   // la page ouverte revient dans la petite mémoire
+        for (const k of arrivees) if (aGarder(k)) { try { localStorage.setItem(k, mem.get(k)); } catch (e) {} }   // cours annoté et feuille du jour : aussi dans la petite mémoire
         window.__tache = "réaffichage des notes"; if (arrivees.length && ST.surChargement) ST.surChargement(arrivees);
-        window.__tache = ""; return true;
-      } catch (e) { noter("grande mémoire (IndexedDB) indisponible : " + e.message); return false; }
-    })();
+        window.__tache = ""; if (essaisChargement) noter("grande mémoire (IndexedDB) retrouvée");
+        return true;
+      } catch (e) { window.__tache = "";
+        if (!essaisChargement) noter("grande mémoire (IndexedDB) indisponible : " + e.message + " (nouvel essai dans 2 min)");
+        essaisChargement++;
+        // nouvel essai plus tard (application au premier plan), au lieu de s'en passer jusqu'à la fermeture de l'application
+        setTimeout(function relance() { if (document.hidden) return setTimeout(relance, 30000);
+          charger().then(ok => { if (ok && ST.apresChargement) ST.apresChargement(); }); }, 120000);
+        return false; }
+    };
+    ST.pret = charger();
     setInterval(() => ranger(), 60000);
-    addEventListener("pagehide", () => { if (aEcrire.size) vider(); });
-    document.addEventListener("visibilitychange", () => { if (document.hidden && aEcrire.size) { clearTimeout(minuterie); vider(); } });
+    addEventListener("pagehide", () => { ecrirePetite(); if (aEcrire.size) vider(); });
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) return; ecrirePetite(); if (aEcrire.size && !attente) { clearTimeout(minuterie); minuterie = null; vider(); } });
     return ST;
   })();
   /* ---------- Éditeur TeX : du LaTeX rendu par MathJax (dessin vectoriel), transformé en image posée sur la feuille ----------
@@ -2865,6 +2899,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     for (const [id, d] of Object.entries(docs)) {
       const k = deId(id), valeur = d.del ? null : d.n ? (parts[id] || []).join("") : d.v;
       if (d.n && (parts[id] || []).filter(x => x !== undefined).length !== d.n) continue;   // morceaux incomplets : on attendra
+      if (valeur !== null && envoye.get(k) === valeur) { envoye.delete(k); vuT[k] = Date.now(); continue; }   // notre propre envoi qui revient
       if (appliquer(k, valeur, d.t)) changees.add(k);
     }
     SYNC.maj = max; try { ST.setItem("encre-sync-maj", String(max)); } catch (e) {}
@@ -2896,9 +2931,12 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   };
   ST.fusionner = (a, b) => { const A = lireTableau(a), B = lireTableau(b); return A && B ? JSON.stringify(fusion(A, B, -1)) : null; };
   ST.surChargement = cles => { try { Zone.toutes.forEach(z => { if (cles.includes(z.cle) || cles.includes(z.cleExos)) z.recharger(); }); } catch (e) {} };
-  ST.pret.then(() => { try { rangerFeuillesDansLeCours(); majInfo(); majTitres(); majBoutonExos(); majArdoises(); } catch (e) {} });
+  ST.apresChargement = () => { try { rangerFeuillesDansLeCours(); majInfo(); majTitres(); majBoutonExos(); majArdoises(); } catch (e) {} };
+  ST.pret.then(ST.apresChargement);
+  ST.surPetitePleine = (k, v) => { ecrireNote(k, v); };
   // --- envoi : ce qui a changé ici depuis le dernier envoi (comparaison d'empreintes) ---
-  let envoiEnCours = false;
+  let envoiEnCours = false, dernierEnvoi = 0;
+  const envoye = new Map();                                             // dernier texte envoyé par cet appareil : son retour par le site est ignoré (pas de réanalyse)
   let balayageComplet = false, dernierModifie = null;
   async function envoyer(force) {
     if (!SYNC.actif || envoiEnCours) return;
@@ -2922,6 +2960,8 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     if (ST.idbOk) absentes.filter(k => !videesIci.has(k)).forEach(k => { delete enLigne[k]; delete dernierVu[k]; delete vuT[k]; });
     const supprimees = absentes.filter(k => videesIci.has(k));
     if (!aEnvoyer.length && !supprimees.length) { SYNC.echec = 0; balayageComplet = true; dernierModifie = modifie; return envoyerCaptures(); }
+    // grosse feuille en cours d'écriture : un envoi toutes les 15 s suffit (au lieu de toutes les 4 s)
+    if (!force && Date.now() - dernierEnvoi < 15000 && aEnvoyer.reduce((n, x) => n + (x[1] || "").length, 0) > 200000) return;
     envoiEnCours = true; etatSync("☁ Envoi…");
     try {
       const col = SYNC.base.collection("tableau"), maj = firebase.firestore.FieldValue.serverTimestamp();
@@ -2939,7 +2979,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       if (n) await delai(lot.commit());
       balayageComplet = true; dernierModifie = modifie;
       const fait = Date.now();
-      aEnvoyer.forEach(([k, , e]) => { enLigne[k] = e; vuT[k] = fait; }); supprimees.forEach(k => { delete enLigne[k]; videesIci.delete(k); });
+      aEnvoyer.forEach(([k, v, e]) => { enLigne[k] = e; vuT[k] = fait; envoye.set(k, v); }); dernierEnvoi = fait; supprimees.forEach(k => { delete enLigne[k]; videesIci.delete(k); });
       lsEcrire("encre-sync-vu", enLigne); lsEcrire("encre-sync-t", heures); lsEcrire("encre-sync-vuT", vuT);
       SYNC.echec = 0; etatSync("☁ À jour");
     } catch (e) { etatSync("☁ Hors ligne"); SYNC.erreurEnvoi = (e && (e.code || e.message)) || String(e);
@@ -3087,7 +3127,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "11/11 à 13h41";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "12/11 à 19h09";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
