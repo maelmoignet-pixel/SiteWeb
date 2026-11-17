@@ -73,7 +73,7 @@ input[type=email], input[type=password], input[type=text] { width: 100%; font: i
   <button class="gros envoyer" id="b-envoyer" disabled>Afficher au tableau</button>
   <button class="gros second" id="b-attente" disabled>Envoyer sans afficher</button>
   <button class="gros second" id="b-galerie">Choisir dans les photos…</button>
-  <label class="coche"><input type="checkbox" id="auto"> Feuille seule : détecter ses bords (décocher pour un cahier)</label>
+  <label class="coche"><input type="checkbox" id="bords"> Détecter les bords de la feuille et la redresser (feuille seule sur un fond sombre)</label>
   <label class="coche"><input type="checkbox" id="blanchir"> Blanchir le fond (copie plus lisible)</label>
   <details id="appareils" style="margin-top:14px;color:var(--doux)"><summary>Tableaux connectés par QR code</summary><div id="liste-app" style="margin-top:8px"></div></details>
   <div class="bas"><span id="qui"></span><button id="b-deco" type="button">Se déconnecter</button></div>
@@ -100,7 +100,7 @@ const $ = id => document.getElementById(id), MORCEAU = 800000;      // un docume
 let col = null, copie = null;          // copie en cours : { id, pages: [{ orig (canvas), quad, img (JPEG envoyé), envoi, fait }] }
 const reglage = (id, defaut) => { let v = defaut; try { const x = localStorage.getItem("copie-" + id); if (x !== null) v = x === "1"; } catch (e) {}
   $(id).checked = v; $(id).onchange = () => { try { localStorage.setItem("copie-" + id, $(id).checked ? "1" : "0"); } catch (e) {} }; };
-reglage("blanchir", true); reglage("auto", true);
+reglage("blanchir", true); reglage("bords", false);   // « bords » remplace « auto » (cochée par défaut avant le 17/11 : déformait les photos)
 const msg = (t, cl = "") => { $("msg").textContent = t; $("msg").className = "msg " + cl; };
 
 firebase.auth().onAuthStateChanged(u => {
@@ -179,7 +179,18 @@ function detecter(c) {
     if (xx - y > cc) { cc = xx - y; tr = [xx, y]; } if (xx - y < dd) { dd = xx - y; bl = [xx, y]; } }
   const q = [tl, tr, br, bl].map(([u, v]) => [(u + 0.5) / k, (v + 0.5) / k]);
   const aire = Math.abs(q.reduce((s, p, i) => { const n = q[(i + 1) % 4]; return s + p[0] * n[1] - n[0] * p[1]; }, 0)) / 2;
-  return aire > 0.12 * c.width * c.height ? q : null;
+  if (aire <= 0.12 * c.width * c.height) return null;
+  // garde-fou : coins mal trouvés (table claire, ombre, feuille coupée, cahier) -> on ne redresse pas, sinon la photo serait étirée
+  for (let i = 0; i < 4; i++) {
+    const p = q[i], a1 = q[(i + 3) % 4], b1 = q[(i + 1) % 4], u = [a1[0] - p[0], a1[1] - p[1]], v = [b1[0] - p[0], b1[1] - p[1]];
+    const ang = Math.acos(Math.max(-1, Math.min(1, (u[0] * v[0] + u[1] * v[1]) / (Math.hypot(...u) * Math.hypot(...v) || 1)))) * 180 / Math.PI;
+    if (Math.abs(ang - 90) > 20) return null;                     // angle de plus de 20° loin de l'angle droit
+  }
+  const L = (p, r) => Math.hypot(p[0] - r[0], p[1] - r[1]);
+  const W = (L(q[0], q[1]) + L(q[3], q[2])) / 2, H = (L(q[0], q[3]) + L(q[1], q[2])) / 2, rap = Math.max(W, H) / Math.min(W, H);
+  if (rap > 2 || Math.max(L(q[0], q[1]), L(q[3], q[2])) > 1.6 * Math.min(L(q[0], q[1]), L(q[3], q[2]))
+              || Math.max(L(q[0], q[3]), L(q[1], q[2])) > 1.6 * Math.min(L(q[0], q[3]), L(q[1], q[2]))) return null;   // côtés opposés trop inégaux
+  return q;
 }
 
 /* ---------- recadrage avec redressement (homographie), puis fond blanchi, puis JPEG ---------- */
@@ -299,7 +310,7 @@ async function ajouter(fichiers) {
   msg("Préparation…");
   for (const f of fichiers) {
     try {
-      const orig = await charger(f), pg = { orig, quad: ($("auto").checked && detecter(orig)) || touteLaPhoto(orig), fait: false };
+      const orig = await charger(f), pg = { orig, quad: ($("bords").checked && detecter(orig)) || touteLaPhoto(orig), fait: false };
       pg.img = rendre(pg); copie.pages.push(pg); envoyerPage(pg);
     } catch (e) { msg("Photo illisible : " + (e.message || e), "err"); }
   }
