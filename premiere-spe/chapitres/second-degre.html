@@ -1346,6 +1346,17 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       } catch (e) { if (window.__noterErreur) window.__noterErreur("éditeur TeX (largeur) : " + e.message, ""); }
     }
     function cacherModifierTex() { const b = zone && zone.querySelector(".encre-tex-modif"); if (b) b.remove(); }
+    const cacherModifier = cacherModifierTex;
+    function montrerModifierGraphique(rp) {                              // outil ✥ : un toucher sur un graphique montre « ✎ Modifier le graphique »
+      cacherModifierTex();
+      const b = document.createElement("button"); b.className = "encre-tex-modif"; b.textContent = "✎ Modifier le graphique";
+      const zr = zone.getBoundingClientRect(), dr = defile.getBoundingClientRect(), [bx, by] = boite(rp);
+      b.style.left = Math.max(8, dr.left - zr.left + bx * echelle) + "px";
+      b.style.top = Math.max(8, dr.top - zr.top + by * echelle - (defile.scrollTop || 0) - 54) + "px";
+      b.addEventListener("pointerdown", e => e.stopPropagation());
+      b.addEventListener("click", () => { cacherModifierTex(); if (traits.includes(rp)) ouvrirReglagesRepere(rp); });
+      zone.appendChild(b); setTimeout(() => { if (b.isConnected) b.remove(); }, 6000);
+    }
     function montrerModifierTex(c) {                                     // outil ✥ : un toucher sur un rendu TeX montre « ✎ Modifier »
       cacherModifierTex();
       const b = document.createElement("button"); b.className = "encre-tex-modif"; b.textContent = "✎ Modifier le TeX";
@@ -1543,10 +1554,10 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
             <button data-a="copie" class="b-copie" title="Copie d'élève photographiée avec le téléphone (page …/copie/)">📥 Copie élève<span class="nb"></span></button>
             <button data-a="coller">Coller</button><button data-a="importer">Importer</button>
             <input type="file" accept="image/*" class="m-fichier" hidden>
-            ${MANUEL && (MANUEL.dossier || MANUEL.prive) ? "" : '<button data-a="retirer-exo" aria-label="Retirer la dernière image">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
+            ${MANUEL && (MANUEL.dossier || MANUEL.prive) ? "" : '<button data-a="retirer-exo" aria-label="Retirer ce qui est sélectionné">Retirer</button><span class="m-msg"></span>'}</span>` : ""}
         ${opts.flottant && MANUEL && (MANUEL.dossier || MANUEL.prive) ? `<span class="encre-manuel"><input class="m-num" inputmode="none" readonly data-chiffres="3" pattern="[0-9]*" placeholder="N°" aria-label="Numéro de l'exercice">
             <input class="m-page" inputmode="none" readonly data-chiffres="3" pattern="[0-9]*" placeholder="Page" aria-label="Page du manuel"><button data-a="manuel">Afficher l'exercice</button>
-            <button data-a="retirer-exo" aria-label="Retirer le dernier exercice affiché">Retirer</button><span class="m-msg"></span></span>` : ""}
+            <button data-a="retirer-exo" aria-label="Retirer ce qui est sélectionné">Retirer</button><span class="m-msg"></span></span>` : ""}
         <span class="droite">${opts.flottant ? `<select data-a="date" aria-label="Séance">${opts.dates.map(([v, t]) => `<option value="${v}" ${v === opts.date ? "selected" : ""}>${t}</option>`).join("")}</select>`
           : '<button data-a="plein">Plein écran</button>'}<button data-a="effacer" class="danger">Tout effacer</button><button data-a="reduire">${opts.flottant ? "Retour au cours" : "Réduire"}</button></span>
         </div>
@@ -1650,8 +1661,24 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         const fc = fonctionChoisie(champ);
         if (fc.erreur) { champ.querySelector(".err").textContent = fc.erreur; return; }
         reglages.repere = r; garderReglages();
+        const cible = champ.dataset.cible && traits.find(t => t.f === "repere" && t.id === champ.dataset.cible);
+        if (cible) {                                                       // modifier : même place, même taille, mêmes liens ; courbes recalculées
+          const q = cible.p, n = creerRepere(r, q[0] - 40, q[1] - 30, q[4] + 20, q[5] + 20);
+          n.id = cible.id; if (champ.querySelector(".valeurs") && !champ.querySelector(".valeurs").checked) n.r.sansValeurs = true;
+          const style = {}; traits.forEach(t => { if (t.f === "courbe" && t.rep === cible.id && !style[t.fn]) style[t.fn] = { c: t.c, w: t.w }; });   // chaque courbe garde sa couleur
+          const anciennes = Object.keys(style), seule = anciennes.length === 1 ? style[anciennes[0]] : null;
+          let fns = anciennes.length === 1 ? [] : anciennes.slice();
+          if (fc.f && !fns.includes(fc.nom)) fns.push(fc.nom);
+          memoriser();
+          traits = traits.filter(t => !(t.f === "courbe" && t.rep === cible.id));
+          traits[traits.indexOf(cible)] = n; BORNES.delete(cible); bornes(n);
+          for (const nom of fns) { let f = nom; if (!FONCTIONS.some(([k]) => k === nom)) { try { f = compilerFonction(nom); } catch (x) { continue; } }
+            const st = style[nom] || seule || { c: reglages.coul, w: reglages.ep };
+            courbe(n, f).forEach(pp => { const c = { f: "courbe", fn: nom, c: st.c, w: st.w, p: pp, rep: n.id }; traits.push(c); bornes(c); }); }
+          finMemo(); selObj = n; fermerReglagesRepere(); reglages.outil = "deplacer"; etatBarre(); sauver(); dessiner(); return;
+        }
         const vh = defile.clientHeight / echelle, haut = (defile.scrollTop || 0) / echelle, W = 900, H = 640;   // au milieu de ce qu'on voit
-        const x0 = Math.round((LARGEUR - W) / 2), y0 = Math.round(haut + Math.max(20, (vh - H) / 2));
+        const x0 = Math.round((LARGEUR - W) / 2), y0 = Math.round(Math.max(190, haut + Math.max(20, (vh - H) / 2)));   // jamais sur l'en-tête (date, titre)
         const t = creerRepere(r, x0, y0, x0 + W, y0 + H); if (reglages.sansValeurs) t.r.sansValeurs = true;
         memoriser(); traits.push(t); bornes(t);
         if (fc.f) courbe(t, fc.f).forEach(p => { const c = { f: "courbe", fn: fc.nom, c: reglages.coul, w: reglages.ep, p, rep: t.id }; traits.push(c); bornes(c); });
@@ -1693,9 +1720,15 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
           if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
           return;
         }
-        case "retirer-exo": if (exos.length) { const im = selObj && exos.includes(selObj) ? selObj : exos[exos.length - 1];
-          exos.splice(exos.indexOf(im), 1); traits = traits.filter(t => t.lien !== im.id);       // l'écriture faite dessus part avec l'image
-          selObj = null; sauverExos(); sauver(); dessiner(); } return;
+        case "retirer-exo": {                                              // retire CE QUI EST SÉLECTIONNÉ (outil ✥) : image, TeX, copie, graphique entier
+          const m = zone.querySelector(".m-msg"), o = selObj || selImg;
+          if (!o) { if (m) { m.textContent = "Touchez d'abord avec ✥ ce qu'il faut retirer"; setTimeout(() => { if (m.textContent.startsWith("Touchez d'abord")) m.textContent = ""; }, 4000); }
+                    reglages.outil = "deplacer"; reglages.gomme = false; etatBarre(); return; }
+          cacherModifier(); if (m) m.textContent = "";
+          if (exos.includes(o)) { retirerImage(o); return; }               // l'écriture faite dessus part avec l'image
+          memoriser();
+          traits = traits.filter(t => t !== o && (o.f !== "repere" || (t.rep !== o.id && t.lien !== o.id)));   // un graphique part avec ses courbes et ce qui lui appartient
+          finMemo(); selObj = null; sauver(); dessiner(); return; }
         case "ajuster": reglages.outil = "deplacer"; reglages.gomme = false; break;      // « Ajuster les images » = l'outil ✥
         case "capturer": capturerEcran(insererCapture, zone.querySelector(".m-msg")); return;
         case "coller": collerImage(insererCapture, zone.querySelector(".m-msg")); return;
@@ -1715,12 +1748,15 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       try { return { f: compilerFonction(nom), nom }; } catch (x) { return { erreur: "Expression non comprise : " + x.message }; }
     }
     function fermerReglagesRepere() { const p = zone.querySelector(".encre-repere"); if (p) p.remove(); }
-    function ouvrirReglagesRepere() {
+    function ouvrirReglagesRepere(cible) {                               // cible : graphique à modifier (prérempli, mis à jour sur place)
       fermerReglagesRepere();
-      const r = reglages.repere || REPERES[0].r, choix = (nom, vals, cur) => vals.map(([v, t]) => `<button data-rpo="${nom}" data-v="${v}" aria-pressed="${v === cur}">${t}</button>`).join("");
+      const r = cible ? (() => { const k = enPi(cible.r.px) ? Math.PI : 1, a = x => Math.round(x / k * 1000) / 1000;
+                                 return { xmin: a(cible.r.xmin), xmax: a(cible.r.xmax), ymin: cible.r.ymin, ymax: cible.r.ymax, px: cible.r.px, py: cible.r.py }; })()
+                       : reglages.repere || REPERES[0].r, choix = (nom, vals, cur) => vals.map(([v, t]) => `<button data-rpo="${nom}" data-v="${v}" aria-pressed="${v === cur}">${t}</button>`).join("");
       const pp = (k, v) => `<span class="pp" data-k="${k}"><button data-st="-1" aria-label="moins">−</button><b>${v}</b><button data-st="1" aria-label="plus">+</button></span>`;
       const p = document.createElement("div"); p.className = "encre-repere";
-      p.innerHTML = `<div class="col"><h4>Repère : un modèle, ou les bornes à la main</h4>
+      const fnsCible = cible ? [...new Set(traits.filter(t => t.f === "courbe" && t.rep === cible.id).map(t => t.fn))] : [];
+      p.innerHTML = `<div class="col"><h4>${cible ? "Modifier le graphique sélectionné" : "Repère : un modèle, ou les bornes à la main"}</h4>
         <div class="lignes">${REPERES.map((m, i) => `<button data-rp="${i}">${m.nom}</button>`).join("")}</div>
         <div class="lignes">x de ${pp("xmin", r.xmin)} à ${pp("xmax", r.xmax)}<span class="pi" ${enPi(r.px) ? "" : "hidden"}>(× π)</span></div>
         <div class="lignes">pas en x : ${choix("px", [["0.5", "0,5"], ["1", "1"], ["2", "2"], ["5", "5"], ["pi/2", "π/2"], ["pi", "π"]], r.px)}</div>
@@ -1731,15 +1767,19 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         <div class="col"><h4>Courbe (facultatif)</h4>
         <div class="lignes">${FONCTIONS.map(([k, t]) => `<button data-fsel="${k}" aria-pressed="false">${t}</button>`).join("")}</div>
         <div class="lignes">ou f(x) = <input class="fx" style="width:15em;text-align:left;padding:0 8px" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ex. 2x^2 - 3x + 1   ou   (x+1)e^x"></div>
-        <div class="lignes"><button data-a="rp-afficher" style="background:var(--encre-accent,#ffcc00);font-size:16px;min-width:9em">Afficher</button>
-          <button data-a="rp-fx">Ajouter la courbe au repère ${selObj && selObj.f === "repere" ? "sélectionné" : "le plus récent"}</button><button data-a="rp-fermer">Fermer</button></div>
+        <div class="lignes"><button data-a="rp-afficher" style="background:var(--encre-accent,#ffcc00);font-size:16px;min-width:9em">${cible ? "Mettre à jour" : "Afficher"}</button>
+          ${cible ? "" : `<button data-a="rp-fx">Ajouter la courbe au repère ${selObj && selObj.f === "repere" ? "sélectionné" : "le plus récent"}</button>`}<button data-a="rp-fermer">Fermer</button></div>
+        ${fnsCible.length > 1 ? `<div class="lignes" style="color:#5d6679">Ce graphique a ${fnsCible.length} courbes : elles sont toutes redessinées ; la fonction choisie ici s'ajoute.</div>` : ""}
         <div class="lignes"><span class="err" style="color:#b3261e"></span><span class="msg-courbe" style="color:#5d6679">Couleur et épaisseur de la courbe : celles de la barre du bas. Le repère se déplace ensuite avec ✥.</span></div></div>`;
       p.querySelector(".valeurs").onchange = e => {
         reglages.sansValeurs = !e.target.checked; garderReglages();
         const rp = selObj && selObj.f === "repere" ? selObj : [...traits].reverse().find(t => t.f === "repere");
         if (rp) { if (reglages.sansValeurs) rp.r.sansValeurs = true; else delete rp.r.sansValeurs; sauver(); dessiner(); }
       };
-      const fx = p.querySelector(".fx"); fx.value = reglages.derniereFx || "";
+      const fx = p.querySelector(".fx"); fx.value = cible ? "" : reglages.derniereFx || "";
+      if (cible) { p.dataset.cible = cible.id;
+        if (fnsCible.length === 1) { const bf = p.querySelector(`[data-fsel="${fnsCible[0]}"]`); if (bf) bf.setAttribute("aria-pressed", true); else fx.value = fnsCible[0]; }
+        const cv = p.querySelector(".valeurs"); if (cv) cv.checked = !cible.r.sansValeurs; }
       fx.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); p.querySelector('[data-a="rp-afficher"]').click(); } });
       fx.addEventListener("input", () => { reglages.derniereFx = fx.value; garderReglages(); if (fx.value.trim()) p.querySelectorAll("[data-fsel]").forEach(x => x.setAttribute("aria-pressed", false)); });
       zone.appendChild(p);
@@ -1971,6 +2011,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         if (outil === "deplacer") {                                        // toucher un objet puis le faire glisser (ou tirer sa poignée)
           const [x, y] = pos(e), poignee = !!(prise && prise.poignee), obj = prise ? prise.obj : null;
           selObj = obj && boite(obj) ? obj : null;
+          if (selObj && selObj.f === "repere" && !poignee) montrerModifierGraphique(selObj); else if (!(selObj && selObj.tex)) cacherModifierTex();
           if (obj) { canvas.setPointerCapture(e.pointerId); bouge = { ph: photo(obj), id: e.pointerId, x0: x, y0: y, taille: poignee, b: boite(obj) };
                      dessiner(); debutApercu([obj, ...bouge.ph.enf.map(c => c.t)]); return; }
           dessiner(); return;
@@ -3193,7 +3234,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "17/11 à 19h02";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "17/11 à 19h14";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
