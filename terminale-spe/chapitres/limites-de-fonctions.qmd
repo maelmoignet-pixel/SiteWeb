@@ -23,6 +23,7 @@ toc: false
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
 - [Cours : Limites de fonctions](../cours/limites-de-fonctions/limites-de-fonctions-terminale.qmd)
+- [Exercice corrigé : étude d'une fonction rationnelle](../cours/limites-de-fonctions/limites-de-fonctions-terminale-exercice-corrige.pdf)
 
 ## Évaluations et DS
 
