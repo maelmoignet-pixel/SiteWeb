@@ -448,69 +448,6 @@
     "text": "4.3 Application aux suites\n\n4.3.1 Image d’une suite convergente par une fonction continue\n\nSoit f une fonction définie et continue sur un intervalle I de \\mathbb{R}.\nSoit (u_n) une suite telle que, pour tout entier naturel n, u_n \\in I.\nSi (u_n) est convergente vers un nombre réel \\ell appartenant à I, alors la suite (f(u_n)) converge vers f(\\ell).\n\n\nSoit f la fonction définie sur [-3;+\\infty[ par f(x)=\\sqrt{3+x}.\nSoit (u_n) la suite définie sur \\mathbb{N} par u_n=\\frac{1}{n+4}.\nPar somme, \\lim\\limits_{n \\to +\\infty} (n+4)=+\\infty\nPar quotient, \\lim\\limits_{n \\to +\\infty} u_n=0\nf est continue sur [-3;+\\infty[ donc \\lim\\limits_{n \\to +\\infty} f(u_n)=f(0)=\\sqrt{3}\n\n\n\n4.3.2 Limite d’une suite u_{n+1}=f(u_n)\n\nThéorème du point fixe\nSoit f une fonction définie et continue sur un intervalle I de \\mathbb{R} et à valeurs dans I.\nSoit (u_n) une suite définie par la relation de récurrence u_{n+1}=f(u_n), avec son premier terme u_0 \\in I.\nSi (u_n) converge vers un nombre réel \\ell appartenant à I alors \\ell est une solution de l’équation f(x)=x.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes hypothèses.\nD’une part, (u_n) converge vers un réel \\ell donc \\lim\\limits_{n \\to +\\infty} u_n=\\lim\\limits_{n \\to +\\infty} u_{n+1}=\\ell.\nD’autre part, d’après la propriété précédente, \\lim\\limits_{n \\to +\\infty} u_{n+1}=\\lim\\limits_{n \\to +\\infty} f(u_n)=f(\\lim\\limits_{n \\to +\\infty} u_{n})=f(\\ell)\nAinsi, f(\\ell)=\\ell.\n\n\n\n\n\nAutrement dit, f(\\ell)=\\ell. Attention, ce n’est pas forcément la seule solution de l’équation f(x)=x.\n\n\nOn considère la suite (u_n) définie sur \\mathbb{N} par u_0=\\frac{5}{2} et u_{n+1}=f(u_n) où f est la fonction définie sur \\mathbb{R} par f(x)=-x^2+6x-6.\n\nDémontrer que la fonction f est strictement croissante sur [2;3].\nDémontrer que, pour tout n \\in \\mathbb{N}, 2&lt;u_n&lt;u_{n+1}&lt;3.\nEn déduire que la suite (u_n) est convergente et déterminer sa limite.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nf est une fonction polynôme donc dérivable sur \\mathbb{R} donc sur [2;3],\net pour tout x \\in [2;3], f'(x)=-2x+6.\n-2x+6 \\geqslant 0 \\Leftrightarrow 6 \\geqslant 2x \\Leftrightarrow 3 \\geqslant x\n\nSoit n \\in \\mathbb{N}, P_n : « 2&lt;u_n&lt;u_{n+1}&lt;3 »\nInitialisation :\nu_0=\\frac{5}{2} et u_1=f(u_0)=-(\\frac{5}{2})^2+6 \\times \\frac{5}{2}-6=\\frac{11}{4}\nAinsi, 2&lt;u_0&lt;u_1&lt;3\nDonc P_0 vraie.\nHérédité :\nSupposons P_n vraie pour un entier naturel n quelconque.\n2&lt;u_n&lt;u_{n+1}&lt;3\n\\Leftrightarrow f(2)&lt;f(u_n)&lt;f(u_{n+1})&lt;f(3) car f est strictement croissante sur [2;3]\n\\Leftrightarrow 2&lt;f(u_n)&lt;f(u_{n+1})&lt;3\nDonc P_{n+1} vraie.\nConclusion :\nP_0 est vraie.\n\\forall n \\in \\mathbb{N}, P_n vraie \\Rightarrow P_{n+1} vraie.\nDonc, \\forall n \\in \\mathbb{N}, 2&lt;u_n&lt;u_{n+1}&lt;3\nLa suite (u_n) est donc croissante et majorée (par 3) donc, d’après le théorème de convergence des suites monotones, elle converge vers un réel \\ell.\nf est une fonction définie et continue sur [2;3] et à valeurs dans [2;3].\n(u_n) est définie par la relation de récurrence u_{n+1}=f(u_n), avec son premier terme u_0 \\in [2;3].\nD’après le théorème du point fixe, \\ell est une solution de l’équation f(x)=x.\nf(x)=x \\Leftrightarrow -x^2+6x-6=x \\Leftrightarrow -x^2+5x-6=0\n\\Delta=5^2-4 \\times (-1) \\times (-6)=1=1^2&gt;0\ndonc cette équation admet deux solutions réelles distinctes :\nx_1=\\frac{-5-1}{-2}=3 et x_2=\\frac{-5+1}{-2}=2\nComme u_0=\\frac{5}{2} et que (u_n) est croissante alors \\ell=3."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html",
-    "href": "terminale-spe/chapitres/suites.html",
-    "title": "Suites",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/suites.html#cours",
-    "href": "terminale-spe/chapitres/suites.html#cours",
-    "title": "Suites",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "title": "Suites",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html",
-    "href": "terminale-spe/chapitres/somme-de-va.html",
-    "title": "Somme de variables aléatoires",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "title": "Somme de variables aléatoires",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Somme de variables aléatoires"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "title": "Somme de variables aléatoires",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
-    "title": "Loi des grands nombres",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
-    "title": "Loi des grands nombres",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Loi des grands nombres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
-    "title": "Loi des grands nombres",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
     "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
     "href": "terminale-spe/chapitres/limites-de-fonctions.html",
     "title": "Limites de fonctions",
@@ -530,6 +467,69 @@
     "title": "Limites de fonctions",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction\n\n\nÉvaluation n°6\nSujet Correction\n\n\nDS n°3\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Trigonométrie"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
+    "title": "Primitives et équations différentielles",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
+    "title": "Primitives et équations différentielles",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Primitives et équations différentielles"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
+    "title": "Primitives et équations différentielles",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°1 17 mars 2025\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
+    "href": "terminale-spe/chapitres/loi-binomiale.html",
+    "title": "Loi binomiale",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
+    "title": "Loi binomiale",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Loi binomiale\nTD\nTypes bac: sujets\nTypes bac: corrections"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
+    "title": "Loi binomiale",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°3\nSujet Correction\n\n\nDS n°2\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
     "objectID": "terminale-spe/chapitres/fonction-ln.html",
@@ -2016,67 +2016,67 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html",
-    "href": "terminale-spe/chapitres/loi-binomiale.html",
-    "title": "Loi binomiale",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html",
+    "title": "Loi des grands nombres",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#cours",
-    "title": "Loi binomiale",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#cours",
+    "title": "Loi des grands nombres",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Loi binomiale\nTD\nTypes bac: sujets\nTypes bac: corrections"
+    "text": "Cours\n\n\nCours : Loi des grands nombres"
   },
   {
-    "objectID": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/loi-binomiale.html#évaluations-et-ds",
-    "title": "Loi binomiale",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°3\nSujet Correction\n\n\nDS n°2\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html",
-    "title": "Primitives et équations différentielles",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#cours",
-    "title": "Primitives et équations différentielles",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Primitives et équations différentielles"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/primitives-equations-differentielles.html#évaluations-et-ds",
-    "title": "Primitives et équations différentielles",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°1 17 mars 2025\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html",
-    "href": "terminale-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Trigonométrie"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/loi-des-grands-nombres.html#évaluations-et-ds",
+    "title": "Loi des grands nombres",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html",
+    "href": "terminale-spe/chapitres/somme-de-va.html",
+    "title": "Somme de variables aléatoires",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "title": "Somme de variables aléatoires",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Somme de variables aléatoires"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "title": "Somme de variables aléatoires",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
+    "title": "Suites",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
+    "title": "Suites",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
   },
   {
     "objectID": "terminale-spe/cours/denombrement/denombrement-terminale.html#ensemble-fini-et-cardinal",

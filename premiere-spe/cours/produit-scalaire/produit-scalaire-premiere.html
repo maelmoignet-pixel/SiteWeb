@@ -1212,6 +1212,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const idbGet = id => MEM_IMG.has(id) ? Promise.resolve(MEM_IMG.get(id))
     : idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").get(id); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }))
         .catch(() => undefined);                                         // indisponible = absente : on passe par le site
+  const idbSuppr = id => idbFaire(db => new Promise((ok, ko) => { const t = db.transaction("captures", "readwrite"); t.objectStore("captures").delete(id); t.oncomplete = ok; t.onerror = () => ko(t.error); })).catch(() => {});
   const idbCles = () => idbFaire(db => new Promise((ok, ko) => { const r = db.transaction("captures").objectStore("captures").getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }));
   // captures pas encore rangées lors d'une séance précédente (gardées dans la petite mémoire) : de retour en mémoire vive
   try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith("encre-cap:")) { const v = localStorage.getItem(k); MEM_IMG.set(k.slice(10), v); A_RANGER.set(k.slice(10), v); } } } catch (e) {}
@@ -1525,11 +1526,23 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     let k = 0; const pret = () => window.encreSync && window.encreSync.manuel;
     return new Promise(ok => (function f() { if (pret()) ok(window.encreSync); else if (++k > 50 || !(() => { try { return ST.getItem("encre-sync"); } catch (e) { return null; } })()) ok(null); else setTimeout(f, 300); })());
   }
+  /* Manuel privé : chaque image a une empreinte (versions dans _index). La copie gardée sur l'appareil est rangée sous « src~empreinte » :
+     une image corrigée (redécoupage) a une nouvelle empreinte, elle est donc relue une fois depuis le compte. */
+  let VERS_MANUEL = null;
+  const versManuelLues = idbGet("manuel-versions").then(v => { if (v) try { VERS_MANUEL = JSON.parse(v); } catch (e) {} }, () => {});
+  let versManuelFrais = null;
+  function rafraichirVersManuel() {                                     // une fois par visite (en ligne) : la liste du compte
+    return versManuelFrais = versManuelFrais || attendreSync().then(S => S ? S.manuel("_index", "manuel-tle") : null)
+      .then(x => { if (x && x.versions) { VERS_MANUEL = x.versions; idbPut("manuel-versions", JSON.stringify(x.versions)).catch(() => {}); } }).catch(() => {});
+  }
+  const cleCacheManuel = (src, cle) => { const v = VERS_MANUEL && VERS_MANUEL[cle]; return v ? src + "~" + v : src; };
   function chargerImage(src) {
     if (src.startsWith("manuel:")) {                                    // exercice du manuel privé : gardé sur l'appareil après la première lecture
       const [col, cle] = src.slice(7).split("/");
-      if (!IMAGES[src]) IMAGES[src] = idbGet(src).then(d => d || attendreSync().then(S => S ? S.manuel(cle, col) : null)
-          .then(x => x && x.d && idbPut(src, x.d).then(() => x.d, () => x.d)))
+      if (!IMAGES[src]) IMAGES[src] = Promise.race([Promise.all([versManuelLues, rafraichirVersManuel()]), new Promise(ok => setTimeout(ok, 4000))])
+        .then(() => { const ci = cleCacheManuel(src, cle);
+          return idbGet(ci).then(d => d || attendreSync().then(S => S ? S.manuel(cle, col) : null)
+            .then(x => x && x.d && idbPut(ci, x.d).then(() => { if (ci !== src) idbSuppr(src); return x.d; }, () => x.d))); })
         .then(d => { if (!d) { delete IMAGES[src]; throw new Error("exercice absent"); } return chargerImage(d); });
       return IMAGES[src];
     }
@@ -3821,7 +3834,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "17/11 à 19h14";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "18/11 à 19h35";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -3861,13 +3874,14 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
           const idx = await limite(lireManuel("_index", "manuel-tle"), 30000);
           if (!idx || !idx.cles) throw new Error("liste des exercices absente du compte");
           await limite(idbPut("manuel-index", JSON.stringify(idx.cles)), 15000);
+          if (idx.versions) { VERS_MANUEL = idx.versions; await limite(idbPut("manuel-versions", JSON.stringify(idx.versions)), 15000).catch(() => {}); }
           let m = 0, deja = 0, echecs = 0, suite = 0, derniere = "";
           const N = idx.cles.length; info.textContent = "Manuel de Terminale : 0 / " + N;
           for (let i = 0; i < N; i += 8) {
-            await Promise.all(idx.cles.slice(i, i + 8).map(async k => { const src = "manuel:manuel-tle/" + k;
-              try { if (await limite(idbGet(src), 10000).catch(() => null)) { deja++; suite = 0; }
+            await Promise.all(idx.cles.slice(i, i + 8).map(async k => { const src = "manuel:manuel-tle/" + k, ci = cleCacheManuel(src, k);   // empreinte : une image corrigée est relue
+              try { if (await limite(idbGet(ci), 10000).catch(() => null)) { deja++; suite = 0; }
                     else { const x = await limite(lireManuel(k, "manuel-tle"), 20000); if (!x || !x.d) throw new Error("exercice " + k + " absent");
-                           await limite(idbPut(src, x.d), 15000); suite = 0; } }
+                           await limite(idbPut(ci, x.d), 15000); if (ci !== src) idbSuppr(src); delete IMAGES[src]; suite = 0; } }
               catch (e) { echecs++; suite++; derniere = e.message; }
               m++; }));
             info.textContent = "Manuel de Terminale : " + m + " / " + N;
