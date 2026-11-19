@@ -26,7 +26,9 @@ self.addEventListener("fetch", e => {
 async function repondre(r) {
   const c = await caches.open(CACHE), k = cle(r.url);
   const copie = await c.match(k);
-  const reseau = fetch(r).then(res => {
+  // « no-cache » : on demande toujours au site si le fichier a changé (réponse « inchangé » très légère), au lieu de ressortir
+  // pendant 10 min la copie du navigateur (GitHub Pages : max-age=600) — une image corrigée s'affiche dès le rechargement
+  const reseau = (r.mode === "navigate" ? fetch(r) : fetch(r, { cache: "no-cache" })).then(res => {
     if (res && (res.status === 200 || res.type === "opaque")) c.put(k, res.clone()).catch(() => {});
     return res;
   });
