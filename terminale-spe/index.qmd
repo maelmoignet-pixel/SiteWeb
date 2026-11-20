@@ -149,7 +149,7 @@ toc: false
 ::: {.eval}
 [DS n°3]{.eval-titre} [19 novembre 2026]{.eval-date}
 
-[Sujet](2026-DS-eval/limites-de-fonctions/limites-de-fonctions-terminale-2026-DS3-sujet.pdf){.eval-btn .sujet} [Correction](2026-DS-eval/limites-de-fonctions/limites-de-fonctions-terminale-2026-DS3-correction.pdf){.eval-btn .correction}
+[Sujet](2026-DS-eval/limites-de-fonctions/limites-de-fonctions-terminale-2026-DS3-sujet.pdf){.eval-btn .sujet} [Correction](2026-DS-eval/limites-de-fonctions/limites-de-fonctions-terminale-2026-DS3-correction.pdf){.eval-btn .correction} [Compte rendu](2026-DS-eval/limites-de-fonctions/limites-de-fonctions-terminale-2026-DS3-compte-rendu.pdf){.eval-btn .correction}
 
 [[Limites de fonctions]{.tag}]{.chapitres-tags}
 :::
