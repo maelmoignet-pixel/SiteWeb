@@ -284,8 +284,8 @@ $(f(mx+p))'=mf'(mx+p)$
 Avec les mêmes notations. Si $m=0$, le résultat est immédiat ; supposons $m \neq 0$. Soit $a$ un réel tel que $ma+p \in I$. Soit $h \in \mathbb{R}^*$ tel que $m(a+h)+p \in I$.\
 On pose $\tau(h)=\dfrac{ f(m(a+h)+p) - f(ma+p) }{h}$.\
 On a donc: $\tau(h)=m \times \dfrac{ f(ma+p + mh)-f(ma+p) }{mh}$.\
-Or $f$ est dérivable en $ma+p$ donc $\lim\limits_{mh \rightarrow 0} \dfrac{ f(ma+p + mh)-f(ma+p) }{mh}=f'(ma+p)$\
-Ainsi, par produit, $\lim\limits_{mh \rightarrow 0}m \dfrac{ f(ma+p + mh)-f(ma+p) }{mh}=mf'(ma+p)$\
+Lorsque $h$ tend vers $0$, $mh$ tend vers $0$ (car $m \neq 0$). Or $f$ est dérivable en $ma+p$ donc $\lim\limits_{h \rightarrow 0} \dfrac{ f(ma+p + mh)-f(ma+p) }{mh}=f'(ma+p)$\
+Ainsi, par produit, $\lim\limits_{h \rightarrow 0}\tau(h)=mf'(ma+p)$\
 Ceci étant vrai pour tout réel $a$ tel que $ma+p\in I$, on a, pour tout $x$ tel que $mx+p \in I$, $(f(mx+p))'=mf'(mx+p)$.
 :::
 
@@ -340,13 +340,13 @@ Comme $f$ est deux fois dérivable sur $I$, $\varphi$ l'est aussi, et on a, pour
 
 Ainsi, $\varphi ''(x)>0$ (car $f''(x)>0$ par hypothèse) et donc $\varphi '$ est croissante sur $I$.
 
-1.  Si $x>a$, alors on a $\varphi '(x)> \varphi '(a)$. Or $\varphi '(a) = f'(a)-f'(a) =0$. D'où $\varphi '(x)>0$. Alors $\varphi$ est croissante. On a donc $\varphi (x)> \varphi (a)$.
+1.  Si $x>a$, alors on a $\varphi '(x)> \varphi '(a)$. Or $\varphi '(a) = f'(a)-f'(a) =0$. D'où $\varphi '(x)>0$ pour tout $x \in I \cap [a;+\infty[$. Alors $\varphi$ est croissante sur $I \cap [a;+\infty[$. On a donc $\varphi (x)> \varphi (a)$.
 
     Or $\varphi (a) = f(a) - f'(a)(a-a) -f(a) = 0$. Donc $\varphi (x) >0$.
 
     Ainsi, $f(x)-\left(f'(a) \times (x-a)+f(a)\right)>0$ donc $f(x) >f'(a)(x-a) +f(a)$ et donc $\mathcal{C}_f$ est au-dessus de $\mathcal{T}$.
 
-2.  Si $x<a$, alors on a $\varphi '(x)< \varphi '(a)$. Or $\varphi '(a) = f'(a)-f'(a) =0$. D'où $\varphi '(x)<0$. Alors $\varphi$ est décroissante. On a donc $\varphi (x)> \varphi (a)$.
+2.  Si $x<a$, alors on a $\varphi '(x)< \varphi '(a)$. Or $\varphi '(a) = f'(a)-f'(a) =0$. D'où $\varphi '(x)<0$ pour tout $x \in I \cap ]-\infty;a]$. Alors $\varphi$ est décroissante sur $I \cap ]-\infty;a]$. On a donc $\varphi (x)> \varphi (a)$.
 
     Or $\varphi (a) = f(a) - f'(a)(a-a) -f(a) = 0$. Donc $\varphi (x) >0$.
 
@@ -437,7 +437,7 @@ Montrons que la fonction cube admet un point d'inflexion :
 
 ::: {.application}
 Soit $f$ la fonction définie sur $\mathbb{R}$ par $f(x)=0{,}5x^4+x^3-6x^2-1$.\
-Étudier la convexité de $f$ sur $\mathbb{R}$ et donner les éventuels points d'inflexion de sa courbe représentative $C_f$.\
+Étudier la convexité de $f$ sur $\mathbb{R}$ et donner les éventuels points d'inflexion de sa courbe représentative $\mathcal{C}_f$.\
 :::
 
 ::: {.callout-caution collapse="true"}
@@ -453,7 +453,8 @@ $x_1=\frac{-6-18}{2 \times 6}=-2$ et $x_2=\frac{-6+18}{2 \times 6}=1$
 
 ![](images-cours/derivation-figure-5.svg){fig-alt="Tableau de signes de f'' et convexité de f : convexe jusqu'à −2, concave entre −2 et 1, convexe après 1" width="70%" fig-align="center"}
 
-$f''$ change de signe et s'annule en $-2$ et $1$ donc la courbe représentative $C_f$ admet deux points d'inflexion aux points d'abscisses $-2$ et 1.
+$f''$ change de signe et s'annule en $-2$ et $1$ donc la courbe représentative $\mathcal{C}_f$ admet deux points d'inflexion aux points d'abscisses $-2$ et 1.\\
+$f(-2)=0{,}5\times 16-8-24-1=-25$ et $f(1)=0{,}5+1-6-1=-5{,}5$ : les points d'inflexion sont $A(-2;-25)$ et $B(1;-5{,}5)$.
 :::
 
 # Notion de continuité
@@ -596,8 +597,12 @@ Soit $f$ une fonction continue et strictement monotone sur un intervalle $[a;b]$
 L'équation $f(x)=k$ admet une unique solution dans l'intervalle $[a;b]$.
 :::
 
+::: {.remarque}
+Ces deux théorèmes s'étendent aux intervalles ouverts ou non bornés ($]a;b[$, $[a;+\infty[$, $]-\infty;b]$, $\mathbb{R}$…) en remplaçant $f(a)$ ou $f(b)$ par les limites de $f$ aux bornes de l'intervalle.
+:::
+
 ::: {.application}
-Soit $f$ la fonction dont le tableau de variations est le suivant:
+Soit $f$ une fonction continue sur $[0;10]$ dont le tableau de variations est le suivant:
 
 ![](images-cours/derivation-figure-6.svg){fig-alt="Tableau de variations : f croît de 1 à 2 sur [0;2], décroît de 2 à −2 sur [2;5], puis croît de −2 à −1 sur [5;10]" width="70%" fig-align="center"}
 
@@ -705,7 +710,7 @@ On considère la suite $(u_n)$ définie sur $\mathbb{N}$ par $u_0=\frac{5}{2}$ e
 1.  $f$ est une fonction polynôme donc dérivable sur $\mathbb{R}$ donc sur $[2;3]$,\
     et pour tout $x \in [2;3]$, $f'(x)=-2x+6$.\
     $-2x+6 \geqslant 0 \Leftrightarrow 6 \geqslant 2x \Leftrightarrow 3 \geqslant x$\
-    ![](images-cours/derivation-figure-8.svg){fig-alt="Tableau de variations sur [2;3] : f' positive, f croissante de 2 à 3" width="70%" fig-align="center"}
+    ![](images-cours/derivation-figure-8.svg){fig-alt="Tableau de variations sur [2;3] : f' positive, nulle en 3, f croissante de 2 à 3" width="70%" fig-align="center"}
 
 2.  Soit $n \in \mathbb{N}$, $P_n$ : « $2<u_n<u_{n+1}<3$ »\
     Initialisation :\
@@ -715,8 +720,8 @@ On considère la suite $(u_n)$ définie sur $\mathbb{N}$ par $u_0=\frac{5}{2}$ e
     Hérédité :\
     Supposons $P_n$ vraie pour un entier naturel $n$ quelconque.\
     $2<u_n<u_{n+1}<3$\
-    $\Leftrightarrow f(2)<f(u_n)<f(u_{n+1})<f(3)$ car $f$ est strictement croissante sur $[2;3]$\
-    $\Leftrightarrow 2<f(u_n)<f(u_{n+1})<3$\
+    donc $f(2)<f(u_n)<f(u_{n+1})<f(3)$ car $f$ est strictement croissante sur $[2;3]$\
+    donc $2<u_{n+1}<u_{n+2}<3$\
     Donc $P_{n+1}$ vraie.\
     Conclusion :\
     $P_0$ est vraie.\
@@ -724,6 +729,7 @@ On considère la suite $(u_n)$ définie sur $\mathbb{N}$ par $u_0=\frac{5}{2}$ e
     Donc, $\forall n \in \mathbb{N}$, $2<u_n<u_{n+1}<3$
 
 3.  La suite $(u_n)$ est donc croissante et majorée (par 3) donc, d'après le théorème de convergence des suites monotones, elle converge vers un réel $\ell$.\
+    De plus, pour tout $n \in \mathbb{N}$, $2<u_n<3$ donc, par passage à la limite, $2 \leqslant \ell \leqslant 3$ : $\ell \in [2;3]$.\
     $f$ est une fonction définie et continue sur $[2;3]$ et à valeurs dans $[2;3]$.\
     $(u_n)$ est définie par la relation de récurrence $u_{n+1}=f(u_n)$, avec son premier terme $u_0 \in [2;3]$.\
     D'après le théorème du point fixe, $\ell$ est une solution de l'équation $f(x)=x$.\
@@ -731,5 +737,5 @@ On considère la suite $(u_n)$ définie sur $\mathbb{N}$ par $u_0=\frac{5}{2}$ e
     $\Delta=5^2-4 \times (-1) \times (-6)=1=1^2>0$\
     donc cette équation admet deux solutions réelles distinctes :\
     $x_1=\frac{-5-1}{-2}=3$ et $x_2=\frac{-5+1}{-2}=2$\
-    Comme $u_0=\frac{5}{2}$ et que $(u_n)$ est croissante alors $\ell=3$.
+    Comme $(u_n)$ est croissante, pour tout $n \in \mathbb{N}$, $u_n \geqslant u_0=\frac{5}{2}$ donc $\ell \geqslant \frac{5}{2}>2$. Ainsi $\ell \neq 2$ et donc $\ell=3$.
 :::
