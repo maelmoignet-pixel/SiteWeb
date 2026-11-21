@@ -23,6 +23,7 @@ toc: false
      (Les images du cours vont dans un sous-dossier images-cours, à côté du .qmd.) -->
 
 - [Cours : Somme de variables aléatoires](../cours/somme-de-va/somme-de-va-terminale.qmd)
+- [Types bac: sujets](../cours/somme-de-va/somme-de-va-terminale-probas-au-bac-sujet.pdf)
 
 ## Évaluations et DS
 
