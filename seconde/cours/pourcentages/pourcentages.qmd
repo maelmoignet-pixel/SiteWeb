@@ -196,21 +196,22 @@ Une société de $75$ employés compte $12\%$ de cadres et le reste d'ouvriers. 
 
 1.  Calculer l'effectif des cadres.
 
-    ::: solution
-    $12\%$ de $75$ : $\frac{12}{100}\times75=9$. Cette société compte $9$ cadres.
-    :::
-
 2.  Calculer la proportion de femmes dans cette société.
 
-    ::: solution
-    $n=35$ et $N=75$. La proportion de femmes est donc égale à : $$p=\frac{35}{75}\approx0{,}47$$ Il y a environ $47\%$ de femmes dans cette société.
-    :::
-
 3.  Calculer la proportion, en $\%$, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?
+:::
 
-    ::: solution
+::: {.callout-caution collapse="true"}
+## Solution
+
+1.  Calculer l'effectif des cadres.\
+    $12\%$ de $75$ : $\frac{12}{100}\times75=9$. Cette société compte $9$ cadres.
+
+2.  Calculer la proportion de femmes dans cette société.\
+    $n=35$ et $N=75$. La proportion de femmes est donc égale à : $$p=\frac{35}{75}\approx0{,}47$$ Il y a environ $47\%$ de femmes dans cette société.
+
+3.  Calculer la proportion, en $\%$, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?\
     $n=5$ femmes cadres et $N=35$ femmes. (Attention, la population de référence n'est plus la même). La proportion de cadres parmi les femmes est donc égale à $p=\frac{5}{35}\approx0{,}14$, soit environ $14\%$. $14\% > 12\%$ donc les femmes cadres sont surreprésentées dans cette société.
-    :::
 :::
 
 # Proportion de proportion
@@ -237,7 +238,13 @@ Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de 
 
 1.  Calculer la proportion de population active par rapport à la population totale.
 
-    ::: solution
+2.  Combien de Français compte la population active ?
+:::
+
+::: {.callout-caution collapse="true"}
+## Solution
+
+1.  Calculer la proportion de population active par rapport à la population totale.\
     On note $F$ la population française, $T$ la population en âge de travailler et $A$ la population active.
 
     -   La proportion de $A$ dans $T$ est $70\%$.
@@ -245,13 +252,9 @@ Sur $67$ millions d'habitants en France, $66\%$ de la population est en âge de 
     -   La proportion de $T$ dans $F$ est $66\%$.
 
     La proportion de $A$ dans $F$ est donc égale à: $$p = p_1 \times p_2 = 70\% \times 66\% = 0{,}70 \times 0{,}66 = 0{,}462 = 46{,}2\%$$ Ainsi, $46{,}2\%$ des Français sont actifs.
-    :::
 
-2.  Combien de Français compte la population active ?
-
-    ::: solution
+2.  Combien de Français compte la population active ?\
     $$0{,}462\times67 \text{ millions} = 30{,}954 \text{ millions}$$ La France compte environ $31$ millions d'actifs.
-    :::
 :::
 
 # Lien entre évolution et pourcentages
