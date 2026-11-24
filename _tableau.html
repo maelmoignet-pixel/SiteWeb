@@ -190,7 +190,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
 })();
 (() => {
   /* Le mode tableau n'existe que sur les appareils de Maël : ceux déjà connectés à son compte (ou au tableau par QR code),
-     ou activés une fois par « #prof » (petit ✎ en bas des pages). Un visiteur (élève…) ne voit rien et ne télécharge rien. */
+     ou activés une fois par « #prof » ou « ?prof » (petit ✎ en bas des pages : recharge la page avec ?prof). Un visiteur (élève…) ne voit rien et ne télécharge rien. */
   let PROF = location.protocol === "file:";                            // version hors ligne de la clé : c'est celle de Maël
   try {
     if (/(^|[#&?])prof\b/.test(location.hash.slice(1) + "&" + location.search.slice(1))) localStorage.setItem("encre-prof", "1");
