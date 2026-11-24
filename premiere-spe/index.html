@@ -521,7 +521,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
 })();
 (() => {
   /* Le mode tableau n'existe que sur les appareils de Maël : ceux déjà connectés à son compte (ou au tableau par QR code),
-     ou activés une fois par « #prof » (petit ✎ en bas des pages). Un visiteur (élève…) ne voit rien et ne télécharge rien. */
+     ou activés une fois par « #prof » ou « ?prof » (petit ✎ en bas des pages : recharge la page avec ?prof). Un visiteur (élève…) ne voit rien et ne télécharge rien. */
   let PROF = location.protocol === "file:";                            // version hors ligne de la clé : c'est celle de Maël
   try {
     if (/(^|[#&?])prof\b/.test(location.hash.slice(1) + "&" + location.search.slice(1))) localStorage.setItem("encre-prof", "1");
@@ -3244,7 +3244,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "19/11 à 16h52";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "24/11 à 09h01";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
@@ -4113,7 +4113,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Maël Moignet <a href="../SiteWeb/index.html#prof" title="Mode tableau (professeur)" style="opacity:.3;text-decoration:none;margin-left:.4em">✎</a></p>
+<p>Maël Moignet <a href="?prof" title="Mode tableau (professeur)" style="opacity:.3;text-decoration:none;margin-left:.4em">✎</a></p>
 </div>
     <div class="nav-footer-right">
       &nbsp;

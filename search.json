@@ -448,46 +448,46 @@
     "text": "4.3 Application aux suites\n\n4.3.1 Image d’une suite convergente par une fonction continue\n\nSoit f une fonction définie et continue sur un intervalle I de \\mathbb{R}.\nSoit (u_n) une suite telle que, pour tout entier naturel n, u_n \\in I.\nSi (u_n) est convergente vers un nombre réel \\ell appartenant à I, alors la suite (f(u_n)) converge vers f(\\ell).\n\n\nSoit f la fonction définie sur [-3;+\\infty[ par f(x)=\\sqrt{3+x}.\nSoit (u_n) la suite définie sur \\mathbb{N} par u_n=\\frac{1}{n+4}.\nPar somme, \\lim\\limits_{n \\to +\\infty} (n+4)=+\\infty\nPar quotient, \\lim\\limits_{n \\to +\\infty} u_n=0\nf est continue sur [-3;+\\infty[ donc \\lim\\limits_{n \\to +\\infty} f(u_n)=f(0)=\\sqrt{3}\n\n\n\n4.3.2 Limite d’une suite u_{n+1}=f(u_n)\n\nThéorème du point fixe\nSoit f une fonction définie et continue sur un intervalle I de \\mathbb{R} et à valeurs dans I.\nSoit (u_n) une suite définie par la relation de récurrence u_{n+1}=f(u_n), avec son premier terme u_0 \\in I.\nSi (u_n) converge vers un nombre réel \\ell appartenant à I alors \\ell est une solution de l’équation f(x)=x.\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\nAvec les mêmes hypothèses.\nD’une part, (u_n) converge vers un réel \\ell donc \\lim\\limits_{n \\to +\\infty} u_n=\\lim\\limits_{n \\to +\\infty} u_{n+1}=\\ell.\nD’autre part, d’après la propriété précédente, \\lim\\limits_{n \\to +\\infty} u_{n+1}=\\lim\\limits_{n \\to +\\infty} f(u_n)=f(\\lim\\limits_{n \\to +\\infty} u_{n})=f(\\ell)\nAinsi, f(\\ell)=\\ell.\n\n\n\n\n\nAutrement dit, f(\\ell)=\\ell. Attention, ce n’est pas forcément la seule solution de l’équation f(x)=x.\n\n\nOn considère la suite (u_n) définie sur \\mathbb{N} par u_0=\\frac{5}{2} et u_{n+1}=f(u_n) où f est la fonction définie sur \\mathbb{R} par f(x)=-x^2+6x-6.\n\nDémontrer que la fonction f est strictement croissante sur [2;3].\nDémontrer que, pour tout n \\in \\mathbb{N}, 2&lt;u_n&lt;u_{n+1}&lt;3.\nEn déduire que la suite (u_n) est convergente et déterminer sa limite.\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nf est une fonction polynôme donc dérivable sur \\mathbb{R} donc sur [2;3],\net pour tout x \\in [2;3], f'(x)=-2x+6.\n-2x+6 \\geqslant 0 \\Leftrightarrow 6 \\geqslant 2x \\Leftrightarrow 3 \\geqslant x\n\nSoit n \\in \\mathbb{N}, P_n : « 2&lt;u_n&lt;u_{n+1}&lt;3 »\nInitialisation :\nu_0=\\frac{5}{2} et u_1=f(u_0)=-(\\frac{5}{2})^2+6 \\times \\frac{5}{2}-6=\\frac{11}{4}\nAinsi, 2&lt;u_0&lt;u_1&lt;3\nDonc P_0 vraie.\nHérédité :\nSupposons P_n vraie pour un entier naturel n quelconque.\n2&lt;u_n&lt;u_{n+1}&lt;3\ndonc f(2)&lt;f(u_n)&lt;f(u_{n+1})&lt;f(3) car f est strictement croissante sur [2;3]\ndonc 2&lt;u_{n+1}&lt;u_{n+2}&lt;3\nDonc P_{n+1} vraie.\nConclusion :\nP_0 est vraie.\n\\forall n \\in \\mathbb{N}, P_n vraie \\Rightarrow P_{n+1} vraie.\nDonc, \\forall n \\in \\mathbb{N}, 2&lt;u_n&lt;u_{n+1}&lt;3\nLa suite (u_n) est donc croissante et majorée (par 3) donc, d’après le théorème de convergence des suites monotones, elle converge vers un réel \\ell.\nDe plus, pour tout n \\in \\mathbb{N}, 2&lt;u_n&lt;3 donc, par passage à la limite, 2 \\leqslant \\ell \\leqslant 3 : \\ell \\in [2;3].\nf est une fonction définie et continue sur [2;3] et à valeurs dans [2;3].\n(u_n) est définie par la relation de récurrence u_{n+1}=f(u_n), avec son premier terme u_0 \\in [2;3].\nD’après le théorème du point fixe, \\ell est une solution de l’équation f(x)=x.\nf(x)=x \\Leftrightarrow -x^2+6x-6=x \\Leftrightarrow -x^2+5x-6=0\n\\Delta=5^2-4 \\times (-1) \\times (-6)=1=1^2&gt;0\ndonc cette équation admet deux solutions réelles distinctes :\nx_1=\\frac{-5-1}{-2}=3 et x_2=\\frac{-5+1}{-2}=2\nComme (u_n) est croissante, pour tout n \\in \\mathbb{N}, u_n \\geqslant u_0=\\frac{5}{2} donc \\ell \\geqslant \\frac{5}{2}&gt;2. Ainsi \\ell \\neq 2 et donc \\ell=3."
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
-    "title": "Limites de fonctions",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html",
+    "href": "terminale-spe/chapitres/somme-de-va.html",
+    "title": "Somme de variables aléatoires",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
-    "title": "Limites de fonctions",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
+    "title": "Somme de variables aléatoires",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Limites de fonctions\nExercice corrigé : étude d’une fonction rationnelle"
+    "text": "Cours\n\n\nCours : Somme de variables aléatoires\nTypes bac: sujets"
   },
   {
-    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
-    "title": "Limites de fonctions",
-    "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction\n\n\nÉvaluation n°6\nSujet Correction\n\n\nDS n°3\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction\n\n\nDS n°3\nSujet Correction Compte rendu"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html",
-    "href": "terminale-spe/chapitres/trigonometrie.html",
-    "title": "Trigonométrie",
-    "section": "",
-    "text": "← Retour aux chapitres"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
-    "title": "Trigonométrie",
-    "section": "Cours",
-    "text": "Cours\n\n\nCours : Trigonométrie"
-  },
-  {
-    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
-    "title": "Trigonométrie",
+    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
+    "title": "Somme de variables aléatoires",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html",
+    "href": "terminale-spe/chapitres/suites.html",
+    "title": "Suites",
+    "section": "",
+    "text": "← Retour aux chapitres"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#cours",
+    "href": "terminale-spe/chapitres/suites.html#cours",
+    "title": "Suites",
+    "section": "Cours",
+    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+  },
+  {
+    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
+    "title": "Suites",
+    "section": "Évaluations et DS",
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
   },
   {
     "objectID": "terminale-spe/chapitres/primitives-equations-differentielles.html",
@@ -606,7 +606,7 @@
     "href": "seconde/cours/pourcentages/pourcentages.html#pourcentage-dun-nombre",
     "title": "Pourcentages",
     "section": "1.2 Pourcentage d’un nombre",
-    "text": "1.2 Pourcentage d’un nombre\n\nReprenons l’exemple précédent. On sait de plus que parmi les 480 élèves de Seconde, 45\\% sont des garçons. Le nombre de garçons est égal à 45\\% de 480 : 45\\%\\times480=\\frac{45}{100}\\times480=216 Il y a donc 216 garçons en Seconde.\n\n\nUne société de 75 employés compte 12\\% de cadres et le reste d’ouvriers. 35 employés de cette société sont des femmes et 5 d’entre elles sont cadres.\n\nCalculer l’effectif des cadres.\n\nSolution. 12\\% de 75 : \\frac{12}{100}\\times75=9. Cette société compte 9 cadres.\n\nCalculer la proportion de femmes dans cette société.\n\nSolution. n=35 et N=75. La proportion de femmes est donc égale à : p=\\frac{35}{75}\\approx0{,}47 Il y a environ 47\\% de femmes dans cette société.\n\nCalculer la proportion, en \\%, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?\n\nSolution. n=5 femmes cadres et N=35 femmes. (Attention, la population de référence n’est plus la même). La proportion de cadres parmi les femmes est donc égale à p=\\frac{5}{35}\\approx0{,}14, soit environ 14\\%. 14\\% &gt; 12\\% donc les femmes cadres sont surreprésentées dans cette société."
+    "text": "1.2 Pourcentage d’un nombre\n\nReprenons l’exemple précédent. On sait de plus que parmi les 480 élèves de Seconde, 45\\% sont des garçons. Le nombre de garçons est égal à 45\\% de 480 : 45\\%\\times480=\\frac{45}{100}\\times480=216 Il y a donc 216 garçons en Seconde.\n\n\nUne société de 75 employés compte 12\\% de cadres et le reste d’ouvriers. 35 employés de cette société sont des femmes et 5 d’entre elles sont cadres.\n\nCalculer l’effectif des cadres.\nCalculer la proportion de femmes dans cette société.\nCalculer la proportion, en \\%, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?\n\n\n\n\n\n\n\n\nSolution\n\n\n\n\n\n\nCalculer l’effectif des cadres.\n12\\% de 75 : \\frac{12}{100}\\times75=9. Cette société compte 9 cadres.\nCalculer la proportion de femmes dans cette société.\nn=35 et N=75. La proportion de femmes est donc égale à : p=\\frac{35}{75}\\approx0{,}47 Il y a environ 47\\% de femmes dans cette société.\nCalculer la proportion, en \\%, de cadres parmi les femmes. Les femmes cadres sont-elles sous ou surreprésentées dans cette société ?\nn=5 femmes cadres et N=35 femmes. (Attention, la population de référence n’est plus la même). La proportion de cadres parmi les femmes est donc égale à p=\\frac{5}{35}\\approx0{,}14, soit environ 14\\%. 14\\% &gt; 12\\% donc les femmes cadres sont surreprésentées dans cette société."
   },
   {
     "objectID": "seconde/cours/pourcentages/pourcentages.html#évolution-exprimée-en-pourcentage",
@@ -2037,46 +2037,46 @@
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html",
-    "href": "terminale-spe/chapitres/somme-de-va.html",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html",
+    "href": "terminale-spe/chapitres/trigonometrie.html",
+    "title": "Trigonométrie",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "href": "terminale-spe/chapitres/somme-de-va.html#cours",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "href": "terminale-spe/chapitres/trigonometrie.html#cours",
+    "title": "Trigonométrie",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Somme de variables aléatoires\nTypes bac: sujets"
+    "text": "Cours\n\n\nCours : Trigonométrie"
   },
   {
-    "objectID": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/somme-de-va.html#évaluations-et-ds",
-    "title": "Somme de variables aléatoires",
+    "objectID": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/trigonometrie.html#évaluations-et-ds",
+    "title": "Trigonométrie",
     "section": "Évaluations et DS",
     "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles. \n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDocuments bientôt disponibles."
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html",
-    "href": "terminale-spe/chapitres/suites.html",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html",
+    "title": "Limites de fonctions",
     "section": "",
     "text": "← Retour aux chapitres"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#cours",
-    "href": "terminale-spe/chapitres/suites.html#cours",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#cours",
+    "title": "Limites de fonctions",
     "section": "Cours",
-    "text": "Cours\n\n\nCours : Suites\nTD\nTypes bac: sujets\nTypes bac: corrections"
+    "text": "Cours\n\n\nCours : Limites de fonctions\nExercice corrigé : étude d’une fonction rationnelle"
   },
   {
-    "objectID": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "href": "terminale-spe/chapitres/suites.html#évaluations-et-ds",
-    "title": "Suites",
+    "objectID": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "href": "terminale-spe/chapitres/limites-de-fonctions.html#évaluations-et-ds",
+    "title": "Limites de fonctions",
     "section": "Évaluations et DS",
-    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1 27 septembre 2025\nSujet Correction\n\n\nDS n°2 14 octobre 2025\nSujet Correction\n\n\nDS n°4 6 janvier 2026\nSujet Correction\n\n\nDS n°5 14 mars 2026\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nBacs blancs\n\n\nBac blanc n°1 26 janvier 2026\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\nDevoirs surveillés\n\n\nDS n°1\nSujet Correction\n\n\nÉvaluations\n\n\nÉvaluation n°1\nSujet Correction\n\n\nÉvaluation n°2\nSujet Correction\n\n\nÉvaluation n°3\nSujet Correction"
+    "text": "Évaluations et DS\n\n\n\n\n\n\n📁 2025 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction\n\n\nÉvaluation n°6\nSujet Correction\n\n\nDS n°3\nSujet Correction\n\n\n\n\n\n\n\n\n\n\n\n📁 2026 – DS et évaluations\n\n\n\n\n\n\n\n\nÉvaluation n°5\nSujet Correction\n\n\nDS n°3\nSujet Correction Compte rendu"
   },
   {
     "objectID": "terminale-spe/cours/denombrement/denombrement-terminale.html#ensemble-fini-et-cardinal",
