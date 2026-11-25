@@ -37,4 +37,10 @@ Les TP se font avec **Spyder**. Téléchargez le fichier Python (`.py`), puis ou
 [Correction (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.pdf){.eval-btn .sujet} [Correction Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py){.eval-btn .correction download="tp1-quadrilateres-seconde-corrige.py"} [Ouvrir la correction dans le navigateur](../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py){.eval-btn .correction}
 :::
 
+::: {.eval}
+[TP 2 – La boucle for]{.eval-titre}
+
+[Sujet (PDF)](../tp-informatique/tp2/tp2-boucle-for-seconde.pdf){.eval-btn .sujet} [Fichier Python (.py)](../tp-informatique/tp2/tp2-boucle-for-seconde.py){.eval-btn .correction download="tp2-boucle-for-seconde.py"} [Ouvrir dans le navigateur](../../python/index.html?ouvrir=../seconde/tp-informatique/tp2/tp2-boucle-for-seconde.py){.eval-btn .correction}
+:::
+
 ::::
