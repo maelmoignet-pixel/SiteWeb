@@ -159,8 +159,9 @@ ul.task-list li input[type="checkbox"] {
      « remonter d'un dossier ». Donc ../tp-informatique/... désigne
      seconde/tp-informatique/...
 
-     ⚠️ Ne JAMAIS mettre le fichier corrigé dans ce dossier : tout ce qui
-     est dans SiteWeb est publié (et le dépôt GitHub est public).
+     ⚠️ Ne mettre le fichier corrigé dans ce dossier QUE quand on veut le
+     publier : tout ce qui est dans SiteWeb est publié (et le dépôt GitHub
+     est public). Le corrigé du TP 1 a été publié le 25/11/2026.
      ===================================================================== -->
 <p><a href="../../seconde/index.html">← Retour aux chapitres</a></p>
 <p>Les TP se font avec <strong>Spyder</strong>. Téléchargez le fichier Python (<code>.py</code>), puis ouvrez-le dans Spyder ; le PDF reproduit le même sujet, pour le lire ou l’imprimer.</p>
@@ -173,6 +174,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="eval">
 <p><span class="eval-titre">TP 1 – Nature d’un quadrilatère</span></p>
 <p><a href="../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf" class="eval-btn sujet">Sujet (PDF)</a> <a href="../tp-informatique/tp1/tp1-quadrilateres-seconde.py" class="eval-btn correction" download="tp1-quadrilateres-seconde.py">Fichier Python (.py)</a> <a href="../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde.py" class="eval-btn correction">Ouvrir dans le navigateur</a></p>
+<p><a href="../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.pdf" class="eval-btn sujet">Correction (PDF)</a> <a href="../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py" class="eval-btn correction" download="tp1-quadrilateres-seconde-corrige.py">Correction Python (.py)</a> <a href="../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py" class="eval-btn correction">Ouvrir la correction dans le navigateur</a></p>
 </div>
 </div>
 
@@ -3175,7 +3177,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "24/11 à 09h01";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "25/11 à 06h37";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
