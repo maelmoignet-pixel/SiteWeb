@@ -345,6 +345,18 @@ document.addEventListener("DOMContentLoaded", function () {
 .encre-recadrage .boutons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .encre-recadrage button { font: 600 15px system-ui, sans-serif; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 0; cursor: pointer; }
 .encre-recadrage .ok { background: #ffcc00; }
+/* plan B du manuel : page entière, zones choisies à la main */
+.encre-page-manuel { justify-content: flex-start; padding: 10px 16px; gap: 8px; background: rgba(27, 34, 50, .97); }
+.encre-page-manuel .titre { text-align: center; }
+.encre-page-manuel .defile { flex: 1; min-height: 0; width: 100%; overflow: auto; display: flex; justify-content: center; align-items: flex-start; }
+.encre-page-manuel .cadre { max-height: none; touch-action: none; }
+.encre-page-manuel .cadre img { max-width: 100%; max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); background: #fff; }
+.encre-page-manuel.large .defile { display: block; }
+.encre-page-manuel.large .cadre { height: auto; width: min(100%, 1400px); margin: 0 auto; touch-action: pan-x pan-y; }
+.encre-page-manuel.large .cadre img { width: 100%; max-height: none; }
+.encre-page-manuel .zsel { position: absolute; border: 3px solid #ffcc00; background: rgba(255, 204, 0, .14); box-sizing: border-box; pointer-events: none; }
+.encre-page-manuel .zn { position: absolute; left: -3px; top: -3px; background: #ffcc00; color: #1b2232; font: 700 15px system-ui, sans-serif; padding: 2px 8px; border-radius: 0 0 8px 0; }
+.encre-page-manuel .zx { position: absolute; right: -3px; top: -3px; pointer-events: auto; min-height: 36px; min-width: 36px; padding: 0; border-radius: 0 0 0 10px; background: #b3261e; color: #fff; font-size: 18px; }
 .encre-manuel .m-msg { font: 14px system-ui, sans-serif; color: #b3261e; }
 .encre-barre button.b-copie.recue { background: #1f7a3d; color: #fff; border-color: #1f7a3d; }
 .encre-barre button.b-copie .nb:not(:empty) { margin-left: 6px; background: #fff; color: #1f7a3d; border-radius: 999px; padding: 1px 8px; font-size: 13px; }
@@ -929,20 +941,26 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
                       : "https://maelmoignet-pixel.github.io/SiteWeb/" + MANUEL.dossier;   // fichier sur clé USB : depuis le site
   }
   let indexManuel = null;
-  function trouverExercice(n, p) {
+  function lireIndexManuel() {                                          // manuel privé : Set des clés ; sinon { "n@p": fichier }
     if (MANUEL.prive) {                                                 // manuel privé : la liste des exercices (une lecture), puis l'image à la demande
       // la liste des exercices : en ligne si possible (et gardée sur l'appareil), sinon la copie gardée (hors ligne, Firebase en panne)
       const garde = () => idbGet("manuel-index").then(l => { if (!l) throw new Error(window.encreSync ? "absent" : "connexion"); return new Set(JSON.parse(l)); });
       indexManuel = indexManuel || attendreSync().then(S => S ? Promise.race([S.manuel("_index"), new Promise((_, ko) => setTimeout(() => ko(new Error("lent")), 6000))]) : null)
         .catch(() => null).then(d => { if (d && d.cles) { idbPut("manuel-index", JSON.stringify(d.cles)).catch(() => {}); return new Set(d.cles); } return garde(); });
-      indexManuel.catch(() => { indexManuel = null; });
-      return indexManuel.then(cles => { const p2 = [p, p + 1, p - 1, p + 2].find(q => cles.has(n + "@" + q));   // page à une près (énoncé sur la page voisine)
-        if (p2 === undefined) throw new Error("absent"); return "manuel:" + MANUEL.prive + "/" + n + "@" + p2; });
-    }
-    indexManuel = indexManuel || lireDonnees(MANUEL.base + "index.json", MANUEL.dossier);
+    } else indexManuel = indexManuel || lireDonnees(MANUEL.base + "index.json", MANUEL.dossier);
     indexManuel.catch(() => { indexManuel = null; });
-    return indexManuel.then(idx => { const q = [p, p + 1, p - 1, p + 2].find(x => idx[n + "@" + x]);   // page à une près (énoncé sur la page voisine)
-      if (q === undefined) throw new Error("absent"); return MANUEL.base + idx[n + "@" + q]; });
+    return indexManuel;
+  }
+  const aCleManuel = (idx, k) => idx instanceof Set ? idx.has(k) : !!idx[k];
+  const srcCleManuel = (idx, k) => MANUEL.prive ? "manuel:" + MANUEL.prive + "/" + k : MANUEL.base + idx[k];
+  function trouverExercice(n, p) {
+    return lireIndexManuel().then(idx => { const q = [p, p + 1, p - 1, p + 2].find(x => aCleManuel(idx, n + "@" + x));   // page à une près (énoncé sur la page voisine)
+      if (q === undefined) throw new Error("absent"); return srcCleManuel(idx, n + "@" + q); });
+  }
+  /* Plan B : la page entière du manuel (Sésamath : publiée dans pages-sesamath/ ; Terminale : clé « page@p » du manuel privé) */
+  function trouverPage(p) {
+    if (MANUEL.dossier && MANUEL.dossier.includes("exercices-sesamath")) return Promise.resolve(MANUEL.base.replace(/exercices-sesamath\/$/, "pages-sesamath/") + "p" + p + ".webp");
+    return lireIndexManuel().then(idx => { if (!aCleManuel(idx, "page@" + p)) throw new Error("page absente"); return srcCleManuel(idx, "page@" + p); });
   }
   Zone.toutes = [];
   /* Les blocs qui reçoivent une zone d'écriture */
@@ -1094,6 +1112,14 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
       try { const src = await trouverExercice(n, p); placerImage(src, await chargerImage(src), { n, p }); msg.textContent = ""; }
       catch (e) { msg.textContent = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Exercice n°" + n + " p." + p + " introuvable";
         if (window.__noterErreur) window.__noterErreur("exercice n°" + n + " p." + p + " : " + e.message, MANUEL ? MANUEL.nom : ""); }
+    }
+    function ouvrirPage(p, msg) {                                       // plan B : page entière -> zones choisies à la main
+      msg.textContent = "Ouverture de la page " + p + "…";
+      selectionnerDansPage(p, msg, (dataUrl, p2, src, im) => {
+        const legende = "Extrait p." + p2 + (MANUEL ? " — " + MANUEL.nom : "");
+        if (dataUrl) insererCapture(dataUrl, { capture: true, p: p2, legende });
+        else placerImage(src, im, { p: p2, legende: "Page " + p2 + (MANUEL ? " — " + MANUEL.nom : "") });   // page entière (ou sélection impossible)
+      });
     }
     async function insererCapture(dataUrl, infos = { capture: true }, marge, taille) {   // capture recadrée : enregistrée sur l'appareil
       const id = "c" + Date.now() + Math.random().toString(36).slice(2, 6);
@@ -1665,6 +1691,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         case "manuel": {
           const n = zone.querySelector(".m-num").value.replace(/\D/g, ""), p = zone.querySelector(".m-page").value.replace(/\D/g, "");
           if (n && p) { insererExercice(+n, +p, zone.querySelector(".m-msg")); zone.querySelector(".m-num").value = ""; }
+          else if (p) ouvrirPage(+p, zone.querySelector(".m-msg"));         // page seule : la page entière, on y sélectionne l'exercice
           return;
         }
         case "retirer-exo": {                                              // retire CE QUI EST SÉLECTIONNÉ (outil ✥) : image, TeX, copie, graphique entier
@@ -2767,6 +2794,75 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     });
   }
 
+  /* ---------- Plan B du manuel : page entière, l'exercice choisi en une ou plusieurs zones (colonnes), assemblées l'une sous l'autre ---------- */
+  function selectionnerDansPage(p0, msg, suite) {
+    const fond = document.createElement("div"); fond.className = "encre-recadrage encre-page-manuel";
+    fond.innerHTML = `<p class="titre"></p>
+      <div class="defile"><div class="cadre"><img alt="Page du manuel"></div></div>
+      <div class="boutons"><button data-r="prec">◀ Page</button><button data-r="suiv">Page ▶</button><button data-r="zoom">Agrandir</button>
+        <button data-r="defaire">Retirer la dernière zone</button><button class="ok" data-r="ok">Insérer la sélection</button>
+        <button data-r="tout">Insérer toute la page</button><button data-r="non">Annuler</button></div>`;
+    const img = fond.querySelector("img"), cadre = fond.querySelector(".cadre"), titre = fond.querySelector(".titre");
+    let p = p0, src = null, im = null, zones = [], depart = null, enCours = null;   // zones : [x, y, l, h] en pixels de l'image
+    const aide = () => { titre.textContent = "Page " + p + " — encadrez l'exercice" + (zones.length ? " (" + zones.length + " zone" + (zones.length > 1 ? "s" : "") + ")" : "")
+      + " : une zone par colonne s'il est sur deux colonnes. ✕ retire une zone." + (fond.classList.contains("large") ? " Au doigt : faire défiler." : ""); };
+    function dessinerZones() {
+      cadre.querySelectorAll(".zsel").forEach(d => d.remove());
+      [...zones, ...(enCours ? [enCours] : [])].forEach((r, i) => {
+        const d = document.createElement("div"); d.className = "zsel";
+        Object.assign(d.style, { left: 100 * r[0] / im.naturalWidth + "%", top: 100 * r[1] / im.naturalHeight + "%", width: 100 * r[2] / im.naturalWidth + "%", height: 100 * r[3] / im.naturalHeight + "%" });
+        if (i < zones.length) d.innerHTML = `<span class="zn">${i + 1}</span><button class="zx" data-i="${i}" aria-label="Retirer la zone ${i + 1}">✕</button>`;
+        cadre.appendChild(d); });
+      aide();
+    }
+    async function charger(q) {
+      titre.textContent = "Chargement de la page " + q + "…";
+      try { const s = await trouverPage(q), i = await chargerImage(s);
+        p = q; src = s; im = i; img.src = i.src; zones = []; enCours = null; dessinerZones(); if (msg) msg.textContent = ""; return true; }
+      catch (e) { const t = e.message === "connexion" ? "Connectez-vous (☁) pour le manuel" : "Page " + q + " non disponible";
+        if (!im) { fermer(); if (msg) msg.textContent = t; } else { titre.textContent = t; setTimeout(aide, 2500); }
+        if (window.__noterErreur) window.__noterErreur("page " + q + " du manuel : " + e.message, MANUEL ? MANUEL.nom : ""); return false; }
+    }
+    const point = e => { const b = img.getBoundingClientRect(), k = im.naturalWidth / b.width;
+      return [Math.max(0, Math.min(im.naturalWidth, (e.clientX - b.left) * k)), Math.max(0, Math.min(im.naturalHeight, (e.clientY - b.top) * k))]; };
+    cadre.addEventListener("pointerdown", e => {
+      if (!im || e.target.closest(".zx")) return;
+      if (e.pointerType === "touch" && fond.classList.contains("large")) return;   // page agrandie : le doigt fait défiler, le stylet encadre
+      cadre.setPointerCapture(e.pointerId); depart = point(e); enCours = [...depart, 0, 0]; e.preventDefault(); });
+    cadre.addEventListener("pointermove", e => { if (!depart) return; const [x, y] = point(e);
+      enCours = [Math.min(x, depart[0]), Math.min(y, depart[1]), Math.abs(x - depart[0]), Math.abs(y - depart[1])]; dessinerZones(); });
+    const finir = () => { if (!depart) return; depart = null;
+      if (enCours && enCours[2] > 15 && enCours[3] > 15) zones.push(enCours.map(Math.round)); enCours = null; dessinerZones(); };
+    cadre.addEventListener("pointerup", finir); cadre.addEventListener("pointercancel", finir);
+    const fermer = () => { fond.remove(); document.removeEventListener("keydown", clavier); };
+    const clavier = e => { if (e.key === "Escape") fermer(); };
+    document.addEventListener("keydown", clavier);
+    fond.addEventListener("click", e => {
+      const x = e.target.closest(".zx"); if (x) { zones.splice(+x.dataset.i, 1); return dessinerZones(); }
+      const b = e.target.closest("button[data-r]"); if (!b) return;
+      switch (b.dataset.r) {
+        case "non": return fermer();
+        case "prec": return void (p > 1 && charger(p - 1));
+        case "suiv": return void charger(p + 1);
+        case "zoom": { const l = fond.classList.toggle("large"); b.textContent = l ? "Page entière" : "Agrandir"; return aide(); }
+        case "defaire": zones.pop(); return dessinerZones();
+        case "tout": fermer(); return suite(null, p, src, im);
+        case "ok": {
+          if (!zones.length) { titre.textContent = "Encadrez d'abord l'exercice (ou « Insérer toute la page »)"; return setTimeout(aide, 2500); }
+          const ECART = 24, L = Math.max(...zones.map(r => r[2])), H = zones.reduce((s, r) => s + r[3], 0) + ECART * (zones.length - 1);
+          const cv = document.createElement("canvas"); cv.width = L; cv.height = H;
+          const c2 = cv.getContext("2d"); c2.fillStyle = "#fff"; c2.fillRect(0, 0, L, H);
+          let y = 0; zones.forEach(r => { c2.drawImage(im, r[0], r[1], r[2], r[3], 0, y, r[2], r[3]); y += r[3] + ECART; });
+          let d = null; try { d = cv.toDataURL("image/jpeg", 0.9); } catch (err) {}   // (version sur clé USB : le navigateur peut refuser de découper)
+          fermer();
+          if (d) return suite(d, p, src, im);
+          if (msg) msg.textContent = "Découpe impossible ici : page entière insérée"; return suite(null, p, src, im);
+        }
+      }
+    });
+    charger(p0).then(ok => { if (ok) document.body.appendChild(fond); });
+  }
+
   /* ---------- Pavé numérique au stylet (écran sans clavier) : N° et page du manuel, nombre de questions ---------- */
   let pave = null;
   function fermerPave() { if (pave) { pave.remove(); pave = null; } }
@@ -3181,7 +3277,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "25/11 à 07h07";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "25/11 à 17h19";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
