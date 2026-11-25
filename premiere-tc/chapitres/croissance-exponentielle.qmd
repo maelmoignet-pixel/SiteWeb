@@ -44,7 +44,7 @@ toc: false
 
 :::::
 
-::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
+::::: {.callout-note collapse="true" appearance="simple" icon=false title="📁 2026 – DS et évaluations"}
 
 <!-- ➕ AJOUTER UN DOCUMENT :
      1. Copie ton PDF dans le dossier  premiere-tc/2026-DS-eval/croissance-exponentielle/  (sur ton disque)
@@ -52,6 +52,14 @@ toc: false
         - [Titre affiché](../2026-DS-eval/croissance-exponentielle/nom-exact-du-fichier.pdf)
      Le nom doit être IDENTIQUE au fichier : majuscules, tirets, extension .pdf -->
 
-*Documents bientôt disponibles.* <!-- ← supprime cette phrase quand tu ajoutes un document -->
+:::: {.evals}
 
+::: {.eval}
+[Évaluation n°2]{.eval-titre}
+
+[Sujet](../2026-DS-eval/croissance-exponentielle/croissance-exponentielle-premiere-tc-2026-eval2-sujet.pdf){.eval-btn .sujet} [Correction](../2026-DS-eval/croissance-exponentielle/croissance-exponentielle-premiere-tc-2026-eval2-correction.pdf){.eval-btn .correction}
 :::
+
+::::
+
+:::::
