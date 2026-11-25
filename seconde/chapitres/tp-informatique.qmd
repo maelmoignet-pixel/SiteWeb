@@ -12,8 +12,9 @@ toc: false
      « remonter d'un dossier ». Donc ../tp-informatique/... désigne
      seconde/tp-informatique/...
 
-     ⚠️ Ne JAMAIS mettre le fichier corrigé dans ce dossier : tout ce qui
-     est dans SiteWeb est publié (et le dépôt GitHub est public).
+     ⚠️ Ne mettre le fichier corrigé dans ce dossier QUE quand on veut le
+     publier : tout ce qui est dans SiteWeb est publié (et le dépôt GitHub
+     est public). Le corrigé du TP 1 a été publié le 25/11/2026.
      ===================================================================== -->
 
 [← Retour aux chapitres](../index.qmd)
@@ -32,6 +33,8 @@ Les TP se font avec **Spyder**. Téléchargez le fichier Python (`.py`), puis ou
 [TP 1 – Nature d'un quadrilatère]{.eval-titre}
 
 [Sujet (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf){.eval-btn .sujet} [Fichier Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction download="tp1-quadrilateres-seconde.py"} [Ouvrir dans le navigateur](../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde.py){.eval-btn .correction}
+
+[Correction (PDF)](../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.pdf){.eval-btn .sujet} [Correction Python (.py)](../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py){.eval-btn .correction download="tp1-quadrilateres-seconde-corrige.py"} [Ouvrir la correction dans le navigateur](../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py){.eval-btn .correction}
 :::
 
 ::::
