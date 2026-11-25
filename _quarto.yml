@@ -28,6 +28,10 @@ project:
     - "seconde/exercices-sesamath/*"
     - "premiere-spe/exercices-sesamath/*"
     - "premiere-tc/exercices-sesamath/*"
+    # Pages entières de ces manuels (plan B : page seule -> l'exercice choisi à la main)
+    - "seconde/pages-sesamath/*"
+    - "premiere-spe/pages-sesamath/*"
+    - "premiere-tc/pages-sesamath/*"
     # Outil de gestion du site en ligne (page copiée depuis ~/Outils/gestion-site/page.html)
     - "gestion/*"
     # Page du téléphone : copie d'élève photographiée -> mode tableau
