@@ -176,6 +176,10 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../tp-informatique/tp1/tp1-quadrilateres-seconde.pdf" class="eval-btn sujet">Sujet (PDF)</a> <a href="../tp-informatique/tp1/tp1-quadrilateres-seconde.py" class="eval-btn correction" download="tp1-quadrilateres-seconde.py">Fichier Python (.py)</a> <a href="../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde.py" class="eval-btn correction">Ouvrir dans le navigateur</a></p>
 <p><a href="../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.pdf" class="eval-btn sujet">Correction (PDF)</a> <a href="../tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py" class="eval-btn correction" download="tp1-quadrilateres-seconde-corrige.py">Correction Python (.py)</a> <a href="../../python/index.html?ouvrir=../seconde/tp-informatique/tp1/tp1-quadrilateres-seconde-corrige.py" class="eval-btn correction">Ouvrir la correction dans le navigateur</a></p>
 </div>
+<div class="eval">
+<p><span class="eval-titre">TP 2 – La boucle for</span></p>
+<p><a href="../tp-informatique/tp2/tp2-boucle-for-seconde.pdf" class="eval-btn sujet">Sujet (PDF)</a> <a href="../tp-informatique/tp2/tp2-boucle-for-seconde.py" class="eval-btn correction" download="tp2-boucle-for-seconde.py">Fichier Python (.py)</a> <a href="../../python/index.html?ouvrir=../seconde/tp-informatique/tp2/tp2-boucle-for-seconde.py" class="eval-btn correction">Ouvrir dans le navigateur</a></p>
+</div>
 </div>
 
 
@@ -3177,7 +3181,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "25/11 à 06h37";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "25/11 à 07h07";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
