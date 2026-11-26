@@ -37,7 +37,7 @@ toc: false
 ::: {.eval}
 [Évaluation n°3]{.eval-titre}
 
-[Sujet](../2025-DS-eval/croissance-exponentielle/croissance-exponentielle-premiere-tc-2025-eval3-sujet.pdf){.eval-btn .sujet}
+[Sujet](../2025-DS-eval/croissance-exponentielle/croissance-exponentielle-premiere-tc-2025-eval3-sujet.pdf){.eval-btn .sujet} [Correction](../2025-DS-eval/croissance-exponentielle/croissance-exponentielle-premiere-tc-2025-eval3-correction.pdf){.eval-btn .correction}
 :::
 
 ::::
