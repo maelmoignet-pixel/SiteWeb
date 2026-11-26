@@ -1338,6 +1338,35 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
 .encre-menu .info { font: 13px system-ui, sans-serif; color: #5d6679; align-self: center; background: #fff; padding: 4px 8px; border-radius: 8px; }
 .encre-zone, .encre-barre, .encre-outils, .encre-ouvrir, .encre-exos, .encre-menu { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
 @media print { .encre-ouvrir, .encre-zone, .encre-menu, .encre-exos, .encre-page-calque, .encre-page-barre { display: none !important; } }
+/* Calculatrice collège : petite fenêtre flottante, déplaçable par sa barre bleue (bouton « Calculatrice » de la feuille) */
+.calc-fen { --k: 1; position: fixed; z-index: 2147483100; width: calc(340px * var(--k)); background: #fff; border: 2px solid var(--encre-accent); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.28); font-family: system-ui, sans-serif; -webkit-user-select: none; user-select: none; touch-action: none; color: var(--encre-texte); }
+.calc-fen.grand { --k: 1.35; }
+.calc-fen[hidden] { display: none; }
+.calc-tete { display: flex; align-items: center; gap: 6px; padding: 5px 6px 5px 14px; background: var(--encre-accent); color: #fff; border-radius: 13px 13px 0 0; cursor: grab; }
+.calc-tete b { flex: 1; font-size: calc(16px * var(--k)); }
+.calc-tete a { color: #fff; font-size: calc(12px * var(--k)); opacity: .8; text-decoration: none; margin-right: 4px; }
+.calc-tete button { border: 0; background: rgba(255,255,255,.2); color: #fff; border-radius: 9px; min-width: calc(40px * var(--k)); height: calc(36px * var(--k)); font: 700 calc(18px * var(--k)) system-ui, sans-serif; cursor: pointer; touch-action: manipulation; }
+.calc-ecran { margin: 8px; padding: 6px 10px; background: #eef2e8; border: 1px solid #c9d3bd; border-radius: 10px; min-height: calc(92px * var(--k)); display: flex; flex-direction: column; justify-content: flex-end; }
+.calc-hist { font-size: calc(13px * var(--k)); color: #6b7464; text-align: right; line-height: 1.5; }
+.calc-expr { font-size: calc(21px * var(--k)); min-height: 1.4em; word-break: break-all; line-height: 1.4; }
+.calc-expr::after { content: "▏"; color: var(--encre-accent); animation: calc-cli 1s steps(1) infinite; }
+@keyframes calc-cli { 50% { opacity: 0; } }
+.calc-res { font: 700 calc(27px * var(--k)) system-ui, sans-serif; text-align: right; min-height: 1.5em; display: flex; justify-content: flex-end; align-items: center; gap: .25em; }
+.calc-res.erreur { color: #b3261e; font-size: calc(17px * var(--k)); }
+.calc-fen .frac { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.05; font-size: .85em; }
+.calc-fen .frac > span + span { border-top: 2px solid currentColor; padding-top: 1px; min-width: 100%; text-align: center; }
+.calc-touches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 0 8px 8px; }
+.calc-touches button { font: 600 calc(19px * var(--k)) system-ui, sans-serif; height: calc(48px * var(--k)); border: 1px solid var(--encre-trait); border-radius: 10px; background: #fff; color: var(--encre-texte); cursor: pointer; touch-action: manipulation; padding: 0; }
+.calc-touches button:active { background: #dfe5f4; }
+.calc-touches .ch { background: #f7f8fb; }
+.calc-touches .op { background: #e8edf9; color: var(--encre-accent); font-size: calc(23px * var(--k)); }
+.calc-touches .fn { background: #f1f3f7; font-size: calc(17px * var(--k)); }
+.calc-touches .ac { background: #fbe9e7; color: #b3261e; }
+.calc-touches .eg { background: var(--encre-accent); color: #fff; grid-row: span 2; font-size: calc(26px * var(--k)); height: auto; }
+.calc-touches .sd { grid-column: span 2; }
+.calc-touches .sd[aria-pressed="true"] { outline: 3px solid var(--encre-accent); outline-offset: -3px; }
+@media print { .calc-fen { display: none !important; } }
 </style>
 <script>
 /* Journal des erreurs du mode tableau, gardé sur l'appareil (bouton « Diagnostic ») */
@@ -1374,6 +1403,168 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const PAGE = nomDePage(location.href);
   const LARGEUR = 1600, PAS = 700;                       // largeur logique fixe ; la zone s'allonge par pas de 700
   const CALCULATRICE = "https://www.numworks.com/fr/emulateur/graphique/";
+  /* ---- Calculatrice collège (fenêtre flottante) ----------------------------------------------------------------
+     Calcul EXACT en fractions tant que c'est possible (BigInt), sinon en décimal (π, racines non entières…).
+     Priorités, parenthèses (celles de la fin peuvent manquer), multiplication sous-entendue (2π, 3(x), 2√(9)),
+     −2² = −4, puissances, %, ×10ⁿ, Ans. Résultat en fraction irréductible ou en décimal : touche S⇔D.
+     Clavier physique : chiffres , . + - * / ^ ( ) % ; Entrée = ; Retour arrière ; Échap = AC. */
+  let calcFen = null;
+  function basculerCalculatrice() {
+    if (calcFen) { calcFen.hidden = !calcFen.hidden; if (!calcFen.hidden) calcPlacer(); calcEtatBoutons(); return; }
+    calcCreer(); calcEtatBoutons();
+  }
+  function calcEtatBoutons() { document.querySelectorAll('[data-a="calc"]').forEach(b => b.setAttribute("aria-pressed", !!calcFen && !calcFen.hidden)); }
+  function calcPlacer(pos) {                                           // dans l'écran, toujours (rotation de l'iPad, autre écran…)
+    const f = calcFen, r = f.getBoundingClientRect();
+    let x = pos ? pos.x : r.left, y = pos ? pos.y : r.top;
+    x = Math.min(Math.max(0, x), Math.max(0, innerWidth - r.width)); y = Math.min(Math.max(0, y), Math.max(0, innerHeight - 50));
+    f.style.left = x + "px"; f.style.top = y + "px";
+  }
+  function calcCreer() {
+    const TOUCHES = [["S⇔D", "sd", "fn sd"], ["π", "π", "fn"], ["%", "%", "fn"], ["×10ⁿ", "×10^", "fn"],
+      ["(", "(", "fn"], [")", ")", "fn"], ["x²", "²", "fn"], ["xⁿ", "^", "fn"], ["√", "√(", "fn"],
+      ["7", "7", "ch"], ["8", "8", "ch"], ["9", "9", "ch"], ["÷", "÷", "op"], ["⌫", "del", "fn"],
+      ["4", "4", "ch"], ["5", "5", "ch"], ["6", "6", "ch"], ["×", "×", "op"], ["AC", "ac", "ac"],
+      ["1", "1", "ch"], ["2", "2", "ch"], ["3", "3", "ch"], ["−", "−", "op"], ["=", "eg", "eg"],
+      ["0", "0", "ch"], [",", ",", "ch"], ["Ans", "A", "fn"], ["+", "+", "op"]];
+    const f = calcFen = document.createElement("div"); f.className = "calc-fen"; f.setAttribute("role", "dialog"); f.setAttribute("aria-label", "Calculatrice");
+    f.innerHTML = `<div class="calc-tete"><b>Calculatrice</b><a href="${CALCULATRICE}" target="_blank" rel="noopener" title="Calculatrice graphique NumWorks (nouvel onglet)">NumWorks ↗</a>
+        <button data-k="taille" title="Agrandir / réduire">⤢</button><button data-k="fermer" title="Fermer">✕</button></div>
+      <div class="calc-ecran"><div class="calc-hist"></div><div class="calc-expr"></div><div class="calc-res"></div></div>
+      <div class="calc-touches">${TOUCHES.map(([t, k, c]) => `<button data-k="${k}" class="${c}">${t}</button>`).join("")}</div>`;
+    document.body.appendChild(f);
+    let expr = "", ans = null, res = null, enDecimal = false, fini = false, hist = [];
+    try { if (localStorage.getItem("encre-calc-grand") === "1") f.classList.add("grand"); } catch (e) {}
+    let pos = null; try { pos = JSON.parse(localStorage.getItem("encre-calc-pos") || "null"); } catch (e) {}
+    calcPlacer(pos || { x: innerWidth - f.offsetWidth - 24, y: 110 });
+    const $ = s => f.querySelector(s);
+    const montrer = () => {
+      $(".calc-expr").innerHTML = calcExprHtml(expr);
+      const r = $(".calc-res"); r.classList.toggle("erreur", !!(res && res.erreur));
+      r.innerHTML = !res ? "" : res.erreur ? res.erreur : "= " + calcValHtml(res.v, enDecimal);
+      $(".calc-hist").innerHTML = hist.map(h => `<div>${h}</div>`).join("");
+      $('[data-k="sd"]').setAttribute("aria-pressed", enDecimal);
+    };
+    const touche = k => {
+      if (k === "ac") { expr = ""; res = null; fini = false; }
+      else if (k === "del") { if (fini) fini = false; expr = expr.endsWith("×10^") ? expr.slice(0, -4) : expr.slice(0, -1); res = null; }
+      else if (k === "sd") { if (res && res.v) enDecimal = !enDecimal; }
+      else if (k === "eg") {
+        if (!expr) return;
+        try { const v = calcEvaluer(expr, ans); res = { v }; enDecimal = calcDecimalParDefaut(v, expr);
+          if (!fini) { hist.push(calcExprHtml(expr) + " = " + calcValHtml(v, enDecimal)); hist = hist.slice(-2); }
+          ans = v; fini = true; }
+        catch (e) { res = { erreur: e.message || "Erreur" }; fini = false; }
+      } else {
+        if (fini) { expr = /^[+−×÷^²%]/.test(k) ? "A" : ""; fini = false; }      // après « = » : un opérateur continue avec Ans, un nombre recommence
+        res = null; if (expr.length < 120) expr += k;
+      }
+      montrer();
+    };
+    f.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; e.stopPropagation();
+      if (b.dataset.k === "fermer") { f.hidden = true; calcEtatBoutons(); return; }
+      if (b.dataset.k === "taille") { f.classList.toggle("grand"); try { localStorage.setItem("encre-calc-grand", f.classList.contains("grand") ? "1" : "0"); } catch (x) {} calcPlacer(); return; }
+      touche(b.dataset.k); });
+    // déplacer la fenêtre en tirant sa barre bleue
+    const tete = $(".calc-tete");
+    tete.addEventListener("pointerdown", e => {
+      if (e.target.closest("button, a")) return;
+      const r = f.getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
+      tete.setPointerCapture(e.pointerId); tete.style.cursor = "grabbing";
+      const bouge = m => calcPlacer({ x: m.clientX - dx, y: m.clientY - dy });
+      const fin = () => { tete.removeEventListener("pointermove", bouge); tete.removeEventListener("pointerup", fin); tete.removeEventListener("pointercancel", fin); tete.style.cursor = "";
+        try { localStorage.setItem("encre-calc-pos", JSON.stringify({ x: parseFloat(f.style.left), y: parseFloat(f.style.top) })); } catch (x) {} };
+      tete.addEventListener("pointermove", bouge); tete.addEventListener("pointerup", fin); tete.addEventListener("pointercancel", fin);
+    });
+    addEventListener("resize", () => { if (!f.hidden) calcPlacer(); });
+    document.addEventListener("keydown", e => {
+      if (f.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+      const a = document.activeElement; if (a && (a.tagName === "INPUT" || a.tagName === "TEXTAREA" || a.tagName === "SELECT" || a.isContentEditable)) return;
+      const k = { "-": "−", "*": "×", "/": "÷", ".": ",", "Enter": "eg", "=": "eg", "Backspace": "del", "Escape": "ac", "p": "π", "r": "√(" }[e.key]
+        || (/^[0-9,+^()%]$/.test(e.key) ? e.key : null);
+      if (!k) return; e.preventDefault(); e.stopPropagation(); touche(k);
+    }, true);
+    montrer();
+  }
+  // --- calcul : valeurs { r: [n, d] } (fraction exacte, BigInt) ou { f: nombre décimal }
+  const calcPgcd = (a, b) => { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) [a, b] = [b, a % b]; return a; };
+  const calcR = (n, d) => { if (d === 0n) throw new Error("Division par zéro"); if (d < 0n) { n = -n; d = -d; } const g = calcPgcd(n, d) || 1n; return { r: [n / g, d / g] }; };
+  const calcNb = v => v.r ? Number(v.r[0]) / Number(v.r[1]) : v.f;
+  const calcF = x => { if (!isFinite(x)) throw new Error(isNaN(x) ? "Calcul impossible" : "Nombre trop grand"); return { f: x }; };
+  const calcOp = (a, b, o) => {
+    if (a.r && b.r) { const [p, q] = a.r, [s, t] = b.r;
+      if (o === "+") return calcR(p * t + s * q, q * t); if (o === "−") return calcR(p * t - s * q, q * t);
+      if (o === "×") return calcR(p * s, q * t); return calcR(p * t, q * s); }
+    const x = calcNb(a), y = calcNb(b);
+    if (o === "÷" && y === 0) throw new Error("Division par zéro");
+    return calcF(o === "+" ? x + y : o === "−" ? x - y : o === "×" ? x * y : x / y);
+  };
+  const calcRacineEntiere = n => { if (n < 2n) return n; let x = BigInt(Math.floor(Math.sqrt(Number(n)))); while (x * x > n) x--; while ((x + 1n) * (x + 1n) <= n) x++; return x; };
+  function calcRacine(v) {
+    if (calcNb(v) < 0) throw new Error("Racine d'un nombre négatif");
+    if (v.r) { const a = calcRacineEntiere(v.r[0]), b = calcRacineEntiere(v.r[1]); if (a * a === v.r[0] && b * b === v.r[1]) return calcR(a, b); }
+    return calcF(Math.sqrt(calcNb(v)));
+  }
+  function calcPuissance(a, e) {
+    if (a.r && e.r && e.r[1] === 1n && e.r[0] <= 400n && e.r[0] >= -400n) {
+      const k = e.r[0], m = k < 0n ? -k : k, [n, d] = a.r;
+      if (k < 0n && n === 0n) throw new Error("Division par zéro");
+      return k < 0n ? calcR(d ** m, n ** m) : calcR(n ** m, d ** m);
+    }
+    if (e.r && e.r[1] === 2n && a.r) { const s = calcRacine(a); if (s.r) return calcPuissance(s, calcR(e.r[0], 1n)); }   // 9^(1/2), 4^(3/2)…
+    const x = calcNb(a), y = calcNb(e);
+    if (x < 0 && !Number.isInteger(y)) throw new Error("Calcul impossible");
+    return calcF(Math.pow(x, y));
+  }
+  function calcEvaluer(s, ans) {
+    const t = s.match(/[\d,]+|./g) || []; let i = 0;
+    const pk = () => t[i], atome0 = x => x !== undefined && (/^[\d,]/.test(x) || "πA(√".includes(x));
+    const expression = () => { let v = terme(); while (pk() === "+" || pk() === "−") { const o = t[i++]; v = calcOp(v, terme(), o); } return v; };
+    const terme = () => { let v = unaire();
+      for (;;) { const o = pk();
+        if (o === "×" || o === "÷") { i++; v = calcOp(v, unaire(), o); }
+        else if (atome0(o)) v = calcOp(v, unaire(), "×");                  // 2π, 3(4+1), 2√(9)
+        else return v; } };
+    const unaire = () => { if (pk() === "−") { i++; const v = unaire(); return v.r ? calcR(-v.r[0], v.r[1]) : calcF(-v.f); } if (pk() === "+") { i++; return unaire(); } return puissance(); };
+    const puissance = () => { let v = postfixe(atome()); if (pk() === "^") { i++; v = calcPuissance(v, unaire()); } return v; };
+    const postfixe = v => { for (;;) { if (pk() === "²") { i++; v = calcOp(v, v, "×"); } else if (pk() === "%") { i++; v = calcOp(v, calcR(100n, 1n), "÷"); } else return v; } };
+    const atome = () => { const x = t[i++];
+      if (x === undefined) throw new Error("Calcul incomplet");
+      if (/^[\d,]/.test(x)) { const m = x.split(","); if (m.length > 2 || x === ",") throw new Error("Nombre mal écrit : " + x);
+        const dec = m[1] || ""; return calcR(BigInt((m[0] || "0") + dec), 10n ** BigInt(dec.length)); }
+      if (x === "π") return { f: Math.PI };
+      if (x === "A") { if (!ans) throw new Error("Pas encore de résultat (Ans)"); return ans; }
+      if (x === "(") { if (pk() === ")") throw new Error("Parenthèses vides"); const v = expression(); if (pk() === ")") i++; else if (pk() !== undefined) throw new Error("Erreur de syntaxe"); return v; }
+      if (x === "√") return calcRacine(atome());
+      throw new Error(x === ")" ? "Parenthèse en trop" : "Erreur de syntaxe");
+    };
+    const v = expression();
+    if (i < t.length) throw new Error(pk() === ")" ? "Parenthèse en trop" : "Erreur de syntaxe");
+    return v;
+  }
+  // fraction exacte affichée en décimal d'emblée si elle « tombe juste » et qu'on n'a pas divisé (2,5 + 1,3 → 3,8 ; 1 ÷ 4 → 1/4)
+  function calcDecimalParDefaut(v, s) {
+    if (!v.r || v.r[1] === 1n) return false;
+    let d = v.r[1]; while (d % 2n === 0n) d /= 2n; while (d % 5n === 0n) d /= 5n;
+    return v.r[1] > 1000000n || (d === 1n && !s.includes("÷"));
+  }
+  const calcGrouper = s => s.replace(/\B(?=(\d{3})+(?!\d))/g, " ");      // 12 345 678 (espace fine)
+  function calcDecHtml(x) {                                                   // 10 chiffres significatifs, virgule, ×10ⁿ si très grand ou très petit
+    if (x === 0) return "0";
+    const a = Math.abs(x), sg = x < 0 ? "−" : "";
+    if (a >= 1e10 || a < 1e-5) { let e = Math.floor(Math.log10(a)), m = +(a / 10 ** e).toPrecision(9); if (m >= 10) { m /= 10; e++; }
+      return sg + String(m).replace(".", ",") + " × 10<sup>" + String(e).replace("-", "−") + "</sup>"; }
+    const [ent, dec] = (+a.toPrecision(10)).toString().split(".");
+    return sg + (a >= 10000 ? calcGrouper(ent) : ent) + (dec ? "," + dec : "");
+  }
+  function calcValHtml(v, enDecimal) {
+    if (!v.r) return calcDecHtml(v.f);
+    const [n, d] = v.r, sg = n < 0n ? "−" : "", na = n < 0n ? -n : n;
+    if (d === 1n) return na.toString().length > 10 ? calcDecHtml(Number(n)) : sg + (na >= 10000n ? calcGrouper(na.toString()) : na.toString());
+    if (enDecimal) return calcDecHtml(Number(n) / Number(d));
+    return sg + `<span class="frac"><span>${na}</span><span>${d}</span></span>`;
+  }
+  const calcExprHtml = s => s.replace(/A/g, "Ans").replace(/\^(−?[\d,]+|π|Ans)/g, "<sup>$1</sup>");
   // outils de tracé : main levée, et formes « à la règle » (enregistrées comme des traits, comme le reste)
   // les crayons sont dans la barre du bas (avec les couleurs) ; les outils à la règle à gauche
   const CRAYONS = [["stylo", "✎ Stylo", "Main levée"], ["surligneur", "🖍 Surligneur", "Surligneur"], ["pointeur", "✦ Pointeur", "Pointeur (s'efface tout seul)"]];
@@ -2400,7 +2591,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         <button data-a="doigt"></button><button data-a="formes" title="Un trait presque droit devient un segment, une boucle ronde devient un cercle"></button>${location.hash === "#diagnostic-stylet" ? '<span class="encre-diag">touchez l\'écran…</span>' : ""}
         <span class="sep"></span>
         ${opts.flottant && MANUEL && MANUEL.lien ? `<a class="bouton-lien" href="${MANUEL.lien}" target="_blank" rel="noopener">Manuel</a>` : ""}
-        <a class="bouton-lien" href="${CALCULATRICE}" target="_blank" rel="noopener">Calculatrice</a>
+        <button data-a="calc" aria-pressed="${!!calcFen && !calcFen.hidden}" title="Calculatrice collège (petite fenêtre déplaçable)">🧮 Calculatrice</button>
         ${opts.flottant || opts.fond ? '<button data-a="ajuster" aria-pressed="false">Ajuster les images</button>' : ""}
         ${opts.flottant ? `<span class="encre-manuel">
             ${navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia ? '<button data-a="capturer">Capturer</button>' : ""}
@@ -2592,6 +2783,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
         case "copie": insererCopieEleve(zone.querySelector(".m-msg")); return;
         case "auto": reglagesAutomatismes(); return;
         case "python": ouvrirPython(); return;
+        case "calc": basculerCalculatrice(); return;
         case "tex": { const m = zone.querySelector(".m-msg"); attenteTex = !attenteTex; b.classList.toggle("actif", attenteTex);
           if (m) m.textContent = attenteTex ? "Touchez l'endroit de la feuille où écrire" : ""; return; }
         case "importer": { const f = zone.querySelector(".m-fichier"); f.onchange = () => { if (f.files[0]) lireFichier(f.files[0]).then(d => recadrer(d, insererCapture)); f.value = ""; }; f.click(); return; }
@@ -4160,7 +4352,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "25/11 à 17h19";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "26/11 à 08h33";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
