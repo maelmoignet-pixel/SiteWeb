@@ -2615,7 +2615,9 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
     const CATS_AUTO = [["fractions", "Fractions et calcul numérique"], ["puissances", "Puissances, racines, écriture scientifique"], ["grandeurs", "Ordres de grandeur, unités, conversions"],
       ["proportions", "Proportionnalité, proportions, pourcentages"], ["evolutions", "Évolutions, coefficients multiplicateurs"], ["litteral", "Calcul littéral et formules"],
       ["equations", "Équations et inéquations"], ["lecture", "Fonctions : lecture graphique"], ["affines", "Fonctions affines et droites"],
-      ["fonctions", "Second degré, signes, fonctions de référence"], ["stats", "Statistiques"], ["probas", "Probabilités"]];
+      ["fonctions", "Second degré, signes, fonctions de référence"], ["stats", "Statistiques"], ["probas", "Probabilités"],
+      ["dev-simple", "Développer : simple distributivité"], ["dev-double", "Développer : double distributivité"], ["dev-ir", "Développer : identités remarquables"],
+      ["fact-simple", "Factoriser : facteur commun"], ["fact-ir", "Factoriser : identités remarquables"], ["fact-paren", "Factoriser : facteur entre parenthèses"]];
     const SERIES_AUTO = [["spe", "Sujets de spécialité"], ["ns", "Sujets sans spécialité"], ["commun", "Questions rédigées en plus"]];
     let baseAuto = null;
     const melanger = t => { for (let i = t.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [t[i], t[j]] = [t[j], t[i]]; } return t; };
@@ -4517,7 +4519,7 @@ body:has(.encre-zone.plein) .encre-avertissements { top: auto; bottom: 86px; }  
   const cleCache = url => { const u = new URL(url); let p = u.pathname; if (p.endsWith("/")) p += "index.html"; return u.origin + p; };
   let preparation = false;
   // encadré de progression (en bas à gauche) : on voit que la préparation avance, ou ce qui l'a bloquée
-  const VERSION_TABLEAU = "26/11 à 08h33";                      // remplacée par la date de publication (publier.sh)
+  const VERSION_TABLEAU = "27/11 à 12h16";                      // remplacée par la date de publication (publier.sh)
   function progres(texte, part, etat) {
     let d = document.querySelector(".encre-hl-progres");
     if (!d) { d = document.createElement("div"); d.className = "encre-hl-progres"; d.innerHTML = '<button title="Masquer">✕</button><span></span><div class="barre"><i></i></div>';
